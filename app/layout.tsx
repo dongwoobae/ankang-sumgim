@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingButton from "@/components/layout/FloatingButton";
+import { Analytics } from "@vercel/analytics/next";
 
 const notoSansKR = Noto_Sans_KR({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
         <main className="pt-[108px] min-h-screen">{children}</main>
         <Footer />
         <FloatingButton />
+        <Analytics />
       </body>
     </html>
   );
