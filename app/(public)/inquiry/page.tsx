@@ -28,18 +28,24 @@ export default function InquiryPage() {
     <div>
       {/* 페이지 배너 */}
       <section
-        style={{ background: "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 100%)" }}
+        style={{
+          background: "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 100%)",
+        }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">CONTACT</p>
+          <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">
+            CONTACT
+          </p>
           <h1
             className="text-[#5C4A1E] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             상담문의
           </h1>
-          <p className="text-[#8C8070] mt-3">어르신과 가족분들의 소중한 문의를 기다립니다</p>
+          <p className="text-[#8C8070] mt-3">
+            어르신과 가족분들의 소중한 문의를 기다립니다
+          </p>
         </div>
       </section>
 
@@ -84,7 +90,9 @@ export default function InquiryPage() {
                     {item.icon}
                   </span>
                   <div>
-                    <p className="text-[#8C8070] text-xs mb-0.5">{item.label}</p>
+                    <p className="text-[#8C8070] text-xs mb-0.5">
+                      {item.label}
+                    </p>
                     {item.link ? (
                       <a
                         href={item.link}
@@ -141,7 +149,10 @@ export default function InquiryPage() {
 
                 <div>
                   <label className="block text-[#5C4A1E] text-sm font-medium mb-1.5">
-                    이메일 <span className="text-[#8C8070] text-xs font-normal">(선택)</span>
+                    이메일{" "}
+                    <span className="text-[#8C8070] text-xs font-normal">
+                      (선택)
+                    </span>
                   </label>
                   <input
                     name="email"
@@ -204,7 +215,7 @@ export default function InquiryPage() {
                 </button>
 
                 <p className="text-[#8C8070] text-xs text-center">
-                  상담 신청 후 평일 기준 1~2일 내에 연락드립니다.
+                  상담 신청 후 영업일 기준 1~2일 내에 연락드립니다.
                 </p>
               </form>
             </div>
