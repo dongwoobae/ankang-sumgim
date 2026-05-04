@@ -39,15 +39,99 @@ export async function sendInquiryNotificationEmail(params: {
     to: process.env.INQUIRY_EMAIL ?? "ankang.sumgim@naver.com",
     subject: `[상담문의] ${serviceType} - ${name}님`,
     html: `
-      <h2>안강 섬김 노인복지센터 상담 문의</h2>
-      <table style="border-collapse:collapse;width:100%;max-width:600px">
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">성함</td><td style="padding:8px;border:1px solid #ddd">${name}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">연락처</td><td style="padding:8px;border:1px solid #ddd">${phone}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">이메일</td><td style="padding:8px;border:1px solid #ddd">${email || "미입력"}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">문의 유형</td><td style="padding:8px;border:1px solid #ddd">${serviceType}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">문의 내용</td><td style="padding:8px;border:1px solid #ddd;white-space:pre-wrap">${content}</td></tr>
-      </table>
-    `,
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body style="margin:0;padding:0;background-color:#f0ebe0;font-family:'Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0ebe0;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;">
+
+          <!-- 헤더 -->
+          <tr>
+            <td style="background-color:#C4A84F;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
+              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFDF0;letter-spacing:3px;opacity:0.85;">ANGANG SUMGIM</p>
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFDF0;letter-spacing:1px;">안강 섬김 노인복지센터</h1>
+            </td>
+          </tr>
+
+          <!-- 본문 -->
+          <tr>
+            <td style="background-color:#FFFDF0;padding:36px 40px;">
+
+              <!-- 타이틀 -->
+              <p style="margin:0 0 6px 0;font-size:12px;font-weight:600;color:#C4A84F;letter-spacing:2px;">NEW INQUIRY</p>
+              <h2 style="margin:0 0 24px 0;font-size:20px;font-weight:700;color:#5C4A1E;">새 상담 문의가 접수되었습니다</h2>
+              <p style="margin:0 0 28px 0;font-size:14px;color:#8C8070;line-height:1.7;">
+                아래 내용을 확인하시고 빠른 시일 내에 답변 부탁드립니다.
+              </p>
+
+              <!-- 구분선 -->
+              <div style="border-top:1px solid #D9C97A;margin-bottom:28px;"></div>
+
+              <!-- 정보 항목들 -->
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #FAF3D6;vertical-align:top;">
+                    <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#8C8070;letter-spacing:1px;">성함</span>
+                    <span style="font-size:15px;font-weight:600;color:#5C4A1E;">${name}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #FAF3D6;vertical-align:top;">
+                    <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#8C8070;letter-spacing:1px;">연락처</span>
+                    <span style="font-size:15px;color:#5C4A1E;">${phone}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #FAF3D6;vertical-align:top;">
+                    <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#8C8070;letter-spacing:1px;">이메일</span>
+                    <span style="font-size:15px;color:#5C4A1E;">${email || "미입력"}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #FAF3D6;vertical-align:top;">
+                    <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#8C8070;letter-spacing:1px;">문의 유형</span>
+                    <span style="display:inline-block;font-size:13px;font-weight:600;color:#C4A84F;background-color:#FAF3D6;border:1px solid #D9C97A;border-radius:20px;padding:3px 12px;">${serviceType}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;vertical-align:top;">
+                    <span style="display:block;font-size:12px;font-weight:600;color:#8C8070;letter-spacing:1px;margin-bottom:10px;">문의 내용</span>
+                    <div style="background-color:#FAF3D6;border-left:3px solid #C4A84F;border-radius:0 8px 8px 0;padding:16px 18px;font-size:14px;color:#5C4A1E;line-height:1.8;white-space:pre-wrap;">${content}</div>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- 구분선 -->
+              <div style="border-top:1px solid #D9C97A;margin:28px 0 24px;"></div>
+
+              <!-- 접수 시간 -->
+              <p style="margin:0;font-size:12px;color:#8C8070;text-align:right;">
+                접수일시: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
+              </p>
+            </td>
+          </tr>
+
+          <!-- 푸터 -->
+          <tr>
+            <td style="background-color:#FAF3D6;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #D9C97A;">
+              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#5C4A1E;">안강 섬김 노인복지센터</p>
+              <p style="margin:0;font-size:12px;color:#8C8070;">📞 054-763-5988</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`,
   });
 }
 
@@ -64,20 +148,79 @@ export async function sendReplyEmail(params: {
     to,
     subject: `[안강섬김노인복지센터] ${name}님의 문의에 답변이 등록되었습니다`,
     html: `
-      <h2>안강 섬김 노인복지센터</h2>
-      <p>${name}님, 문의해 주셔서 감사합니다.<br/>담당자가 답변을 등록하였습니다.</p>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body style="margin:0;padding:0;background-color:#f0ebe0;font-family:'Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0ebe0;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;">
 
-      <h3 style="color:#5C4A1E">📝 답변 내용</h3>
-      <div style="background:#FAF3D6;padding:16px;border-radius:8px;white-space:pre-wrap">${replyContent}</div>
+          <!-- 헤더 -->
+          <tr>
+            <td style="background-color:#C4A84F;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
+              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFDF0;letter-spacing:3px;opacity:0.85;">ANGANG SUMGIM</p>
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFDF0;letter-spacing:1px;">안강 섬김 노인복지센터</h1>
+            </td>
+          </tr>
 
-      <h3 style="color:#8C8070;margin-top:24px">원본 문의</h3>
-      <div style="background:#f5f5f5;padding:16px;border-radius:8px;white-space:pre-wrap;color:#8C8070">${originalContent}</div>
+          <!-- 본문 -->
+          <tr>
+            <td style="background-color:#FFFDF0;padding:36px 40px;">
 
-      <hr style="margin:24px 0;border:none;border-top:1px solid #D9C97A"/>
-      <p style="color:#8C8070;font-size:14px">
-        추가 문의사항은 전화로 연락 주세요.<br/>
-        📞 054-763-5988
-      </p>
-    `,
+              <!-- 타이틀 -->
+              <p style="margin:0 0 6px 0;font-size:12px;font-weight:600;color:#C4A84F;letter-spacing:2px;">INQUIRY REPLY</p>
+              <h2 style="margin:0 0 12px 0;font-size:20px;font-weight:700;color:#5C4A1E;">답변이 등록되었습니다</h2>
+              <p style="margin:0 0 28px 0;font-size:14px;color:#8C8070;line-height:1.7;">
+                안녕하세요, <strong style="color:#5C4A1E;">${name}</strong>님.<br/>
+                문의하신 내용에 대한 답변이 등록되었습니다.
+              </p>
+
+              <!-- 구분선 -->
+              <div style="border-top:1px solid #D9C97A;margin-bottom:28px;"></div>
+
+              <!-- 답변 내용 -->
+              <p style="margin:0 0 10px 0;font-size:12px;font-weight:600;color:#8C8070;letter-spacing:1px;">답변 내용</p>
+              <div style="background-color:#FAF3D6;border-left:3px solid #C4A84F;border-radius:0 8px 8px 0;padding:20px 22px;font-size:14px;color:#5C4A1E;line-height:1.9;white-space:pre-wrap;margin-bottom:28px;">${replyContent}</div>
+
+              <!-- 원본 문의 -->
+              <p style="margin:0 0 10px 0;font-size:12px;font-weight:600;color:#8C8070;letter-spacing:1px;">원본 문의</p>
+              <div style="background-color:#f5f0e8;border-radius:8px;padding:16px 18px;font-size:13px;color:#8C8070;line-height:1.8;white-space:pre-wrap;">${originalContent}</div>
+
+              <!-- 구분선 -->
+              <div style="border-top:1px solid #D9C97A;margin:28px 0 24px;"></div>
+
+              <!-- 추가 문의 안내 -->
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background-color:#FAF3D6;border:1px solid #D9C97A;border-radius:8px;padding:16px 20px;text-align:center;">
+                    <p style="margin:0 0 4px 0;font-size:13px;color:#5C4A1E;">추가 문의사항이 있으시면 전화로 연락 주세요.</p>
+                    <p style="margin:0;font-size:16px;font-weight:700;color:#C4A84F;">📞 054-763-5988</p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- 푸터 -->
+          <tr>
+            <td style="background-color:#FAF3D6;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #D9C97A;">
+              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#5C4A1E;">안강 섬김 노인복지센터</p>
+              <p style="margin:0;font-size:12px;color:#8C8070;">답변일시: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`,
   });
 }
