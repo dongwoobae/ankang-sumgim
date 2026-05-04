@@ -2,8 +2,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM =
-  process.env.RESEND_FROM_EMAIL ?? "상담문의 <onboarding@resend.dev>";
+const FROM = `상담문의신청 <${process.env.INQUIRY_EMAIL ?? "onboarding@resend.dev"}>`;
 
 /**
  * 이메일 발송
