@@ -1,9 +1,8 @@
 "use server";
 
-import { Resend } from "resend";
 import { createClient } from "@/lib/supabase/server";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendInquiryNotificationEmail } from "@/lib/email";
+import { sendSMS, buildReceiptSMS } from "@/lib/sms";
 
 export type InquiryState = {
   success: boolean;
@@ -17,14 +16,14 @@ export async function sendInquiry(
   const name = (formData.get("name") as string).trim();
   const phone = (formData.get("phone") as string).trim();
   const email = ((formData.get("email") as string) ?? "").trim();
-  const serviceType = formData.get("serviceType") as string; // → title로 사용
+  const serviceType = formData.get("serviceType") as string;
   const content = (formData.get("content") as string).trim();
 
   if (!name || !phone || !serviceType || !content) {
     return { success: false, message: "필수 항목을 모두 입력해 주세요." };
   }
 
-  // Supabase에 저장 (RLS: public insert 허용)
+  // 1. Supabase 저장 (실패 시 즉시 return)
   const supabase = await createClient();
   const { error: dbError } = await supabase.from("inquiries").insert({
     name,
@@ -41,28 +40,16 @@ export async function sendInquiry(
     };
   }
 
-  // 이메일 알림 (선택 — API 키 없어도 DB 저장은 완료됨)
-  if (process.env.RESEND_API_KEY && !process.env.RESEND_API_KEY.startsWith("re_여기에")) {
-    try {
-      await resend.emails.send({
-        from: "상담문의 <onboarding@resend.dev>",
-        to: process.env.INQUIRY_EMAIL ?? "ankang.sumgim@naver.com",
-        subject: `[상담문의] ${serviceType} - ${name}님`,
-        html: `
-          <h2>안강 섬김 노인복지센터 상담 문의</h2>
-          <table style="border-collapse:collapse;width:100%">
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">성함</td><td style="padding:8px;border:1px solid #ddd">${name}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">연락처</td><td style="padding:8px;border:1px solid #ddd">${phone}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">이메일</td><td style="padding:8px;border:1px solid #ddd">${email || "미입력"}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">문의 유형</td><td style="padding:8px;border:1px solid #ddd">${serviceType}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">문의 내용</td><td style="padding:8px;border:1px solid #ddd;white-space:pre-wrap">${content}</td></tr>
-          </table>
-        `,
-      });
-    } catch {
-      // 이메일 실패는 무시 (DB 저장 성공이 우선)
-    }
-  }
+  // 2. 알림 발송 (병렬, 실패해도 무시)
+  await Promise.allSettled([
+    // 관리자에게 이메일 알림
+    sendInquiryNotificationEmail({ name, phone, email, serviceType, content }),
+    // 문의자에게 SMS 접수 확인
+    sendSMS(phone, buildReceiptSMS(name, serviceType)),
+  ]);
 
-  return { success: true, message: "상담 신청이 완료되었습니다. 곧 연락드리겠습니다." };
+  return {
+    success: true,
+    message: "상담 신청이 완료되었습니다. 곧 연락드리겠습니다.",
+  };
 }
