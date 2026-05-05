@@ -1,4 +1,4 @@
-import Header from "@/components/layout/Header";
+﻿import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingButton from "@/components/layout/FloatingButton";
 import { Analytics } from "@vercel/analytics/next";
@@ -9,7 +9,7 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-[#FFFDF0] text-[#5C4A1E]">
+    <div className="bg-[#FFFFFF] text-[#1A2E4A]">
       <Header />
       <main className="pt-[108px] min-h-screen">{children}</main>
       <Footer />

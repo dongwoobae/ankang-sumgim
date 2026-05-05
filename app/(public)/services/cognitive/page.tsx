@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight, Brain, CheckCircle, Phone } from "lucide-react";
 
 const programs = [
@@ -38,52 +38,52 @@ export default function CognitivePage() {
     <div>
       {/* 페이지 배너 */}
       <section
-        style={{ background: "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 100%)" }}
+        style={{ background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)" }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">SERVICES</p>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">SERVICES</p>
           <h1
-            className="text-[#5C4A1E] text-4xl font-bold"
+            className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             인지활동서비스
           </h1>
-          <p className="text-[#8C8070] mt-3">치매 예방과 인지 기능 유지를 위한 전문 프로그램</p>
+          <p className="text-[#5A7A99] mt-3">치매 예방과 인지 기능 유지를 위한 전문 프로그램</p>
         </div>
       </section>
 
       {/* 서비스 소개 */}
-      <section className="bg-[#FFFDF0] py-20">
+      <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start mb-16">
             <div>
-              <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">OVERVIEW</p>
+              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">OVERVIEW</p>
               <h2
-                className="text-[#5C4A1E] text-2xl font-bold mb-5"
+                className="text-[#1A2E4A] text-2xl font-bold mb-5"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 인지활동서비스란?
               </h2>
-              <p className="text-[#5C4A1E] text-[15px] leading-[1.9] mb-4">
+              <p className="text-[#1A2E4A] text-[15px] leading-[1.9] mb-4">
                 치매·인지저하가 있는 어르신의 인지 기능 유지 및 악화 방지를 위해 전문 요양보호사가
                 가정을 방문하여 개인 맞춤형 인지 자극 프로그램을 제공하는 서비스입니다.
               </p>
-              <p className="text-[#5C4A1E] text-[15px] leading-[1.9]">
+              <p className="text-[#1A2E4A] text-[15px] leading-[1.9]">
                 인지활동형 프로그램 교육을 이수한 전문 요양보호사가 어르신의 상태에 맞는
                 프로그램을 1:1로 진행하여 치매 진행을 늦추고 삶의 질을 높입니다.
               </p>
 
-              <div className="mt-7 p-5 bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-xl">
-                <p className="text-[#5C4A1E] font-bold text-sm mb-2">이용 자격</p>
+              <div className="mt-7 p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl">
+                <p className="text-[#1A2E4A] font-bold text-sm mb-2">이용 자격</p>
                 <ul className="space-y-1.5">
                   {[
                     "장기요양 1~5등급 수급자 (치매 진단자 우선)",
                     "인지지원등급 수급자",
                     "경도 인지장애 또는 치매 어르신",
                   ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2 text-[#5C4A1E] text-sm">
-                      <CheckCircle size={13} className="text-[#C4A84F] flex-shrink-0" />
+                    <li key={i} className="flex items-center gap-2 text-[#1A2E4A] text-sm">
+                      <CheckCircle size={13} className="text-[#1A56A0] flex-shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -92,11 +92,11 @@ export default function CognitivePage() {
             </div>
 
             {/* 기대 효과 */}
-            <div className="bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-2xl p-7">
+            <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-2xl p-7">
               <div className="flex items-center gap-2 mb-5">
-                <Brain size={20} className="text-[#C4A84F]" />
+                <Brain size={20} className="text-[#1A56A0]" />
                 <h3
-                  className="text-[#5C4A1E] font-bold"
+                  className="text-[#1A2E4A] font-bold"
                   style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   기대 효과
@@ -104,8 +104,8 @@ export default function CognitivePage() {
               </div>
               <ul className="space-y-3">
                 {effects.map((e, i) => (
-                  <li key={i} className="flex items-center gap-2 text-[#5C4A1E] text-sm">
-                    <CheckCircle size={14} className="text-[#C4A84F] flex-shrink-0" />
+                  <li key={i} className="flex items-center gap-2 text-[#1A2E4A] text-sm">
+                    <CheckCircle size={14} className="text-[#1A56A0] flex-shrink-0" />
                     {e}
                   </li>
                 ))}
@@ -115,9 +115,9 @@ export default function CognitivePage() {
 
           {/* 프로그램 구성 */}
           <div>
-            <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">PROGRAMS</p>
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">PROGRAMS</p>
             <h2
-              className="text-[#5C4A1E] text-2xl font-bold mb-8"
+              className="text-[#1A2E4A] text-2xl font-bold mb-8"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               프로그램 구성
@@ -126,19 +126,19 @@ export default function CognitivePage() {
               {programs.map((prog, i) => (
                 <div
                   key={i}
-                  className="bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-xl p-5"
+                  className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-5"
                 >
                   <div className="text-3xl mb-3">{prog.icon}</div>
                   <h3
-                    className="text-[#5C4A1E] font-bold mb-3 text-sm"
+                    className="text-[#1A2E4A] font-bold mb-3 text-sm"
                     style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     {prog.title}
                   </h3>
                   <ul className="space-y-1.5">
                     {prog.items.map((item, j) => (
-                      <li key={j} className="flex items-start gap-1.5 text-[#8C8070] text-xs">
-                        <span className="w-1 h-1 rounded-full bg-[#C4A84F] flex-shrink-0 mt-1.5" />
+                      <li key={j} className="flex items-start gap-1.5 text-[#5A7A99] text-xs">
+                        <span className="w-1 h-1 rounded-full bg-[#1A56A0] flex-shrink-0 mt-1.5" />
                         {item}
                       </li>
                     ))}
@@ -151,29 +151,29 @@ export default function CognitivePage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#5C4A1E] py-14">
+      <section className="bg-[#1A2E4A] py-14">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <p
-              className="text-[#E8D48B] font-bold text-lg mb-1"
+              className="text-[#2E6DB4] font-bold text-lg mb-1"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               인지활동서비스가 궁금하신가요?
             </p>
-            <p className="text-[#8C8070] text-sm">
+            <p className="text-[#5A7A99] text-sm">
               어르신 상태에 맞는 프로그램을 안내해 드립니다.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
               href="/inquiry"
-              className="flex items-center gap-2 bg-[#C4A84F] text-[#FFFDF0] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#E8D48B] hover:text-[#5C4A1E] transition-colors duration-300"
+              className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#2E6DB4] hover:text-[#1A2E4A] transition-colors duration-300"
             >
               상담 신청 <ArrowRight size={16} />
             </Link>
             <a
               href="tel:054-763-5988"
-              className="flex items-center gap-2 border border-[#E8D48B] text-[#E8D48B] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#E8D48B] hover:text-[#5C4A1E] transition-colors duration-300"
+              className="flex items-center gap-2 border border-[#2E6DB4] text-[#2E6DB4] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#2E6DB4] hover:text-[#1A2E4A] transition-colors duration-300"
             >
               <Phone size={16} />
               054-763-5988

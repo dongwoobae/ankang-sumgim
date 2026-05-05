@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { Megaphone, Images, PlusCircle, ArrowRight, MessageSquare } from "lucide-react";
 
@@ -60,12 +60,12 @@ export default async function AdminDashboard() {
     <div className="p-8 max-w-5xl">
       <div className="mb-8">
         <h1
-          className="text-[#5C4A1E] text-2xl font-bold"
+          className="text-[#1A2E4A] text-2xl font-bold"
           style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           대시보드
         </h1>
-        <p className="text-[#8C8070] text-sm mt-1">안강 섬김 노인복지센터 관리 페이지</p>
+        <p className="text-[#5A7A99] text-sm mt-1">안강 섬김 노인복지센터 관리 페이지</p>
       </div>
 
       {/* 통계 카드 */}
@@ -74,18 +74,18 @@ export default async function AdminDashboard() {
           <Link
             key={stat.href}
             href={stat.href}
-            className="group bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-xl p-6 hover:border-[#C4A84F] hover:shadow-md transition-all"
+            className="group bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6 hover:border-[#1A56A0] hover:shadow-md transition-all"
           >
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-[#C4A84F]">{stat.icon}</span>
-              <span className="text-[#8C8070] text-sm">{stat.label}</span>
+              <span className="text-[#1A56A0]">{stat.icon}</span>
+              <span className="text-[#5A7A99] text-sm">{stat.label}</span>
             </div>
             <p
-              className="text-[#5C4A1E] text-3xl font-bold"
+              className="text-[#1A2E4A] text-3xl font-bold"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               {stat.value}
-              <span className="text-sm font-normal text-[#8C8070] ml-1">건</span>
+              <span className="text-sm font-normal text-[#5A7A99] ml-1">건</span>
             </p>
           </Link>
         ))}
@@ -93,9 +93,9 @@ export default async function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* 빠른 작업 */}
-        <div className="bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-xl p-6">
+        <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
           <h2
-            className="text-[#5C4A1E] font-bold mb-4 text-sm"
+            className="text-[#1A2E4A] font-bold mb-4 text-sm"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             빠른 작업
@@ -105,31 +105,31 @@ export default async function AdminDashboard() {
               <Link
                 key={s.href}
                 href={s.href}
-                className="flex items-center gap-3 px-4 py-3 bg-[#FAF3D6] rounded-lg text-[#5C4A1E] text-sm font-medium hover:bg-[#E8D48B]/50 transition-colors"
+                className="flex items-center gap-3 px-4 py-3 bg-[#EEF4FB] rounded-lg text-[#1A2E4A] text-sm font-medium hover:bg-[#2E6DB4]/50 transition-colors"
               >
-                <span className="text-[#C4A84F]">{s.icon}</span>
+                <span className="text-[#1A56A0]">{s.icon}</span>
                 {s.label}
-                <ArrowRight size={14} className="ml-auto text-[#8C8070]" />
+                <ArrowRight size={14} className="ml-auto text-[#5A7A99]" />
               </Link>
             ))}
           </div>
         </div>
 
         {/* 최근 공지 */}
-        <div className="bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-xl p-6">
+        <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2
-              className="text-[#5C4A1E] font-bold text-sm"
+              className="text-[#1A2E4A] font-bold text-sm"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               최근 공지사항
             </h2>
-            <Link href="/admin/notices" className="text-[#C4A84F] text-xs hover:underline">
+            <Link href="/admin/notices" className="text-[#1A56A0] text-xs hover:underline">
               전체 보기
             </Link>
           </div>
           {recentNotices.length === 0 ? (
-            <p className="text-[#8C8070] text-sm">등록된 공지가 없습니다.</p>
+            <p className="text-[#5A7A99] text-sm">등록된 공지가 없습니다.</p>
           ) : (
             <ul className="space-y-2.5">
               {recentNotices.map((n) => (
@@ -138,10 +138,10 @@ export default async function AdminDashboard() {
                     href={`/admin/notices/${n.id}/edit`}
                     className="flex items-start justify-between gap-2 text-sm group"
                   >
-                    <span className="text-[#5C4A1E] group-hover:text-[#C4A84F] transition-colors truncate">
+                    <span className="text-[#1A2E4A] group-hover:text-[#1A56A0] transition-colors truncate">
                       {n.title}
                     </span>
-                    <span className="text-[#8C8070] text-xs flex-shrink-0">
+                    <span className="text-[#5A7A99] text-xs flex-shrink-0">
                       {new Date(n.created_at).toLocaleDateString("ko-KR", {
                         month: "2-digit",
                         day: "2-digit",
@@ -155,20 +155,20 @@ export default async function AdminDashboard() {
         </div>
 
         {/* 최근 문의 */}
-        <div className="bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-xl p-6">
+        <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2
-              className="text-[#5C4A1E] font-bold text-sm"
+              className="text-[#1A2E4A] font-bold text-sm"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               최근 문의
             </h2>
-            <Link href="/admin/inquiries" className="text-[#C4A84F] text-xs hover:underline">
+            <Link href="/admin/inquiries" className="text-[#1A56A0] text-xs hover:underline">
               전체 보기
             </Link>
           </div>
           {recentInquiries.length === 0 ? (
-            <p className="text-[#8C8070] text-sm">접수된 문의가 없습니다.</p>
+            <p className="text-[#5A7A99] text-sm">접수된 문의가 없습니다.</p>
           ) : (
             <ul className="space-y-2.5">
               {recentInquiries.map((inq) => (
@@ -177,12 +177,12 @@ export default async function AdminDashboard() {
                     href={`/admin/inquiries/${inq.id}`}
                     className="flex items-start justify-between gap-2 text-sm group"
                   >
-                    <span className="text-[#5C4A1E] group-hover:text-[#C4A84F] transition-colors truncate">
+                    <span className="text-[#1A2E4A] group-hover:text-[#1A56A0] transition-colors truncate">
                       {inq.name} · {inq.title}
                     </span>
                     <span
                       className={`text-xs flex-shrink-0 font-medium ${
-                        inq.is_answered ? "text-[#8C8070]" : "text-green-600"
+                        inq.is_answered ? "text-[#5A7A99]" : "text-green-600"
                       }`}
                     >
                       {inq.is_answered ? "답변완료" : "미답변"}

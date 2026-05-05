@@ -27,12 +27,12 @@ export default async function EditNoticePage({
       <div className="flex items-center gap-3 mb-8">
         <Link
           href="/admin/notices"
-          className="text-[#8C8070] hover:text-[#C4A84F] transition-colors"
+          className="text-[#5A7A99] hover:text-[#1A56A0] transition-colors"
         >
           <ArrowLeft size={20} />
         </Link>
         <h1
-          className="text-[#5C4A1E] text-2xl font-bold"
+          className="text-[#1A2E4A] text-2xl font-bold"
           style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           공지 수정

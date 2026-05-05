@@ -1,4 +1,4 @@
-import { Award } from "lucide-react";
+﻿import { Award } from "lucide-react";
 
 const awards = [
   {
@@ -39,9 +39,9 @@ const awards = [
 ];
 
 const categoryColors: Record<string, string> = {
-  기관선정: "#C4A84F",
-  평가수상: "#5C4A1E",
-  우수사례: "#8C8070",
+  기관선정: "#1A56A0",
+  평가수상: "#1A2E4A",
+  우수사례: "#5A7A99",
 };
 
 export default function AwardsPage() {
@@ -50,33 +50,33 @@ export default function AwardsPage() {
       {/* 페이지 배너 */}
       <section
         style={{
-          background: "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 100%)",
+          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
         }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
             ABOUT US
           </p>
           <h1
-            className="text-[#5C4A1E] text-4xl font-bold"
+            className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             수상·기관선정
           </h1>
-          <p className="text-[#8C8070] mt-3">신뢰로 쌓아온 수상 및 기관선정 내역</p>
+          <p className="text-[#5A7A99] mt-3">신뢰로 쌓아온 수상 및 기관선정 내역</p>
         </div>
       </section>
 
       {/* 수상 목록 */}
-      <section className="bg-[#FFFDF0] py-20">
+      <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-5xl mx-auto px-6">
           <div className="mb-12">
-            <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
               AWARDS & RECOGNITION
             </p>
             <h2
-              className="text-[#5C4A1E] text-2xl font-bold"
+              className="text-[#1A2E4A] text-2xl font-bold"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               전체 수상 내역
@@ -87,43 +87,43 @@ export default function AwardsPage() {
             {awards.map((award, i) => (
               <div
                 key={i}
-                className="bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-2xl p-7 flex gap-6"
+                className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-2xl p-7 flex gap-6"
               >
                 {/* 사진 플레이스홀더 */}
                 <div
-                  className="w-28 h-28 rounded-xl border-2 border-dashed border-[#D9C97A] flex flex-col items-center justify-center flex-shrink-0"
-                  style={{ background: "#E8D48B22" }}
+                  className="w-28 h-28 rounded-xl border-2 border-dashed border-[#A8C4E0] flex flex-col items-center justify-center flex-shrink-0"
+                  style={{ background: "#2E6DB422" }}
                 >
-                  <Award size={24} className="text-[#C4A84F] mb-1" />
-                  <span className="text-[#8C8070] text-[10px] text-center px-1">
+                  <Award size={24} className="text-[#1A56A0] mb-1" />
+                  <span className="text-[#5A7A99] text-[10px] text-center px-1">
                     사진 교체
                   </span>
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="text-[#C4A84F] text-sm font-bold">
+                    <span className="text-[#1A56A0] text-sm font-bold">
                       {award.year}년
                     </span>
                     <span
-                      className="text-[10px] font-bold px-2 py-0.5 rounded-full text-[#FFFDF0]"
+                      className="text-[10px] font-bold px-2 py-0.5 rounded-full text-[#FFFFFF]"
                       style={{
-                        background: categoryColors[award.category] ?? "#8C8070",
+                        background: categoryColors[award.category] ?? "#5A7A99",
                       }}
                     >
                       {award.category}
                     </span>
                   </div>
                   <h3
-                    className="text-[#5C4A1E] font-bold text-lg mb-1"
+                    className="text-[#1A2E4A] font-bold text-lg mb-1"
                     style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     {award.title}
                   </h3>
-                  <p className="text-[#C4A84F] text-sm font-medium mb-2">
+                  <p className="text-[#1A56A0] text-sm font-medium mb-2">
                     수여: {award.org}
                   </p>
-                  <p className="text-[#8C8070] text-sm leading-relaxed">
+                  <p className="text-[#5A7A99] text-sm leading-relaxed">
                     {award.desc}
                   </p>
                 </div>

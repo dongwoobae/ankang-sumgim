@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Phone, MapPin, Award, ChevronRight, ArrowRight } from "lucide-react";
 
 // 임시 공지 데이터 (나중에 Supabase에서 fetch)
@@ -82,8 +82,6 @@ export default function HomePage() {
         className="relative flex items-center"
         style={{
           minHeight: "calc(100vh - 108px)",
-          background:
-            "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 50%, #EDD97A33 100%)",
         }}
       >
         {/* 배경 장식 */}
@@ -93,11 +91,11 @@ export default function HomePage() {
         >
           <div
             className="absolute -right-32 -top-32 w-[600px] h-[600px] rounded-full opacity-20"
-            style={{ background: "#C4A84F" }}
+            style={{ background: "#1A56A0" }}
           />
           <div
             className="absolute -left-20 bottom-0 w-[400px] h-[400px] rounded-full opacity-10"
-            style={{ background: "#5C4A1E" }}
+            style={{ background: "#1A2E4A" }}
           />
         </div>
 
@@ -105,23 +103,23 @@ export default function HomePage() {
           <div className="max-w-2xl">
             {/* 태그라인 */}
             <div className="flex items-center gap-2 mb-6">
-              <span className="w-8 h-px bg-[#C4A84F]" />
-              <span className="text-[#C4A84F] text-sm font-semibold tracking-widest uppercase">
+              <span className="w-8 h-px bg-[#1A56A0]" />
+              <span className="text-[#1A56A0] text-sm font-semibold tracking-widest uppercase">
                 Ankang Sumgim Care Center
               </span>
             </div>
 
             {/* 메인 헤드라인 */}
             <h1
-              className="text-[#5C4A1E] text-5xl md:text-6xl font-bold leading-[1.2] mb-6"
+              className="text-[#1A2E4A] text-5xl md:text-6xl font-bold leading-[1.2] mb-6"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               어르신의 일상을
               <br />
-              <span className="text-[#C4A84F]">함께 섬깁니다</span>
+              <span className="text-[#1A56A0]">함께 섬깁니다</span>
             </h1>
 
-            <p className="text-[#8C8070] text-lg leading-relaxed mb-10 max-w-xl">
+            <p className="text-[#5A7A99] text-lg leading-relaxed mb-10 max-w-xl">
               안강 섬김 노인복지센터는 경주·안강·영천·포항 전역에서
               <br />
               어르신 한 분 한 분의 소중한 일상을 정성껏 돌봅니다.
@@ -131,14 +129,14 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/inquiry"
-                className="flex items-center gap-2 bg-[#C4A84F] text-[#FFFDF0] px-7 py-4 rounded-xl font-bold text-base hover:bg-[#5C4A1E] transition-colors duration-300"
+                className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-base hover:bg-[#1A2E4A] transition-colors duration-300"
               >
                 지금 상담 문의하기
                 <ArrowRight size={18} />
               </Link>
               <a
                 href="tel:054-763-5988"
-                className="flex items-center gap-2 border-2 border-[#C4A84F] text-[#C4A84F] px-7 py-4 rounded-xl font-bold text-base hover:bg-[#C4A84F] hover:text-[#FFFDF0] transition-colors duration-300"
+                className="flex items-center gap-2 border-2 border-[#1A56A0] text-[#1A56A0] px-7 py-4 rounded-xl font-bold text-base hover:bg-[#1A56A0] hover:text-[#FFFFFF] transition-colors duration-300"
               >
                 <Phone size={18} />
                 054-763-5988
@@ -146,7 +144,7 @@ export default function HomePage() {
             </div>
 
             {/* 위치 */}
-            <div className="flex items-center gap-1.5 mt-8 text-[#8C8070] text-sm">
+            <div className="flex items-center gap-1.5 mt-8 text-[#5A7A99] text-sm">
               <MapPin size={14} />
               경상북도 경주시 안강읍 화전중앙길 53
             </div>
@@ -155,21 +153,21 @@ export default function HomePage() {
       </section>
 
       {/* ───── 신뢰 지표 띠 ───── */}
-      <section className="bg-[#5C4A1E]">
+      <section className="bg-[#1A2E4A]">
         <div className="max-w-6xl mx-auto px-6 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, i) => (
               <div key={i} className="text-center">
-                <p className="text-[#8C8070] text-xs tracking-widest mb-1 uppercase">
+                <p className="text-[#5A7A99] text-xs tracking-widest mb-1 uppercase">
                   {stat.value}
                 </p>
                 <p
-                  className="text-[#E8D48B] text-3xl font-bold mb-1"
+                  className="text-[#2E6DB4] text-3xl font-bold mb-1"
                   style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   {stat.highlight}
                 </p>
-                <p className="text-[#8C8070] text-xs">{stat.sub}</p>
+                <p className="text-[#5A7A99] text-xs">{stat.sub}</p>
               </div>
             ))}
           </div>
@@ -177,14 +175,14 @@ export default function HomePage() {
       </section>
 
       {/* ───── 서비스 ───── */}
-      <section className="bg-[#FFFDF0] py-20">
+      <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-12">
-            <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
               SERVICES
             </p>
             <h2
-              className="text-[#5C4A1E] text-3xl font-bold"
+              className="text-[#1A2E4A] text-3xl font-bold"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               섬김의 서비스
@@ -196,24 +194,24 @@ export default function HomePage() {
               <Link
                 key={svc.href}
                 href={svc.href}
-                className="group relative bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-2xl p-6 hover:border-[#C4A84F] hover:shadow-lg transition-all duration-300"
+                className="group relative bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-2xl p-6 hover:border-[#1A56A0] hover:shadow-lg transition-all duration-300"
               >
                 {svc.tag && (
-                  <span className="absolute top-4 right-4 text-[10px] font-bold bg-[#C4A84F] text-[#FFFDF0] px-2 py-0.5 rounded-full">
+                  <span className="absolute top-4 right-4 text-[10px] font-bold bg-[#1A56A0] text-[#FFFFFF] px-2 py-0.5 rounded-full">
                     {svc.tag}
                   </span>
                 )}
                 <div className="text-3xl mb-4">{svc.icon}</div>
                 <h3
-                  className="text-[#5C4A1E] font-bold text-base mb-2 group-hover:text-[#C4A84F] transition-colors"
+                  className="text-[#1A2E4A] font-bold text-base mb-2 group-hover:text-[#1A56A0] transition-colors"
                   style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   {svc.title}
                 </h3>
-                <p className="text-[#8C8070] text-sm leading-relaxed mb-4">
+                <p className="text-[#5A7A99] text-sm leading-relaxed mb-4">
                   {svc.desc}
                 </p>
-                <span className="flex items-center gap-1 text-[#C4A84F] text-sm font-medium">
+                <span className="flex items-center gap-1 text-[#1A56A0] text-sm font-medium">
                   자세히 보기 <ChevronRight size={15} />
                 </span>
               </Link>
@@ -223,14 +221,14 @@ export default function HomePage() {
       </section>
 
       {/* ───── 수상·기관선정 ───── */}
-      <section className="bg-[#FAF3D6] py-20">
+      <section className="bg-[#EEF4FB] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-12">
-            <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
               AWARDS
             </p>
             <h2
-              className="text-[#5C4A1E] text-3xl font-bold"
+              className="text-[#1A2E4A] text-3xl font-bold"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               수상 및 기관선정
@@ -241,23 +239,23 @@ export default function HomePage() {
             {awards.map((award, i) => (
               <div
                 key={i}
-                className="bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-2xl p-8 flex flex-col items-center text-center"
+                className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-2xl p-8 flex flex-col items-center text-center"
               >
                 {/* 플레이스홀더 — 나중에 실제 사진으로 교체 */}
-                <div className="w-full h-40 rounded-xl bg-[#E8D48B]/30 border-2 border-dashed border-[#D9C97A] flex flex-col items-center justify-center mb-6">
-                  <Award size={28} className="text-[#C4A84F] mb-1" />
-                  <span className="text-[#8C8070] text-xs">사진 교체 예정</span>
+                <div className="w-full h-40 rounded-xl bg-[#2E6DB4]/30 border-2 border-dashed border-[#A8C4E0] flex flex-col items-center justify-center mb-6">
+                  <Award size={28} className="text-[#1A56A0] mb-1" />
+                  <span className="text-[#5A7A99] text-xs">사진 교체 예정</span>
                 </div>
-                <span className="text-[#C4A84F] text-sm font-bold mb-1">
+                <span className="text-[#1A56A0] text-sm font-bold mb-1">
                   {award.year}
                 </span>
                 <h3
-                  className="text-[#5C4A1E] font-bold text-base mb-1"
+                  className="text-[#1A2E4A] font-bold text-base mb-1"
                   style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   {award.title}
                 </h3>
-                <p className="text-[#8C8070] text-sm">{award.org}</p>
+                <p className="text-[#5A7A99] text-sm">{award.org}</p>
               </div>
             ))}
           </div>
@@ -265,7 +263,7 @@ export default function HomePage() {
           <div className="text-center mt-8">
             <Link
               href="/about/awards"
-              className="inline-flex items-center gap-1.5 text-[#C4A84F] font-medium text-sm hover:gap-3 transition-all"
+              className="inline-flex items-center gap-1.5 text-[#1A56A0] font-medium text-sm hover:gap-3 transition-all"
             >
               전체 수상 내역 보기 <ArrowRight size={15} />
             </Link>
@@ -274,15 +272,15 @@ export default function HomePage() {
       </section>
 
       {/* ───── 공지사항 미리보기 ───── */}
-      <section className="bg-[#FFFDF0] py-20">
+      <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex items-end justify-between mb-10">
             <div>
-              <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">
+              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
                 NOTICE
               </p>
               <h2
-                className="text-[#5C4A1E] text-3xl font-bold"
+                className="text-[#1A2E4A] text-3xl font-bold"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 공지사항
@@ -290,23 +288,23 @@ export default function HomePage() {
             </div>
             <Link
               href="/board/notice"
-              className="flex items-center gap-1 text-[#8C8070] text-sm hover:text-[#C4A84F] transition-colors"
+              className="flex items-center gap-1 text-[#5A7A99] text-sm hover:text-[#1A56A0] transition-colors"
             >
               더보기 <ChevronRight size={15} />
             </Link>
           </div>
 
-          <div className="divide-y divide-[#D9C97A]/40">
+          <div className="divide-y divide-[#A8C4E0]/40">
             {notices.map((notice) => (
               <Link
                 key={notice.id}
                 href={`/board/notice/${notice.id}`}
                 className="flex items-center justify-between py-4 group hover:px-3 rounded-lg transition-all duration-200"
               >
-                <span className="text-[#5C4A1E] text-sm group-hover:text-[#C4A84F] transition-colors truncate mr-4">
+                <span className="text-[#1A2E4A] text-sm group-hover:text-[#1A56A0] transition-colors truncate mr-4">
                   {notice.title}
                 </span>
-                <span className="text-[#8C8070] text-xs flex-shrink-0">
+                <span className="text-[#5A7A99] text-xs flex-shrink-0">
                   {notice.date}
                 </span>
               </Link>
@@ -316,28 +314,28 @@ export default function HomePage() {
       </section>
 
       {/* ───── 상담 CTA 배너 ───── */}
-      <section className="bg-[#C4A84F] py-16">
+      <section className="bg-[#1A56A0] py-16">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2
-            className="text-[#FFFDF0] text-3xl md:text-4xl font-bold mb-4"
+            className="text-[#FFFFFF] text-3xl md:text-4xl font-bold mb-4"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             지금 바로 상담받아 보세요
           </h2>
-          <p className="text-[#FFFDF0]/80 text-base mb-8">
+          <p className="text-[#FFFFFF]/80 text-base mb-8">
             어르신과 가족분들의 소중한 문의를 기다립니다.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a
               href="tel:054-763-5988"
-              className="flex items-center gap-2 bg-[#FFFDF0] text-[#C4A84F] px-8 py-4 rounded-xl font-bold text-base hover:bg-[#5C4A1E] hover:text-[#FFFDF0] transition-colors duration-300"
+              className="flex items-center gap-2 bg-[#FFFFFF] text-[#1A56A0] px-8 py-4 rounded-xl font-bold text-base hover:bg-[#1A2E4A] hover:text-[#FFFFFF] transition-colors duration-300"
             >
               <Phone size={18} />
               054-763-5988
             </a>
             <Link
               href="/inquiry"
-              className="flex items-center gap-2 border-2 border-[#FFFDF0] text-[#FFFDF0] px-8 py-4 rounded-xl font-bold text-base hover:bg-[#FFFDF0] hover:text-[#C4A84F] transition-colors duration-300"
+              className="flex items-center gap-2 border-2 border-[#FFFFFF] text-[#FFFFFF] px-8 py-4 rounded-xl font-bold text-base hover:bg-[#FFFFFF] hover:text-[#1A56A0] transition-colors duration-300"
             >
               온라인 문의하기
               <ArrowRight size={18} />

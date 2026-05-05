@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useActionState, useEffect, useRef } from "react";
 import { Phone, MapPin, Clock, Send } from "lucide-react";
@@ -29,34 +29,34 @@ export default function InquiryPage() {
       {/* 페이지 배너 */}
       <section
         style={{
-          background: "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 100%)",
+          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
         }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
             CONTACT
           </p>
           <h1
-            className="text-[#5C4A1E] text-4xl font-bold"
+            className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             상담문의
           </h1>
-          <p className="text-[#8C8070] mt-3">
+          <p className="text-[#5A7A99] mt-3">
             어르신과 가족분들의 소중한 문의를 기다립니다
           </p>
         </div>
       </section>
 
       {/* 본문 */}
-      <section className="bg-[#FFFDF0] py-20">
+      <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* 연락처 사이드바 */}
             <div className="space-y-5">
               <h2
-                className="text-[#5C4A1E] text-xl font-bold"
+                className="text-[#1A2E4A] text-xl font-bold"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 연락처 안내
@@ -78,30 +78,30 @@ export default function InquiryPage() {
                 {
                   icon: <Clock size={18} />,
                   label: "운영시간",
-                  value: "평일 09:00–18:00\n주말 09:00–14:00",
+                  value: "평일 09:00–18:00\n토 09:00–14:00",
                   link: null,
                 },
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-4 p-5 bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-xl"
+                  className="flex items-start gap-4 p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl"
                 >
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8D48B]/40 text-[#C4A84F] flex-shrink-0">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0">
                     {item.icon}
                   </span>
                   <div>
-                    <p className="text-[#8C8070] text-xs mb-0.5">
+                    <p className="text-[#5A7A99] text-xs mb-0.5">
                       {item.label}
                     </p>
                     {item.link ? (
                       <a
                         href={item.link}
-                        className="text-[#5C4A1E] font-medium text-sm hover:text-[#C4A84F] transition-colors whitespace-pre-line"
+                        className="text-[#1A2E4A] font-medium text-sm hover:text-[#1A56A0] transition-colors whitespace-pre-line"
                       >
                         {item.value}
                       </a>
                     ) : (
-                      <p className="text-[#5C4A1E] font-medium text-sm whitespace-pre-line">
+                      <p className="text-[#1A2E4A] font-medium text-sm whitespace-pre-line">
                         {item.value}
                       </p>
                     )}
@@ -113,7 +113,7 @@ export default function InquiryPage() {
             {/* 상담 폼 */}
             <div className="md:col-span-2">
               <h2
-                className="text-[#5C4A1E] text-xl font-bold mb-6"
+                className="text-[#1A2E4A] text-xl font-bold mb-6"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 온라인 상담 신청
@@ -122,35 +122,35 @@ export default function InquiryPage() {
               <form ref={formRef} action={action} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-[#5C4A1E] text-sm font-medium mb-1.5">
-                      성함 <span className="text-[#C4A84F]">*</span>
+                    <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
+                      성함 <span className="text-[#1A56A0]">*</span>
                     </label>
                     <input
                       name="name"
                       type="text"
                       required
                       placeholder="홍길동"
-                      className="w-full px-4 py-3 rounded-xl border border-[#D9C97A]/70 bg-[#FAF3D6] text-[#5C4A1E] placeholder-[#8C8070] text-sm focus:outline-none focus:border-[#C4A84F] transition-colors"
+                      className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] placeholder-[#5A7A99] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-[#5C4A1E] text-sm font-medium mb-1.5">
-                      연락처 <span className="text-[#C4A84F]">*</span>
+                    <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
+                      연락처 <span className="text-[#1A56A0]">*</span>
                     </label>
                     <input
                       name="phone"
                       type="tel"
                       required
                       placeholder="010-0000-0000"
-                      className="w-full px-4 py-3 rounded-xl border border-[#D9C97A]/70 bg-[#FAF3D6] text-[#5C4A1E] placeholder-[#8C8070] text-sm focus:outline-none focus:border-[#C4A84F] transition-colors"
+                      className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] placeholder-[#5A7A99] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[#5C4A1E] text-sm font-medium mb-1.5">
+                  <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
                     이메일{" "}
-                    <span className="text-[#8C8070] text-xs font-normal">
+                    <span className="text-[#5A7A99] text-xs font-normal">
                       (선택)
                     </span>
                   </label>
@@ -158,18 +158,18 @@ export default function InquiryPage() {
                     name="email"
                     type="email"
                     placeholder="example@email.com"
-                    className="w-full px-4 py-3 rounded-xl border border-[#D9C97A]/70 bg-[#FAF3D6] text-[#5C4A1E] placeholder-[#8C8070] text-sm focus:outline-none focus:border-[#C4A84F] transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] placeholder-[#5A7A99] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[#5C4A1E] text-sm font-medium mb-1.5">
-                    문의 유형 <span className="text-[#C4A84F]">*</span>
+                  <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
+                    문의 유형 <span className="text-[#1A56A0]">*</span>
                   </label>
                   <select
                     name="serviceType"
                     required
-                    className="w-full px-4 py-3 rounded-xl border border-[#D9C97A]/70 bg-[#FAF3D6] text-[#5C4A1E] text-sm focus:outline-none focus:border-[#C4A84F] transition-colors appearance-none"
+                    className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors appearance-none"
                   >
                     <option value="">선택해 주세요</option>
                     {serviceTypes.map((t) => (
@@ -181,15 +181,15 @@ export default function InquiryPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[#5C4A1E] text-sm font-medium mb-1.5">
-                    문의 내용 <span className="text-[#C4A84F]">*</span>
+                  <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
+                    문의 내용 <span className="text-[#1A56A0]">*</span>
                   </label>
                   <textarea
                     name="content"
                     required
                     rows={5}
                     placeholder="문의하실 내용을 자유롭게 적어주세요."
-                    className="w-full px-4 py-3 rounded-xl border border-[#D9C97A]/70 bg-[#FAF3D6] text-[#5C4A1E] placeholder-[#8C8070] text-sm focus:outline-none focus:border-[#C4A84F] transition-colors resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] placeholder-[#5A7A99] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors resize-none"
                   />
                 </div>
 
@@ -197,7 +197,7 @@ export default function InquiryPage() {
                   <div
                     className={`p-4 rounded-xl text-sm font-medium ${
                       state.success
-                        ? "bg-[#E8D48B]/30 border border-[#C4A84F]/50 text-[#5C4A1E]"
+                        ? "bg-[#2E6DB4]/30 border border-[#1A56A0]/50 text-[#1A2E4A]"
                         : "bg-red-50 border border-red-200 text-red-700"
                     }`}
                   >
@@ -208,13 +208,13 @@ export default function InquiryPage() {
                 <button
                   type="submit"
                   disabled={pending}
-                  className="w-full flex items-center justify-center gap-2 bg-[#C4A84F] text-[#FFFDF0] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#5C4A1E] transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#1A2E4A] transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <Send size={16} />
                   {pending ? "전송 중..." : "상담 신청하기"}
                 </button>
 
-                <p className="text-[#8C8070] text-xs text-center">
+                <p className="text-[#5A7A99] text-xs text-center">
                   상담 신청 후 영업일 기준 1~2일 내에 연락드립니다.
                 </p>
               </form>

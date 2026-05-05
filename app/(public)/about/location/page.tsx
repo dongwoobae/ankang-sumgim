@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Bus, Car, Clock } from "lucide-react";
+﻿import { MapPin, Phone, Mail, Bus, Car, Clock } from "lucide-react";
 
 const transportInfo = [
   {
@@ -26,28 +26,28 @@ export default function LocationPage() {
       {/* 페이지 배너 */}
       <section
         style={{
-          background: "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 100%)",
+          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
         }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
             ABOUT US
           </p>
           <h1
-            className="text-[#5C4A1E] text-4xl font-bold"
+            className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             오시는길
           </h1>
-          <p className="text-[#8C8070] mt-3">찾아오시는 방법을 안내해 드립니다</p>
+          <p className="text-[#5A7A99] mt-3">찾아오시는 방법을 안내해 드립니다</p>
         </div>
       </section>
 
       {/* 지도 */}
-      <section className="bg-[#FFFDF0] py-20">
+      <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="rounded-2xl overflow-hidden border border-[#D9C97A]/50 shadow-sm mb-12">
+          <div className="rounded-2xl overflow-hidden border border-[#A8C4E0]/50 shadow-sm mb-12">
             <iframe
               src="https://maps.google.com/maps?q=경상북도+경주시+안강읍+화전중앙길+53&output=embed&hl=ko"
               width="100%"
@@ -64,58 +64,58 @@ export default function LocationPage() {
             {/* 연락처 정보 */}
             <div>
               <h2
-                className="text-[#5C4A1E] text-xl font-bold mb-6"
+                className="text-[#1A2E4A] text-xl font-bold mb-6"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 연락처 정보
               </h2>
               <ul className="space-y-5">
                 <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8D48B]/40 text-[#C4A84F] flex-shrink-0 mt-0.5">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
                     <MapPin size={18} />
                   </span>
                   <div>
-                    <p className="text-[#8C8070] text-xs mb-0.5">주소</p>
-                    <p className="text-[#5C4A1E] font-medium">
+                    <p className="text-[#5A7A99] text-xs mb-0.5">주소</p>
+                    <p className="text-[#1A2E4A] font-medium">
                       경상북도 경주시 안강읍 화전중앙길 53
                     </p>
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8D48B]/40 text-[#C4A84F] flex-shrink-0 mt-0.5">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
                     <Phone size={18} />
                   </span>
                   <div>
-                    <p className="text-[#8C8070] text-xs mb-0.5">전화</p>
+                    <p className="text-[#5A7A99] text-xs mb-0.5">전화</p>
                     <a
                       href="tel:054-763-5988"
-                      className="text-[#5C4A1E] font-medium hover:text-[#C4A84F] transition-colors"
+                      className="text-[#1A2E4A] font-medium hover:text-[#1A56A0] transition-colors"
                     >
                       054-763-5988
                     </a>
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8D48B]/40 text-[#C4A84F] flex-shrink-0 mt-0.5">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
                     <Mail size={18} />
                   </span>
                   <div>
-                    <p className="text-[#8C8070] text-xs mb-0.5">이메일</p>
-                    <p className="text-[#5C4A1E] font-medium">
+                    <p className="text-[#5A7A99] text-xs mb-0.5">이메일</p>
+                    <p className="text-[#1A2E4A] font-medium">
                       ankang.sumgim@naver.com
                     </p>
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8D48B]/40 text-[#C4A84F] flex-shrink-0 mt-0.5">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
                     <Clock size={18} />
                   </span>
                   <div>
-                    <p className="text-[#8C8070] text-xs mb-0.5">운영시간</p>
-                    <p className="text-[#5C4A1E] font-medium">
+                    <p className="text-[#5A7A99] text-xs mb-0.5">운영시간</p>
+                    <p className="text-[#1A2E4A] font-medium">
                       평일 09:00 – 18:00
                     </p>
-                    <p className="text-[#5C4A1E] font-medium">
+                    <p className="text-[#1A2E4A] font-medium">
                       주말 09:00 – 14:00
                     </p>
                   </div>
@@ -126,7 +126,7 @@ export default function LocationPage() {
             {/* 교통 안내 */}
             <div>
               <h2
-                className="text-[#5C4A1E] text-xl font-bold mb-6"
+                className="text-[#1A2E4A] text-xl font-bold mb-6"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 교통 안내
@@ -135,9 +135,9 @@ export default function LocationPage() {
                 {transportInfo.map((t, i) => (
                   <div
                     key={i}
-                    className="bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-xl p-5"
+                    className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-5"
                   >
-                    <div className="flex items-center gap-2 text-[#C4A84F] font-bold mb-3">
+                    <div className="flex items-center gap-2 text-[#1A56A0] font-bold mb-3">
                       {t.icon}
                       {t.title}
                     </div>
@@ -145,9 +145,9 @@ export default function LocationPage() {
                       {t.items.map((item, j) => (
                         <li
                           key={j}
-                          className="flex items-start gap-2 text-[#5C4A1E] text-sm"
+                          className="flex items-start gap-2 text-[#1A2E4A] text-sm"
                         >
-                          <span className="w-1 h-1 rounded-full bg-[#C4A84F] flex-shrink-0 mt-2" />
+                          <span className="w-1 h-1 rounded-full bg-[#1A56A0] flex-shrink-0 mt-2" />
                           {item}
                         </li>
                       ))}

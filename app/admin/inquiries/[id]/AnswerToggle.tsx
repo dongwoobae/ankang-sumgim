@@ -16,7 +16,7 @@ export function AnswerToggle({ id, isAnswered }: { id: string; isAnswered: boole
       disabled={pending}
       className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors disabled:opacity-50 ${
         isAnswered
-          ? "bg-[#FAF3D6] text-[#8C8070] hover:text-[#5C4A1E] border border-[#D9C97A]/60"
+          ? "bg-[#EEF4FB] text-[#5A7A99] hover:text-[#1A2E4A] border border-[#A8C4E0]/60"
           : "bg-green-50 text-green-600 hover:bg-green-100 border border-green-200"
       }`}
     >

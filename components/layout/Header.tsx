@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -84,7 +84,7 @@ export default function Header() {
       }}
     >
       {/* 상단 정보 바 */}
-      <div className="bg-[#5C4A1E] text-[#D9C97A] text-xs">
+      <div className="bg-[#1A2E4A] text-[#A8C4E0] text-xs">
         <div className="max-w-6xl mx-auto px-6 h-9 flex items-center justify-between">
           <span className="tracking-wide font-medium">
             안강 섬김 노인복지센터
@@ -103,16 +103,16 @@ export default function Header() {
       </div>
 
       {/* 메인 헤더 */}
-      <div className="bg-[#FFFDF0] border-b border-[#D9C97A]/60">
+      <div className="bg-[#FFFFFF] border-b border-[#A8C4E0]/60">
         <div className="max-w-6xl mx-auto px-6 h-[72px] flex items-center justify-between">
           {/* 로고 */}
           <Link
             href="/"
             className="flex items-center gap-3 group flex-shrink-0"
           >
-            <div className="w-10 h-10 rounded-full bg-[#C4A84F] flex items-center justify-center flex-shrink-0 group-hover:bg-[#5C4A1E] transition-colors duration-300">
+            <div className="w-10 h-10 rounded-full bg-[#1A56A0] flex items-center justify-center flex-shrink-0 group-hover:bg-[#1A2E4A] transition-colors duration-300">
               <span
-                className="text-[#FFFDF0] text-base font-bold"
+                className="text-[#FFFFFF] text-base font-bold"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 섬
@@ -120,12 +120,12 @@ export default function Header() {
             </div>
             <div className="leading-snug">
               <p
-                className="text-[#5C4A1E] font-bold text-[17px] tracking-tight"
+                className="text-[#1A2E4A] font-bold text-[17px] tracking-tight"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 안강 섬김
               </p>
-              <p className="text-[#8C8070] text-[11px] tracking-[0.15em]">
+              <p className="text-[#5A7A99] text-[11px] tracking-[0.15em]">
                 노인복지센터
               </p>
             </div>
@@ -142,11 +142,11 @@ export default function Header() {
               const labelKey = item.label;
 
               const labelClass = `relative px-5 h-full flex items-center text-[15px] font-medium tracking-tight transition-colors duration-200
-                ${isActive ? "text-[#C4A84F]" : "text-[#5C4A1E] hover:text-[#C4A84F]"}`;
+                ${isActive ? "text-[#1A56A0]" : "text-[#1A2E4A] hover:text-[#1A56A0]"}`;
 
               const underline = (
                 <span
-                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#C4A84F] transition-transform duration-200 origin-bottom"
+                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#1A56A0] transition-transform duration-200 origin-bottom"
                   style={{
                     transform:
                       isActive || activeMenu === labelKey
@@ -180,7 +180,7 @@ export default function Header() {
 
           {/* 모바일 햄버거 */}
           <button
-            className="md:hidden p-2 text-[#5C4A1E]"
+            className="md:hidden p-2 text-[#1A2E4A]"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="메뉴"
           >
@@ -193,7 +193,7 @@ export default function Header() {
           (navItems.find((i) => i.label === activeMenu)?.children.length ?? 0) >
             0 && (
             <div
-              className="hidden md:block absolute left-0 right-0 bg-[#FFFDF0] border-b border-[#D9C97A]/60"
+              className="hidden md:block absolute left-0 right-0 bg-[#FFFFFF] border-b border-[#A8C4E0]/60"
               style={{ boxShadow: "0 8px 24px rgba(92,74,30,0.10)" }}
               onMouseEnter={() => setActiveMenu(activeMenu)}
               onMouseLeave={() => setActiveMenu(null)}
@@ -210,17 +210,17 @@ export default function Header() {
                         className={`flex-1 group px-4 py-3 rounded-lg border transition-all duration-200
                         ${
                           pathname === child.href
-                            ? "bg-[#E8D48B]/40 border-[#C4A84F]"
-                            : "bg-transparent border-transparent hover:bg-[#FAF3D6] hover:border-[#D9C97A]"
+                            ? "bg-[#2E6DB4]/40 border-[#1A56A0]"
+                            : "bg-transparent border-transparent hover:bg-[#EEF4FB] hover:border-[#A8C4E0]"
                         }`}
                       >
                         <p
                           className={`text-sm font-medium mb-0.5 transition-colors
-                        ${pathname === child.href ? "text-[#C4A84F]" : "text-[#5C4A1E] group-hover:text-[#C4A84F]"}`}
+                        ${pathname === child.href ? "text-[#1A56A0]" : "text-[#1A2E4A] group-hover:text-[#1A56A0]"}`}
                         >
                           {child.label}
                         </p>
-                        <p className="text-xs text-[#8C8070]">{child.desc}</p>
+                        <p className="text-xs text-[#5A7A99]">{child.desc}</p>
                       </Link>
                     ))}
                 </div>
@@ -231,19 +231,19 @@ export default function Header() {
 
       {/* 모바일 메뉴 */}
       {mobileOpen && (
-        <div className="md:hidden bg-[#FFFDF0] border-t border-[#D9C97A]/60 overflow-y-auto max-h-[80vh]">
+        <div className="md:hidden bg-[#FFFFFF] border-t border-[#A8C4E0]/60 overflow-y-auto max-h-[80vh]">
           {navItems.map((item) => (
-            <div key={item.label} className="border-b border-[#FAF3D6]">
+            <div key={item.label} className="border-b border-[#EEF4FB]">
               {item.href != null ? (
                 <Link
                   href={item.href}
-                  className="flex items-center px-6 py-4 text-[#5C4A1E] font-medium text-sm"
+                  className="flex items-center px-6 py-4 text-[#1A2E4A] font-medium text-sm"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
                 </Link>
               ) : (
-                <span className="flex items-center px-6 py-4 text-[#5C4A1E] font-medium text-sm">
+                <span className="flex items-center px-6 py-4 text-[#1A2E4A] font-medium text-sm">
                   {item.label}
                 </span>
               )}
@@ -251,10 +251,10 @@ export default function Header() {
                 <Link
                   key={child.href}
                   href={child.href}
-                  className="flex items-center gap-2 pl-10 pr-6 py-3 text-[#8C8070] text-sm hover:text-[#C4A84F] hover:bg-[#FAF3D6]"
+                  className="flex items-center gap-2 pl-10 pr-6 py-3 text-[#5A7A99] text-sm hover:text-[#1A56A0] hover:bg-[#EEF4FB]"
                   onClick={() => setMobileOpen(false)}
                 >
-                  <span className="w-1 h-1 rounded-full bg-[#D9C97A] flex-shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-[#A8C4E0] flex-shrink-0" />
                   {child.label}
                 </Link>
               ))}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -51,23 +51,23 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className="w-56 flex-shrink-0 flex flex-col bg-[#3D2E0E] min-h-screen">
+    <aside className="w-56 flex-shrink-0 flex flex-col bg-[#EEF4FB] min-h-screen">
       {/* 로고 */}
-      <div className="px-5 py-5 border-b border-[#5C4A1E]">
+      <div className="px-5 py-5 border-b border-[#1A2E4A]">
         <p
-          className="text-[#E8D48B] font-bold text-sm"
+          className="text-[#2E6DB4] font-bold text-sm"
           style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           안강 섬김
         </p>
-        <p className="text-[#8C8070] text-[11px]">관리자 페이지</p>
+        <p className="text-[#5A7A99] text-[11px]">관리자 페이지</p>
       </div>
 
       {/* 네비게이션 */}
       <nav className="flex-1 px-3 py-4 space-y-5 overflow-y-auto">
         {navGroups.map((group) => (
           <div key={group.label}>
-            <p className="text-[#8C8070] text-[10px] font-semibold tracking-widest px-2 mb-1.5 uppercase">
+            <p className="text-[#5A7A99] text-[10px] font-semibold tracking-widest px-2 mb-1.5 uppercase">
               {group.label}
             </p>
             <ul className="space-y-0.5">
@@ -79,8 +79,8 @@ export default function AdminSidebar() {
                       href={item.href}
                       className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                         active
-                          ? "bg-[#C4A84F] text-[#FFFDF0] font-medium"
-                          : "text-[#D9C97A] hover:bg-[#5C4A1E] hover:text-[#E8D48B]"
+                          ? "bg-[#1A56A0] text-[#FFFFFF] font-medium"
+                          : "text-[#A8C4E0] hover:bg-[#1A2E4A] hover:text-[#2E6DB4]"
                       }`}
                     >
                       {item.icon}
@@ -95,11 +95,11 @@ export default function AdminSidebar() {
       </nav>
 
       {/* 하단 버튼 */}
-      <div className="px-3 py-4 border-t border-[#5C4A1E] space-y-1">
+      <div className="px-3 py-4 border-t border-[#1A2E4A] space-y-1">
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#D9C97A] text-sm hover:bg-[#5C4A1E] hover:text-[#E8D48B] transition-colors"
+          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#2E6DB4] transition-colors"
         >
           <ExternalLink size={16} />
           사이트 보기
@@ -107,7 +107,7 @@ export default function AdminSidebar() {
         <form action={logout}>
           <button
             type="submit"
-            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#D9C97A] text-sm hover:bg-[#5C4A1E] hover:text-[#E8D48B] transition-colors text-left"
+            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#2E6DB4] transition-colors text-left"
           >
             <LogOut size={16} />
             로그아웃

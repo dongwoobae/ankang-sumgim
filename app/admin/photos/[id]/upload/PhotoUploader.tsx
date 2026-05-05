@@ -116,8 +116,8 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
         onClick={() => !uploading && inputRef.current?.click()}
         className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-colors ${
           uploading
-            ? "border-[#C4A84F] bg-[#FAF3D6] cursor-wait"
-            : "border-[#D9C97A] bg-[#FFFDF0] hover:border-[#C4A84F] hover:bg-[#FAF3D6]"
+            ? "border-[#1A56A0] bg-[#EEF4FB] cursor-wait"
+            : "border-[#A8C4E0] bg-[#FFFFFF] hover:border-[#1A56A0] hover:bg-[#EEF4FB]"
         }`}
       >
         <input
@@ -130,17 +130,17 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
         />
         {uploading ? (
           <div className="flex flex-col items-center gap-3">
-            <Loader2 size={36} className="text-[#C4A84F] animate-spin" />
-            <p className="text-[#5C4A1E] text-sm font-medium">업로드 중...</p>
+            <Loader2 size={36} className="text-[#1A56A0] animate-spin" />
+            <p className="text-[#1A2E4A] text-sm font-medium">업로드 중...</p>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-3">
-            <Upload size={36} className="text-[#C4A84F]" />
+            <Upload size={36} className="text-[#1A56A0]" />
             <div>
-              <p className="text-[#5C4A1E] font-medium text-sm">
+              <p className="text-[#1A2E4A] font-medium text-sm">
                 클릭하거나 사진을 여기에 드래그하세요
               </p>
-              <p className="text-[#8C8070] text-xs mt-1">
+              <p className="text-[#5A7A99] text-xs mt-1">
                 JPG, PNG, WEBP · 최대 10MB · 여러 장 동시 업로드 가능
               </p>
             </div>
@@ -157,12 +157,12 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       {/* 사진 그리드 */}
       {photos.length > 0 ? (
         <div>
-          <p className="text-[#8C8070] text-xs mb-3">등록된 사진 ({photos.length}장)</p>
+          <p className="text-[#5A7A99] text-xs mb-3">등록된 사진 ({photos.length}장)</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {photos.map((photo) => (
               <div key={photo.id} className="group flex flex-col gap-1.5">
                 {/* 이미지 */}
-                <div className="relative rounded-xl overflow-hidden aspect-square bg-[#FAF3D6]">
+                <div className="relative rounded-xl overflow-hidden aspect-square bg-[#EEF4FB]">
                   <Image
                     src={photo.url}
                     alt={photo.caption ?? ""}
@@ -190,11 +190,11 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
                       onKeyDown={(e) => e.key === "Enter" && saveCaption(photo.id)}
                       placeholder="캡션 입력"
                       autoFocus
-                      className="flex-1 min-w-0 text-xs px-2 py-1 border border-[#C4A84F] rounded-lg bg-[#FAF3D6] text-[#5C4A1E] focus:outline-none"
+                      className="flex-1 min-w-0 text-xs px-2 py-1 border border-[#1A56A0] rounded-lg bg-[#EEF4FB] text-[#1A2E4A] focus:outline-none"
                     />
                     <button
                       onClick={() => saveCaption(photo.id)}
-                      className="w-6 h-6 rounded-lg bg-[#C4A84F] text-white flex items-center justify-center flex-shrink-0"
+                      className="w-6 h-6 rounded-lg bg-[#1A56A0] text-white flex items-center justify-center flex-shrink-0"
                     >
                       <Check size={11} />
                     </button>
@@ -202,7 +202,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
                 ) : (
                   <button
                     onClick={() => startEdit(photo)}
-                    className="flex items-center gap-1 text-[10px] text-[#8C8070] hover:text-[#C4A84F] transition-colors text-left truncate"
+                    className="flex items-center gap-1 text-[10px] text-[#5A7A99] hover:text-[#1A56A0] transition-colors text-left truncate"
                   >
                     <Pencil size={9} className="flex-shrink-0" />
                     <span className="truncate">
@@ -217,8 +217,8 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       ) : (
         !uploading && (
           <div className="text-center py-8">
-            <ImageIcon size={32} className="text-[#D9C97A] mx-auto mb-2" />
-            <p className="text-[#8C8070] text-sm">업로드된 사진이 없습니다.</p>
+            <ImageIcon size={32} className="text-[#A8C4E0] mx-auto mb-2" />
+            <p className="text-[#5A7A99] text-sm">업로드된 사진이 없습니다.</p>
           </div>
         )
       )}

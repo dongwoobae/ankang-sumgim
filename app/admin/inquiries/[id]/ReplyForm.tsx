@@ -24,7 +24,7 @@ export function ReplyForm({ inquiryId }: { inquiryId: string }) {
         required
         rows={5}
         placeholder="답변 내용을 입력하세요"
-        className="w-full px-4 py-3 rounded-xl border border-[#D9C97A]/70 bg-[#FAF3D6] text-[#5C4A1E] placeholder-[#8C8070] text-sm focus:outline-none focus:border-[#C4A84F] transition-colors resize-none leading-relaxed"
+        className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] placeholder-[#5A7A99] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors resize-none leading-relaxed"
       />
       {state.error && (
         <p className="text-red-600 text-sm">{state.error}</p>
@@ -32,7 +32,7 @@ export function ReplyForm({ inquiryId }: { inquiryId: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="flex items-center gap-2 bg-[#C4A84F] text-[#FFFDF0] px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#5C4A1E] transition-colors disabled:opacity-60"
+        className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#1A2E4A] transition-colors disabled:opacity-60"
       >
         <Send size={14} />
         {pending ? "저장 중..." : "답변 등록"}

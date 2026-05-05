@@ -1,4 +1,4 @@
-import { adminSupabase } from "@/lib/supabase/admin";
+﻿import { adminSupabase } from "@/lib/supabase/admin";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 
@@ -19,27 +19,27 @@ export default async function PhotosPage() {
     <div>
       {/* 페이지 배너 */}
       <section
-        style={{ background: "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 100%)" }}
+        style={{ background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)" }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">BOARD</p>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">BOARD</p>
           <h1
-            className="text-[#5C4A1E] text-4xl font-bold"
+            className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             사진 게시판
           </h1>
-          <p className="text-[#8C8070] mt-3">안강 섬김의 따뜻한 활동 사진을 모았습니다</p>
+          <p className="text-[#5A7A99] mt-3">안강 섬김의 따뜻한 활동 사진을 모았습니다</p>
         </div>
       </section>
 
-      <section className="bg-[#FFFDF0] py-20">
+      <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
           {albums.length === 0 ? (
             <div className="text-center py-16">
-              <ImageIcon size={40} className="text-[#D9C97A] mx-auto mb-3" />
-              <p className="text-[#8C8070] text-sm">등록된 사진이 없습니다.</p>
+              <ImageIcon size={40} className="text-[#A8C4E0] mx-auto mb-3" />
+              <p className="text-[#5A7A99] text-sm">등록된 사진이 없습니다.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -50,10 +50,10 @@ export default async function PhotosPage() {
                 return (
                   <div
                     key={album.id}
-                    className="group bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-2xl overflow-hidden hover:border-[#C4A84F] hover:shadow-lg transition-all duration-300"
+                    className="group bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-2xl overflow-hidden hover:border-[#1A56A0] hover:shadow-lg transition-all duration-300"
                   >
                     {/* 썸네일 */}
-                    <div className="w-full aspect-[4/3] relative bg-[#E8D48B22] border-b border-[#D9C97A]/30">
+                    <div className="w-full aspect-[4/3] relative bg-[#2E6DB422] border-b border-[#A8C4E0]/30">
                       {thumb ? (
                         <Image
                           src={thumb}
@@ -66,21 +66,21 @@ export default async function PhotosPage() {
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <ImageIcon
                             size={32}
-                            className="text-[#C4A84F] mb-2"
+                            className="text-[#1A56A0] mb-2"
                           />
-                          <span className="text-[#8C8070] text-xs">사진 없음</span>
+                          <span className="text-[#5A7A99] text-xs">사진 없음</span>
                         </div>
                       )}
                     </div>
 
                     <div className="p-4">
                       <h3
-                        className="text-[#5C4A1E] font-bold text-sm mb-1 leading-snug group-hover:text-[#C4A84F] transition-colors line-clamp-2"
+                        className="text-[#1A2E4A] font-bold text-sm mb-1 leading-snug group-hover:text-[#1A56A0] transition-colors line-clamp-2"
                         style={{ fontFamily: "'Noto Serif KR', serif" }}
                       >
                         {album.title}
                       </h3>
-                      <p className="text-[#8C8070] text-xs">
+                      <p className="text-[#5A7A99] text-xs">
                         사진 {photos.length}장 ·{" "}
                         {new Date(album.created_at).toLocaleDateString("ko-KR")}
                       </p>

@@ -31,18 +31,18 @@ export default async function UploadPage({
       <div className="flex items-center gap-3 mb-2">
         <Link
           href="/admin/photos"
-          className="text-[#8C8070] hover:text-[#C4A84F] transition-colors"
+          className="text-[#5A7A99] hover:text-[#1A56A0] transition-colors"
         >
           <ArrowLeft size={20} />
         </Link>
         <h1
-          className="text-[#5C4A1E] text-2xl font-bold"
+          className="text-[#1A2E4A] text-2xl font-bold"
           style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           {category.name}
         </h1>
       </div>
-      <p className="text-[#8C8070] text-sm mb-8 pl-9">사진 {photos.length}장 등록됨</p>
+      <p className="text-[#5A7A99] text-sm mb-8 pl-9">사진 {photos.length}장 등록됨</p>
 
       <PhotoUploader categoryId={id} initialPhotos={photos} />
     </div>

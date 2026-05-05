@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight, Phone, FileText, CheckCircle } from "lucide-react";
 
 const steps = [
@@ -46,28 +46,28 @@ export default function GradeApplyPage() {
     <div>
       {/* 페이지 배너 */}
       <section
-        style={{ background: "linear-gradient(135deg, #FAF3D6 0%, #F0E4A8 100%)" }}
+        style={{ background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)" }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">SERVICES</p>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">SERVICES</p>
           <h1
-            className="text-[#5C4A1E] text-4xl font-bold"
+            className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             등급신청 안내
           </h1>
-          <p className="text-[#8C8070] mt-3">장기요양 등급 신청부터 서비스 이용까지 안내해 드립니다</p>
+          <p className="text-[#5A7A99] mt-3">장기요양 등급 신청부터 서비스 이용까지 안내해 드립니다</p>
         </div>
       </section>
 
       {/* 신청 절차 */}
-      <section className="bg-[#FFFDF0] py-20">
+      <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-12">
-            <p className="text-[#C4A84F] text-sm font-semibold tracking-widest mb-2">PROCESS</p>
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">PROCESS</p>
             <h2
-              className="text-[#5C4A1E] text-2xl font-bold"
+              className="text-[#1A2E4A] text-2xl font-bold"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               등급신청 절차
@@ -78,11 +78,11 @@ export default function GradeApplyPage() {
             {steps.map((s, i) => (
               <div
                 key={i}
-                className="flex gap-6 bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-xl p-6"
+                className="flex gap-6 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-6"
               >
                 <div className="flex-shrink-0">
                   <span
-                    className="text-[#C4A84F] text-3xl font-bold"
+                    className="text-[#1A56A0] text-3xl font-bold"
                     style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     {s.step}
@@ -90,13 +90,13 @@ export default function GradeApplyPage() {
                 </div>
                 <div>
                   <h3
-                    className="text-[#5C4A1E] font-bold mb-1"
+                    className="text-[#1A2E4A] font-bold mb-1"
                     style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     {s.title}
                   </h3>
-                  <p className="text-[#5C4A1E] text-sm leading-relaxed mb-1">{s.desc}</p>
-                  <p className="text-[#C4A84F] text-xs font-medium">{s.sub}</p>
+                  <p className="text-[#1A2E4A] text-sm leading-relaxed mb-1">{s.desc}</p>
+                  <p className="text-[#1A56A0] text-xs font-medium">{s.sub}</p>
                 </div>
               </div>
             ))}
@@ -104,11 +104,11 @@ export default function GradeApplyPage() {
 
           {/* 필요 서류 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div className="bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-xl p-7">
+            <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-7">
               <div className="flex items-center gap-2 mb-5">
-                <FileText size={18} className="text-[#C4A84F]" />
+                <FileText size={18} className="text-[#1A56A0]" />
                 <h3
-                  className="text-[#5C4A1E] font-bold"
+                  className="text-[#1A2E4A] font-bold"
                   style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   필요 서류
@@ -116,17 +116,17 @@ export default function GradeApplyPage() {
               </div>
               <ul className="space-y-2.5">
                 {documents.map((doc, i) => (
-                  <li key={i} className="flex items-start gap-2 text-[#5C4A1E] text-sm">
-                    <CheckCircle size={13} className="text-[#C4A84F] flex-shrink-0 mt-0.5" />
+                  <li key={i} className="flex items-start gap-2 text-[#1A2E4A] text-sm">
+                    <CheckCircle size={13} className="text-[#1A56A0] flex-shrink-0 mt-0.5" />
                     {doc}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="bg-[#FAF3D6] border border-[#D9C97A]/50 rounded-xl p-7">
+            <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-7">
               <h3
-                className="text-[#5C4A1E] font-bold mb-5"
+                className="text-[#1A2E4A] font-bold mb-5"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 신청 방법
@@ -139,12 +139,12 @@ export default function GradeApplyPage() {
                   { method: "팩스 신청", desc: "관할 공단 지사 팩스 전송" },
                 ].map((m, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <span className="w-5 h-5 rounded-full bg-[#C4A84F] text-[#FFFDF0] text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="w-5 h-5 rounded-full bg-[#1A56A0] text-[#FFFFFF] text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                       {i + 1}
                     </span>
                     <div>
-                      <p className="text-[#5C4A1E] font-bold text-sm">{m.method}</p>
-                      <p className="text-[#8C8070] text-xs">{m.desc}</p>
+                      <p className="text-[#1A2E4A] font-bold text-sm">{m.method}</p>
+                      <p className="text-[#5A7A99] text-xs">{m.desc}</p>
                     </div>
                   </li>
                 ))}
@@ -155,27 +155,27 @@ export default function GradeApplyPage() {
       </section>
 
       {/* 안내 배너 */}
-      <section className="bg-[#C4A84F] py-14">
+      <section className="bg-[#1A56A0] py-14">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2
-            className="text-[#FFFDF0] text-2xl font-bold mb-3"
+            className="text-[#FFFFFF] text-2xl font-bold mb-3"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             등급 신청이 어려우신가요?
           </h2>
-          <p className="text-[#FFFDF0]/80 text-sm mb-7">
+          <p className="text-[#FFFFFF]/80 text-sm mb-7">
             안강 섬김 노인복지센터에서 등급 신청 상담 및 서류 작성을 도와드립니다.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
               href="/inquiry"
-              className="flex items-center gap-2 bg-[#FFFDF0] text-[#C4A84F] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#5C4A1E] hover:text-[#FFFDF0] transition-colors duration-300"
+              className="flex items-center gap-2 bg-[#FFFFFF] text-[#1A56A0] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#1A2E4A] hover:text-[#FFFFFF] transition-colors duration-300"
             >
               온라인 상담 신청 <ArrowRight size={16} />
             </Link>
             <a
               href="tel:054-763-5988"
-              className="flex items-center gap-2 border-2 border-[#FFFDF0] text-[#FFFDF0] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#FFFDF0] hover:text-[#C4A84F] transition-colors duration-300"
+              className="flex items-center gap-2 border-2 border-[#FFFFFF] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#FFFFFF] hover:text-[#1A56A0] transition-colors duration-300"
             >
               <Phone size={16} />
               054-763-5988

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { PlusCircle, Images, Upload } from "lucide-react";
 import { DeleteCategoryButton } from "./DeleteCategoryButton";
@@ -20,16 +20,16 @@ export default async function AdminPhotosPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1
-            className="text-[#5C4A1E] text-2xl font-bold"
+            className="text-[#1A2E4A] text-2xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             사진 게시판 관리
           </h1>
-          <p className="text-[#8C8070] text-sm mt-1">총 {categories.length}개 카테고리</p>
+          <p className="text-[#5A7A99] text-sm mt-1">총 {categories.length}개 카테고리</p>
         </div>
         <Link
           href="/admin/photos/new"
-          className="flex items-center gap-2 bg-[#C4A84F] text-[#FFFDF0] px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-[#5C4A1E] transition-colors"
+          className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-[#1A2E4A] transition-colors"
         >
           <PlusCircle size={16} />
           새 카테고리 만들기
@@ -37,12 +37,12 @@ export default async function AdminPhotosPage() {
       </div>
 
       {categories.length === 0 ? (
-        <div className="bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-xl p-12 text-center">
-          <Images size={40} className="text-[#D9C97A] mx-auto mb-3" />
-          <p className="text-[#8C8070] text-sm">등록된 카테고리가 없습니다.</p>
+        <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-12 text-center">
+          <Images size={40} className="text-[#A8C4E0] mx-auto mb-3" />
+          <p className="text-[#5A7A99] text-sm">등록된 카테고리가 없습니다.</p>
           <Link
             href="/admin/photos/new"
-            className="inline-flex items-center gap-2 mt-4 text-[#C4A84F] text-sm font-medium hover:underline"
+            className="inline-flex items-center gap-2 mt-4 text-[#1A56A0] text-sm font-medium hover:underline"
           >
             <PlusCircle size={14} /> 첫 카테고리 만들기
           </Link>
@@ -54,29 +54,29 @@ export default async function AdminPhotosPage() {
             return (
               <div
                 key={cat.id}
-                className="bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-xl p-5 hover:border-[#C4A84F] transition-colors"
+                className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-5 hover:border-[#1A56A0] transition-colors"
               >
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex items-center gap-2 min-w-0">
-                    <Images size={16} className="text-[#C4A84F] flex-shrink-0" />
+                    <Images size={16} className="text-[#1A56A0] flex-shrink-0" />
                     <p
-                      className="text-[#5C4A1E] font-bold text-sm truncate"
+                      className="text-[#1A2E4A] font-bold text-sm truncate"
                       style={{ fontFamily: "'Noto Serif KR', serif" }}
                     >
                       {cat.name}
                     </p>
                   </div>
-                  <span className="text-[#8C8070] text-xs flex-shrink-0">
+                  <span className="text-[#5A7A99] text-xs flex-shrink-0">
                     {new Date(cat.created_at).toLocaleDateString("ko-KR")}
                   </span>
                 </div>
 
-                <p className="text-[#8C8070] text-xs mb-4">사진 {photoCount}장</p>
+                <p className="text-[#5A7A99] text-xs mb-4">사진 {photoCount}장</p>
 
                 <div className="flex gap-2">
                   <Link
                     href={`/admin/photos/${cat.id}/upload`}
-                    className="flex-1 flex items-center justify-center gap-1.5 text-xs bg-[#FAF3D6] border border-[#D9C97A]/60 text-[#5C4A1E] py-2 rounded-lg hover:border-[#C4A84F] hover:text-[#C4A84F] transition-colors font-medium"
+                    className="flex-1 flex items-center justify-center gap-1.5 text-xs bg-[#EEF4FB] border border-[#A8C4E0]/60 text-[#1A2E4A] py-2 rounded-lg hover:border-[#1A56A0] hover:text-[#1A56A0] transition-colors font-medium"
                   >
                     <Upload size={12} /> 사진 관리
                   </Link>

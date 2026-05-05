@@ -37,12 +37,12 @@ export default async function InquiryDetailPage({
       <div className="flex items-center gap-3 mb-8">
         <Link
           href="/admin/inquiries"
-          className="text-[#8C8070] hover:text-[#C4A84F] transition-colors"
+          className="text-[#5A7A99] hover:text-[#1A56A0] transition-colors"
         >
           <ArrowLeft size={20} />
         </Link>
         <h1
-          className="text-[#5C4A1E] text-2xl font-bold"
+          className="text-[#1A2E4A] text-2xl font-bold"
           style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           문의 상세
@@ -50,7 +50,7 @@ export default async function InquiryDetailPage({
       </div>
 
       {/* 문의 내용 */}
-      <div className="bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-xl p-6 mb-6">
+      <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             {inquiry.is_answered ? (
@@ -58,7 +58,7 @@ export default async function InquiryDetailPage({
                 <CheckCircle size={12} /> 답변완료
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#C4A84F] bg-[#FAF3D6] border border-[#D9C97A] px-2.5 py-1 rounded-full">
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#1A56A0] bg-[#EEF4FB] border border-[#A8C4E0] px-2.5 py-1 rounded-full">
                 <Clock size={12} /> 미답변
               </span>
             )}
@@ -67,7 +67,7 @@ export default async function InquiryDetailPage({
         </div>
 
         <h2
-          className="text-[#5C4A1E] text-lg font-bold mb-4"
+          className="text-[#1A2E4A] text-lg font-bold mb-4"
           style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           {inquiry.title}
@@ -84,14 +84,14 @@ export default async function InquiryDetailPage({
             },
           ].map((item) => (
             <div key={item.label}>
-              <p className="text-[#8C8070] text-xs mb-0.5">{item.label}</p>
-              <p className="text-[#5C4A1E] text-sm font-medium">{item.value}</p>
+              <p className="text-[#5A7A99] text-xs mb-0.5">{item.label}</p>
+              <p className="text-[#1A2E4A] text-sm font-medium">{item.value}</p>
             </div>
           ))}
         </div>
 
-        <div className="bg-[#FAF3D6] rounded-xl p-4">
-          <p className="text-[#5C4A1E] text-sm leading-[1.8] whitespace-pre-wrap">
+        <div className="bg-[#EEF4FB] rounded-xl p-4">
+          <p className="text-[#1A2E4A] text-sm leading-[1.8] whitespace-pre-wrap">
             {inquiry.content}
           </p>
         </div>
@@ -100,18 +100,18 @@ export default async function InquiryDetailPage({
       {/* 답변 목록 */}
       {replies.length > 0 && (
         <div className="space-y-3 mb-6">
-          <p className="text-[#8C8070] text-xs font-semibold tracking-wider">
+          <p className="text-[#5A7A99] text-xs font-semibold tracking-wider">
             답변 {replies.length}건
           </p>
           {replies.map((reply) => (
             <div
               key={reply.id}
-              className="bg-[#E8D48B]/20 border border-[#D9C97A]/60 rounded-xl p-5"
+              className="bg-[#2E6DB4]/20 border border-[#A8C4E0]/60 rounded-xl p-5"
             >
               <div className="flex items-start justify-between gap-3 mb-3">
-                <span className="text-[#C4A84F] text-xs font-bold">관리자 답변</span>
+                <span className="text-[#1A56A0] text-xs font-bold">관리자 답변</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-[#8C8070] text-xs">
+                  <span className="text-[#5A7A99] text-xs">
                     {new Date(reply.created_at).toLocaleString("ko-KR")}
                   </span>
                   <DeleteReplyButton
@@ -120,7 +120,7 @@ export default async function InquiryDetailPage({
                   />
                 </div>
               </div>
-              <p className="text-[#5C4A1E] text-sm leading-[1.8] whitespace-pre-wrap">
+              <p className="text-[#1A2E4A] text-sm leading-[1.8] whitespace-pre-wrap">
                 {reply.content}
               </p>
             </div>
@@ -129,9 +129,9 @@ export default async function InquiryDetailPage({
       )}
 
       {/* 답변 작성 폼 */}
-      <div className="bg-[#FFFDF0] border border-[#D9C97A]/50 rounded-xl p-6">
+      <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
         <p
-          className="text-[#5C4A1E] font-bold text-sm mb-4"
+          className="text-[#1A2E4A] font-bold text-sm mb-4"
           style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           답변 작성
