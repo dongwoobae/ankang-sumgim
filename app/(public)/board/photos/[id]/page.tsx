@@ -1,5 +1,5 @@
 // app/(public)/board/photos/[id]/page.tsx
-// 변경점: 사진 그리드를 PhotoGallery 클라이언트 컴포넌트로 교체
+// 변경점: photos 쿼리에 original_url, is_face_blurred 추가
 
 import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
@@ -10,7 +10,9 @@ import PhotoGallery from "@/components/PhotoGallery";
 async function getAlbum(id: string) {
   const { data } = await adminSupabase
     .from("photo_categories")
-    .select("id, name, created_at, photos(id, url, caption, created_at)")
+    .select(
+      "id, name, created_at, photos(id, url, original_url, is_face_blurred, caption, created_at)",
+    )
     .eq("id", id)
     .single();
   return data;
@@ -31,6 +33,8 @@ export default async function PhotoDetailPage({
     (album.photos as {
       id: number;
       url: string;
+      original_url: string | null;
+      is_face_blurred: boolean;
       caption: string | null;
       created_at: string;
     }[]) ?? [];
@@ -54,10 +58,7 @@ export default async function PhotoDetailPage({
           >
             {album.name}
           </h1>
-          <p className="text-[#5A7A99] mt-3">
-            사진 {photos.length}장{" "}
-            {/* {new Date(album.created_at).toLocaleDateString("ko-KR")} */}
-          </p>
+          <p className="text-[#5A7A99] mt-3">사진 {photos.length}장</p>
         </div>
       </section>
 

@@ -1,22 +1,36 @@
 // app/admin/photos/[id]/upload/PhotoUploader.tsx
-// 변경점: supabase.storage 직접 호출 → uploadPhoto 서버 액션 호출
-// (압축 + R2 업로드가 서버 액션 내에서 처리됨)
+// 변경점:
+// - face-api.js로 업로드 전 얼굴 감지 → 좌표를 uploadPhoto에 전달
+// - 얼굴 감지된 사진에 블러 배지 + 토글 버튼 표시
+// - deletePhoto에 originalUrl 전달
 
 "use client";
 
-import { useState, useRef, useTransition } from "react";
-import { uploadPhoto } from "@/app/actions/admin/uploadPhoto";
+import { useState, useRef, useTransition, useEffect } from "react";
+import { uploadPhoto, type FaceRegion } from "@/app/actions/admin/uploadPhoto";
 import {
   savePhotoMetadata,
   deletePhoto,
   updatePhotoCaption,
+  toggleFaceBlur,
 } from "@/app/actions/admin/photos";
-import { Upload, X, ImageIcon, Loader2, Check, Pencil } from "lucide-react";
+import {
+  Upload,
+  X,
+  Loader2,
+  Check,
+  Pencil,
+  Eye,
+  EyeOff,
+  ScanFace,
+} from "lucide-react";
 import Image from "next/image";
 
 type Photo = {
   id: number;
   url: string;
+  original_url: string | null;
+  is_face_blurred: boolean;
   caption: string | null;
   created_at: string;
 };
@@ -26,15 +40,67 @@ type Props = {
   initialPhotos: Photo[];
 };
 
+// face-api 모델 로드 여부 (싱글턴)
+let faceApiModelsLoaded = false;
+
+async function loadFaceApiModels() {
+  if (faceApiModelsLoaded) return;
+  const faceapi = await import("face-api.js");
+  await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+  faceApiModelsLoaded = true;
+}
+
+/** 이미지 파일에서 얼굴 좌표 감지 (자연 해상도 기준) */
+async function detectFaces(file: File): Promise<FaceRegion[]> {
+  try {
+    await loadFaceApiModels();
+    const faceapi = await import("face-api.js");
+
+    const objectUrl = URL.createObjectURL(file);
+    const img = document.createElement("img");
+    img.src = objectUrl;
+    await new Promise<void>((resolve) => {
+      img.onload = () => resolve();
+    });
+
+    const detections = await faceapi.detectAllFaces(
+      img,
+      new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.45 }),
+    );
+
+    // 화면 표시 크기 → 자연 해상도 기준으로 스케일
+    const scaleX = img.naturalWidth / (img.width || img.naturalWidth);
+    const scaleY = img.naturalHeight / (img.height || img.naturalHeight);
+
+    URL.revokeObjectURL(objectUrl);
+
+    return detections.map((d) => ({
+      x: Math.round(d.box.x * scaleX),
+      y: Math.round(d.box.y * scaleY),
+      width: Math.round(d.box.width * scaleX),
+      height: Math.round(d.box.height * scaleY),
+    }));
+  } catch (e) {
+    console.error("[detectFaces] 오류:", e);
+    return [];
+  }
+}
+
 export function PhotoUploader({ categoryId, initialPhotos }: Props) {
   const [photos, setPhotos] = useState<Photo[]>(initialPhotos);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
+  const [progressLabel, setProgressLabel] = useState("");
   const [error, setError] = useState("");
   const [deletePending, startDeleteTransition] = useTransition();
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editCaption, setEditCaption] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // 컴포넌트 마운트 시 모델 미리 로드
+  useEffect(() => {
+    loadFaceApiModels().catch(console.error);
+  }, []);
 
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
@@ -52,13 +118,19 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       const file = fileArray[i];
       setProgress({ current: i + 1, total: fileArray.length });
 
-      // ── 서버 액션으로 압축 + R2 업로드 ──
+      // ── 1. 얼굴 감지 ──
+      setProgressLabel("얼굴 감지 중...");
+      const faceRegions = await detectFaces(file);
+
+      // ── 2. 업로드 (blur 포함) ──
+      setProgressLabel("압축 및 업로드 중...");
       const formData = new FormData();
       formData.append("file", file);
 
       const result = await uploadPhoto(
         formData,
         `photos/categories/${categoryId}`,
+        faceRegions,
       );
 
       if (result.error || !result.url) {
@@ -66,8 +138,12 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
         continue;
       }
 
-      // ── DB에 URL 저장 ──
-      const meta = await savePhotoMetadata(categoryId, result.url);
+      // ── 3. DB 저장 ──
+      const meta = await savePhotoMetadata(
+        categoryId,
+        result.url,
+        result.originalUrl ?? null,
+      );
       if (meta?.error) {
         setError(meta.error);
         continue;
@@ -76,6 +152,8 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       uploaded.push({
         id: meta.id ?? Date.now(),
         url: result.url,
+        original_url: result.originalUrl ?? null,
+        is_face_blurred: result.originalUrl !== null,
         caption: null,
         created_at: new Date().toISOString(),
       });
@@ -83,6 +161,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
 
     setPhotos((prev) => [...uploaded, ...prev]);
     setUploading(false);
+    setProgressLabel("");
     setProgress({ current: 0, total: 0 });
     if (inputRef.current) inputRef.current.value = "";
   }
@@ -90,9 +169,29 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
   function handleDelete(photo: Photo) {
     if (!confirm("이 사진을 삭제하시겠습니까?")) return;
     startDeleteTransition(async () => {
-      await deletePhoto(String(photo.id), photo.url);
+      await deletePhoto(String(photo.id), photo.url, photo.original_url);
       setPhotos((prev) => prev.filter((p) => p.id !== photo.id));
     });
+  }
+
+  async function handleToggleBlur(photo: Photo) {
+    const next = !photo.is_face_blurred;
+    // 낙관적 업데이트
+    setPhotos((prev) =>
+      prev.map((p) =>
+        p.id === photo.id ? { ...p, is_face_blurred: next } : p,
+      ),
+    );
+    const { error } = await toggleFaceBlur(String(photo.id), next);
+    if (error) {
+      // 실패 시 롤백
+      setPhotos((prev) =>
+        prev.map((p) =>
+          p.id === photo.id ? { ...p, is_face_blurred: !next } : p,
+        ),
+      );
+      setError(error);
+    }
   }
 
   function startEdit(photo: Photo) {
@@ -140,10 +239,11 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
           <div className="flex flex-col items-center gap-3">
             <Loader2 size={36} className="text-[#1A56A0] animate-spin" />
             <p className="text-[#1A2E4A] text-sm font-medium">
-              압축 및 업로드 중... ({progress.current}/{progress.total})
+              {progressLabel || "처리 중..."} ({progress.current}/
+              {progress.total})
             </p>
             <p className="text-[#5A7A99] text-xs">
-              이미지를 최적화하고 있습니다. 잠시 기다려 주세요.
+              얼굴 감지 및 이미지 최적화 중입니다. 잠시 기다려 주세요.
             </p>
           </div>
         ) : (
@@ -154,7 +254,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
                 클릭하거나 사진을 여기에 드래그하세요
               </p>
               <p className="text-[#5A7A99] text-xs mt-1">
-                JPG, PNG, WEBP · 여러 장 동시 업로드 가능 · 자동 WebP 압축 적용
+                JPG, PNG, WEBP · 여러 장 동시 업로드 가능 · 얼굴 자동 블러 처리
               </p>
             </div>
           </div>
@@ -179,12 +279,31 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
                 {/* 이미지 */}
                 <div className="relative rounded-xl overflow-hidden aspect-square bg-[#EEF4FB]">
                   <Image
-                    src={photo.url}
+                    src={
+                      photo.is_face_blurred
+                        ? photo.url
+                        : (photo.original_url ?? photo.url)
+                    }
                     alt={photo.caption ?? ""}
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                   />
+
+                  {/* 얼굴 블러 배지 */}
+                  {photo.original_url && (
+                    <span
+                      className={`absolute top-2 left-2 flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        photo.is_face_blurred
+                          ? "bg-[#1A56A0] text-white"
+                          : "bg-[#E8A020] text-[#1A2E4A]"
+                      }`}
+                    >
+                      <ScanFace size={10} />
+                      {photo.is_face_blurred ? "블러" : "해제"}
+                    </span>
+                  )}
+
                   {/* 삭제 버튼 */}
                   <button
                     onClick={() => handleDelete(photo)}
@@ -195,39 +314,57 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
                   </button>
                 </div>
 
+                {/* 블러 토글 버튼 (얼굴 감지된 경우만 표시) */}
+                {photo.original_url && (
+                  <button
+                    onClick={() => handleToggleBlur(photo)}
+                    className={`w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                      photo.is_face_blurred
+                        ? "bg-[#EEF4FB] text-[#1A56A0] hover:bg-[#1A56A0] hover:text-white"
+                        : "bg-[#E8A020]/20 text-[#1A2E4A] hover:bg-[#E8A020]/40"
+                    }`}
+                  >
+                    {photo.is_face_blurred ? (
+                      <>
+                        <Eye size={12} /> 블러 해제
+                      </>
+                    ) : (
+                      <>
+                        <EyeOff size={12} /> 블러 적용
+                      </>
+                    )}
+                  </button>
+                )}
+
                 {/* 캡션 */}
                 {editingId === photo.id ? (
                   <div className="flex gap-1">
                     <input
                       value={editCaption}
                       onChange={(e) => setEditCaption(e.target.value)}
-                      className="flex-1 text-xs px-2 py-1 rounded-lg border border-[#A8C4E0] bg-[#EEF4FB] text-[#1A2E4A] focus:outline-none focus:border-[#1A56A0]"
-                      placeholder="캡션 입력"
                       onKeyDown={(e) => {
                         if (e.key === "Enter") saveCaption(photo.id);
                         if (e.key === "Escape") setEditingId(null);
                       }}
+                      className="flex-1 text-xs px-2 py-1 border border-[#1A56A0] rounded-lg outline-none text-[#1A2E4A] bg-[#EEF4FB]"
                       autoFocus
                     />
                     <button
                       onClick={() => saveCaption(photo.id)}
-                      className="w-6 h-6 rounded-lg bg-[#1A56A0] flex items-center justify-center flex-shrink-0"
+                      className="w-6 h-6 flex items-center justify-center bg-[#1A56A0] rounded-lg flex-shrink-0"
                     >
-                      <Check size={12} color="#fff" />
+                      <Check size={11} color="#fff" />
                     </button>
                   </div>
                 ) : (
                   <button
                     onClick={() => startEdit(photo)}
-                    className="flex items-center gap-1 text-left group/caption"
+                    className="flex items-center gap-1 text-[#5A7A99] text-xs hover:text-[#1A56A0] transition-colors text-left truncate"
                   >
-                    <span className="text-[#5A7A99] text-xs truncate group-hover/caption:text-[#1A56A0] transition-colors">
-                      {photo.caption || "캡션 추가..."}
+                    <Pencil size={10} className="flex-shrink-0" />
+                    <span className="truncate">
+                      {photo.caption ?? "캡션 추가"}
                     </span>
-                    <Pencil
-                      size={10}
-                      className="text-[#A8C4E0] group-hover/caption:text-[#1A56A0] flex-shrink-0 transition-colors"
-                    />
                   </button>
                 )}
               </div>

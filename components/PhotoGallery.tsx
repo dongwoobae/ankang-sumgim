@@ -1,3 +1,7 @@
+// components/PhotoGallery.tsx
+// 변경점: Photo 타입에 original_url, is_face_blurred 추가
+//         is_face_blurred = false이면 original_url로 표시
+
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -7,6 +11,8 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 type Photo = {
   id: number;
   url: string;
+  original_url: string | null;
+  is_face_blurred: boolean;
   caption: string | null;
   created_at: string;
 };
@@ -15,6 +21,14 @@ type Props = {
   photos: Photo[];
   albumName: string;
 };
+
+/** 공개 표시용 URL: 블러 해제된 경우 원본, 아닌 경우 블러 버전 */
+function displayUrl(photo: Photo): string {
+  if (!photo.is_face_blurred && photo.original_url) {
+    return photo.original_url;
+  }
+  return photo.url;
+}
 
 export default function PhotoGallery({ photos, albumName }: Props) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -34,7 +48,6 @@ export default function PhotoGallery({ photos, albumName }: Props) {
 
   const close = useCallback(() => setLightboxIndex(null), []);
 
-  // 키보드 단축키
   useEffect(() => {
     if (!isOpen) return;
     function onKey(e: KeyboardEvent) {
@@ -46,7 +59,6 @@ export default function PhotoGallery({ photos, albumName }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, close, prev, next]);
 
-  // 모달 열릴 때 스크롤 잠금
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
@@ -66,14 +78,12 @@ export default function PhotoGallery({ photos, albumName }: Props) {
           >
             <div className="w-full aspect-[4/3] relative bg-[#EEF4FB]">
               <Image
-                src={photo.url}
+                src={displayUrl(photo)}
                 alt={photo.caption ?? albumName}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
-
-              {/* hover 시 하단에서 올라오는 오버레이 */}
               <div
                 className="absolute bottom-0 left-0 right-0 px-4 py-3
                       translate-y-full group-hover:translate-y-0
@@ -99,7 +109,6 @@ export default function PhotoGallery({ photos, albumName }: Props) {
           style={{ background: "rgba(10,20,40,0.92)" }}
           onClick={close}
         >
-          {/* 닫기 */}
           <button
             onClick={close}
             className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
@@ -108,12 +117,10 @@ export default function PhotoGallery({ photos, albumName }: Props) {
             <X size={20} color="#fff" />
           </button>
 
-          {/* 사진 카운터 */}
           <p className="absolute top-5 left-1/2 -translate-x-1/2 text-white/60 text-sm">
             {lightboxIndex! + 1} / {photos.length}
           </p>
 
-          {/* 이전 */}
           {photos.length > 1 && (
             <button
               onClick={(e) => {
@@ -127,23 +134,26 @@ export default function PhotoGallery({ photos, albumName }: Props) {
             </button>
           )}
 
-          {/* 이미지 */}
           <div
             className="relative max-w-[90vw] max-h-[85vh] w-full h-full flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
-              key={current.url}
-              src={current.url}
+              key={displayUrl(current)}
+              src={displayUrl(current)}
               alt={current.caption ?? albumName}
               fill
               className="object-contain"
               sizes="90vw"
               priority
             />
+            {current.caption && (
+              <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm bg-black/40 px-4 py-2 rounded-full">
+                {current.caption}
+              </p>
+            )}
           </div>
 
-          {/* 다음 */}
           {photos.length > 1 && (
             <button
               onClick={(e) => {
