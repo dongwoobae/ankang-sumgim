@@ -2,6 +2,7 @@
 
 import { adminSupabase } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
+import { deleteFromR2, extractR2Key } from "@/lib/r2";
 
 export async function saveAward(payload: {
   title: string;
@@ -26,14 +27,13 @@ export async function saveAward(payload: {
 
 export async function deleteAward(id: number, imageUrl: string | null) {
   if (imageUrl) {
-    const marker = "/storage/v1/object/public/awards/";
-    const idx = imageUrl.indexOf(marker);
-    if (idx !== -1) {
-      const path = imageUrl.slice(idx + marker.length);
-      await adminSupabase.storage.from("awards").remove([path]);
+    const key = extractR2Key(imageUrl);
+    if (key) {
+      await deleteFromR2(key).catch((e) =>
+        console.error("[deleteAward] R2 삭제 오류:", e),
+      );
     }
   }
-
   await adminSupabase.from("awards").delete().eq("id", id);
   revalidatePath("/about/awards");
   revalidatePath("/admin/awards");

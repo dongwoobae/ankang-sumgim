@@ -1,11 +1,16 @@
+// app/actions/admin/hero.ts
+// 변경점: supabase.storage → R2 (삭제 부분)
+// 업로드는 hero/page.tsx에서 uploadPhoto 서버 액션으로 호출
+
 "use server";
 
 import { adminSupabase } from "@/lib/supabase/admin";
+import { deleteFromR2, extractR2Key } from "@/lib/r2";
 import { revalidatePath } from "next/cache";
 
 export async function saveHeroPhoto(
   url: string,
-  display_order: number,
+  display_order: number
 ): Promise<{ error: string; id?: string }> {
   const { data, error } = await adminSupabase
     .from("hero_photos")
@@ -13,7 +18,8 @@ export async function saveHeroPhoto(
     .select("id")
     .single();
 
-  if (error) return { error: "저장 중 오류가 발생했습니다: " + error.message };
+  if (error)
+    return { error: "저장 중 오류가 발생했습니다: " + error.message };
 
   revalidatePath("/");
   revalidatePath("/admin/hero");
@@ -21,13 +27,12 @@ export async function saveHeroPhoto(
 }
 
 export async function deleteHeroPhoto(id: string, url: string) {
-  const marker = "/storage/v1/object/public/hero/";
-  const idx = url.indexOf(marker);
-  if (idx !== -1) {
-    const path = url.slice(idx + marker.length);
-    await adminSupabase.storage.from("hero").remove([path]);
+  const key = extractR2Key(url);
+  if (key) {
+    await deleteFromR2(key).catch((e) =>
+      console.error("[deleteHeroPhoto] R2 삭제 오류:", e)
+    );
   }
-
   await adminSupabase.from("hero_photos").delete().eq("id", id);
   revalidatePath("/");
   revalidatePath("/admin/hero");

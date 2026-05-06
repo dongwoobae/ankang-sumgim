@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { saveAward, deleteAward, getAwards } from "@/app/actions/admin/awards";
 import { Trash2, ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { uploadPhoto } from "@/app/actions/admin/uploadPhoto";
 
 interface Award {
   id: number;
@@ -46,27 +47,20 @@ export default function AdminAwardsPage() {
 
     setUploading(true);
     setError("");
-    const supabase = createClient();
 
     let image_url: string | null = null;
 
     const file = fileRef.current?.files?.[0];
     if (file) {
-      const ext = file.name.split(".").pop();
-      const fileName = `awards_${Date.now()}.${ext}`;
-      const { error: uploadError } = await supabase.storage
-        .from("awards")
-        .upload(fileName, file, { upsert: false });
-
-      if (uploadError) {
-        setError("이미지 업로드 실패: " + uploadError.message);
+      const formData = new FormData();
+      formData.append("file", file);
+      const result = await uploadPhoto(formData, "awards");
+      if (result.error || !result.url) {
+        setError(result.error ?? "이미지 업로드 실패");
         setUploading(false);
         return;
       }
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("awards").getPublicUrl(fileName);
-      image_url = publicUrl;
+      image_url = result.url;
     }
 
     const nextOrder =

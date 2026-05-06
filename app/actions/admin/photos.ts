@@ -1,18 +1,16 @@
+// app/actions/admin/photos.ts
+// 변경점: extractStoragePath + supabase.storage.remove → extractR2Key + deleteFromR2
+
 "use server";
 
 import { adminSupabase } from "@/lib/supabase/admin";
+import { deleteFromR2, extractR2Key } from "@/lib/r2";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export type CategoryFormState = { error: string };
 
-function extractStoragePath(url: string): string | null {
-  const marker = "/storage/v1/object/public/photos/";
-  const idx = url.indexOf(marker);
-  if (idx === -1) return null;
-  return url.slice(idx + marker.length);
-}
-
+// ── 카테고리 생성 ─────────────────────────────────────────────
 export async function createCategory(
   _prev: CategoryFormState,
   formData: FormData
@@ -26,13 +24,15 @@ export async function createCategory(
     .select("id")
     .single();
 
-  if (error || !category) return { error: "카테고리 생성 중 오류가 발생했습니다." };
+  if (error || !category)
+    return { error: "카테고리 생성 중 오류가 발생했습니다." };
 
   revalidatePath("/board/photos");
   revalidatePath("/admin/photos");
   redirect(`/admin/photos/${category.id}/upload`);
 }
 
+// ── 카테고리 삭제 (하위 사진 R2에서도 삭제) ──────────────────
 export async function deleteCategory(id: string) {
   const { data: photos } = await adminSupabase
     .from("photos")
@@ -40,12 +40,12 @@ export async function deleteCategory(id: string) {
     .eq("category_id", id);
 
   if (photos && photos.length > 0) {
-    const paths = photos
-      .map((p) => extractStoragePath(p.url))
-      .filter(Boolean) as string[];
-    if (paths.length > 0) {
-      await adminSupabase.storage.from("photos").remove(paths);
-    }
+    await Promise.allSettled(
+      photos.map((p) => {
+        const key = extractR2Key(p.url);
+        return key ? deleteFromR2(key) : Promise.resolve();
+      })
+    );
   }
 
   await adminSupabase.from("photo_categories").delete().eq("id", id);
@@ -53,15 +53,19 @@ export async function deleteCategory(id: string) {
   revalidatePath("/admin/photos");
 }
 
+// ── 사진 단건 삭제 ────────────────────────────────────────────
 export async function deletePhoto(id: string, url: string) {
-  const path = extractStoragePath(url);
-  if (path) {
-    await adminSupabase.storage.from("photos").remove([path]);
+  const key = extractR2Key(url);
+  if (key) {
+    await deleteFromR2(key).catch((e) =>
+      console.error("[deletePhoto] R2 삭제 오류:", e)
+    );
   }
   await adminSupabase.from("photos").delete().eq("id", id);
   revalidatePath("/board/photos");
 }
 
+// ── 사진 메타데이터 저장 (URL → DB) ──────────────────────────
 export async function savePhotoMetadata(
   categoryId: string,
   url: string,
@@ -69,7 +73,11 @@ export async function savePhotoMetadata(
 ): Promise<{ error: string; id?: number }> {
   const { data, error } = await adminSupabase
     .from("photos")
-    .insert({ category_id: parseInt(categoryId), url, caption: caption ?? null })
+    .insert({
+      category_id: parseInt(categoryId),
+      url,
+      caption: caption ?? null,
+    })
     .select("id")
     .single();
 
@@ -79,6 +87,7 @@ export async function savePhotoMetadata(
   return { error: "", id: data.id };
 }
 
+// ── 캡션 수정 ─────────────────────────────────────────────────
 export async function updatePhotoCaption(id: string, caption: string) {
   await adminSupabase
     .from("photos")
