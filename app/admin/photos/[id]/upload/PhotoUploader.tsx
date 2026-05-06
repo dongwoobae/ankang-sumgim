@@ -1,8 +1,6 @@
 // app/admin/photos/[id]/upload/PhotoUploader.tsx
-// 변경점:
-// - face-api.js로 업로드 전 얼굴 감지 → 좌표를 uploadPhoto에 전달
-// - 얼굴 감지된 사진에 블러 배지 + 토글 버튼 표시
-// - deletePhoto에 originalUrl 전달
+// 변경점: 각 사진 카드에 "편집" 버튼 추가 → BlurEditor 모달 오픈
+//         편집 완료 시 사진 url 낙관적 업데이트
 
 "use client";
 
@@ -23,8 +21,10 @@ import {
   Eye,
   EyeOff,
   ScanFace,
+  PenLine,
 } from "lucide-react";
 import Image from "next/image";
+import BlurEditor from "@/components/admin/BlurEditor";
 
 type Photo = {
   id: number;
@@ -40,7 +40,6 @@ type Props = {
   initialPhotos: Photo[];
 };
 
-// face-api 모델 로드 여부 (싱글턴)
 let faceApiModelsLoaded = false;
 
 async function loadFaceApiModels() {
@@ -50,7 +49,6 @@ async function loadFaceApiModels() {
   faceApiModelsLoaded = true;
 }
 
-/** 이미지 파일에서 얼굴 좌표 감지 (자연 해상도 기준) */
 async function detectFaces(file: File): Promise<FaceRegion[]> {
   try {
     await loadFaceApiModels();
@@ -68,10 +66,8 @@ async function detectFaces(file: File): Promise<FaceRegion[]> {
       new faceapi.TinyFaceDetectorOptions({ scoreThreshold: 0.45 }),
     );
 
-    // 화면 표시 크기 → 자연 해상도 기준으로 스케일
     const scaleX = img.naturalWidth / (img.width || img.naturalWidth);
     const scaleY = img.naturalHeight / (img.height || img.naturalHeight);
-
     URL.revokeObjectURL(objectUrl);
 
     return detections.map((d) => ({
@@ -95,9 +91,9 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
   const [deletePending, startDeleteTransition] = useTransition();
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editCaption, setEditCaption] = useState("");
+  const [editingPhoto, setEditingPhoto] = useState<Photo | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // 컴포넌트 마운트 시 모델 미리 로드
   useEffect(() => {
     loadFaceApiModels().catch(console.error);
   }, []);
@@ -118,11 +114,9 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       const file = fileArray[i];
       setProgress({ current: i + 1, total: fileArray.length });
 
-      // ── 1. 얼굴 감지 ──
       setProgressLabel("얼굴 감지 중...");
       const faceRegions = await detectFaces(file);
 
-      // ── 2. 업로드 (blur 포함) ──
       setProgressLabel("압축 및 업로드 중...");
       const formData = new FormData();
       formData.append("file", file);
@@ -138,7 +132,6 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
         continue;
       }
 
-      // ── 3. DB 저장 ──
       const meta = await savePhotoMetadata(
         categoryId,
         result.url,
@@ -176,7 +169,6 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
 
   async function handleToggleBlur(photo: Photo) {
     const next = !photo.is_face_blurred;
-    // 낙관적 업데이트
     setPhotos((prev) =>
       prev.map((p) =>
         p.id === photo.id ? { ...p, is_face_blurred: next } : p,
@@ -184,7 +176,6 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
     );
     const { error } = await toggleFaceBlur(String(photo.id), next);
     if (error) {
-      // 실패 시 롤백
       setPhotos((prev) =>
         prev.map((p) =>
           p.id === photo.id ? { ...p, is_face_blurred: !next } : p,
@@ -192,6 +183,15 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       );
       setError(error);
     }
+  }
+
+  /** BlurEditor 적용 완료 콜백 */
+  function handleBlurApplied(photoId: number, newUrl: string) {
+    setPhotos((prev) =>
+      prev.map((p) =>
+        p.id === photoId ? { ...p, url: newUrl, is_face_blurred: true } : p,
+      ),
+    );
   }
 
   function startEdit(photo: Photo) {
@@ -215,163 +215,189 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
   }
 
   return (
-    <div className="space-y-6">
-      {/* 업로드 영역 */}
-      <div
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-        onClick={() => !uploading && inputRef.current?.click()}
-        className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-colors ${
-          uploading
-            ? "border-[#1A56A0] bg-[#EEF4FB] cursor-wait"
-            : "border-[#A8C4E0] bg-[#FFFFFF] hover:border-[#1A56A0] hover:bg-[#EEF4FB]"
-        }`}
-      >
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          multiple
-          className="hidden"
-          onChange={(e) => handleFiles(e.target.files)}
-        />
-        {uploading ? (
-          <div className="flex flex-col items-center gap-3">
-            <Loader2 size={36} className="text-[#1A56A0] animate-spin" />
-            <p className="text-[#1A2E4A] text-sm font-medium">
-              {progressLabel || "처리 중..."} ({progress.current}/
-              {progress.total})
-            </p>
-            <p className="text-[#5A7A99] text-xs">
-              얼굴 감지 및 이미지 최적화 중입니다. 잠시 기다려 주세요.
-            </p>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center gap-3">
-            <Upload size={36} className="text-[#1A56A0]" />
-            <div>
-              <p className="text-[#1A2E4A] font-medium text-sm">
-                클릭하거나 사진을 여기에 드래그하세요
+    <>
+      <div className="space-y-6">
+        {/* 업로드 영역 */}
+        <div
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+          onClick={() => !uploading && inputRef.current?.click()}
+          className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-colors ${
+            uploading
+              ? "border-[#1A56A0] bg-[#EEF4FB] cursor-wait"
+              : "border-[#A8C4E0] bg-[#FFFFFF] hover:border-[#1A56A0] hover:bg-[#EEF4FB]"
+          }`}
+        >
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => handleFiles(e.target.files)}
+          />
+          {uploading ? (
+            <div className="flex flex-col items-center gap-3">
+              <Loader2 size={36} className="text-[#1A56A0] animate-spin" />
+              <p className="text-[#1A2E4A] text-sm font-medium">
+                {progressLabel || "처리 중..."} ({progress.current}/
+                {progress.total})
               </p>
-              <p className="text-[#5A7A99] text-xs mt-1">
-                JPG, PNG, WEBP · 여러 장 동시 업로드 가능 · 얼굴 자동 블러 처리
+              <p className="text-[#5A7A99] text-xs">
+                얼굴 감지 및 이미지 최적화 중입니다. 잠시 기다려 주세요.
               </p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-3">
+              <Upload size={36} className="text-[#1A56A0]" />
+              <div>
+                <p className="text-[#1A2E4A] font-medium text-sm">
+                  클릭하거나 사진을 여기에 드래그하세요
+                </p>
+                <p className="text-[#5A7A99] text-xs mt-1">
+                  JPG, PNG, WEBP · 여러 장 동시 업로드 가능 · 얼굴 자동 블러
+                  처리
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {error && (
+          <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+            {error}
+          </p>
+        )}
+
+        {/* 사진 그리드 */}
+        {photos.length > 0 && (
+          <div>
+            <p className="text-[#5A7A99] text-xs mb-3">
+              등록된 사진 ({photos.length}장)
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {photos.map((photo) => (
+                <div key={photo.id} className="group flex flex-col gap-1.5">
+                  {/* 이미지 */}
+                  <div className="relative rounded-xl overflow-hidden aspect-square bg-[#EEF4FB]">
+                    <Image
+                      src={
+                        photo.is_face_blurred
+                          ? photo.url
+                          : (photo.original_url ?? photo.url)
+                      }
+                      alt={photo.caption ?? ""}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                    />
+
+                    {/* 블러 상태 배지 */}
+                    {photo.original_url && (
+                      <span
+                        className={`absolute top-2 left-2 flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          photo.is_face_blurred
+                            ? "bg-[#1A56A0] text-white"
+                            : "bg-[#E8A020] text-[#1A2E4A]"
+                        }`}
+                      >
+                        <ScanFace size={10} />
+                        {photo.is_face_blurred ? "블러" : "해제"}
+                      </span>
+                    )}
+
+                    {/* 삭제 버튼 */}
+                    <button
+                      onClick={() => handleDelete(photo)}
+                      disabled={deletePending}
+                      className="absolute top-2 right-2 w-7 h-7 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                    >
+                      <X size={14} color="#fff" />
+                    </button>
+                  </div>
+
+                  {/* 블러 토글 + 수동 편집 버튼 */}
+                  <div className="flex gap-1">
+                    {/* 블러 토글 (얼굴 감지된 경우만) */}
+                    {photo.original_url && (
+                      <button
+                        onClick={() => handleToggleBlur(photo)}
+                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                          photo.is_face_blurred
+                            ? "bg-[#EEF4FB] text-[#1A56A0] hover:bg-[#1A56A0] hover:text-white"
+                            : "bg-[#E8A020]/20 text-[#1A2E4A] hover:bg-[#E8A020]/40"
+                        }`}
+                      >
+                        {photo.is_face_blurred ? (
+                          <>
+                            <Eye size={11} /> 해제
+                          </>
+                        ) : (
+                          <>
+                            <EyeOff size={11} /> 블러
+                          </>
+                        )}
+                      </button>
+                    )}
+
+                    {/* 수동 편집 버튼 (항상 표시) */}
+                    <button
+                      onClick={() => setEditingPhoto(photo)}
+                      className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-xs font-medium bg-[#EEF4FB] text-[#5A7A99] hover:bg-[#1A2E4A] hover:text-white transition-colors"
+                    >
+                      <PenLine size={11} /> 편집
+                    </button>
+                  </div>
+
+                  {/* 캡션 */}
+                  {editingId === photo.id ? (
+                    <div className="flex gap-1">
+                      <input
+                        value={editCaption}
+                        onChange={(e) => setEditCaption(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") saveCaption(photo.id);
+                          if (e.key === "Escape") setEditingId(null);
+                        }}
+                        className="flex-1 text-xs px-2 py-1 border border-[#1A56A0] rounded-lg outline-none text-[#1A2E4A] bg-[#EEF4FB]"
+                        autoFocus
+                      />
+                      <button
+                        onClick={() => saveCaption(photo.id)}
+                        className="w-6 h-6 flex items-center justify-center bg-[#1A56A0] rounded-lg flex-shrink-0"
+                      >
+                        <Check size={11} color="#fff" />
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => startEdit(photo)}
+                      className="flex items-center gap-1 text-[#5A7A99] text-xs hover:text-[#1A56A0] transition-colors text-left truncate"
+                    >
+                      <Pencil size={10} className="flex-shrink-0" />
+                      <span className="truncate">
+                        {photo.caption ?? "캡션 추가"}
+                      </span>
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         )}
       </div>
 
-      {error && (
-        <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-          {error}
-        </p>
+      {/* 블러 편집 모달 */}
+      {editingPhoto && (
+        <BlurEditor
+          photo={editingPhoto}
+          onClose={() => setEditingPhoto(null)}
+          onApplied={(newUrl) => {
+            handleBlurApplied(editingPhoto.id, newUrl);
+            setEditingPhoto(null);
+          }}
+        />
       )}
-
-      {/* 사진 그리드 */}
-      {photos.length > 0 && (
-        <div>
-          <p className="text-[#5A7A99] text-xs mb-3">
-            등록된 사진 ({photos.length}장)
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {photos.map((photo) => (
-              <div key={photo.id} className="group flex flex-col gap-1.5">
-                {/* 이미지 */}
-                <div className="relative rounded-xl overflow-hidden aspect-square bg-[#EEF4FB]">
-                  <Image
-                    src={
-                      photo.is_face_blurred
-                        ? photo.url
-                        : (photo.original_url ?? photo.url)
-                    }
-                    alt={photo.caption ?? ""}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                  />
-
-                  {/* 얼굴 블러 배지 */}
-                  {photo.original_url && (
-                    <span
-                      className={`absolute top-2 left-2 flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                        photo.is_face_blurred
-                          ? "bg-[#1A56A0] text-white"
-                          : "bg-[#E8A020] text-[#1A2E4A]"
-                      }`}
-                    >
-                      <ScanFace size={10} />
-                      {photo.is_face_blurred ? "블러" : "해제"}
-                    </span>
-                  )}
-
-                  {/* 삭제 버튼 */}
-                  <button
-                    onClick={() => handleDelete(photo)}
-                    disabled={deletePending}
-                    className="absolute top-2 right-2 w-7 h-7 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
-                  >
-                    <X size={14} color="#fff" />
-                  </button>
-                </div>
-
-                {/* 블러 토글 버튼 (얼굴 감지된 경우만 표시) */}
-                {photo.original_url && (
-                  <button
-                    onClick={() => handleToggleBlur(photo)}
-                    className={`w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                      photo.is_face_blurred
-                        ? "bg-[#EEF4FB] text-[#1A56A0] hover:bg-[#1A56A0] hover:text-white"
-                        : "bg-[#E8A020]/20 text-[#1A2E4A] hover:bg-[#E8A020]/40"
-                    }`}
-                  >
-                    {photo.is_face_blurred ? (
-                      <>
-                        <Eye size={12} /> 블러 해제
-                      </>
-                    ) : (
-                      <>
-                        <EyeOff size={12} /> 블러 적용
-                      </>
-                    )}
-                  </button>
-                )}
-
-                {/* 캡션 */}
-                {editingId === photo.id ? (
-                  <div className="flex gap-1">
-                    <input
-                      value={editCaption}
-                      onChange={(e) => setEditCaption(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") saveCaption(photo.id);
-                        if (e.key === "Escape") setEditingId(null);
-                      }}
-                      className="flex-1 text-xs px-2 py-1 border border-[#1A56A0] rounded-lg outline-none text-[#1A2E4A] bg-[#EEF4FB]"
-                      autoFocus
-                    />
-                    <button
-                      onClick={() => saveCaption(photo.id)}
-                      className="w-6 h-6 flex items-center justify-center bg-[#1A56A0] rounded-lg flex-shrink-0"
-                    >
-                      <Check size={11} color="#fff" />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => startEdit(photo)}
-                    className="flex items-center gap-1 text-[#5A7A99] text-xs hover:text-[#1A56A0] transition-colors text-left truncate"
-                  >
-                    <Pencil size={10} className="flex-shrink-0" />
-                    <span className="truncate">
-                      {photo.caption ?? "캡션 추가"}
-                    </span>
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+    </>
   );
 }
