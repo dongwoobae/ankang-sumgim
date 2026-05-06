@@ -4,12 +4,21 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PhotoUploader } from "./PhotoUploader";
 
-type Photo = { id: number; url: string; caption: string | null; created_at: string };
+type Photo = {
+  id: number;
+  url: string;
+  original_url: string | null;
+  is_face_blurred: boolean;
+  caption: string | null;
+  created_at: string;
+};
 
 async function getCategoryWithPhotos(id: string) {
   const { data } = await adminSupabase
     .from("photo_categories")
-    .select("id, name, photos(id, url, caption, created_at)")
+    .select(
+      "id, name, photos(id, url, original_url, is_face_blurred, caption, created_at)",
+    )
     .eq("id", id)
     .single();
   return data;
@@ -42,7 +51,9 @@ export default async function UploadPage({
           {category.name}
         </h1>
       </div>
-      <p className="text-[#5A7A99] text-sm mb-8 pl-9">사진 {photos.length}장 등록됨</p>
+      <p className="text-[#5A7A99] text-sm mb-8 pl-9">
+        사진 {photos.length}장 등록됨
+      </p>
 
       <PhotoUploader categoryId={id} initialPhotos={photos} />
     </div>
