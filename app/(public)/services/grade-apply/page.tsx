@@ -1,6 +1,14 @@
 ﻿import Link from "next/link";
 import { CheckCircle, Users } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "등급신청 안내",
+  description:
+    "장기요양 1~5등급 신청 방법과 절차 안내. 신청서 제출부터 등급 판정까지 안강 섬김이 도와드립니다.",
+  openGraph: { url: "/services/grade-apply" },
+};
 
 const steps = [
   {

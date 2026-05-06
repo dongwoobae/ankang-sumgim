@@ -2,6 +2,14 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Award } from "lucide-react";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "수상·기관선정",
+  description:
+    "안강 섬김 노인복지센터 수상 및 기관 선정 내역. 공신력 있는 기관이 인정한 서비스 품질.",
+  openGraph: { url: "/about/awards" },
+};
 
 async function getAwards() {
   const { data } = await adminSupabase

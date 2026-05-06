@@ -1,4 +1,11 @@
 import Link from "next/link";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "개인정보처리방침",
+  description: "안강 섬김 노인복지센터 개인정보처리방침.",
+  openGraph: { url: "/privacy" },
+};
 
 export default function PrivacyPage() {
   return (

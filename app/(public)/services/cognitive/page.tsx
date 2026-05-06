@@ -1,6 +1,14 @@
 ﻿import Link from "next/link";
 import { ArrowRight, Brain, CheckCircle, Phone } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "인지활동서비스",
+  description:
+    "치매 예방과 인지 기능 유지를 위한 전문 프로그램. 어르신 맞춤 인지활동서비스를 제공합니다.",
+  openGraph: { url: "/services/cognitive" },
+};
 
 const programs = [
   {

@@ -1,4 +1,12 @@
 ﻿import { MapPin, Phone, Mail, Bus, Car, Clock } from "lucide-react";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "오시는길",
+  description:
+    "안강 섬김 노인복지센터 위치 안내. 경상북도 경주시 안강읍 화전중앙길 53.",
+  openGraph: { url: "/about/location" },
+};
 
 const transportInfo = [
   {

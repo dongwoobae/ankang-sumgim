@@ -2,6 +2,13 @@
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "사진 게시판",
+  description: "안강 섬김 노인복지센터의 활동 사진 모음입니다.",
+  openGraph: { url: "/board/photos" },
+};
 
 async function getAlbums() {
   const { data } = await adminSupabase

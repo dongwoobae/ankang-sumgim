@@ -1,6 +1,14 @@
 ﻿import Link from "next/link";
 import { ArrowRight, CheckCircle, Phone } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "방문요양서비스",
+  description:
+    "요양보호사가 가정을 직접 방문하여 신체활동·가사활동·정서지원 서비스를 제공합니다. 목욕차 2대 보유.",
+  openGraph: { url: "/services/visit-care" },
+};
 
 const serviceItems = [
   {

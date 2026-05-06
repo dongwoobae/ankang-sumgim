@@ -1,4 +1,6 @@
-﻿"use client";
+// app/(public)/inquiry/page.tsx
+
+"use client";
 
 import { useActionState, useEffect, useRef } from "react";
 import { Phone, MapPin, Clock, Send } from "lucide-react";
@@ -18,10 +20,22 @@ const initialState: InquiryState = { success: false, message: "" };
 export default function InquiryPage() {
   const [state, action, pending] = useActionState(sendInquiry, initialState);
   const formRef = useRef<HTMLFormElement>(null);
+  const timestampRef = useRef<HTMLInputElement>(null);
+
+  // 폼 로드 시각을 hidden input에 기록
+  useEffect(() => {
+    if (timestampRef.current) {
+      timestampRef.current.value = String(Date.now());
+    }
+  }, []);
 
   useEffect(() => {
     if (state.success) {
       formRef.current?.reset();
+      // 리셋 후 타임스탬프 재기록
+      if (timestampRef.current) {
+        timestampRef.current.value = String(Date.now());
+      }
     }
   }, [state.success]);
 
@@ -49,8 +63,10 @@ export default function InquiryPage() {
           </p>
         </div>
       </section>
+
       {/* FAQ */}
       <FaqAccordion />
+
       {/* 본문 */}
       <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
@@ -122,6 +138,31 @@ export default function InquiryPage() {
               </h2>
 
               <form ref={formRef} action={action} className="space-y-5">
+                {/* ── 스팸 방지 hidden 필드 ── */}
+                {/* Honeypot: 사람 눈에는 안 보이는 필드 — 봇만 채움 */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    left: "-9999px",
+                    width: "1px",
+                    height: "1px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <label htmlFor="website">Website</label>
+                  <input
+                    id="website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+                {/* 타임스탬프: 폼 로드 시각 기록 */}
+                <input ref={timestampRef} name="_t" type="hidden" />
+                {/* ────────────────────────── */}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">

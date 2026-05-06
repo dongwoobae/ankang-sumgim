@@ -1,4 +1,12 @@
 ﻿import { Heart, Leaf, Users } from "lucide-react";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "인사말",
+  description:
+    "안강 섬김 노인복지센터 센터장 인사말. 어르신 한 분 한 분을 소중히 섬기겠습니다.",
+  openGraph: { url: "/about/greeting" },
+};
 
 const values = [
   {

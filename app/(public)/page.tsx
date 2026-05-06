@@ -3,23 +3,12 @@ import { Phone, MapPin, Award, ChevronRight, ArrowRight } from "lucide-react";
 import HeroPhotoCarousel from "@/components/layout/HeroPhotoCarousel";
 import { adminSupabase } from "@/lib/supabase/admin";
 import Image from "next/image";
+import { type Metadata } from "next";
 
-// 임시 공지 데이터 (나중에 Supabase에서 fetch)
-// const notices = [
-//   {
-//     id: 1,
-//     title: "2024년 하반기 방문요양 서비스 신청 안내",
-//     date: "2024.11.20",
-//   },
-//   { id: 2, title: "어르신 건강검진 지원사업 참여자 모집", date: "2024.11.15" },
-//   { id: 3, title: "2024년 요양사 보수교육 일정 안내", date: "2024.11.08" },
-//   {
-//     id: 4,
-//     title: "김장 나눔 행사 사진 게시판 업로드 완료",
-//     date: "2024.11.01",
-//   },
-//   { id: 5, title: "센터 운영시간 변경 안내 (토·일 단축)", date: "2024.10.25" },
-// ];
+export const metadata: Metadata = {
+  title: "ANKANG SUMGIM CARE CENTER",
+  description: "어르신의 일상을 함께 섬기는 요양원",
+};
 
 const services = [
   {

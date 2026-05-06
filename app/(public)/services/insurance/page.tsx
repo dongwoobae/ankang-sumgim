@@ -1,5 +1,13 @@
 ﻿import Link from "next/link";
 import { ArrowRight, CheckCircle, Info } from "lucide-react";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "노인장기요양보험이란",
+  description:
+    "노인장기요양보험 제도 안내. 신청 자격, 등급 기준, 급여 종류를 쉽게 설명해드립니다.",
+  openGraph: { url: "/services/insurance" },
+};
 
 const steps = [
   {
