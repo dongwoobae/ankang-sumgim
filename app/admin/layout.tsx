@@ -18,7 +18,8 @@ export default async function AdminLayout({
   return (
     <div className="flex min-h-screen bg-[#F5F0E8]">
       <AdminSidebar />
-      <main className="flex-1 overflow-auto">{children}</main>
+      {/* 모바일에서 사이드바가 overlay라 ml 불필요, 데스크탑은 사이드바가 레이아웃 차지 */}
+      <main className="flex-1 overflow-auto pt-16 md:pt-0">{children}</main>
     </div>
   );
 }

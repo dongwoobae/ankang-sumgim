@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import {
   LayoutDashboard,
   Images,
@@ -10,9 +11,12 @@ import {
   PlusCircle,
   List,
   MessageSquare,
-  Megaphone,
   ImagePlus,
   Trophy,
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  X,
 } from "lucide-react";
 import { logout } from "@/app/actions/admin/auth";
 
@@ -99,31 +103,53 @@ const navGroups = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false); // 데스크탑 접힘
+  const [mobileOpen, setMobileOpen] = useState(false); // 모바일 열림
 
   function isActive(href: string, exact: boolean) {
     return exact ? pathname === href : pathname.startsWith(href);
   }
 
-  return (
-    <aside className="w-56 flex-shrink-0 flex flex-col bg-[#EEF4FB] min-h-screen">
-      {/* 로고 */}
-      <div className="px-5 py-5 border-b border-[#1A2E4A]">
-        <p
-          className="text-[#E8A020] font-bold text-sm"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
+  const sidebarContent = (
+    <>
+      {/* 로고 + 토글 */}
+      <div className="px-4 py-5 border-b border-[#1A2E4A] flex items-center justify-between">
+        {!collapsed && (
+          <div>
+            <p
+              className="text-[#E8A020] font-bold text-sm"
+              style={{ fontFamily: "'Noto Serif KR', serif" }}
+            >
+              안강 섬김
+            </p>
+            <p className="text-[#5A7A99] text-[11px]">관리자 페이지</p>
+          </div>
+        )}
+        {/* 데스크탑 토글 버튼 */}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="hidden md:flex items-center justify-center w-7 h-7 rounded-lg text-[#A8C4E0] hover:bg-[#1A2E4A] hover:text-[#E8A020] transition-colors ml-auto"
         >
-          안강 섬김
-        </p>
-        <p className="text-[#5A7A99] text-[11px]">관리자 페이지</p>
+          {collapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
+        </button>
+        {/* 모바일 닫기 버튼 */}
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="md:hidden flex items-center justify-center w-7 h-7 rounded-lg text-[#A8C4E0] hover:bg-[#1A2E4A] transition-colors ml-auto"
+        >
+          <X size={16} />
+        </button>
       </div>
 
       {/* 네비게이션 */}
       <nav className="flex-1 px-3 py-4 space-y-5 overflow-y-auto">
         {navGroups.map((group) => (
           <div key={group.label}>
-            <p className="text-[#5A7A99] text-[10px] font-semibold tracking-widest px-2 mb-1.5 uppercase">
-              {group.label}
-            </p>
+            {!collapsed && (
+              <p className="text-[#5A7A99] text-[10px] font-semibold tracking-widest px-2 mb-1.5 uppercase">
+                {group.label}
+              </p>
+            )}
             <ul className="space-y-0.5">
               {group.items.map((item) => {
                 const active = isActive(item.href, item.exact);
@@ -131,14 +157,18 @@ export default function AdminSidebar() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-                        active
-                          ? "bg-[#1A56A0] text-[#FFFFFF] font-medium"
-                          : "text-[#A8C4E0] hover:bg-[#1A2E4A] hover:text-[#E8A020]"
-                      }`}
+                      onClick={() => setMobileOpen(false)}
+                      title={collapsed ? item.label : undefined}
+                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors
+                        ${collapsed ? "justify-center" : ""}
+                        ${
+                          active
+                            ? "bg-[#1A56A0] text-[#FFFFFF] font-medium"
+                            : "text-[#A8C4E0] hover:bg-[#1A2E4A] hover:text-[#E8A020]"
+                        }`}
                     >
                       {item.icon}
-                      {item.label}
+                      {!collapsed && item.label}
                     </Link>
                   </li>
                 );
@@ -153,21 +183,60 @@ export default function AdminSidebar() {
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#E8A020] transition-colors"
+          title={collapsed ? "사이트 보기" : undefined}
+          className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#E8A020] transition-colors ${collapsed ? "justify-center" : ""}`}
         >
           <ExternalLink size={16} />
-          사이트 보기
+          {!collapsed && "사이트 보기"}
         </Link>
         <form action={logout}>
           <button
             type="submit"
-            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#E8A020] transition-colors text-left"
+            title={collapsed ? "로그아웃" : undefined}
+            className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#E8A020] transition-colors text-left ${collapsed ? "justify-center" : ""}`}
           >
             <LogOut size={16} />
-            로그아웃
+            {!collapsed && "로그아웃"}
           </button>
         </form>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* 모바일 햄버거 버튼 */}
+      <button
+        onClick={() => setMobileOpen(true)}
+        className="md:hidden fixed top-4 left-4 z-40 flex items-center justify-center w-10 h-10 bg-[#1A2E4A] rounded-xl text-[#A8C4E0] hover:text-[#E8A020] transition-colors shadow-lg"
+      >
+        <Menu size={18} />
+      </button>
+
+      {/* 모바일 오버레이 배경 */}
+      {mobileOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* 모바일 사이드바 — fixed overlay */}
+      <aside
+        className={`md:hidden fixed top-0 left-0 h-full z-50 flex flex-col bg-[#0F1E30] transition-transform duration-300
+          ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
+          w-56`}
+      >
+        {sidebarContent}
+      </aside>
+
+      {/* 데스크탑 사이드바 — 레이아웃 일부 */}
+      <aside
+        className={`hidden md:flex flex-col bg-[#0F1E30] min-h-screen flex-shrink-0 transition-all duration-300
+          ${collapsed ? "w-14" : "w-56"}`}
+      >
+        {sidebarContent}
+      </aside>
+    </>
   );
 }
