@@ -85,12 +85,12 @@ export default function Header() {
       <div className="bg-[#1A2E4A] text-[#A8C4E0] text-xs">
         <div className="max-w-6xl mx-auto px-6 h-9 flex items-center justify-between">
           <span className="tracking-wide font-medium">
-            안강 섬김 노인복지센터
+            {/* 안강 섬김 노인복지센터 */}
           </span>
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-1.5">
               <Clock size={11} />
-              평일 09:00–18:00 &nbsp;·&nbsp; 주말 09:00–14:00
+              평일 09:00–18:00 &nbsp;·&nbsp; 토 09:00–14:00
             </span>
             <span className="flex items-center gap-1.5">
               <Phone size={11} />

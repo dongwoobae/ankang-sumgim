@@ -2,7 +2,12 @@
 
 import { useRef, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Trash2, Upload, ImageIcon } from "lucide-react";
+import {
+  saveHeroPhoto,
+  deleteHeroPhoto,
+  getHeroPhotos,
+} from "@/app/actions/admin/hero";
+import { Trash2, ImageIcon } from "lucide-react";
 import Image from "next/image";
 
 interface HeroPhoto {
@@ -16,26 +21,15 @@ export default function HeroPhotoPage() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
-  // const supabase = createClient();
-
-  //   async function fetchPhotos() {
-  //     const { data } = await supabase
-  //       .from("hero_photos")
-  //       .select("id, url, display_order")
-  //       .order("display_order", { ascending: true });
-  //     setPhotos(data ?? []);
-  //   }
 
   useEffect(() => {
-    async function load() {
-      const supabase = createClient();
-      const { data } = await supabase
-        .from("hero_photos")
-        .select("id, url, display_order")
-        .order("display_order", { ascending: true });
-      setPhotos(data ?? []);
-    }
-    load();
+    let ignore = false;
+    getHeroPhotos().then((data) => {
+      if (!ignore) setPhotos(data);
+    });
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -44,7 +38,6 @@ export default function HeroPhotoPage() {
 
     setUploading(true);
     setError("");
-
     const supabase = createClient();
 
     const fileName = `hero_${Date.now()}_${file.name}`;
@@ -67,32 +60,28 @@ export default function HeroPhotoPage() {
         ? Math.max(...photos.map((p) => p.display_order)) + 1
         : 1;
 
-    await supabase.from("hero_photos").insert({
+    const result = await saveHeroPhoto(publicUrl, nextOrder);
+    if (result.error) {
+      setError(result.error);
+      setUploading(false);
+      return;
+    }
+
+    // handleUpload 성공 후 fetchPhotos() 대신
+    const newPhoto: HeroPhoto = {
+      id: result.id!,
       url: publicUrl,
       display_order: nextOrder,
-    });
-
-    const { data } = await supabase
-      .from("hero_photos")
-      .select("id, url, display_order")
-      .order("display_order", { ascending: true });
-    setPhotos(data ?? []);
-
+    };
+    setPhotos((prev) => [...prev, newPhoto]);
     setUploading(false);
     if (fileRef.current) fileRef.current.value = "";
   }
 
   async function handleDelete(photo: HeroPhoto) {
     if (!confirm("이 사진을 삭제할까요?")) return;
-    const supabase = createClient();
-    const fileName = photo.url.split("/hero/")[1];
-    await supabase.storage.from("hero").remove([fileName]);
-    await supabase.from("hero_photos").delete().eq("id", photo.id);
-    const { data } = await supabase
-      .from("hero_photos")
-      .select("id, url, display_order")
-      .order("display_order", { ascending: true });
-    setPhotos(data ?? []);
+    await deleteHeroPhoto(photo.id, photo.url);
+    setPhotos((prev) => prev.filter((p) => p.id !== photo.id));
   }
 
   return (
@@ -148,29 +137,30 @@ export default function HeroPhotoPage() {
           </p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {photos.map((photo, i) => (
+            {photos.map((photo) => (
               <div
                 key={photo.id}
-                className="relative group rounded-xl overflow-hidden border border-[#A8C4E0]/50 aspect-[4/3]"
+                className="relative group rounded-xl overflow-hidden border border-[#A8C4E0]/50"
               >
                 <Image
                   src={photo.url}
-                  alt={`메인 사진 ${i + 1}`}
-                  fill
-                  className="object-cover"
+                  alt={`메인 사진 ${photo.display_order}`}
+                  width={300}
+                  height={200}
+                  className="w-full h-40 object-cover"
                 />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
                   <button
                     onClick={() => handleDelete(photo)}
-                    className="flex items-center gap-1.5 bg-red-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 bg-red-500 text-white text-xs font-medium px-3 py-1.5 rounded-lg"
                   >
-                    <Trash2 size={14} />
+                    <Trash2 size={13} />
                     삭제
                   </button>
                 </div>
-                <span className="absolute top-2 left-2 bg-[#1A2E4A]/70 text-white text-xs px-2 py-0.5 rounded-full">
-                  {i + 1}번
-                </span>
+                <div className="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full">
+                  {photo.display_order}번
+                </div>
               </div>
             ))}
           </div>

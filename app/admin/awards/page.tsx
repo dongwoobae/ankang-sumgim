@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { saveAward, deleteAward, getAwards } from "@/app/actions/admin/awards";
 import { Trash2, ImageIcon } from "lucide-react";
 import Image from "next/image";
 
@@ -27,29 +28,14 @@ export default function AdminAwardsPage() {
   });
   const fileRef = useRef<HTMLInputElement>(null);
 
-  async function fetchAwards() {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from("awards")
-      .select(
-        "id, title, org, description, awarded_at, image_url, display_order",
-      )
-      .order("awarded_at", { ascending: false });
-    setAwards(data ?? []);
-  }
-
   useEffect(() => {
-    async function load() {
-      const supabase = createClient();
-      const { data } = await supabase
-        .from("awards")
-        .select(
-          "id, title, org, description, awarded_at, image_url, display_order",
-        )
-        .order("awarded_at", { ascending: false });
-      setAwards(data ?? []);
-    }
-    load();
+    let ignore = false;
+    getAwards().then((data) => {
+      if (!ignore) setAwards(data);
+    });
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   async function handleSubmit() {
@@ -64,7 +50,6 @@ export default function AdminAwardsPage() {
 
     let image_url: string | null = null;
 
-    // 이미지 업로드
     const file = fileRef.current?.files?.[0];
     if (file) {
       const ext = file.name.split(".").pop();
@@ -89,7 +74,7 @@ export default function AdminAwardsPage() {
         ? Math.max(...awards.map((a) => a.display_order)) + 1
         : 1;
 
-    await supabase.from("awards").insert({
+    const result = await saveAward({
       title: form.title,
       org: form.org,
       description: form.description || null,
@@ -98,23 +83,32 @@ export default function AdminAwardsPage() {
       display_order: nextOrder,
     });
 
+    if (result.error) {
+      setError(result.error);
+      setUploading(false);
+      return;
+    }
+
+    // handleSubmit 성공 후 fetchAwards() 대신
+    const newAward: Award = {
+      id: result.id!,
+      title: form.title,
+      org: form.org,
+      description: form.description || null,
+      awarded_at: form.awarded_at,
+      image_url,
+      display_order: nextOrder,
+    };
+    setAwards((prev) => [newAward, ...prev]);
     setForm({ title: "", org: "", description: "", awarded_at: "" });
     if (fileRef.current) fileRef.current.value = "";
-    await fetchAwards();
     setUploading(false);
   }
 
   async function handleDelete(award: Award) {
     if (!confirm(`"${award.title}" 을 삭제할까요?`)) return;
-    const supabase = createClient();
-
-    if (award.image_url) {
-      const fileName = award.image_url.split("/awards/")[1];
-      await supabase.storage.from("awards").remove([fileName]);
-    }
-
-    await supabase.from("awards").delete().eq("id", award.id);
-    await fetchAwards();
+    await deleteAward(award.id, award.image_url);
+    setAwards((prev) => prev.filter((a) => a.id !== award.id));
   }
 
   return (
@@ -143,40 +137,35 @@ export default function AdminAwardsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
-              수상명 <span className="text-[#1A56A0]">*</span>
+              수상명 <span className="text-red-400">*</span>
             </label>
             <input
-              type="text"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              placeholder="우수 재가요양기관 선정"
-              className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
+              placeholder="예: 보건복지부장관 표창"
+              className="w-full px-4 py-2.5 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
             />
           </div>
           <div>
             <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
-              수여기관 <span className="text-[#1A56A0]">*</span>
+              수여기관 <span className="text-red-400">*</span>
             </label>
             <input
-              type="text"
               value={form.org}
               onChange={(e) => setForm({ ...form, org: e.target.value })}
-              placeholder="경상북도"
-              className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
+              placeholder="예: 보건복지부"
+              className="w-full px-4 py-2.5 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
             />
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
-              수상일 <span className="text-[#1A56A0]">*</span>
+              수상일 <span className="text-red-400">*</span>
             </label>
             <input
               type="date"
               value={form.awarded_at}
               onChange={(e) => setForm({ ...form, awarded_at: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
+              className="w-full px-4 py-2.5 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
             />
           </div>
           <div>
@@ -237,7 +226,6 @@ export default function AdminAwardsPage() {
                 key={award.id}
                 className="flex items-center gap-4 p-4 bg-[#EEF4FB] rounded-xl border border-[#A8C4E0]/40"
               >
-                {/* 썸네일 */}
                 <div className="w-14 h-14 rounded-lg overflow-hidden border border-[#A8C4E0]/50 flex-shrink-0 bg-[#E8A020]/20 flex items-center justify-center">
                   {award.image_url ? (
                     <Image
@@ -251,7 +239,6 @@ export default function AdminAwardsPage() {
                     <ImageIcon size={20} className="text-[#A8C4E0]" />
                   )}
                 </div>
-
                 <div className="flex-1 min-w-0">
                   <p className="text-[#1A2E4A] font-bold text-sm truncate">
                     {award.title}
@@ -261,7 +248,6 @@ export default function AdminAwardsPage() {
                     {new Date(award.awarded_at).toLocaleDateString("ko-KR")}
                   </p>
                 </div>
-
                 <button
                   onClick={() => handleDelete(award)}
                   className="flex items-center gap-1 text-xs text-red-400 hover:text-red-600 transition-colors flex-shrink-0 px-3 py-1.5 rounded-lg border border-red-200 hover:border-red-400"
