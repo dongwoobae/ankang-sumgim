@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef } from "react";
 import { Phone, MapPin, Clock, Send } from "lucide-react";
 import { sendInquiry, type InquiryState } from "@/app/actions/sendInquiry";
+import FaqAccordion from "@/components/FaqAccordion";
 
 const serviceTypes = [
   "방문요양서비스",
@@ -48,7 +49,8 @@ export default function InquiryPage() {
           </p>
         </div>
       </section>
-
+      {/* FAQ */}
+      <FaqAccordion />
       {/* 본문 */}
       <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">

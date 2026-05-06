@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import { ArrowRight, CheckCircle, Phone, AlertCircle } from "lucide-react";
+import ServiceProcess from "@/components/ServiceProcess";
 
 const eligibility = [
   "배우자",
@@ -33,6 +34,39 @@ const steps = [
     desc: "월별 서비스 제공 후 장기요양급여비 청구",
   },
 ];
+
+const familyCareProcess = (
+  <ServiceProcess
+    title="가족요양 신청 절차"
+    steps={[
+      {
+        iconKey: "inquiry",
+        title: "상담 문의",
+        desc: "센터에 가족요양 가능 여부 및 자격 조건 상담",
+      },
+      {
+        iconKey: "cert",
+        title: "요양보호사 자격 취득",
+        desc: "지정 교육기관에서 이수 후 국가시험 응시",
+      },
+      {
+        iconKey: "gradeApply",
+        title: "장기요양 등급 신청",
+        desc: "어르신이 건강보험공단에 1~5등급 신청",
+      },
+      {
+        iconKey: "qualification",
+        title: "가족요양 신청",
+        desc: "센터 방문 상담 후 가족요양보호사로 등록",
+      },
+      {
+        iconKey: "serviceStart",
+        title: "서비스 제공 및 급여 수령",
+        desc: "돌봄 제공 후 매월 장기요양급여비 청구",
+      },
+    ]}
+  />
+);
 
 export default function FamilyCarePage() {
   return (
@@ -148,7 +182,8 @@ export default function FamilyCarePage() {
       </section>
 
       {/* 신청 절차 */}
-      <section className="bg-[#EEF4FB] py-20">
+      {familyCareProcess}
+      {/* <section className="bg-[#EEF4FB] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-10 text-center">
             <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
@@ -204,7 +239,7 @@ export default function FamilyCarePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import { ArrowRight, Brain, CheckCircle, Phone } from "lucide-react";
+import ServiceProcess from "@/components/ServiceProcess";
 
 const programs = [
   {
@@ -52,6 +53,39 @@ const effects = [
   "가족의 돌봄 부담 경감",
   "사회적 고립 예방",
 ];
+
+const cognitiveProcess = (
+  <ServiceProcess
+    title="인지활동서비스 이용 절차"
+    steps={[
+      {
+        iconKey: "inquiry",
+        title: "상담 문의",
+        desc: "전화·온라인으로 인지활동서비스 상담",
+      },
+      {
+        iconKey: "gradeJudgment",
+        title: "등급·진단 확인",
+        desc: "장기요양 1~5등급 또는 인지지원등급 보유 확인",
+      },
+      {
+        iconKey: "caregiver",
+        title: "전담 요양보호사 배정",
+        desc: "인지활동형 교육 이수 전문 요양보호사 연결",
+      },
+      {
+        iconKey: "plan",
+        title: "맞춤 프로그램 계획",
+        desc: "어르신 상태에 맞는 1:1 인지 자극 계획 수립",
+      },
+      {
+        iconKey: "serviceStart",
+        title: "서비스 시작",
+        desc: "가정 방문 인지활동 프로그램 정기 제공",
+      },
+    ]}
+  />
+);
 
 export default function CognitivePage() {
   return (
@@ -198,7 +232,7 @@ export default function CognitivePage() {
           </div>
         </div>
       </section>
-
+      {cognitiveProcess}
       {/* CTA */}
       <section className="bg-[#1A2E4A] py-14">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
