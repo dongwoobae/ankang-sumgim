@@ -1,13 +1,16 @@
+// app/(public)/board/photos/[id]/page.tsx
+// 변경점: 사진 그리드를 PhotoGallery 클라이언트 컴포넌트로 교체
+
 import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
+import PhotoGallery from "@/components/PhotoGallery";
 
 async function getAlbum(id: string) {
   const { data } = await adminSupabase
     .from("photo_categories")
-    .select("id, name, created_at, photos(id, url, caption)")
+    .select("id, name, created_at, photos(id, url, caption, created_at)")
     .eq("id", id)
     .single();
   return data;
@@ -25,11 +28,16 @@ export default async function PhotoDetailPage({
   if (!album) notFound();
 
   const photos =
-    (album.photos as { id: number; url: string; caption: string | null }[]) ??
-    [];
+    (album.photos as {
+      id: number;
+      url: string;
+      caption: string | null;
+      created_at: string;
+    }[]) ?? [];
 
   return (
     <div>
+      {/* 배너 */}
       <section
         style={{
           background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
@@ -47,12 +55,13 @@ export default async function PhotoDetailPage({
             {album.name}
           </h1>
           <p className="text-[#5A7A99] mt-3">
-            사진 {photos.length}장 ·{" "}
-            {new Date(album.created_at).toLocaleDateString("ko-KR")}
+            사진 {photos.length}장{" "}
+            {/* {new Date(album.created_at).toLocaleDateString("ko-KR")} */}
           </p>
         </div>
       </section>
 
+      {/* 갤러리 */}
       <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
           {photos.length === 0 ? (
@@ -60,29 +69,7 @@ export default async function PhotoDetailPage({
               등록된 사진이 없습니다.
             </p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {photos.map((photo) => (
-                <div
-                  key={photo.id}
-                  className="rounded-2xl overflow-hidden border border-[#A8C4E0]/50"
-                >
-                  <div className="w-full aspect-[4/3] relative">
-                    <Image
-                      src={photo.url}
-                      alt={photo.caption ?? album.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                  {photo.caption && (
-                    <p className="px-4 py-3 text-[#5A7A99] text-sm">
-                      {photo.caption}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
+            <PhotoGallery photos={photos} albumName={album.name} />
           )}
 
           <div className="mt-12 pt-6 border-t border-[#A8C4E0]/40 flex justify-end">

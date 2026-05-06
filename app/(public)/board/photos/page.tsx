@@ -89,8 +89,8 @@ export default async function PhotosPage() {
                         {album.name} {/* title → name */}
                       </h3>
                       <p className="text-[#5A7A99] text-xs">
-                        사진 {photos.length}장 ·{" "}
-                        {new Date(album.created_at).toLocaleDateString("ko-KR")}
+                        사진 {photos.length}장{" "}
+                        {/* {new Date(album.created_at).toLocaleDateString("ko-KR")} */}
                       </p>
                     </div>
                   </Link>
