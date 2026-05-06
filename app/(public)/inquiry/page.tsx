@@ -86,7 +86,7 @@ export default function InquiryPage() {
                   key={i}
                   className="flex items-start gap-4 p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl"
                 >
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0">
                     {item.icon}
                   </span>
                   <div>
@@ -197,7 +197,7 @@ export default function InquiryPage() {
                   <div
                     className={`p-4 rounded-xl text-sm font-medium ${
                       state.success
-                        ? "bg-[#2E6DB4]/30 border border-[#1A56A0]/50 text-[#1A2E4A]"
+                        ? "bg-[#E8A020]/30 border border-[#1A56A0]/50 text-[#1A2E4A]"
                         : "bg-red-50 border border-red-200 text-red-700"
                     }`}
                   >

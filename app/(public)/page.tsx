@@ -21,7 +21,7 @@ const notices = [
 const services = [
   {
     title: "방문요양서비스",
-    desc: "요양보호사가 직접 가정을 방문하여 신체활동 및 가사활동을 3시간씩 지원합니다.",
+    desc: "요양보호사가 직접 가정을 방문하여 신체활동 및 가사활동을 지원합니다.",
     icon: "🏠",
     href: "/services/visit-care",
     tag: "대표 서비스",
@@ -69,7 +69,6 @@ const awards = [
 
 const stats = [
   { value: "목욕차", highlight: "2대", sub: "타 센터 대비 2배 보유" },
-  { value: "방문요양", highlight: "3시간", sub: "충분한 돌봄 시간" },
   { value: "서비스 지역", highlight: "4개 시군", sub: "경주·안강·영천·포항" },
   { value: "월 교육", highlight: "1회", sub: "요양사 정기 역량 강화" },
 ];
@@ -162,7 +161,7 @@ export default function HomePage() {
                   {stat.value}
                 </p>
                 <p
-                  className="text-[#2E6DB4] text-3xl font-bold mb-1"
+                  className="text-[#E8A020] text-3xl font-bold mb-1"
                   style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   {stat.highlight}
@@ -242,7 +241,7 @@ export default function HomePage() {
                 className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-2xl p-8 flex flex-col items-center text-center"
               >
                 {/* 플레이스홀더 — 나중에 실제 사진으로 교체 */}
-                <div className="w-full h-40 rounded-xl bg-[#2E6DB4]/30 border-2 border-dashed border-[#A8C4E0] flex flex-col items-center justify-center mb-6">
+                <div className="w-full h-40 rounded-xl bg-[#E8A020]/30 border-2 border-dashed border-[#A8C4E0] flex flex-col items-center justify-center mb-6">
                   <Award size={28} className="text-[#1A56A0] mb-1" />
                   <span className="text-[#5A7A99] text-xs">사진 교체 예정</span>
                 </div>

@@ -45,59 +45,44 @@ export default function GreetingPage() {
       {/* 인사말 본문 */}
       <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
-            {/* 사진 플레이스홀더 */}
-            <div
-              className="w-full aspect-[4/5] rounded-2xl border-2 border-dashed border-[#A8C4E0] flex flex-col items-center justify-center"
-              style={{ background: "#EEF4FB" }}
+          <div className="max-w-3xl mx-auto">
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-3">
+              CENTER DIRECTOR
+            </p>
+            <h2
+              className="text-[#1A2E4A] text-2xl font-bold mb-6 leading-snug"
+              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
-              <Users size={48} className="text-[#1A56A0] mb-3" />
-              <p className="text-[#5A7A99] text-sm">센터장 사진</p>
+              어르신의 일상을
+              <br />
+              <span className="text-[#1A56A0]">함께 섬깁니다</span>
+            </h2>
+
+            <div className="space-y-4 text-[#1A2E4A] text-[15px] leading-[1.9]">
+              <p>안강 섬김 노인복지센터를 찾아주셔서 진심으로 감사드립니다.</p>
+              <p>
+                저희 센터는 경주·안강·영천·포항 지역에서
+                신체적·경제적·정신적으로 어려움을 겪고 계신 어르신들이 존엄하고
+                행복한 노후를 보내실 수 있도록 최선을 다하고 있습니다.
+              </p>
+              <p>
+                요양보호사 한 분 한 분이 어르신의 가정을 직접 방문하여 신체활동
+                지원부터 정서적 교류까지 정성 어린 돌봄을 실천하고 있으며, 매월
+                정기 교육을 통해 서비스의 질을 꾸준히 높여 나가고 있습니다.
+              </p>
+              <p>
+                어르신과 가족 여러분의 신뢰에 보답하기 위해, 앞으로도 더 나은
+                섬김의 자세로 함께하겠습니다. 감사합니다.
+              </p>
             </div>
 
-            {/* 인사말 텍스트 */}
-            <div>
+            <div className="mt-8 pt-6 border-t border-[#A8C4E0]/50">
               <p
-                className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-3"
-              >
-                CENTER DIRECTOR
-              </p>
-              <h2
-                className="text-[#1A2E4A] text-2xl font-bold mb-6 leading-snug"
+                className="text-[#1A2E4A] font-bold"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
-                어르신의 일상을<br />
-                <span className="text-[#1A56A0]">함께 섬깁니다</span>
-              </h2>
-
-              <div className="space-y-4 text-[#1A2E4A] text-[15px] leading-[1.9]">
-                <p>
-                  안강 섬김 노인복지센터를 찾아주셔서 진심으로 감사드립니다.
-                </p>
-                <p>
-                  저희 센터는 경주·안강·영천·포항 지역에서 신체적·경제적·정신적으로
-                  어려움을 겪고 계신 어르신들이 존엄하고 행복한 노후를 보내실 수
-                  있도록 최선을 다하고 있습니다.
-                </p>
-                <p>
-                  요양보호사 한 분 한 분이 어르신의 가정을 직접 방문하여 신체활동
-                  지원부터 정서적 교류까지 정성 어린 돌봄을 실천하고 있으며,
-                  매월 정기 교육을 통해 서비스의 질을 꾸준히 높여 나가고 있습니다.
-                </p>
-                <p>
-                  어르신과 가족 여러분의 신뢰에 보답하기 위해, 앞으로도 더 나은
-                  섬김의 자세로 함께하겠습니다. 감사합니다.
-                </p>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-[#A8C4E0]/50">
-                <p
-                  className="text-[#1A2E4A] font-bold"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
-                >
-                  안강 섬김 노인복지센터장
-                </p>
-              </div>
+                안강 섬김 노인복지센터장
+              </p>
             </div>
           </div>
         </div>
@@ -123,7 +108,7 @@ export default function GreetingPage() {
                 key={i}
                 className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-2xl p-8 text-center"
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] mb-5">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#E8A020]/40 text-[#1A56A0] mb-5">
                   {v.icon}
                 </div>
                 <h3
@@ -132,7 +117,9 @@ export default function GreetingPage() {
                 >
                   {v.title}
                 </h3>
-                <p className="text-[#5A7A99] text-sm leading-relaxed">{v.desc}</p>
+                <p className="text-[#5A7A99] text-sm leading-relaxed">
+                  {v.desc}
+                </p>
               </div>
             ))}
           </div>

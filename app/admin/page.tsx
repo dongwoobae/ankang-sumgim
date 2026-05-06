@@ -1,17 +1,28 @@
 ﻿import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase/admin";
-import { Megaphone, Images, PlusCircle, ArrowRight, MessageSquare } from "lucide-react";
+import {
+  Megaphone,
+  Images,
+  PlusCircle,
+  ArrowRight,
+  MessageSquare,
+} from "lucide-react";
 
 async function getStats() {
-  const [{ count: noticeCount }, { count: categoryCount }, { count: unansweredCount }] =
-    await Promise.all([
-      adminSupabase.from("notices").select("*", { count: "exact", head: true }),
-      adminSupabase.from("photo_categories").select("*", { count: "exact", head: true }),
-      adminSupabase
-        .from("inquiries")
-        .select("*", { count: "exact", head: true })
-        .eq("is_answered", false),
-    ]);
+  const [
+    { count: noticeCount },
+    { count: categoryCount },
+    { count: unansweredCount },
+  ] = await Promise.all([
+    adminSupabase.from("notices").select("*", { count: "exact", head: true }),
+    adminSupabase
+      .from("photo_categories")
+      .select("*", { count: "exact", head: true }),
+    adminSupabase
+      .from("inquiries")
+      .select("*", { count: "exact", head: true })
+      .eq("is_answered", false),
+  ]);
   return {
     noticeCount: noticeCount ?? 0,
     categoryCount: categoryCount ?? 0,
@@ -45,15 +56,42 @@ export default async function AdminDashboard() {
   ]);
 
   const stats = [
-    { label: "전체 공지사항", value: noticeCount, icon: <Megaphone size={20} />, href: "/admin/notices" },
-    { label: "사진 카테고리", value: categoryCount, icon: <Images size={20} />, href: "/admin/photos" },
-    { label: "미답변 문의", value: unansweredCount, icon: <MessageSquare size={20} />, href: "/admin/inquiries" },
+    {
+      label: "전체 공지사항",
+      value: noticeCount,
+      icon: <Megaphone size={20} />,
+      href: "/admin/notices",
+    },
+    {
+      label: "사진 카테고리",
+      value: categoryCount,
+      icon: <Images size={20} />,
+      href: "/admin/photos",
+    },
+    {
+      label: "미답변 문의",
+      value: unansweredCount,
+      icon: <MessageSquare size={20} />,
+      href: "/admin/inquiries",
+    },
   ];
 
   const shortcuts = [
-    { label: "새 공지 작성", href: "/admin/notices/new", icon: <PlusCircle size={18} /> },
-    { label: "새 카테고리 만들기", href: "/admin/photos/new", icon: <PlusCircle size={18} /> },
-    { label: "문의 목록 보기", href: "/admin/inquiries", icon: <MessageSquare size={18} /> },
+    {
+      label: "새 공지 작성",
+      href: "/admin/notices/new",
+      icon: <PlusCircle size={18} />,
+    },
+    {
+      label: "새 카테고리 만들기",
+      href: "/admin/photos/new",
+      icon: <PlusCircle size={18} />,
+    },
+    {
+      label: "문의 목록 보기",
+      href: "/admin/inquiries",
+      icon: <MessageSquare size={18} />,
+    },
   ];
 
   return (
@@ -65,7 +103,9 @@ export default async function AdminDashboard() {
         >
           대시보드
         </h1>
-        <p className="text-[#5A7A99] text-sm mt-1">안강 섬김 노인복지센터 관리 페이지</p>
+        <p className="text-[#5A7A99] text-sm mt-1">
+          안강 섬김 노인복지센터 관리 페이지
+        </p>
       </div>
 
       {/* 통계 카드 */}
@@ -85,7 +125,9 @@ export default async function AdminDashboard() {
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               {stat.value}
-              <span className="text-sm font-normal text-[#5A7A99] ml-1">건</span>
+              <span className="text-sm font-normal text-[#5A7A99] ml-1">
+                건
+              </span>
             </p>
           </Link>
         ))}
@@ -105,7 +147,7 @@ export default async function AdminDashboard() {
               <Link
                 key={s.href}
                 href={s.href}
-                className="flex items-center gap-3 px-4 py-3 bg-[#EEF4FB] rounded-lg text-[#1A2E4A] text-sm font-medium hover:bg-[#2E6DB4]/50 transition-colors"
+                className="flex items-center gap-3 px-4 py-3 bg-[#EEF4FB] rounded-lg text-[#1A2E4A] text-sm font-medium hover:bg-[#E8A020]/50 transition-colors"
               >
                 <span className="text-[#1A56A0]">{s.icon}</span>
                 {s.label}
@@ -124,7 +166,10 @@ export default async function AdminDashboard() {
             >
               최근 공지사항
             </h2>
-            <Link href="/admin/notices" className="text-[#1A56A0] text-xs hover:underline">
+            <Link
+              href="/admin/notices"
+              className="text-[#1A56A0] text-xs hover:underline"
+            >
               전체 보기
             </Link>
           </div>
@@ -163,7 +208,10 @@ export default async function AdminDashboard() {
             >
               최근 문의
             </h2>
-            <Link href="/admin/inquiries" className="text-[#1A56A0] text-xs hover:underline">
+            <Link
+              href="/admin/inquiries"
+              className="text-[#1A56A0] text-xs hover:underline"
+            >
               전체 보기
             </Link>
           </div>

@@ -24,13 +24,12 @@ export default async function InquiryDetailPage({
   const inquiry = await getInquiry(id);
   if (!inquiry) notFound();
 
-  const replies = (
-    inquiry.inquiry_replies as {
+  const replies =
+    (inquiry.inquiry_replies as {
       id: number;
       content: string;
       created_at: string;
-    }[]
-  ) ?? [];
+    }[]) ?? [];
 
   return (
     <div className="p-8 max-w-3xl">
@@ -63,7 +62,10 @@ export default async function InquiryDetailPage({
               </span>
             )}
           </div>
-          <AnswerToggle id={String(inquiry.id)} isAnswered={inquiry.is_answered} />
+          <AnswerToggle
+            id={String(inquiry.id)}
+            isAnswered={inquiry.is_answered}
+          />
         </div>
 
         <h2
@@ -106,10 +108,12 @@ export default async function InquiryDetailPage({
           {replies.map((reply) => (
             <div
               key={reply.id}
-              className="bg-[#2E6DB4]/20 border border-[#A8C4E0]/60 rounded-xl p-5"
+              className="bg-[#E8A020]/20 border border-[#A8C4E0]/60 rounded-xl p-5"
             >
               <div className="flex items-start justify-between gap-3 mb-3">
-                <span className="text-[#1A56A0] text-xs font-bold">관리자 답변</span>
+                <span className="text-[#1A56A0] text-xs font-bold">
+                  관리자 답변
+                </span>
                 <div className="flex items-center gap-2">
                   <span className="text-[#5A7A99] text-xs">
                     {new Date(reply.created_at).toLocaleString("ko-KR")}

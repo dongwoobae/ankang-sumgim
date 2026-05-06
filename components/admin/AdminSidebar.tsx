@@ -18,27 +18,57 @@ const navGroups = [
   {
     label: "대시보드",
     items: [
-      { label: "홈", href: "/admin", icon: <LayoutDashboard size={16} />, exact: true },
+      {
+        label: "홈",
+        href: "/admin",
+        icon: <LayoutDashboard size={16} />,
+        exact: true,
+      },
     ],
   },
   {
     label: "공지사항",
     items: [
-      { label: "전체 목록", href: "/admin/notices", icon: <List size={16} />, exact: true },
-      { label: "새 공지 작성", href: "/admin/notices/new", icon: <PlusCircle size={16} />, exact: false },
+      {
+        label: "전체 목록",
+        href: "/admin/notices",
+        icon: <List size={16} />,
+        exact: true,
+      },
+      {
+        label: "새 공지 작성",
+        href: "/admin/notices/new",
+        icon: <PlusCircle size={16} />,
+        exact: false,
+      },
     ],
   },
   {
     label: "사진 게시판",
     items: [
-      { label: "카테고리 목록", href: "/admin/photos", icon: <Images size={16} />, exact: true },
-      { label: "새 카테고리 만들기", href: "/admin/photos/new", icon: <PlusCircle size={16} />, exact: false },
+      {
+        label: "카테고리 목록",
+        href: "/admin/photos",
+        icon: <Images size={16} />,
+        exact: true,
+      },
+      {
+        label: "새 카테고리 만들기",
+        href: "/admin/photos/new",
+        icon: <PlusCircle size={16} />,
+        exact: false,
+      },
     ],
   },
   {
     label: "문의 관리",
     items: [
-      { label: "문의 목록", href: "/admin/inquiries", icon: <MessageSquare size={16} />, exact: false },
+      {
+        label: "문의 목록",
+        href: "/admin/inquiries",
+        icon: <MessageSquare size={16} />,
+        exact: false,
+      },
     ],
   },
 ];
@@ -55,7 +85,7 @@ export default function AdminSidebar() {
       {/* 로고 */}
       <div className="px-5 py-5 border-b border-[#1A2E4A]">
         <p
-          className="text-[#2E6DB4] font-bold text-sm"
+          className="text-[#E8A020] font-bold text-sm"
           style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           안강 섬김
@@ -80,7 +110,7 @@ export default function AdminSidebar() {
                       className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                         active
                           ? "bg-[#1A56A0] text-[#FFFFFF] font-medium"
-                          : "text-[#A8C4E0] hover:bg-[#1A2E4A] hover:text-[#2E6DB4]"
+                          : "text-[#A8C4E0] hover:bg-[#1A2E4A] hover:text-[#E8A020]"
                       }`}
                     >
                       {item.icon}
@@ -99,7 +129,7 @@ export default function AdminSidebar() {
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#2E6DB4] transition-colors"
+          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#E8A020] transition-colors"
         >
           <ExternalLink size={16} />
           사이트 보기
@@ -107,7 +137,7 @@ export default function AdminSidebar() {
         <form action={logout}>
           <button
             type="submit"
-            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#2E6DB4] transition-colors text-left"
+            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[#A8C4E0] text-sm hover:bg-[#1A2E4A] hover:text-[#E8A020] transition-colors text-left"
           >
             <LogOut size={16} />
             로그아웃

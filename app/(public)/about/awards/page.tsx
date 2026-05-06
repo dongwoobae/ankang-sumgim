@@ -64,7 +64,9 @@ export default function AwardsPage() {
           >
             수상·기관선정
           </h1>
-          <p className="text-[#5A7A99] mt-3">신뢰로 쌓아온 수상 및 기관선정 내역</p>
+          <p className="text-[#5A7A99] mt-3">
+            신뢰로 쌓아온 수상 및 기관선정 내역
+          </p>
         </div>
       </section>
 
@@ -92,7 +94,7 @@ export default function AwardsPage() {
                 {/* 사진 플레이스홀더 */}
                 <div
                   className="w-28 h-28 rounded-xl border-2 border-dashed border-[#A8C4E0] flex flex-col items-center justify-center flex-shrink-0"
-                  style={{ background: "#2E6DB422" }}
+                  style={{ background: "#E8A02022" }}
                 >
                   <Award size={24} className="text-[#1A56A0] mb-1" />
                   <span className="text-[#5A7A99] text-[10px] text-center px-1">

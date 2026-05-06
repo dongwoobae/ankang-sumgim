@@ -5,22 +5,42 @@ const programs = [
   {
     title: "인지 자극 훈련",
     icon: "🧩",
-    items: ["기억력 강화 게임", "퍼즐·그림 맞추기", "숫자·글자 인지 활동", "회상 요법"],
+    items: [
+      "기억력 강화 게임",
+      "퍼즐·그림 맞추기",
+      "숫자·글자 인지 활동",
+      "회상 요법",
+    ],
   },
   {
     title: "일상생활 훈련",
     icon: "🏠",
-    items: ["요리·청소 등 가사 활동 참여", "개인위생 관리 훈련", "시간·날짜 인지 연습", "외출 동행 활동"],
+    items: [
+      "요리·청소 등 가사 활동 참여",
+      "개인위생 관리 훈련",
+      "시간·날짜 인지 연습",
+      "외출 동행 활동",
+    ],
   },
   {
     title: "신체 활동",
     icon: "🤸",
-    items: ["스트레칭 및 체조", "균형 감각 훈련", "손·발 근력 강화 운동", "산책 동행"],
+    items: [
+      "스트레칭 및 체조",
+      "균형 감각 훈련",
+      "손·발 근력 강화 운동",
+      "산책 동행",
+    ],
   },
   {
     title: "정서·사회 활동",
     icon: "💬",
-    items: ["말벗·대화 프로그램", "노래·음악 치료", "그림 그리기·공예", "가족 연계 소통 지원"],
+    items: [
+      "말벗·대화 프로그램",
+      "노래·음악 치료",
+      "그림 그리기·공예",
+      "가족 연계 소통 지원",
+    ],
   },
 ];
 
@@ -38,18 +58,24 @@ export default function CognitivePage() {
     <div>
       {/* 페이지 배너 */}
       <section
-        style={{ background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)" }}
+        style={{
+          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
+        }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">SERVICES</p>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+            SERVICES
+          </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             인지활동서비스
           </h1>
-          <p className="text-[#5A7A99] mt-3">치매 예방과 인지 기능 유지를 위한 전문 프로그램</p>
+          <p className="text-[#5A7A99] mt-3">
+            치매 예방과 인지 기능 유지를 위한 전문 프로그램
+          </p>
         </div>
       </section>
 
@@ -58,7 +84,9 @@ export default function CognitivePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start mb-16">
             <div>
-              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">OVERVIEW</p>
+              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+                OVERVIEW
+              </p>
               <h2
                 className="text-[#1A2E4A] text-2xl font-bold mb-5"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
@@ -66,24 +94,34 @@ export default function CognitivePage() {
                 인지활동서비스란?
               </h2>
               <p className="text-[#1A2E4A] text-[15px] leading-[1.9] mb-4">
-                치매·인지저하가 있는 어르신의 인지 기능 유지 및 악화 방지를 위해 전문 요양보호사가
-                가정을 방문하여 개인 맞춤형 인지 자극 프로그램을 제공하는 서비스입니다.
+                치매·인지저하가 있는 어르신의 인지 기능 유지 및 악화 방지를 위해
+                전문 요양보호사가 가정을 방문하여 개인 맞춤형 인지 자극
+                프로그램을 제공하는 서비스입니다.
               </p>
               <p className="text-[#1A2E4A] text-[15px] leading-[1.9]">
-                인지활동형 프로그램 교육을 이수한 전문 요양보호사가 어르신의 상태에 맞는
-                프로그램을 1:1로 진행하여 치매 진행을 늦추고 삶의 질을 높입니다.
+                인지활동형 프로그램 교육을 이수한 전문 요양보호사가 어르신의
+                상태에 맞는 프로그램을 1:1로 진행하여 치매 진행을 늦추고 삶의
+                질을 높입니다.
               </p>
 
               <div className="mt-7 p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl">
-                <p className="text-[#1A2E4A] font-bold text-sm mb-2">이용 자격</p>
+                <p className="text-[#1A2E4A] font-bold text-sm mb-2">
+                  이용 자격
+                </p>
                 <ul className="space-y-1.5">
                   {[
                     "장기요양 1~5등급 수급자 (치매 진단자 우선)",
                     "인지지원등급 수급자",
                     "경도 인지장애 또는 치매 어르신",
                   ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2 text-[#1A2E4A] text-sm">
-                      <CheckCircle size={13} className="text-[#1A56A0] flex-shrink-0" />
+                    <li
+                      key={i}
+                      className="flex items-center gap-2 text-[#1A2E4A] text-sm"
+                    >
+                      <CheckCircle
+                        size={13}
+                        className="text-[#1A56A0] flex-shrink-0"
+                      />
                       {item}
                     </li>
                   ))}
@@ -104,8 +142,14 @@ export default function CognitivePage() {
               </div>
               <ul className="space-y-3">
                 {effects.map((e, i) => (
-                  <li key={i} className="flex items-center gap-2 text-[#1A2E4A] text-sm">
-                    <CheckCircle size={14} className="text-[#1A56A0] flex-shrink-0" />
+                  <li
+                    key={i}
+                    className="flex items-center gap-2 text-[#1A2E4A] text-sm"
+                  >
+                    <CheckCircle
+                      size={14}
+                      className="text-[#1A56A0] flex-shrink-0"
+                    />
                     {e}
                   </li>
                 ))}
@@ -115,7 +159,9 @@ export default function CognitivePage() {
 
           {/* 프로그램 구성 */}
           <div>
-            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">PROGRAMS</p>
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+              PROGRAMS
+            </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold mb-8"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
@@ -137,7 +183,10 @@ export default function CognitivePage() {
                   </h3>
                   <ul className="space-y-1.5">
                     {prog.items.map((item, j) => (
-                      <li key={j} className="flex items-start gap-1.5 text-[#5A7A99] text-xs">
+                      <li
+                        key={j}
+                        className="flex items-start gap-1.5 text-[#5A7A99] text-xs"
+                      >
                         <span className="w-1 h-1 rounded-full bg-[#1A56A0] flex-shrink-0 mt-1.5" />
                         {item}
                       </li>
@@ -155,7 +204,7 @@ export default function CognitivePage() {
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <p
-              className="text-[#2E6DB4] font-bold text-lg mb-1"
+              className="text-[#E8A020] font-bold text-lg mb-1"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               인지활동서비스가 궁금하신가요?
@@ -167,13 +216,13 @@ export default function CognitivePage() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/inquiry"
-              className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#2E6DB4] hover:text-[#1A2E4A] transition-colors duration-300"
+              className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#E8A020] hover:text-[#1A2E4A] transition-colors duration-300"
             >
               상담 신청 <ArrowRight size={16} />
             </Link>
             <a
               href="tel:054-763-5988"
-              className="flex items-center gap-2 border border-[#2E6DB4] text-[#2E6DB4] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#2E6DB4] hover:text-[#1A2E4A] transition-colors duration-300"
+              className="flex items-center gap-2 border border-[#E8A020] text-[#E8A020] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#E8A020] hover:text-[#1A2E4A] transition-colors duration-300"
             >
               <Phone size={16} />
               054-763-5988

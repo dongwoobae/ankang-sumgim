@@ -40,7 +40,9 @@ export default function LocationPage() {
           >
             오시는길
           </h1>
-          <p className="text-[#5A7A99] mt-3">찾아오시는 방법을 안내해 드립니다</p>
+          <p className="text-[#5A7A99] mt-3">
+            찾아오시는 방법을 안내해 드립니다
+          </p>
         </div>
       </section>
 
@@ -71,7 +73,7 @@ export default function LocationPage() {
               </h2>
               <ul className="space-y-5">
                 <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
                     <MapPin size={18} />
                   </span>
                   <div>
@@ -82,7 +84,7 @@ export default function LocationPage() {
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
                     <Phone size={18} />
                   </span>
                   <div>
@@ -96,18 +98,21 @@ export default function LocationPage() {
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
                     <Mail size={18} />
                   </span>
                   <div>
                     <p className="text-[#5A7A99] text-xs mb-0.5">이메일</p>
-                    <p className="text-[#1A2E4A] font-medium">
-                      ankang.sumgim@naver.com
-                    </p>
+                    <a
+                      href="mailto:miyeong0695@daum.net"
+                      className="text-[#1A2E4A] font-medium hover:text-[#1A56A0] transition-colors"
+                    >
+                      miyeong0695@daum.net
+                    </a>
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#2E6DB4]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
                     <Clock size={18} />
                   </span>
                   <div>

@@ -16,10 +16,22 @@ const conditions = [
 ];
 
 const steps = [
-  { title: "요양보호사 자격 취득", desc: "지정 교육기관에서 교육 이수 후 자격시험 응시" },
-  { title: "장기요양 등급 신청", desc: "어르신이 국민건강보험공단에 등급 신청 (1~5등급)" },
-  { title: "가족요양 신청", desc: "센터 방문 상담 후 가족요양보호사 등록 신청" },
-  { title: "서비스 제공 및 급여 수령", desc: "월별 서비스 제공 후 장기요양급여비 청구" },
+  {
+    title: "요양보호사 자격 취득",
+    desc: "지정 교육기관에서 교육 이수 후 자격시험 응시",
+  },
+  {
+    title: "장기요양 등급 신청",
+    desc: "어르신이 국민건강보험공단에 등급 신청 (1~5등급)",
+  },
+  {
+    title: "가족요양 신청",
+    desc: "센터 방문 상담 후 가족요양보호사 등록 신청",
+  },
+  {
+    title: "서비스 제공 및 급여 수령",
+    desc: "월별 서비스 제공 후 장기요양급여비 청구",
+  },
 ];
 
 export default function FamilyCarePage() {
@@ -27,18 +39,24 @@ export default function FamilyCarePage() {
     <div>
       {/* 페이지 배너 */}
       <section
-        style={{ background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)" }}
+        style={{
+          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
+        }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">SERVICES</p>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+            SERVICES
+          </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             가족요양
           </h1>
-          <p className="text-[#5A7A99] mt-3">가족이 직접 돌보며 급여를 받을 수 있습니다</p>
+          <p className="text-[#5A7A99] mt-3">
+            가족이 직접 돌보며 급여를 받을 수 있습니다
+          </p>
         </div>
       </section>
 
@@ -47,7 +65,9 @@ export default function FamilyCarePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
             <div>
-              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">OVERVIEW</p>
+              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+                OVERVIEW
+              </p>
               <h2
                 className="text-[#1A2E4A] text-2xl font-bold mb-5"
                 style={{ fontFamily: "'Noto Serif KR', serif" }}
@@ -55,20 +75,29 @@ export default function FamilyCarePage() {
                 가족요양이란?
               </h2>
               <p className="text-[#1A2E4A] text-[15px] leading-[1.9] mb-4">
-                요양보호사 자격을 취득한 가족이 직접 어르신을 돌보고, 국민건강보험공단으로부터
-                장기요양급여를 수령하는 제도입니다.
+                요양보호사 자격을 취득한 가족이 직접 어르신을 돌보고,
+                국민건강보험공단으로부터 장기요양급여를 수령하는 제도입니다.
               </p>
               <p className="text-[#1A2E4A] text-[15px] leading-[1.9]">
-                가족과 함께 지내며 익숙한 환경에서 돌봄을 받을 수 있어 어르신의 정서적
-                안정에 도움이 되며, 돌봄 가족도 정당한 급여를 받을 수 있습니다.
+                가족과 함께 지내며 익숙한 환경에서 돌봄을 받을 수 있어 어르신의
+                정서적 안정에 도움이 되며, 돌봄 가족도 정당한 급여를 받을 수
+                있습니다.
               </p>
 
               <div className="mt-8 p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl">
-                <p className="text-[#1A2E4A] font-bold text-sm mb-3">대상 가족 범위</p>
+                <p className="text-[#1A2E4A] font-bold text-sm mb-3">
+                  대상 가족 범위
+                </p>
                 <ul className="space-y-1.5">
                   {eligibility.map((item, i) => (
-                    <li key={i} className="flex items-center gap-2 text-[#1A2E4A] text-sm">
-                      <CheckCircle size={13} className="text-[#1A56A0] flex-shrink-0" />
+                    <li
+                      key={i}
+                      className="flex items-center gap-2 text-[#1A2E4A] text-sm"
+                    >
+                      <CheckCircle
+                        size={13}
+                        className="text-[#1A56A0] flex-shrink-0"
+                      />
                       {item}
                     </li>
                   ))}
@@ -87,8 +116,14 @@ export default function FamilyCarePage() {
                 </h3>
                 <ul className="space-y-2.5">
                   {conditions.map((c, i) => (
-                    <li key={i} className="flex items-start gap-2 text-[#1A2E4A] text-sm leading-relaxed">
-                      <CheckCircle size={13} className="text-[#1A56A0] flex-shrink-0 mt-1" />
+                    <li
+                      key={i}
+                      className="flex items-start gap-2 text-[#1A2E4A] text-sm leading-relaxed"
+                    >
+                      <CheckCircle
+                        size={13}
+                        className="text-[#1A56A0] flex-shrink-0 mt-1"
+                      />
                       {c}
                     </li>
                   ))}
@@ -96,11 +131,15 @@ export default function FamilyCarePage() {
               </div>
 
               {/* 주의사항 */}
-              <div className="flex items-start gap-3 p-5 bg-[#2E6DB4]/20 border border-[#A8C4E0]/60 rounded-xl">
-                <AlertCircle size={18} className="text-[#1A56A0] flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 p-5 bg-[#E8A020]/20 border border-[#A8C4E0]/60 rounded-xl">
+                <AlertCircle
+                  size={18}
+                  className="text-[#1A56A0] flex-shrink-0 mt-0.5"
+                />
                 <p className="text-[#1A2E4A] text-sm leading-relaxed">
-                  가족요양보호사는 동일 수급자에게 하루 최대 <strong>60분 이상</strong> 서비스
-                  제공이 불가능합니다. 추가 돌봄이 필요하면 일반 방문요양과 병행하실 수 있습니다.
+                  가족요양보호사는 동일 수급자에게 하루 최대{" "}
+                  <strong>60분 이상</strong> 서비스 제공이 불가능합니다. 추가
+                  돌봄이 필요하면 일반 방문요양과 병행하실 수 있습니다.
                 </p>
               </div>
             </div>
@@ -112,7 +151,9 @@ export default function FamilyCarePage() {
       <section className="bg-[#EEF4FB] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-10 text-center">
-            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">PROCESS</p>
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+              PROCESS
+            </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold"
               style={{ fontFamily: "'Noto Serif KR', serif" }}
@@ -135,7 +176,9 @@ export default function FamilyCarePage() {
                 >
                   {s.title}
                 </p>
-                <p className="text-[#5A7A99] text-xs leading-relaxed">{s.desc}</p>
+                <p className="text-[#5A7A99] text-xs leading-relaxed">
+                  {s.desc}
+                </p>
               </div>
             ))}
           </div>

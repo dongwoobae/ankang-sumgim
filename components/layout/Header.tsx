@@ -11,8 +11,6 @@ const navItems = [
     children: [
       { label: "인사말", href: "/about/greeting", desc: "센터장 인사말" },
       { label: "오시는길", href: "/about/location", desc: "찾아오시는 방법" },
-      { label: "직원소개", href: "/about/staff", desc: "섬김의 사람들" },
-      { label: "평가정보", href: "/about/evaluation", desc: "기관 평가 현황" },
       {
         label: "수상·기관선정",
         href: "/about/awards",
@@ -210,7 +208,7 @@ export default function Header() {
                         className={`flex-1 group px-4 py-3 rounded-lg border transition-all duration-200
                         ${
                           pathname === child.href
-                            ? "bg-[#2E6DB4]/40 border-[#1A56A0]"
+                            ? "bg-[#E8A020]/40 border-[#1A56A0]"
                             : "bg-transparent border-transparent hover:bg-[#EEF4FB] hover:border-[#A8C4E0]"
                         }`}
                       >

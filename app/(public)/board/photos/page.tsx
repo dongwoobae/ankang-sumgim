@@ -19,18 +19,24 @@ export default async function PhotosPage() {
     <div>
       {/* 페이지 배너 */}
       <section
-        style={{ background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)" }}
+        style={{
+          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
+        }}
         className="py-16"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">BOARD</p>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+            BOARD
+          </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
             style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             사진 게시판
           </h1>
-          <p className="text-[#5A7A99] mt-3">안강 섬김의 따뜻한 활동 사진을 모았습니다</p>
+          <p className="text-[#5A7A99] mt-3">
+            안강 섬김의 따뜻한 활동 사진을 모았습니다
+          </p>
         </div>
       </section>
 
@@ -44,7 +50,8 @@ export default async function PhotosPage() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {albums.map((album) => {
-                const photos = (album.photos as { id: string; url: string }[]) ?? [];
+                const photos =
+                  (album.photos as { id: string; url: string }[]) ?? [];
                 const thumb = photos[0]?.url ?? null;
 
                 return (
@@ -53,7 +60,7 @@ export default async function PhotosPage() {
                     className="group bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-2xl overflow-hidden hover:border-[#1A56A0] hover:shadow-lg transition-all duration-300"
                   >
                     {/* 썸네일 */}
-                    <div className="w-full aspect-[4/3] relative bg-[#2E6DB422] border-b border-[#A8C4E0]/30">
+                    <div className="w-full aspect-[4/3] relative bg-[#E8A02022] border-b border-[#A8C4E0]/30">
                       {thumb ? (
                         <Image
                           src={thumb}
@@ -68,7 +75,9 @@ export default async function PhotosPage() {
                             size={32}
                             className="text-[#1A56A0] mb-2"
                           />
-                          <span className="text-[#5A7A99] text-xs">사진 없음</span>
+                          <span className="text-[#5A7A99] text-xs">
+                            사진 없음
+                          </span>
                         </div>
                       )}
                     </div>
