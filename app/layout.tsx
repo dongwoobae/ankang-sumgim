@@ -65,8 +65,7 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   verification: {
-    google:
-      "google-site-verification=JFcKUZi3bdxvWhOnlkOL-nwT2DUqT-ObiSS9YxZTfjw",
+    google: "uHLCbH46M0caurPjbFHsTV226bUAHaWTLL1zdj7UOoM",
   },
 };
 
