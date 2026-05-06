@@ -35,7 +35,7 @@ export async function sendInquiryNotificationEmail(params: {
   const { name, phone, email, serviceType, content } = params;
 
   return sendEmail({
-    to: process.env.INQUIRY_EMAIL ?? "ankang.sumgim@naver.com",
+    to: process.env.INQUIRY_EMAIL ?? "miyeong0695@daum.net",
     subject: `[상담문의] ${serviceType} - ${name}님`,
     html: `
 <!DOCTYPE html>

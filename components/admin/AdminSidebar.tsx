@@ -11,6 +11,7 @@ import {
   List,
   MessageSquare,
   Megaphone,
+  ImagePlus,
 } from "lucide-react";
 import { logout } from "@/app/actions/admin/auth";
 
@@ -68,6 +69,17 @@ const navGroups = [
         href: "/admin/inquiries",
         icon: <MessageSquare size={16} />,
         exact: false,
+      },
+    ],
+  },
+  {
+    label: "메인 페이지",
+    items: [
+      {
+        label: "메인 사진 관리",
+        href: "/admin/hero",
+        icon: <ImagePlus size={16} />,
+        exact: true,
       },
     ],
   },
