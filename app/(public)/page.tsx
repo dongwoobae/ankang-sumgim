@@ -118,7 +118,12 @@ export default function HomePage() {
                 <br />
                 <span className="text-[#1A56A0]">함께 섬깁니다</span>
               </h1>
-
+              <p
+                className="text-[#E8A020] text-lg font-semibold mb-4"
+                style={{ fontFamily: "'Noto Serif KR', serif" }}
+              >
+                &quot;사랑으로, 정성으로, 내 몸같이 섬김&quot;
+              </p>
               <p className="text-[#5A7A99] text-lg leading-relaxed mb-10 max-w-xl">
                 안강 섬김 노인복지센터는 경주·안강·영천·포항 전역에서
                 <br />

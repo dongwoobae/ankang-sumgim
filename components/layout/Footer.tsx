@@ -26,10 +26,11 @@ export default function Footer() {
                 </p>
               </div>
             </div>
-            <p className="text-[#A8C4E0] text-sm leading-relaxed">
-              어르신 한 분 한 분을 소중히 섬기며
-              <br />
-              따뜻한 돌봄을 실천합니다.
+            <p
+              className="text-[#E8A020] text-sm font-medium leading-relaxed"
+              style={{ fontFamily: "'Noto Serif KR', serif" }}
+            >
+              &quot;사랑으로, 정성으로, 내 몸같이 섬김&quot;
             </p>
             <div className="mt-5 flex flex-col gap-2">
               <a
