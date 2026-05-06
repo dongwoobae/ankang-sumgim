@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Phone, MapPin, Clock, Send } from "lucide-react";
 import { sendInquiry, type InquiryState } from "@/app/actions/sendInquiry";
 import FaqAccordion from "@/components/FaqAccordion";
@@ -17,12 +17,31 @@ const serviceTypes = [
 
 const initialState: InquiryState = { success: false, message: "" };
 
+/** 입력값을 한국 전화번호 형식으로 자동 포매팅 */
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+
+  if (digits.startsWith("02")) {
+    // 서울 지역번호: 02-XXX-XXXX or 02-XXXX-XXXX
+    if (digits.length <= 5) return digits.replace(/(\d{2})(\d+)/, "$1-$2");
+    if (digits.length <= 9)
+      return digits.replace(/(\d{2})(\d{3})(\d+)/, "$1-$2-$3");
+    return digits.replace(/(\d{2})(\d{4})(\d+)/, "$1-$2-$3");
+  }
+
+  // 010, 011, 054 등 나머지
+  if (digits.length <= 6) return digits.replace(/(\d{3})(\d+)/, "$1-$2");
+  if (digits.length <= 10)
+    return digits.replace(/(\d{3})(\d{3})(\d+)/, "$1-$2-$3");
+  return digits.replace(/(\d{3})(\d{4})(\d+)/, "$1-$2-$3");
+}
+
 export default function InquiryPage() {
   const [state, action, pending] = useActionState(sendInquiry, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const timestampRef = useRef<HTMLInputElement>(null);
+  const [phone, setPhone] = useState("");
 
-  // 폼 로드 시각을 hidden input에 기록
   useEffect(() => {
     if (timestampRef.current) {
       timestampRef.current.value = String(Date.now());
@@ -32,7 +51,7 @@ export default function InquiryPage() {
   useEffect(() => {
     if (state.success) {
       formRef.current?.reset();
-      // 리셋 후 타임스탬프 재기록
+      setTimeout(() => setPhone(""), 0);
       if (timestampRef.current) {
         timestampRef.current.value = String(Date.now());
       }
@@ -139,7 +158,6 @@ export default function InquiryPage() {
 
               <form ref={formRef} action={action} className="space-y-5">
                 {/* ── 스팸 방지 hidden 필드 ── */}
-                {/* Honeypot: 사람 눈에는 안 보이는 필드 — 봇만 채움 */}
                 <div
                   aria-hidden="true"
                   style={{
@@ -159,7 +177,6 @@ export default function InquiryPage() {
                     autoComplete="off"
                   />
                 </div>
-                {/* 타임스탬프: 폼 로드 시각 기록 */}
                 <input ref={timestampRef} name="_t" type="hidden" />
                 {/* ────────────────────────── */}
 
@@ -185,6 +202,8 @@ export default function InquiryPage() {
                       type="tel"
                       required
                       placeholder="010-0000-0000"
+                      value={phone}
+                      onChange={(e) => setPhone(formatPhone(e.target.value))}
                       className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] placeholder-[#5A7A99] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors"
                     />
                   </div>
