@@ -2,6 +2,7 @@
 import { Phone, MapPin, Award, ChevronRight, ArrowRight } from "lucide-react";
 import HeroPhotoCarousel from "@/components/layout/HeroPhotoCarousel";
 import { adminSupabase } from "@/lib/supabase/admin";
+import Image from "next/image";
 
 // 임시 공지 데이터 (나중에 Supabase에서 fetch)
 // const notices = [
@@ -93,12 +94,22 @@ async function getHeroPhotos() {
   return (data ?? []).map((p) => p.url);
 }
 
+async function getAwards() {
+  const { data } = await adminSupabase
+    .from("awards")
+    .select("id, title, org, awarded_at, image_url")
+    .order("awarded_at", { ascending: false })
+    .limit(3);
+  return data ?? [];
+}
+
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [notices, heroPhotos] = await Promise.all([
+  const [notices, heroPhotos, awards] = await Promise.all([
     getRecentNotices(),
     getHeroPhotos(),
+    getAwards(),
   ]);
   return (
     <div>
@@ -191,7 +202,7 @@ export default async function HomePage() {
       {/* ───── 신뢰 지표 띠 ───── */}
       <section className="bg-[#1A2E4A]">
         <div className="max-w-6xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             {stats.map((stat, i) => (
               <div key={i} className="text-center">
                 <p className="text-[#5A7A99] text-xs tracking-widest mb-1 uppercase">
@@ -271,30 +282,49 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {awards.map((award, i) => (
-              <div
-                key={i}
-                className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-2xl p-8 flex flex-col items-center text-center"
-              >
-                {/* 플레이스홀더 — 나중에 실제 사진으로 교체 */}
-                <div className="w-full h-40 rounded-xl bg-[#E8A020]/30 border-2 border-dashed border-[#A8C4E0] flex flex-col items-center justify-center mb-6">
-                  <Award size={28} className="text-[#1A56A0] mb-1" />
-                  <span className="text-[#5A7A99] text-xs">사진 교체 예정</span>
-                </div>
-                <span className="text-[#1A56A0] text-sm font-bold mb-1">
-                  {award.year}
-                </span>
-                <h3
-                  className="text-[#1A2E4A] font-bold text-base mb-1"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
+          {awards.length === 0 ? (
+            <p className="text-center text-[#5A7A99] py-8">
+              등록된 수상 내역이 없습니다.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {awards.map((award) => (
+                <div
+                  key={award.id}
+                  className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-2xl p-8 flex flex-col items-center text-center"
                 >
-                  {award.title}
-                </h3>
-                <p className="text-[#5A7A99] text-sm">{award.org}</p>
-              </div>
-            ))}
-          </div>
+                  <div className="w-full h-40 rounded-xl overflow-hidden bg-[#E8A020]/20 border border-[#A8C4E0]/50 flex flex-col items-center justify-center mb-6">
+                    {award.image_url ? (
+                      <Image
+                        src={award.image_url}
+                        alt={award.title}
+                        width={300}
+                        height={160}
+                        className="object-cover w-full h-full"
+                      />
+                    ) : (
+                      <>
+                        <Award size={28} className="text-[#1A56A0] mb-1" />
+                        <span className="text-[#5A7A99] text-xs">
+                          사진 교체 예정
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <span className="text-[#1A56A0] text-sm font-bold mb-1">
+                    {new Date(award.awarded_at).getFullYear()}
+                  </span>
+                  <h3
+                    className="text-[#1A2E4A] font-bold text-base mb-1"
+                    style={{ fontFamily: "'Noto Serif KR', serif" }}
+                  >
+                    {award.title}
+                  </h3>
+                  <p className="text-[#5A7A99] text-sm">{award.org}</p>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div className="text-center mt-8">
             <Link

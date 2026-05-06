@@ -12,6 +12,7 @@ import {
   MessageSquare,
   Megaphone,
   ImagePlus,
+  Trophy,
 } from "lucide-react";
 import { logout } from "@/app/actions/admin/auth";
 
@@ -69,6 +70,17 @@ const navGroups = [
         href: "/admin/inquiries",
         icon: <MessageSquare size={16} />,
         exact: false,
+      },
+    ],
+  },
+  {
+    label: "수상·기관선정",
+    items: [
+      {
+        label: "수상 관리",
+        href: "/admin/awards",
+        icon: <Trophy size={16} />,
+        exact: true,
       },
     ],
   },

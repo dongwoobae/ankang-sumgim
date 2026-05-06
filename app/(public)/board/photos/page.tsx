@@ -1,11 +1,12 @@
 ﻿import { adminSupabase } from "@/lib/supabase/admin";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 async function getAlbums() {
   const { data } = await adminSupabase
-    .from("photo_albums")
-    .select("id, title, created_at, photos(id, url)")
+    .from("photo_categories") // photo_albums → photo_categories
+    .select("id, name, created_at, photos(id, url)")
     .order("created_at", { ascending: false });
   return data ?? [];
 }
@@ -17,7 +18,6 @@ export default async function PhotosPage() {
 
   return (
     <div>
-      {/* 페이지 배너 */}
       <section
         style={{
           background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
@@ -55,16 +55,16 @@ export default async function PhotosPage() {
                 const thumb = photos[0]?.url ?? null;
 
                 return (
-                  <div
+                  <Link // div → Link
                     key={album.id}
+                    href={`/board/photos/${album.id}`}
                     className="group bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-2xl overflow-hidden hover:border-[#1A56A0] hover:shadow-lg transition-all duration-300"
                   >
-                    {/* 썸네일 */}
                     <div className="w-full aspect-[4/3] relative bg-[#E8A02022] border-b border-[#A8C4E0]/30">
                       {thumb ? (
                         <Image
                           src={thumb}
-                          alt={album.title}
+                          alt={album.name}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -81,20 +81,19 @@ export default async function PhotosPage() {
                         </div>
                       )}
                     </div>
-
                     <div className="p-4">
                       <h3
                         className="text-[#1A2E4A] font-bold text-sm mb-1 leading-snug group-hover:text-[#1A56A0] transition-colors line-clamp-2"
                         style={{ fontFamily: "'Noto Serif KR', serif" }}
                       >
-                        {album.title}
+                        {album.name} {/* title → name */}
                       </h3>
                       <p className="text-[#5A7A99] text-xs">
                         사진 {photos.length}장 ·{" "}
                         {new Date(album.created_at).toLocaleDateString("ko-KR")}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

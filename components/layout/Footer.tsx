@@ -99,12 +99,20 @@ export default function Footer() {
           <p className="text-xs text-[#5A7A99]">
             © 2024 안강 섬김 노인복지센터. All rights reserved.
           </p>
-          <Link
-            href="/admin"
-            className="text-xs text-[#5A7A99] hover:text-[#A8C4E0] transition-colors"
-          >
-            관리자 로그인
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/privacy"
+              className="text-xs text-[#5A7A99] hover:text-[#A8C4E0] transition-colors"
+            >
+              개인정보처리방침
+            </Link>
+            <Link
+              href="/admin"
+              className="text-xs text-[#5A7A99] hover:text-[#A8C4E0] transition-colors"
+            >
+              관리자 로그인
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
