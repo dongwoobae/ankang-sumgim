@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import { Phone, MapPin, Award, ChevronRight, ArrowRight } from "lucide-react";
+import HeroPhotoCarousel from "@/components/layout/HeroPhotoCarousel";
 
 // 임시 공지 데이터 (나중에 Supabase에서 fetch)
 const notices = [
@@ -79,9 +80,7 @@ export default function HomePage() {
       {/* ───── Hero ───── */}
       <section
         className="relative flex items-center"
-        style={{
-          minHeight: "calc(100vh - 108px)",
-        }}
+        style={{ minHeight: "calc(100vh - 108px)" }}
       >
         {/* 배경 장식 */}
         <div
@@ -89,63 +88,71 @@ export default function HomePage() {
           aria-hidden="true"
         >
           <div
-            className="absolute -right-32 -top-32 w-[600px] h-[600px] rounded-full opacity-20"
+            className="absolute -right-32 -top-32 w-[600px] h-[600px] rounded-full opacity-10"
             style={{ background: "#1A56A0" }}
           />
           <div
-            className="absolute -left-20 bottom-0 w-[400px] h-[400px] rounded-full opacity-10"
+            className="absolute -left-20 bottom-0 w-[400px] h-[400px] rounded-full opacity-5"
             style={{ background: "#1A2E4A" }}
           />
         </div>
 
         <div className="relative max-w-6xl mx-auto px-6 py-24 w-full">
-          <div className="max-w-2xl">
-            {/* 태그라인 */}
-            <div className="flex items-center gap-2 mb-6">
-              <span className="w-8 h-px bg-[#1A56A0]" />
-              <span className="text-[#1A56A0] text-sm font-semibold tracking-widest uppercase">
-                Ankang Sumgim Care Center
-              </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* 왼쪽: 텍스트 */}
+            <div>
+              {/* 태그라인 */}
+              <div className="flex items-center gap-2 mb-6">
+                <span className="w-8 h-px bg-[#1A56A0]" />
+                <span className="text-[#1A56A0] text-sm font-semibold tracking-widest uppercase">
+                  Ankang Sumgim Care Center
+                </span>
+              </div>
+
+              {/* 메인 헤드라인 */}
+              <h1
+                className="text-[#1A2E4A] text-5xl md:text-6xl font-bold leading-[1.2] mb-6"
+                style={{ fontFamily: "'Noto Serif KR', serif" }}
+              >
+                어르신의 일상을
+                <br />
+                <span className="text-[#1A56A0]">함께 섬깁니다</span>
+              </h1>
+
+              <p className="text-[#5A7A99] text-lg leading-relaxed mb-10 max-w-xl">
+                안강 섬김 노인복지센터는 경주·안강·영천·포항 전역에서
+                <br />
+                어르신 한 분 한 분의 소중한 일상을 정성껏 돌봅니다.
+              </p>
+
+              {/* CTA 버튼 */}
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/inquiry"
+                  className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-base hover:bg-[#1A2E4A] transition-colors duration-300"
+                >
+                  지금 상담 문의하기
+                  <ArrowRight size={18} />
+                </Link>
+                <a
+                  href="tel:054-763-5988"
+                  className="flex items-center gap-2 border-2 border-[#1A56A0] text-[#1A56A0] px-7 py-4 rounded-xl font-bold text-base hover:bg-[#1A56A0] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
+                  <Phone size={18} />
+                  054-763-5988
+                </a>
+              </div>
+
+              {/* 위치 */}
+              <div className="flex items-center gap-1.5 mt-8 text-[#5A7A99] text-sm">
+                <MapPin size={14} />
+                경상북도 경주시 안강읍 화전중앙길 53
+              </div>
             </div>
 
-            {/* 메인 헤드라인 */}
-            <h1
-              className="text-[#1A2E4A] text-5xl md:text-6xl font-bold leading-[1.2] mb-6"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
-            >
-              어르신의 일상을
-              <br />
-              <span className="text-[#1A56A0]">함께 섬깁니다</span>
-            </h1>
-
-            <p className="text-[#5A7A99] text-lg leading-relaxed mb-10 max-w-xl">
-              안강 섬김 노인복지센터는 경주·안강·영천·포항 전역에서
-              <br />
-              어르신 한 분 한 분의 소중한 일상을 정성껏 돌봅니다.
-            </p>
-
-            {/* CTA 버튼 */}
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/inquiry"
-                className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-base hover:bg-[#1A2E4A] transition-colors duration-300"
-              >
-                지금 상담 문의하기
-                <ArrowRight size={18} />
-              </Link>
-              <a
-                href="tel:054-763-5988"
-                className="flex items-center gap-2 border-2 border-[#1A56A0] text-[#1A56A0] px-7 py-4 rounded-xl font-bold text-base hover:bg-[#1A56A0] hover:text-[#FFFFFF] transition-colors duration-300"
-              >
-                <Phone size={18} />
-                054-763-5988
-              </a>
-            </div>
-
-            {/* 위치 */}
-            <div className="flex items-center gap-1.5 mt-8 text-[#5A7A99] text-sm">
-              <MapPin size={14} />
-              경상북도 경주시 안강읍 화전중앙길 53
+            {/* 오른쪽: 사진 캐러셀 */}
+            <div className="hidden md:block">
+              <HeroPhotoCarousel />
             </div>
           </div>
         </div>

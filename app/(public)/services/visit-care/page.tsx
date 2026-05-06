@@ -27,11 +27,6 @@ const serviceItems = [
 
 const highlights = [
   {
-    title: "방문 시간",
-    value: "1회 3시간",
-    desc: "타 기관 대비 충분한 돌봄 시간",
-  },
-  {
     title: "목욕차 보유",
     value: "2대",
     desc: "지역 최다 보유 — 빠른 배차 가능",
@@ -107,9 +102,9 @@ export default function VisitCarePage() {
                 방문하여 신체활동 및 가사활동을 지원하는 재가급여 서비스입니다.
               </p>
               <p className="text-[#1A2E4A] text-[15px] leading-[1.9]">
-                안강 섬김 노인복지센터는 1회 방문 시 3시간의 충분한 돌봄을
-                제공하며, 경주·안강·영천·포항 전역에서 서비스를 운영하고
-                있습니다.
+                안강 섬김 노인복지센터는 어르신의 상태에 맞게 1회 방문 시 다양한
+                시간으로 돌봄을 제공하며, 경주·안강·영천·포항 전역에서 서비스를
+                운영하고 있습니다.
               </p>
 
               <div className="mt-8 p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl">
