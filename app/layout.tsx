@@ -64,6 +64,10 @@ export const metadata: Metadata = {
       "어르신 한 분 한 분을 소중히 섬기는 안강 섬김 노인복지센터입니다.",
     images: ["/og-image.png"],
   },
+  verification: {
+    google:
+      "google-site-verification=JFcKUZi3bdxvWhOnlkOL-nwT2DUqT-ObiSS9YxZTfjw",
+  },
 };
 
 export default function RootLayout({
