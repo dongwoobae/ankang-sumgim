@@ -7,7 +7,7 @@
 "use client";
 
 import { useState, useRef, useTransition, useEffect } from "react";
-import { uploadPhoto, type FaceRegion } from "@/app/actions/admin/uploadPhoto";
+import type { FaceRegion } from "@/app/actions/admin/uploadPhoto";
 import {
   savePhotoMetadata,
   deletePhoto,
@@ -136,60 +136,64 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       detectionResults.push(regions);
     }
 
-    // ── Phase 2: 병렬 업로드 + DB 저장 ───────────────────────────────────
-    // 각 uploadPhoto 호출은 독립적인 서버리스 인스턴스로 처리됨
+    // ── Phase 2: 병렬 업로드 (API Route) + 순차 DB 저장 ─────────────────
+    // Server Action은 React 큐로 직렬화됨 → fetch API Route로 진짜 병렬 처리
+    // savePhotoMetadata는 경량 INSERT이므로 순차로 처리
     setPhase("upload");
     setProgress({ current: 0, total: fileArray.length });
 
-    // 업로드 완료 카운터 (낙관적 업데이트용)
     let uploadedCount = 0;
 
-    const results: (Photo | null)[] = await Promise.all(
+    const uploadResults = await Promise.all(
       fileArray.map(async (file, i) => {
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("folder", `photos/categories/${categoryId}`);
+        formData.append("faceRegions", JSON.stringify(detectionResults[i]));
 
-        const result = await uploadPhoto(
-          formData,
-          `photos/categories/${categoryId}`,
-          detectionResults[i],
-        );
+        try {
+          const res = await fetch("/api/upload-photo", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await res.json() as { url?: string; originalUrl?: string | null; error?: string };
 
-        if (result.error || !result.url) {
-          setError(`${file.name}: ${result.error ?? "업로드 실패"}`);
           uploadedCount += 1;
           setProgress((prev) => ({ ...prev, current: uploadedCount }));
+
+          if (!res.ok || data.error || !data.url) {
+            setError(`${file.name}: ${data.error ?? "업로드 실패"}`);
+            return null;
+          }
+
+          return { file, url: data.url, originalUrl: data.originalUrl ?? null };
+        } catch {
+          uploadedCount += 1;
+          setProgress((prev) => ({ ...prev, current: uploadedCount }));
+          setError(`${file.name}: 네트워크 오류`);
           return null;
         }
-
-        const meta = await savePhotoMetadata(
-          categoryId,
-          result.url,
-          result.originalUrl ?? null,
-        );
-
-        uploadedCount += 1;
-        setProgress((prev) => ({ ...prev, current: uploadedCount }));
-
-        if (meta?.error) {
-          setError(meta.error);
-          return null;
-        }
-
-        const newPhoto: Photo = {
-          id: meta.id ?? Date.now(),
-          url: result.url,
-          original_url: result.originalUrl ?? null,
-          is_face_blurred: result.originalUrl !== null,
-          caption: null,
-          created_at: new Date().toISOString(),
-        };
-        return newPhoto;
       }),
     );
 
-    // React 18 자동 배치: 아래 setState들은 단일 리렌더로 처리됨
-    const uploaded = results.filter((r): r is Photo => r !== null);
+    // DB 저장은 순차 (savePhotoMetadata는 Server Action, 경량 INSERT)
+    const uploaded: Photo[] = [];
+    for (const result of uploadResults) {
+      if (!result) continue;
+      const meta = await savePhotoMetadata(categoryId, result.url, result.originalUrl);
+      if (meta?.error) {
+        setError(meta.error);
+        continue;
+      }
+      uploaded.push({
+        id: meta.id ?? Date.now(),
+        url: result.url,
+        original_url: result.originalUrl,
+        is_face_blurred: result.originalUrl !== null,
+        caption: null,
+        created_at: new Date().toISOString(),
+      });
+    }
     setPhotos((prev) => [...uploaded, ...prev]);
     setUploading(false);
     setPhase("");
