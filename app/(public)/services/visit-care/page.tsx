@@ -1,6 +1,7 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowRight, CheckCircle, Phone } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
+import ServicePhotoCarousel from "@/components/ServicePhotoCarousel";
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,30 +10,6 @@ export const metadata: Metadata = {
     "요양보호사가 가정을 직접 방문하여 신체활동·가사활동·정서지원 서비스를 제공합니다. 목욕차 2대 보유.",
   openGraph: { url: "/services/visit-care" },
 };
-
-const serviceItems = [
-  {
-    category: "신체활동 지원",
-    items: [
-      "세면 도움",
-      "구강 관리",
-      "머리 감기기",
-      "몸 청결 유지",
-      "목욕 보조",
-      "식사 도움",
-      "체위 변경",
-      "이동 보조",
-    ],
-  },
-  {
-    category: "가사활동 지원",
-    items: ["취사", "청소·주변 정돈", "세탁", "장보기", "외출 동행"],
-  },
-  {
-    category: "정서 지원",
-    items: ["말벗·상담", "생활 상담", "의사소통 보조"],
-  },
-];
 
 const highlights = [
   {
@@ -133,7 +110,8 @@ export default function VisitCarePage() {
       {/* 서비스 소개 */}
       <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
+          {/* 상단: 설명 텍스트 + 이용 자격 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start mb-14">
             <div>
               <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
                 WHAT WE DO
@@ -153,143 +131,39 @@ export default function VisitCarePage() {
                 시간으로 돌봄을 제공하며, 경주·안강·영천·포항 전역에서 서비스를
                 운영하고 있습니다.
               </p>
-
-              <div className="mt-8 p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl">
-                <p className="text-[#1A2E4A] font-bold text-sm mb-2">
-                  이용 자격
-                </p>
-                <ul className="space-y-1.5">
-                  {[
-                    "장기요양인정서를 받은 1~5등급 수급자",
-                    "인지지원등급 수급자 (일부 서비스 제한)",
-                    "의사소견서 제출 완료자",
-                  ].map((item, i) => (
-                    <li
-                      key={i}
-                      className="flex items-center gap-2 text-[#1A2E4A] text-sm"
-                    >
-                      <CheckCircle
-                        size={13}
-                        className="text-[#1A56A0] flex-shrink-0"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
 
-            {/* 서비스 항목 */}
-            <div className="space-y-5">
-              {serviceItems.map((si, i) => (
-                <div
-                  key={i}
-                  className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-5"
-                >
-                  <h3
-                    className="text-[#1A2E4A] font-bold mb-3"
-                    style={{ fontFamily: "'Noto Serif KR', serif" }}
+            <div className="p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl">
+              <p className="text-[#1A2E4A] font-bold text-sm mb-3">
+                이용 자격
+              </p>
+              <ul className="space-y-2">
+                {[
+                  "장기요양인정서를 받은 1~5등급 수급자",
+                  "인지지원등급 수급자 (일부 서비스 제한)",
+                  "의사소견서 제출 완료자",
+                ].map((item, i) => (
+                  <li
+                    key={i}
+                    className="flex items-center gap-2 text-[#1A2E4A] text-sm"
                   >
-                    {si.category}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {si.items.map((item, j) => (
-                      <span
-                        key={j}
-                        className="text-xs bg-[#FFFFFF] text-[#1A2E4A] px-3 py-1 rounded-full border border-[#A8C4E0]/60"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                    <CheckCircle
+                      size={13}
+                      className="text-[#1A56A0] flex-shrink-0"
+                    />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
+
+          {/* 하단: 캐러셀 (탭 + 사진 + 서비스 태그) */}
+          <ServicePhotoCarousel />
         </div>
       </section>
 
       {visitCareProcess}
-
-      {/* 이용 방법 */}
-      {/* <section className="bg-[#EEF4FB] py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-              HOW TO USE
-            </p>
-            <h2
-              className="text-[#1A2E4A] text-2xl font-bold"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
-            >
-              서비스 이용 방법
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
-            {[
-              {
-                step: "1",
-                title: "등급 신청",
-                desc: "국민건강보험공단에 장기요양인정 신청",
-              },
-              {
-                step: "2",
-                title: "등급 판정",
-                desc: "방문조사 후 등급 결정 (보통 30일 내)",
-              },
-              {
-                step: "3",
-                title: "센터 상담",
-                desc: "안강 섬김 센터에 연락하여 상담 진행",
-              },
-              {
-                step: "4",
-                title: "서비스 시작",
-                desc: "계약 체결 후 방문요양 서비스 개시",
-              },
-            ].map((s, i) => (
-              <div
-                key={i}
-                className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-5 text-center"
-              >
-                <div className="w-10 h-10 rounded-full bg-[#1A56A0] text-[#FFFFFF] font-bold flex items-center justify-center mx-auto mb-4">
-                  {s.step}
-                </div>
-                <p
-                  className="text-[#1A2E4A] font-bold mb-2 text-sm"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
-                >
-                  {s.title}
-                </p>
-                <p className="text-[#5A7A99] text-xs leading-relaxed">
-                  {s.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <p className="text-[#5A7A99] text-sm mb-5">
-              등급 신청 방법이 궁금하시면 아래 버튼을 눌러 안내를 확인하세요.
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <Link
-                href="/services/grade-apply"
-                className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#1A2E4A] transition-colors duration-300"
-              >
-                등급신청 안내 <ArrowRight size={16} />
-              </Link>
-              <a
-                href="tel:054-763-5988"
-                className="flex items-center gap-2 border-2 border-[#1A56A0] text-[#1A56A0] px-7 py-4 rounded-xl font-bold text-sm hover:bg-[#1A56A0] hover:text-[#FFFFFF] transition-colors duration-300"
-              >
-                <Phone size={16} />
-                054-763-5988 전화 상담
-              </a>
-            </div>
-          </div>
-        </div>
-      </section> */}
     </div>
   );
 }
