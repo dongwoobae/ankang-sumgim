@@ -17,6 +17,7 @@ import {
   ChevronRight,
   Menu,
   X,
+  AlertTriangle,
 } from "lucide-react";
 import { logout } from "@/app/actions/admin/auth";
 
@@ -95,6 +96,17 @@ const navGroups = [
         label: "메인 사진 관리",
         href: "/admin/hero",
         icon: <ImagePlus size={16} />,
+        exact: true,
+      },
+    ],
+  },
+  {
+    label: "시스템",
+    items: [
+      {
+        label: "오류 로그",
+        href: "/admin/logs",
+        icon: <AlertTriangle size={16} />,
         exact: true,
       },
     ],

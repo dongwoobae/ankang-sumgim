@@ -7,6 +7,7 @@
 import { adminSupabase } from "@/lib/supabase/admin";
 import { deleteFromR2, extractR2Key } from "@/lib/r2";
 import { revalidatePath } from "next/cache";
+import { logError } from "@/lib/errorLog";
 
 export async function saveHeroPhoto(
   url: string,
@@ -18,8 +19,10 @@ export async function saveHeroPhoto(
     .select("id")
     .single();
 
-  if (error)
-    return { error: "저장 중 오류가 발생했습니다: " + error.message };
+  if (error) {
+    await logError("admin/hero/save", error);
+    return { error: "저장 중 오류가 발생했습니다." };
+  }
 
   revalidatePath("/");
   revalidatePath("/admin/hero");

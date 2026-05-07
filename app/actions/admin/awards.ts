@@ -3,6 +3,7 @@
 import { adminSupabase } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 import { deleteFromR2, extractR2Key } from "@/lib/r2";
+import { logError } from "@/lib/errorLog";
 
 export async function saveAward(payload: {
   title: string;
@@ -18,7 +19,10 @@ export async function saveAward(payload: {
     .select("id")
     .single();
 
-  if (error) return { error: "저장 중 오류가 발생했습니다: " + error.message };
+  if (error) {
+    await logError("admin/awards/save", error);
+    return { error: "저장 중 오류가 발생했습니다." };
+  }
 
   revalidatePath("/about/awards");
   revalidatePath("/admin/awards");

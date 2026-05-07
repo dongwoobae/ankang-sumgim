@@ -41,6 +41,7 @@ export default function InquiryPage() {
   const formRef = useRef<HTMLFormElement>(null);
   const timestampRef = useRef<HTMLInputElement>(null);
   const [phone, setPhone] = useState("");
+  const [content, setContent] = useState("");
 
   useEffect(() => {
     if (timestampRef.current) {
@@ -51,7 +52,7 @@ export default function InquiryPage() {
   useEffect(() => {
     if (state.success) {
       formRef.current?.reset();
-      setTimeout(() => setPhone(""), 0);
+      setTimeout(() => { setPhone(""); setContent(""); }, 0);
       if (timestampRef.current) {
         timestampRef.current.value = String(Date.now());
       }
@@ -250,9 +251,18 @@ export default function InquiryPage() {
                     name="content"
                     required
                     rows={5}
+                    maxLength={1000}
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
                     placeholder="문의하실 내용을 자유롭게 적어주세요."
                     className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] placeholder-[#5A7A99] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors resize-none"
                   />
+                  <p
+                    className="text-right text-xs mt-1"
+                    style={{ color: content.length >= 1000 ? "#dc2626" : "#5A7A99" }}
+                  >
+                    ({content.length}/1000)
+                  </p>
                 </div>
 
                 {state.message && (
