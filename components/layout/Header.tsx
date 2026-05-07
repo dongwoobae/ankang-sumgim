@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Phone, Clock } from "lucide-react";
@@ -69,46 +70,61 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 12);
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header
-      className={`sticky top-0 z-50 bg-white/92 backdrop-blur-md transition-shadow duration-300 ${
-        scrolled ? "shadow-[0_6px_24px_rgba(14,26,46,0.06)]" : ""
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-shadow duration-300"
+      style={{
+        boxShadow: scrolled ? "0 2px 20px rgba(92,74,30,0.12)" : "none",
+      }}
     >
       {/* 상단 정보 바 */}
-      <div className="bg-[var(--ink-2)] text-white/78 text-xs">
-        <div className="max-w-[1200px] mx-auto px-6 h-9 flex items-center justify-end gap-[22px]">
-          <span className="inline-flex items-center gap-1.5 tracking-wide">
-            <Clock size={11} />
-            평일 09:00–18:00 · 토 09:00–14:00
+      <div className="bg-[#1A2E4A] text-[#A8C4E0] text-xs">
+        <div className="max-w-6xl mx-auto px-6 h-9 flex items-center justify-between">
+          <span className="tracking-wide font-medium">
+            {/* 안강 섬김 노인복지센터 */}
           </span>
-          <span className="inline-flex items-center gap-1.5 tracking-wide">
-            <Phone size={11} />
-            054-763-5988
-          </span>
+          <div className="flex items-center gap-5">
+            <span className="flex items-center gap-1.5">
+              <Clock size={11} />
+              평일 09:00–18:00 &nbsp;·&nbsp; 토 09:00–14:00
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Phone size={11} />
+              054-763-5988
+            </span>
+          </div>
         </div>
       </div>
 
       {/* 메인 헤더 */}
-      <div className="border-b border-[var(--line)]">
-        <div className="max-w-[1200px] mx-auto px-6 h-[76px] flex items-center justify-between">
+      <div className="bg-[#FFFFFF] border-b border-[#A8C4E0]/60">
+        <div className="max-w-6xl mx-auto px-6 h-[72px] flex items-center justify-between">
           {/* 로고 */}
-          <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-            <div
-              className="w-10 h-10 rounded-full bg-[var(--pop)] text-white grid place-items-center font-extrabold text-[17px] transition-all duration-300 group-hover:rotate-[-8deg] group-hover:bg-[var(--ink-2)]"
-            >
-              섬
-            </div>
-            <div className="leading-tight">
-              <p className="text-[var(--ink-2)] font-bold text-[17px] tracking-tight">
+          <Link
+            href="/"
+            className="flex items-center gap-3 group flex-shrink-0"
+          >
+            <Image
+              src="/logo.png"
+              alt="안강 섬김 노인복지센터 로고"
+              width={40}
+              height={40}
+              priority
+              className="rounded-sm"
+            />
+            <div className="leading-snug">
+              <p
+                className="text-[#1A2E4A] font-bold text-[17px] tracking-tight"
+                style={{ fontFamily: "'Noto Serif KR', serif" }}
+              >
                 안강 섬김
               </p>
-              <p className="text-[var(--muted)] text-[11px] tracking-[0.18em]">
+              <p className="text-[#5A7A99] text-[11px] tracking-[0.15em]">
                 노인복지센터
               </p>
             </div>
@@ -124,20 +140,17 @@ export default function Header() {
                 item.href != null && pathname.startsWith(item.href);
               const labelKey = item.label;
 
-              const labelClass = `relative px-[18px] h-full flex items-center text-[15px] font-medium tracking-tight transition-colors duration-200 ${
-                isActive
-                  ? "text-[var(--pop)]"
-                  : "text-[var(--ink-2)] hover:text-[var(--pop)]"
-              }`;
+              const labelClass = `relative px-5 h-full flex items-center text-[15px] font-medium tracking-tight transition-colors duration-200
+                ${isActive ? "text-[#1A56A0]" : "text-[#1A2E4A] hover:text-[#1A56A0]"}`;
 
               const underline = (
                 <span
-                  className="absolute bottom-0 left-[18px] right-[18px] h-[2px] bg-[var(--pop)] transition-transform duration-200 origin-center"
+                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#1A56A0] transition-transform duration-200 origin-bottom"
                   style={{
                     transform:
                       isActive || activeMenu === labelKey
-                        ? "scaleX(1)"
-                        : "scaleX(0)",
+                        ? "scaleY(1)"
+                        : "scaleY(0)",
                   }}
                 />
               );
@@ -164,17 +177,9 @@ export default function Header() {
             })}
           </nav>
 
-          {/* CTA 버튼 (데스크탑) */}
-          <Link
-            href="/inquiry"
-            className="hidden md:inline-flex items-center gap-2 bg-[var(--pop)] text-white px-[18px] py-[10px] rounded-full text-[14px] font-semibold transition-all hover:bg-[var(--ink-2)] hover:-translate-y-px"
-          >
-            상담 문의 <span>→</span>
-          </Link>
-
           {/* 모바일 햄버거 */}
           <button
-            className="md:hidden p-2 text-[var(--ink-2)]"
+            className="md:hidden p-2 text-[#1A2E4A]"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="메뉴"
           >
@@ -187,12 +192,12 @@ export default function Header() {
           (navItems.find((i) => i.label === activeMenu)?.children.length ?? 0) >
             0 && (
             <div
-              className="hidden md:block absolute left-0 right-0 bg-white border-b border-[var(--line)]"
-              style={{ boxShadow: "0 8px 24px rgba(14,26,46,0.08)" }}
+              className="hidden md:block absolute left-0 right-0 bg-[#FFFFFF] border-b border-[#A8C4E0]/60"
+              style={{ boxShadow: "0 8px 24px rgba(92,74,30,0.10)" }}
               onMouseEnter={() => setActiveMenu(activeMenu)}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <div className="max-w-[1200px] mx-auto px-6 py-5">
+              <div className="max-w-6xl mx-auto px-6 py-5">
                 <div className="flex gap-2">
                   {navItems
                     .find((i) => i.label === activeMenu)
@@ -201,24 +206,20 @@ export default function Header() {
                         key={child.href}
                         href={child.href}
                         onClick={() => setActiveMenu(null)}
-                        className={`flex-1 group px-4 py-3 rounded-lg border transition-all duration-200 ${
+                        className={`flex-1 group px-4 py-3 rounded-lg border transition-all duration-200
+                        ${
                           pathname === child.href
-                            ? "bg-[var(--paper-3)] border-[var(--pop)]"
-                            : "bg-transparent border-transparent hover:bg-[var(--paper-2)] hover:border-[var(--line)]"
+                            ? "bg-[#E8A020]/40 border-[#1A56A0]"
+                            : "bg-transparent border-transparent hover:bg-[#EEF4FB] hover:border-[#A8C4E0]"
                         }`}
                       >
                         <p
-                          className={`text-sm font-medium mb-0.5 transition-colors ${
-                            pathname === child.href
-                              ? "text-[var(--pop)]"
-                              : "text-[var(--ink-2)] group-hover:text-[var(--pop)]"
-                          }`}
+                          className={`text-sm font-medium mb-0.5 transition-colors
+                        ${pathname === child.href ? "text-[#1A56A0]" : "text-[#1A2E4A] group-hover:text-[#1A56A0]"}`}
                         >
                           {child.label}
                         </p>
-                        <p className="text-xs text-[var(--muted)]">
-                          {child.desc}
-                        </p>
+                        <p className="text-xs text-[#5A7A99]">{child.desc}</p>
                       </Link>
                     ))}
                 </div>
@@ -229,19 +230,19 @@ export default function Header() {
 
       {/* 모바일 메뉴 */}
       {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-[var(--line)] overflow-y-auto max-h-[80vh]">
+        <div className="md:hidden bg-[#FFFFFF] border-t border-[#A8C4E0]/60 overflow-y-auto max-h-[80vh]">
           {navItems.map((item) => (
-            <div key={item.label} className="border-b border-[var(--paper-2)]">
+            <div key={item.label} className="border-b border-[#EEF4FB]">
               {item.href != null ? (
                 <Link
                   href={item.href}
-                  className="flex items-center px-6 py-4 text-[var(--ink-2)] font-medium text-sm"
+                  className="flex items-center px-6 py-4 text-[#1A2E4A] font-medium text-sm"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
                 </Link>
               ) : (
-                <span className="flex items-center px-6 py-4 text-[var(--ink-2)] font-medium text-sm">
+                <span className="flex items-center px-6 py-4 text-[#1A2E4A] font-medium text-sm">
                   {item.label}
                 </span>
               )}
@@ -249,25 +250,15 @@ export default function Header() {
                 <Link
                   key={child.href}
                   href={child.href}
-                  className="flex items-center gap-2 pl-10 pr-6 py-3 text-[var(--muted)] text-sm hover:text-[var(--pop)] hover:bg-[var(--paper-2)]"
+                  className="flex items-center gap-2 pl-10 pr-6 py-3 text-[#5A7A99] text-sm hover:text-[#1A56A0] hover:bg-[#EEF4FB]"
                   onClick={() => setMobileOpen(false)}
                 >
-                  <span className="w-1 h-1 rounded-full bg-[var(--line-2)] flex-shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-[#A8C4E0] flex-shrink-0" />
                   {child.label}
                 </Link>
               ))}
             </div>
           ))}
-          {/* 모바일 CTA */}
-          <div className="p-4">
-            <Link
-              href="/inquiry"
-              className="flex items-center justify-center gap-2 bg-[var(--pop)] text-white px-5 py-3 rounded-full text-[14px] font-semibold"
-              onClick={() => setMobileOpen(false)}
-            >
-              상담 문의 →
-            </Link>
-          </div>
         </div>
       )}
     </header>
