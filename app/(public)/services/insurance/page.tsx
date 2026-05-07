@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowRight, CheckCircle, Info } from "lucide-react";
 import { type Metadata } from "next";
 
@@ -86,7 +86,6 @@ export default function InsurancePage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             노인장기요양보험이란
           </h1>
@@ -104,7 +103,6 @@ export default function InsurancePage() {
               </p>
               <h2
                 className="text-[#1A2E4A] text-2xl font-bold mb-5"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 노인장기요양보험 제도란?
               </h2>
@@ -133,7 +131,6 @@ export default function InsurancePage() {
                   <p className="text-[#5A7A99] text-xs mb-2">{item.label}</p>
                   <p
                     className="text-[#1A2E4A] font-bold text-base whitespace-pre-line leading-snug"
-                    style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     {item.value}
                   </p>
@@ -149,7 +146,6 @@ export default function InsurancePage() {
             </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold mb-8"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               신청 절차
             </h2>
@@ -162,7 +158,6 @@ export default function InsurancePage() {
                     </p>
                     <p
                       className="text-[#1A2E4A] font-bold mb-2 text-sm"
-                      style={{ fontFamily: "'Noto Serif KR', serif" }}
                     >
                       {s.title}
                     </p>
@@ -187,7 +182,6 @@ export default function InsurancePage() {
             </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold mb-8"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               장기요양 등급 기준
             </h2>
@@ -200,7 +194,6 @@ export default function InsurancePage() {
                   <div className="flex items-center justify-between mb-3">
                     <span
                       className="text-[#1A2E4A] font-bold"
-                      style={{ fontFamily: "'Noto Serif KR', serif" }}
                     >
                       {g.grade}
                     </span>
@@ -226,7 +219,6 @@ export default function InsurancePage() {
             <div>
               <p
                 className="text-[#E8A020] font-bold mb-1"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 등급 신청이 처음이신가요?
               </p>

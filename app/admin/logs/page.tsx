@@ -18,7 +18,6 @@ export default async function AdminLogsPage() {
       <div className="mb-8">
         <h1
           className="text-[#1A2E4A] text-2xl font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           오류 로그
         </h1>

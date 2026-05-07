@@ -1,4 +1,4 @@
-﻿import { adminSupabase } from "@/lib/supabase/admin";
+import { adminSupabase } from "@/lib/supabase/admin";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,7 +37,6 @@ export default async function PhotosPage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             사진 게시판
           </h1>
@@ -91,7 +90,6 @@ export default async function PhotosPage() {
                     <div className="p-4">
                       <h3
                         className="text-[#1A2E4A] font-bold text-sm mb-1 leading-snug group-hover:text-[#1A56A0] transition-colors line-clamp-2"
-                        style={{ fontFamily: "'Noto Serif KR', serif" }}
                       >
                         {album.name} {/* title → name */}
                       </h3>

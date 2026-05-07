@@ -33,7 +33,6 @@ export default async function EditNoticePage({
         </Link>
         <h1
           className="text-[#1A2E4A] text-2xl font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           공지 수정
         </h1>

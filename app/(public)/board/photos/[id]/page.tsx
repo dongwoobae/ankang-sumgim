@@ -54,7 +54,6 @@ export default async function PhotoDetailPage({
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             {album.name}
           </h1>

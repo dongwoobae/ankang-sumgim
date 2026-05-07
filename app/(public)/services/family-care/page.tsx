@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowRight, CheckCircle, Phone, AlertCircle } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
@@ -92,7 +92,6 @@ export default function FamilyCarePage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             가족요양
           </h1>
@@ -112,7 +111,6 @@ export default function FamilyCarePage() {
               </p>
               <h2
                 className="text-[#1A2E4A] text-2xl font-bold mb-5"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 가족요양이란?
               </h2>
@@ -152,7 +150,6 @@ export default function FamilyCarePage() {
               <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-6">
                 <h3
                   className="text-[#1A2E4A] font-bold mb-4"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   이용 조건
                 </h3>
@@ -199,7 +196,6 @@ export default function FamilyCarePage() {
             </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               신청 절차
             </h2>
@@ -215,7 +211,6 @@ export default function FamilyCarePage() {
                 </div>
                 <p
                   className="text-[#1A2E4A] font-bold mb-2 text-sm"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   {s.title}
                 </p>

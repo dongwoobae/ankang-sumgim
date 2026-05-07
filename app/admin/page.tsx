@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase/admin";
 import {
   Megaphone,
@@ -99,7 +99,6 @@ export default async function AdminDashboard() {
       <div className="mb-8">
         <h1
           className="text-[#1A2E4A] text-2xl font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           대시보드
         </h1>
@@ -122,7 +121,6 @@ export default async function AdminDashboard() {
             </div>
             <p
               className="text-[#1A2E4A] text-3xl font-bold"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               {stat.value}
               <span className="text-sm font-normal text-[#5A7A99] ml-1">
@@ -138,7 +136,6 @@ export default async function AdminDashboard() {
         <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
           <h2
             className="text-[#1A2E4A] font-bold mb-4 text-sm"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             빠른 작업
           </h2>
@@ -162,7 +159,6 @@ export default async function AdminDashboard() {
           <div className="flex items-center justify-between mb-4">
             <h2
               className="text-[#1A2E4A] font-bold text-sm"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               최근 공지사항
             </h2>
@@ -204,7 +200,6 @@ export default async function AdminDashboard() {
           <div className="flex items-center justify-between mb-4">
             <h2
               className="text-[#1A2E4A] font-bold text-sm"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               최근 문의
             </h2>

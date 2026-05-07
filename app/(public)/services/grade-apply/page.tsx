@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { CheckCircle, Users } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
@@ -104,7 +104,6 @@ export default function GradeApplyPage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             등급신청 안내
           </h1>
@@ -125,7 +124,6 @@ export default function GradeApplyPage() {
               </p>
               <h2
                 className="text-[#1A2E4A] text-2xl font-bold mb-5"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 등급신청이란?
               </h2>
@@ -149,7 +147,6 @@ export default function GradeApplyPage() {
                   <Users size={18} className="text-[#1A56A0]" />
                   <h3
                     className="text-[#1A2E4A] font-bold"
-                    style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     신청 대상
                   </h3>
@@ -180,7 +177,6 @@ export default function GradeApplyPage() {
                   <p className="text-[#A8C4E0] text-xs mb-1">판정 소요 기간</p>
                   <p
                     className="text-[#FFFFFF] text-2xl font-bold"
-                    style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     2~4주
                   </p>
@@ -192,7 +188,6 @@ export default function GradeApplyPage() {
                   <p className="text-[#A8C4E0] text-xs mb-1">본인 부담금</p>
                   <p
                     className="text-[#FFFFFF] text-2xl font-bold"
-                    style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     15%
                   </p>
@@ -215,7 +210,6 @@ export default function GradeApplyPage() {
             </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               등급신청 절차
             </h2>
@@ -230,7 +224,6 @@ export default function GradeApplyPage() {
                 <div className="flex-shrink-0">
                   <span
                     className="text-[#1A56A0] text-3xl font-bold"
-                    style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     {s.step}
                   </span>
@@ -238,7 +231,6 @@ export default function GradeApplyPage() {
                 <div>
                   <h3
                     className="text-[#1A2E4A] font-bold mb-1"
-                    style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     {s.title}
                   </h3>
@@ -257,7 +249,6 @@ export default function GradeApplyPage() {
                 <FileText size={18} className="text-[#1A56A0]" />
                 <h3
                   className="text-[#1A2E4A] font-bold"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   필요 서류
                 </h3>
@@ -281,7 +272,6 @@ export default function GradeApplyPage() {
             <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-7">
               <h3
                 className="text-[#1A2E4A] font-bold mb-5"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 신청 방법
               </h3>
@@ -324,7 +314,6 @@ export default function GradeApplyPage() {
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2
             className="text-[#FFFFFF] text-2xl font-bold mb-3"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             등급 신청이 어려우신가요?
           </h2>

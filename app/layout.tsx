@@ -1,22 +1,6 @@
-// app/layout.tsx
-// 기존 파일에서 metadata export 부분만 아래로 교체
-
 import type { Metadata } from "next";
-import { Noto_Sans_KR, Noto_Serif_KR } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-
-const notoSansKR = Noto_Sans_KR({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-sans-kr",
-});
-
-const notoSerifKR = Noto_Serif_KR({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-serif-kr",
-});
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
 
@@ -77,9 +61,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body
-        className={`${notoSansKR.variable} ${notoSerifKR.variable} ${notoSansKR.className}`}
-      >
+      <head>
+        <link
+          rel="stylesheet"
+          as="style"
+          crossOrigin="anonymous"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+        />
+      </head>
+      <body>
         {children}
         <SpeedInsights />
       </body>

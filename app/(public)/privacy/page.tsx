@@ -22,7 +22,6 @@ export default function PrivacyPage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             개인정보처리방침
           </h1>
@@ -37,7 +36,6 @@ export default function PrivacyPage() {
           <div>
             <h2
               className="text-xl font-bold mb-4"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               제1조 (개인정보의 수집 항목 및 수집 방법)
             </h2>
@@ -61,7 +59,6 @@ export default function PrivacyPage() {
           <div>
             <h2
               className="text-xl font-bold mb-4"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               제2조 (개인정보의 수집 및 이용 목적)
             </h2>
@@ -78,7 +75,6 @@ export default function PrivacyPage() {
           <div>
             <h2
               className="text-xl font-bold mb-4"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               제3조 (개인정보의 보유 및 이용 기간)
             </h2>
@@ -98,7 +94,6 @@ export default function PrivacyPage() {
           <div>
             <h2
               className="text-xl font-bold mb-4"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               제4조 (개인정보의 제3자 제공)
             </h2>
@@ -112,7 +107,6 @@ export default function PrivacyPage() {
           <div>
             <h2
               className="text-xl font-bold mb-4"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               제5조 (개인정보의 파기 절차 및 방법)
             </h2>
@@ -125,7 +119,6 @@ export default function PrivacyPage() {
           <div>
             <h2
               className="text-xl font-bold mb-4"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               제6조 (정보주체의 권리와 행사 방법)
             </h2>
@@ -138,7 +131,6 @@ export default function PrivacyPage() {
           <div>
             <h2
               className="text-xl font-bold mb-4"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               제7조 (개인정보 보호책임자)
             </h2>

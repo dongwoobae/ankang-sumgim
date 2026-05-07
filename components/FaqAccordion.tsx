@@ -48,7 +48,6 @@ export default function FaqAccordion() {
           </p>
           <h2
             className="text-[#1A2E4A] text-3xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             자주 묻는 질문
           </h2>

@@ -1,4 +1,4 @@
-﻿import { Heart, Leaf, Users } from "lucide-react";
+import { Heart, Leaf, Users } from "lucide-react";
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -42,7 +42,6 @@ export default function GreetingPage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             인사말
           </h1>
@@ -59,7 +58,6 @@ export default function GreetingPage() {
             </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold mb-6 leading-snug"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               어르신의 일상을
               <br />
@@ -87,7 +85,6 @@ export default function GreetingPage() {
             <div className="mt-8 pt-6 border-t border-[#A8C4E0]/50">
               <p
                 className="text-[#1A2E4A] font-bold"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 안강 섬김 노인복지센터장
               </p>
@@ -105,7 +102,6 @@ export default function GreetingPage() {
             </p>
             <h2
               className="text-[#1A2E4A] text-3xl font-bold"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               섬김의 가치
             </h2>
@@ -121,7 +117,6 @@ export default function GreetingPage() {
                 </div>
                 <h3
                   className="text-[#1A2E4A] font-bold text-lg mb-3"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   {v.title}
                 </h3>

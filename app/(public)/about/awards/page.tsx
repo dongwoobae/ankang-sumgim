@@ -1,4 +1,4 @@
-﻿import { adminSupabase } from "@/lib/supabase/admin";
+import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Award } from "lucide-react";
@@ -38,7 +38,6 @@ export default async function AwardsPage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             수상·기관선정
           </h1>
@@ -56,7 +55,6 @@ export default async function AwardsPage() {
             </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               전체 수상 내역
             </h2>
@@ -103,7 +101,6 @@ export default async function AwardsPage() {
                     </p>
                     <h3
                       className="text-[#1A2E4A] font-bold text-lg mb-1"
-                      style={{ fontFamily: "'Noto Serif KR', serif" }}
                     >
                       {award.title}
                     </h3>

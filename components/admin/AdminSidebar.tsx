@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -130,7 +130,6 @@ export default function AdminSidebar() {
           <div>
             <p
               className="text-[#E8A020] font-bold text-sm"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               안강 섬김
             </p>

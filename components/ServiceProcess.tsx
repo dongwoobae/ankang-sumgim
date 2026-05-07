@@ -558,7 +558,6 @@ export default function ServiceProcess({
           </p>
           <h2
             className="text-[#1A2E4A] text-2xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             {title}
           </h2>
@@ -585,7 +584,6 @@ export default function ServiceProcess({
                 {/* 제목 */}
                 <p
                   className="text-[#1A2E4A] font-bold text-sm mb-1.5 leading-tight"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   {step.title}
                 </p>

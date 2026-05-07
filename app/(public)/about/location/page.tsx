@@ -1,4 +1,4 @@
-﻿import { MapPin, Phone, Mail, Bus, Car, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Bus, Car, Clock } from "lucide-react";
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -44,7 +44,6 @@ export default function LocationPage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             오시는길
           </h1>
@@ -75,7 +74,6 @@ export default function LocationPage() {
             <div>
               <h2
                 className="text-[#1A2E4A] text-xl font-bold mb-6"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 연락처 정보
               </h2>
@@ -140,7 +138,6 @@ export default function LocationPage() {
             <div>
               <h2
                 className="text-[#1A2E4A] text-xl font-bold mb-6"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 교통 안내
               </h2>

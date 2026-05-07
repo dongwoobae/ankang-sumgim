@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowRight, Brain, CheckCircle, Phone } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
@@ -111,7 +111,6 @@ export default function CognitivePage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             인지활동서비스
           </h1>
@@ -131,7 +130,6 @@ export default function CognitivePage() {
               </p>
               <h2
                 className="text-[#1A2E4A] text-2xl font-bold mb-5"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 인지활동서비스란?
               </h2>
@@ -177,7 +175,6 @@ export default function CognitivePage() {
                 <Brain size={20} className="text-[#1A56A0]" />
                 <h3
                   className="text-[#1A2E4A] font-bold"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   기대 효과
                 </h3>
@@ -206,7 +203,6 @@ export default function CognitivePage() {
             </p>
             <h2
               className="text-[#1A2E4A] text-2xl font-bold mb-8"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               프로그램 구성
             </h2>
@@ -219,7 +215,6 @@ export default function CognitivePage() {
                   <div className="text-3xl mb-3">{prog.icon}</div>
                   <h3
                     className="text-[#1A2E4A] font-bold mb-3 text-sm"
-                    style={{ fontFamily: "'Noto Serif KR', serif" }}
                   >
                     {prog.title}
                   </h3>
@@ -247,7 +242,6 @@ export default function CognitivePage() {
           <div>
             <p
               className="text-[#E8A020] font-bold text-lg mb-1"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               인지활동서비스가 궁금하신가요?
             </p>

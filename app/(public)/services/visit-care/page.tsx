@@ -75,7 +75,6 @@ export default function VisitCarePage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             방문요양서비스
           </h1>
@@ -96,7 +95,6 @@ export default function VisitCarePage() {
                 </p>
                 <p
                   className="text-[#E8A020] text-3xl font-bold mb-1"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   {h.value}
                 </p>
@@ -118,7 +116,6 @@ export default function VisitCarePage() {
               </p>
               <h2
                 className="text-[#1A2E4A] text-2xl font-bold mb-5"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 방문요양서비스란?
               </h2>

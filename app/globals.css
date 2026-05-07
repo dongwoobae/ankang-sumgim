@@ -1,33 +1,74 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* INK */
+  --ink:   #0e1a2e;
+  --ink-2: #1a2e4a;
+
+  /* PAPER */
+  --paper:   #ffffff;
+  --paper-2: #f4f7fc;
+  --paper-3: #eef4fb;
+
+  /* LINE */
+  --line:   #d6dfeb;
+  --line-2: #a8c4e0;
+
+  /* POP (브랜드 블루) */
+  --pop:   #1a56a0;
+  --pop-2: #2e6db4;
+  --pop-3: #0e3a78;
+
+  /* MUTED */
+  --muted:   #5a7a99;
+  --muted-2: #7a93ae;
+
+  /* RADIUS */
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   16px;
+  --r-pill: 999px;
+
+  /* SHADOW */
+  --shadow-card:   0 18px 40px rgba(14, 26, 46, 0.08);
+  --shadow-header: 0 6px 24px rgba(14, 26, 46, 0.06);
+
+  /* EASING */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink:     #0e1a2e;
+  --color-ink-2:   #1a2e4a;
+  --color-paper:   #ffffff;
+  --color-paper-2: #f4f7fc;
+  --color-paper-3: #eef4fb;
+  --color-line:    #d6dfeb;
+  --color-line-2:  #a8c4e0;
+  --color-pop:     #1a56a0;
+  --color-pop-2:   #2e6db4;
+  --color-pop-3:   #0e3a78;
+  --color-muted:   #5a7a99;
+  --color-muted-2: #7a93ae;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-/* 데스크탑에서만 폰트 한 단계 업 (모바일은 기본 Tailwind 크기 유지) */
+/* 데스크탑 폰트 스케일 */
 @media (min-width: 768px) {
-  :root {
-    font-size: 112.5%; /* 16px → 18px 기준, rem 전체 비례 확대 */
-  }
+  :root { font-size: 112.5%; }
 }
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans-kr), Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.012em;
+  line-height: 1.55;
 }
+
+h1 { font-weight: 800; letter-spacing: -0.035em; }
+h2, h3 { font-weight: 700; letter-spacing: -0.025em; }

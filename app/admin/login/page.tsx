@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useActionState } from "react";
 import { login } from "@/app/actions/admin/auth";
@@ -19,7 +19,6 @@ export default function AdminLoginPage() {
           </div>
           <h1
             className="text-[#1A2E4A] text-xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             안강 섬김 관리자
           </h1>

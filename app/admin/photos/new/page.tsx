@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useActionState } from "react";
 import { createCategory } from "@/app/actions/admin/photos";
@@ -21,7 +21,6 @@ export default function NewCategoryPage() {
         </Link>
         <h1
           className="text-[#1A2E4A] text-2xl font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           새 카테고리 만들기
         </h1>

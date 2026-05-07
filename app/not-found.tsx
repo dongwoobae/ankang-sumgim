@@ -7,13 +7,11 @@ export default function NotFound() {
       <div className="text-center max-w-md">
         <p
           className="text-[#E8A020] text-8xl font-bold mb-4"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           404
         </p>
         <h1
           className="text-[#1A2E4A] text-2xl font-bold mb-3"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           페이지를 찾을 수 없습니다
         </h1>

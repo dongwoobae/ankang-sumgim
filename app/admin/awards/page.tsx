@@ -110,7 +110,6 @@ export default function AdminAwardsPage() {
       <div className="mb-8">
         <h1
           className="text-[#1A2E4A] text-2xl font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           수상·기관선정 관리
         </h1>
@@ -123,7 +122,6 @@ export default function AdminAwardsPage() {
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6 mb-8 space-y-4">
         <h2
           className="text-[#1A2E4A] font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           새 수상 내역 등록
         </h2>
@@ -205,7 +203,6 @@ export default function AdminAwardsPage() {
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
         <h2
           className="text-[#1A2E4A] font-bold mb-4"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           등록된 수상 내역 ({awards.length}건)
         </h2>

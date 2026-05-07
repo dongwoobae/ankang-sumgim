@@ -95,7 +95,6 @@ export default function BlurEditor({ photo, onClose, onApplied }: Props) {
           <div>
             <p
               className="text-[#1A2E4A] font-bold text-sm"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               블러 영역 편집
             </p>

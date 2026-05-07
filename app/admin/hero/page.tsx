@@ -89,7 +89,6 @@ export default function HeroPhotoPage() {
       <div className="mb-8">
         <h1
           className="text-[#1A2E4A] text-2xl font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           메인 사진 관리
         </h1>
@@ -102,7 +101,6 @@ export default function HeroPhotoPage() {
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6 mb-8">
         <h2
           className="text-[#1A2E4A] font-bold mb-4"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           사진 추가
         </h2>
@@ -127,7 +125,6 @@ export default function HeroPhotoPage() {
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
         <h2
           className="text-[#1A2E4A] font-bold mb-4"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           등록된 사진 ({photos.length}장)
         </h2>

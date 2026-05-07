@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { PlusCircle, Images, Upload } from "lucide-react";
 import { DeleteCategoryButton } from "./DeleteCategoryButton";
@@ -21,7 +21,6 @@ export default async function AdminPhotosPage() {
         <div>
           <h1
             className="text-[#1A2E4A] text-2xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             사진 게시판 관리
           </h1>
@@ -61,7 +60,6 @@ export default async function AdminPhotosPage() {
                     <Images size={16} className="text-[#1A56A0] flex-shrink-0" />
                     <p
                       className="text-[#1A2E4A] font-bold text-sm truncate"
-                      style={{ fontFamily: "'Noto Serif KR', serif" }}
                     >
                       {cat.name}
                     </p>

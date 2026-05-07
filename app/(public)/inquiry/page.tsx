@@ -74,7 +74,6 @@ export default function InquiryPage() {
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             상담문의
           </h1>
@@ -95,7 +94,6 @@ export default function InquiryPage() {
             <div className="space-y-5">
               <h2
                 className="text-[#1A2E4A] text-xl font-bold"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 연락처 안내
               </h2>
@@ -152,7 +150,6 @@ export default function InquiryPage() {
             <div className="md:col-span-2">
               <h2
                 className="text-[#1A2E4A] text-xl font-bold mb-6"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 온라인 상담 신청
               </h2>

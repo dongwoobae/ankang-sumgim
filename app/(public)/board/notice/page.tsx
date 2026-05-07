@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { ChevronRight, Pin } from "lucide-react";
 import { type Metadata } from "next";
@@ -36,7 +36,6 @@ export default async function NoticePage() {
           <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">BOARD</p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             공지사항
           </h1>

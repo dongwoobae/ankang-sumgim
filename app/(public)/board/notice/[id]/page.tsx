@@ -69,7 +69,7 @@ export default async function NoticeDetailPage({
           </p>
           <h1
             className="text-[#1A2E4A] text-4xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
+
           >
             공지사항
           </h1>
@@ -88,7 +88,7 @@ export default async function NoticeDetailPage({
             )}
             <h2
               className="text-[#1A2E4A] text-2xl font-bold mb-4 leading-snug"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
+  
             >
               {notice.title}
             </h2>

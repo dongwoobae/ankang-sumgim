@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { MessageSquare, CheckCircle, Clock } from "lucide-react";
 
@@ -20,7 +20,6 @@ export default async function AdminInquiriesPage() {
         <div>
           <h1
             className="text-[#1A2E4A] text-2xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             문의 관리
           </h1>

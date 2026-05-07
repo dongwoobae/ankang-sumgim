@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { PlusCircle, Pin, Pencil } from "lucide-react";
 import { DeleteNoticeButton } from "./DeleteNoticeButton";
@@ -21,7 +21,6 @@ export default async function AdminNoticesPage() {
         <div>
           <h1
             className="text-[#1A2E4A] text-2xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             공지사항 관리
           </h1>

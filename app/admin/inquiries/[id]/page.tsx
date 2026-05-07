@@ -42,7 +42,7 @@ export default async function InquiryDetailPage({
         </Link>
         <h1
           className="text-[#1A2E4A] text-2xl font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
+
         >
           문의 상세
         </h1>
@@ -70,7 +70,7 @@ export default async function InquiryDetailPage({
 
         <h2
           className="text-[#1A2E4A] text-lg font-bold mb-4"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
+
         >
           {inquiry.title}
         </h2>
@@ -136,7 +136,7 @@ export default async function InquiryDetailPage({
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
         <p
           className="text-[#1A2E4A] font-bold text-sm mb-4"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
+
         >
           답변 작성
         </p>

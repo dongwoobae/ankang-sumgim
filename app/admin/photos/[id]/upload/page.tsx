@@ -46,7 +46,6 @@ export default async function UploadPage({
         </Link>
         <h1
           className="text-[#1A2E4A] text-2xl font-bold"
-          style={{ fontFamily: "'Noto Serif KR', serif" }}
         >
           {category.name}
         </h1>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useActionState } from "react";
 import { createNotice } from "@/app/actions/admin/notices";
@@ -23,7 +23,6 @@ export default function NewNoticePage() {
         <div>
           <h1
             className="text-[#1A2E4A] text-2xl font-bold"
-            style={{ fontFamily: "'Noto Serif KR', serif" }}
           >
             새 공지 작성
           </h1>
