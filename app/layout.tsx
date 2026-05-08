@@ -62,6 +62,17 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "안강 섬김 노인복지센터",
+              url: process.env.NEXT_PUBLIC_SITE_URL,
+            }),
+          }}
+        />
         <link
           rel="stylesheet"
           as="style"

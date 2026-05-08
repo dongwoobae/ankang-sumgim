@@ -8,7 +8,9 @@ import Stats from "@/components/home/Stats";
 import Reveal from "@/components/common/Reveal";
 
 export const metadata: Metadata = {
-  title: "안강 섬김 노인복지센터",
+  title: {
+    absolute: "안강 섬김 노인복지센터", // template 무시하고 단독 표기
+  },
   description: "어르신의 일상을 함께 섬기는 방문요양센터",
 };
 
@@ -110,7 +112,9 @@ export default async function HomePage() {
                 className="text-[var(--pop)] text-[14px] font-semibold inline-flex items-center gap-1 group"
               >
                 전체 서비스 보기{" "}
-                <span className="transition-transform group-hover:translate-x-1.5">→</span>
+                <span className="transition-transform group-hover:translate-x-1.5">
+                  →
+                </span>
               </Link>
             </Reveal>
           </div>
@@ -201,7 +205,9 @@ export default async function HomePage() {
                     <h3 className="text-[17px] text-[var(--ink-2)] mb-1.5">
                       {award.title}
                     </h3>
-                    <p className="text-[13px] text-[var(--muted)]">{award.org}</p>
+                    <p className="text-[13px] text-[var(--muted)]">
+                      {award.org}
+                    </p>
                   </div>
                 </Reveal>
               ))}
@@ -214,7 +220,9 @@ export default async function HomePage() {
               className="inline-flex items-center gap-1.5 text-[var(--pop)] font-semibold text-[14px] group"
             >
               전체 수상 내역 보기{" "}
-              <span className="transition-transform group-hover:translate-x-1.5">→</span>
+              <span className="transition-transform group-hover:translate-x-1.5">
+                →
+              </span>
             </Link>
           </Reveal>
         </div>
@@ -246,14 +254,22 @@ export default async function HomePage() {
                 className="text-[var(--pop)] text-[14px] font-semibold inline-flex items-center gap-1 group"
               >
                 더보기{" "}
-                <span className="transition-transform group-hover:translate-x-1.5">→</span>
+                <span className="transition-transform group-hover:translate-x-1.5">
+                  →
+                </span>
               </Link>
             </Reveal>
           </div>
 
           <ul className="list-none m-0 p-0 border-t border-[var(--line)]">
             {notices.map((notice, i) => (
-              <Reveal key={notice.id} variant="up-soft" stagger={i} as="li" className="border-b border-[var(--line)]">
+              <Reveal
+                key={notice.id}
+                variant="up-soft"
+                stagger={i}
+                as="li"
+                className="border-b border-[var(--line)]"
+              >
                 <Link
                   href={`/board/notice/${notice.id}`}
                   className="grid grid-cols-[auto_1fr_auto] gap-6 items-center py-[22px] px-1 transition-all duration-[250ms] hover:px-4 hover:bg-[var(--paper-2)] group"
