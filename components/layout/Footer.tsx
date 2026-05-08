@@ -1,14 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, MapPin, Clock, Mail } from "lucide-react";
+import { Phone, MapPin, Clock, Mail, Building2 } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="bg-[#1A2E4A] text-[#A8C4E0]">
       <div className="max-w-6xl mx-auto px-6 pt-12 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* 브랜드 */}
-          <div className="md:col-span-4">
+          <div>
             <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/logo.png"
@@ -50,13 +50,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 구분선 */}
-          <div className="hidden md:block md:col-span-1">
-            <div className="h-full w-px bg-[#E8A020]/40 mx-auto" />
-          </div>
-
           {/* 오시는길 */}
-          <div className="md:col-span-3">
+          <div>
             <h4 className="text-[#E8A020] font-semibold text-sm mb-4 flex items-center gap-2">
               <MapPin size={14} />
               오시는길
@@ -69,7 +64,7 @@ export default function Footer() {
           </div>
 
           {/* 운영시간 */}
-          <div className="md:col-span-4">
+          <div>
             <h4 className="text-[#E8A020] font-semibold text-sm mb-4 flex items-center gap-2">
               <Clock size={14} />
               운영시간
@@ -91,6 +86,32 @@ export default function Footer() {
             <p className="text-xs text-[#5A7A99] mt-1">
               ※ 운영시간은 변경될 수 있습니다.
             </p>
+          </div>
+
+          {/* 사업자 정보 */}
+          <div>
+            <h4 className="text-[#E8A020] font-semibold text-sm mb-4 flex items-center gap-2">
+              <Building2 size={14} />
+              사업자 정보
+            </h4>
+            <dl className="flex flex-col gap-2 text-sm text-[#A8C4E0]">
+              <div>
+                <dt className="text-[#7A9AB8] text-xs mb-0.5">대표자</dt>
+                <dd>조미영</dd>
+              </div>
+              <div>
+                <dt className="text-[#7A9AB8] text-xs mb-0.5">
+                  사업자등록번호
+                </dt>
+                <dd>506-80-34219</dd>
+              </div>
+              <div>
+                <dt className="text-[#7A9AB8] text-xs mb-0.5">
+                  개인정보보호책임자
+                </dt>
+                <dd>조미영 (miyeong0695@daum.net)</dd>
+              </div>
+            </dl>
           </div>
         </div>
 
