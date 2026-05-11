@@ -4,9 +4,24 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Clock } from "lucide-react";
+import { Menu, X, Phone, Clock, Shield, Home, Users, ClipboardList, Lightbulb, type LucideIcon } from "lucide-react";
 
-const navItems = [
+type NavChild = {
+  label: string;
+  href: string;
+  desc: string;
+  icon?: LucideIcon;
+  iconColor?: string;
+  iconBg?: string;
+};
+
+type NavItem = {
+  label: string;
+  href?: string;
+  children: NavChild[];
+};
+
+const navItems: NavItem[] = [
   {
     label: "센터소개",
     children: [
@@ -26,26 +41,41 @@ const navItems = [
         label: "노인장기요양보험이란",
         href: "/services/insurance",
         desc: "제도 안내",
+        icon: Shield,
+        iconColor: "#1A56A0",
+        iconBg: "#E3F0FF",
       },
       {
         label: "방문요양서비스",
         href: "/services/visit-care",
         desc: "가정 방문 돌봄",
+        icon: Home,
+        iconColor: "#2E7D32",
+        iconBg: "#E8F5E9",
       },
       {
         label: "가족요양",
         href: "/services/family-care",
         desc: "가족 요양 급여",
+        icon: Users,
+        iconColor: "#C2185B",
+        iconBg: "#FCE4EC",
       },
       {
         label: "등급신청",
         href: "/services/grade-apply",
         desc: "요양 등급 신청 안내",
+        icon: ClipboardList,
+        iconColor: "#E65100",
+        iconBg: "#FFF3E0",
       },
       {
         label: "인지활동서비스",
         href: "/services/cognitive",
         desc: "치매 예방 프로그램",
+        icon: Lightbulb,
+        iconColor: "#6A1B9A",
+        iconBg: "#F3E5F5",
       },
     ],
   },
@@ -120,7 +150,6 @@ export default function Header() {
             <div className="leading-snug">
               <p
                 className="text-[#1A2E4A] font-bold text-[17px] tracking-tight"
-                style={{ fontFamily: "'Noto Serif KR', serif" }}
               >
                 안강 섬김
               </p>
@@ -198,30 +227,44 @@ export default function Header() {
               onMouseLeave={() => setActiveMenu(null)}
             >
               <div className="max-w-6xl mx-auto px-6 py-5">
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   {navItems
                     .find((i) => i.label === activeMenu)
-                    ?.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        onClick={() => setActiveMenu(null)}
-                        className={`flex-1 group px-4 py-3 rounded-lg border transition-all duration-200
-                        ${
-                          pathname === child.href
-                            ? "bg-[#E8A020]/40 border-[#1A56A0]"
-                            : "bg-transparent border-transparent hover:bg-[#EEF4FB] hover:border-[#A8C4E0]"
-                        }`}
-                      >
-                        <p
-                          className={`text-sm font-medium mb-0.5 transition-colors
-                        ${pathname === child.href ? "text-[#1A56A0]" : "text-[#1A2E4A] group-hover:text-[#1A56A0]"}`}
+                    ?.children.map((child) => {
+                      const Icon = child.icon;
+                      const hasIcon = !!Icon;
+                      return (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setActiveMenu(null)}
+                          className={`flex-1 group rounded-xl border transition-all duration-200
+                          ${hasIcon ? "flex flex-col items-center gap-2 px-3 py-4" : "px-4 py-3"}
+                          ${
+                            pathname === child.href
+                              ? "bg-[#EEF4FB] border-[#1A56A0]"
+                              : "bg-transparent border-[#E8EFF8] hover:bg-[#EEF4FB] hover:border-[#A8C4E0]"
+                          }`}
                         >
-                          {child.label}
-                        </p>
-                        <p className="text-xs text-[#5A7A99]">{child.desc}</p>
-                      </Link>
-                    ))}
+                          {Icon && (
+                            <div
+                              className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
+                              style={{ background: child.iconBg }}
+                            >
+                              <Icon size={26} color={child.iconColor} strokeWidth={1.8} />
+                            </div>
+                          )}
+                          <p
+                            className={`font-medium transition-colors text-center
+                            ${hasIcon ? "text-sm mt-0.5" : "text-sm mb-0.5"}
+                            ${pathname === child.href ? "text-[#1A56A0]" : "text-[#1A2E4A] group-hover:text-[#1A56A0]"}`}
+                          >
+                            {child.label}
+                          </p>
+                          <p className={`text-xs text-[#5A7A99] ${hasIcon ? "text-center" : ""}`}>{child.desc}</p>
+                        </Link>
+                      );
+                    })}
                 </div>
               </div>
             </div>

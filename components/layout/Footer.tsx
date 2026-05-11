@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { Phone, MapPin, Clock, Mail, Building2 } from "lucide-react";
 
@@ -20,7 +20,6 @@ export default function Footer() {
               <div className="leading-snug">
                 <p
                   className="text-[#FFFFFF] font-bold text-base"
-                  style={{ fontFamily: "'Noto Serif KR', serif" }}
                 >
                   안강 섬김 노인복지센터
                 </p>
@@ -28,7 +27,6 @@ export default function Footer() {
             </div>
             <p
               className="text-[#E8A020] text-sm font-medium leading-relaxed"
-              style={{ fontFamily: "'Noto Serif KR', serif" }}
             >
               &quot;사랑으로, 정성으로, 내 몸같이 섬김&quot;
             </p>
