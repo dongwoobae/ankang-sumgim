@@ -20,6 +20,16 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "30mb", // 원본 이미지 최대 크기에 맞게 설정
     },
   },
+  async redirects() {
+  return [
+    {
+      source: '/:path*',
+      has: [{ type: 'host', value: 'ankang-sumgim.vercel.app' }],
+      destination: 'https://sumgim-welfare.com/:path*',
+      permanent: true,
+    },
+  ]
+}
 };
 
 export default nextConfig;
