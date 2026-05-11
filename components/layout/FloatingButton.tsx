@@ -20,7 +20,7 @@ export default function FloatingButton() {
     <div className="fixed bottom-7 right-7 z-50 flex flex-col gap-3 items-end">
       {/* 카카오톡 채널 버튼 */}
       <a
-        href="#" // TODO: 카카오 채널 개설 후 pf.kakao.com/xxxxx 로 교체
+        href="http://pf.kakao.com/_zqvxbX"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="카카오톡 상담"
