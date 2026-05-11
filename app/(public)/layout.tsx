@@ -11,7 +11,7 @@ export default function PublicLayout({
   return (
     <div className="bg-[#FFFFFF] text-[#1A2E4A]">
       <Header />
-      <main className="min-h-screen">{children}</main>
+      <main className="min-h-screen pt-[108px]">{children}</main>
       <Footer />
       <FloatingButton />
       <Analytics />

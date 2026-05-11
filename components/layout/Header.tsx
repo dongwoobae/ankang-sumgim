@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Clock, Shield, Home, Users, ClipboardList, Lightbulb, type LucideIcon } from "lucide-react";
+import { Menu, X, Phone, Clock, Shield, Home, Users, ClipboardList, Lightbulb, User, MapPin, Award, Bell, Camera, type LucideIcon } from "lucide-react";
 
 type NavChild = {
   label: string;
@@ -25,12 +25,29 @@ const navItems: NavItem[] = [
   {
     label: "센터소개",
     children: [
-      { label: "인사말", href: "/about/greeting", desc: "센터장 인사말" },
-      { label: "오시는길", href: "/about/location", desc: "찾아오시는 방법" },
+      {
+        label: "인사말",
+        href: "/about/greeting",
+        desc: "센터장 인사말",
+        icon: User,
+        iconColor: "#795548",
+        iconBg: "#EFEBE9",
+      },
+      {
+        label: "오시는길",
+        href: "/about/location",
+        desc: "찾아오시는 방법",
+        icon: MapPin,
+        iconColor: "#00796B",
+        iconBg: "#E0F2F1",
+      },
       {
         label: "수상·기관선정",
         href: "/about/awards",
         desc: "수상 및 선정 내역",
+        icon: Award,
+        iconColor: "#F57F17",
+        iconBg: "#FFF8E1",
       },
     ],
   },
@@ -87,8 +104,22 @@ const navItems: NavItem[] = [
   {
     label: "게시판",
     children: [
-      { label: "공지사항", href: "/board/notice", desc: "센터 공지 및 소식" },
-      { label: "사진 게시판", href: "/board/photos", desc: "활동 사진 모음" },
+      {
+        label: "공지사항",
+        href: "/board/notice",
+        desc: "센터 공지 및 소식",
+        icon: Bell,
+        iconColor: "#1565C0",
+        iconBg: "#E3F2FD",
+      },
+      {
+        label: "사진 게시판",
+        href: "/board/photos",
+        desc: "활동 사진 모음",
+        icon: Camera,
+        iconColor: "#AD1457",
+        iconBg: "#FCE4EC",
+      },
     ],
   },
 ];
