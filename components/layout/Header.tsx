@@ -110,11 +110,6 @@ const navItems: NavItem[] = [
     children: [],
   },
   {
-    label: "구인공고",
-    href: "/recruit",
-    children: [],
-  },
-  {
     label: "게시판",
     children: [
       {
