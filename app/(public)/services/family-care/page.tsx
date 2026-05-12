@@ -20,8 +20,6 @@ const eligibility = [
 const conditions = [
   "수급자와 동거 중인 가족만 원칙적으로 인정 (일부 예외 있음)",
   "요양보호사 자격증 취득 필수",
-  "월 60시간 이상 근무 시 가족요양비 수급 가능",
-  "도서·벽지 또는 천재지변 등 불가피한 사유 시 예외 적용",
 ];
 
 const steps = [
@@ -167,19 +165,6 @@ export default function FamilyCarePage() {
                     </li>
                   ))}
                 </ul>
-              </div>
-
-              {/* 주의사항 */}
-              <div className="flex items-start gap-3 p-5 bg-[#E8A020]/20 border border-[#A8C4E0]/60 rounded-xl">
-                <AlertCircle
-                  size={18}
-                  className="text-[#1A56A0] flex-shrink-0 mt-0.5"
-                />
-                <p className="text-[#1A2E4A] text-sm leading-relaxed">
-                  가족요양보호사는 동일 수급자에게 하루 최대{" "}
-                  <strong>60분 이상</strong> 서비스 제공이 불가능합니다. 추가
-                  돌봄이 필요하면 일반 방문요양과 병행하실 수 있습니다.
-                </p>
               </div>
             </div>
           </div>
