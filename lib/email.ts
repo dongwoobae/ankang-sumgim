@@ -134,6 +134,117 @@ export async function sendInquiryNotificationEmail(params: {
   });
 }
 
+/** 관리자에게 구인 지원서 알림 이메일 */
+export async function sendJobApplicationNotificationEmail(params: {
+  name: string;
+  phone: string;
+  certificates: string[];
+  preferredRegion: string;
+  workType: string;
+  introduction?: string;
+}) {
+  const { name, phone, certificates, preferredRegion, workType, introduction } = params;
+  const workTypeLabel =
+    workType === "fulltime" ? "정규직 (풀타임)" :
+    workType === "parttime" ? "시간제 (파트타임)" : "모두 가능";
+  const certsText = certificates.length > 0 ? certificates.join(", ") : "미입력";
+
+  return sendEmail({
+    to: process.env.INQUIRY_EMAIL ?? "miyeong0695@daum.net",
+    subject: `[구인지원] 요양보호사 지원 - ${name}님`,
+    html: `
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body style="margin:0;padding:0;background-color:#f0ebe0;font-family:'Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0ebe0;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;">
+
+          <!-- 헤더 -->
+          <tr>
+            <td style="background-color:#1A56A0;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
+              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">ANGANG SUMGIM</p>
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">안강 섬김 노인복지센터</h1>
+            </td>
+          </tr>
+
+          <!-- 본문 -->
+          <tr>
+            <td style="background-color:#FFFFFF;padding:36px 40px;">
+              <p style="margin:0 0 6px 0;font-size:12px;font-weight:600;color:#1A56A0;letter-spacing:2px;">NEW APPLICATION</p>
+              <h2 style="margin:0 0 24px 0;font-size:20px;font-weight:700;color:#1A2E4A;">새 요양보호사 지원서가 접수되었습니다</h2>
+              <div style="border-top:1px solid #A8C4E0;margin-bottom:28px;"></div>
+
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
+                    <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">성함</span>
+                    <span style="font-size:15px;font-weight:600;color:#1A2E4A;">${name}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
+                    <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">연락처</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${phone}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
+                    <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">보유 자격증</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${certsText}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
+                    <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">희망 지역</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${preferredRegion}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
+                    <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">근무 형태</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${workTypeLabel}</span>
+                  </td>
+                </tr>
+                ${introduction ? `
+                <tr>
+                  <td style="padding:12px 0;vertical-align:top;">
+                    <span style="display:block;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;margin-bottom:10px;">자기소개</span>
+                    <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:16px 18px;font-size:14px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${introduction}</div>
+                  </td>
+                </tr>` : ""}
+              </table>
+
+              <div style="border-top:1px solid #A8C4E0;margin:28px 0 24px;"></div>
+              <p style="margin:0;font-size:12px;color:#5A7A99;text-align:right;">
+                접수일시: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
+              </p>
+            </td>
+          </tr>
+
+          <!-- 푸터 -->
+          <tr>
+            <td style="background-color:#EEF4FB;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #A8C4E0;">
+              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">안강 섬김 노인복지센터</p>
+              <p style="margin:0;font-size:12px;color:#5A7A99;">📞 054-763-5988</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`,
+  });
+}
+
 /** 문의자에게 답변 완료 이메일 */
 export async function sendReplyEmail(params: {
   to: string;

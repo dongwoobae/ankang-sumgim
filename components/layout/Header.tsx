@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Clock, Shield, Home, Users, ClipboardList, Lightbulb, User, MapPin, Award, Bell, Camera, type LucideIcon } from "lucide-react";
+import { Menu, X, Phone, Clock, Shield, Home, Users, ClipboardList, Lightbulb, User, MapPin, Award, Bell, Camera, Calculator, Briefcase, type LucideIcon } from "lucide-react";
 
 type NavChild = {
   label: string;
@@ -94,11 +94,24 @@ const navItems: NavItem[] = [
         iconColor: "#6A1B9A",
         iconBg: "#F3E5F5",
       },
+      {
+        label: "본인부담금 계산기",
+        href: "/calculator",
+        desc: "월 예상 비용 미리 확인",
+        icon: Calculator,
+        iconColor: "#0277BD",
+        iconBg: "#E1F5FE",
+      },
     ],
   },
   {
     label: "상담문의",
     href: "/inquiry",
+    children: [],
+  },
+  {
+    label: "구인공고",
+    href: "/recruit",
     children: [],
   },
   {

@@ -18,6 +18,8 @@ import {
   Menu,
   X,
   AlertTriangle,
+  Calculator,
+  Briefcase,
 } from "lucide-react";
 import { logout } from "@/app/actions/admin/auth";
 
@@ -74,6 +76,28 @@ const navGroups = [
         label: "문의 목록",
         href: "/admin/inquiries",
         icon: <MessageSquare size={16} />,
+        exact: false,
+      },
+    ],
+  },
+  {
+    label: "구인 관리",
+    items: [
+      {
+        label: "지원자 목록",
+        href: "/admin/recruits",
+        icon: <Briefcase size={16} />,
+        exact: false,
+      },
+    ],
+  },
+  {
+    label: "계산기 설정",
+    items: [
+      {
+        label: "수가 · 한도액 관리",
+        href: "/admin/calculator",
+        icon: <Calculator size={16} />,
         exact: false,
       },
     ],
