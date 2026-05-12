@@ -102,70 +102,63 @@ export default function FamilyCarePage() {
       {/* 개요 */}
       <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
-            <div>
-              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-                OVERVIEW
-              </p>
-              <h2
-                className="text-[#1A2E4A] text-2xl font-bold mb-5"
-              >
-                가족요양이란?
-              </h2>
-              <p className="text-[#1A2E4A] text-[15px] leading-[1.9] mb-4">
-                요양보호사 자격을 취득한 가족이 직접 어르신을 돌보고,
-                국민건강보험공단으로부터 장기요양급여를 수령하는 제도입니다.
-              </p>
-              <p className="text-[#1A2E4A] text-[15px] leading-[1.9]">
-                가족과 함께 지내며 익숙한 환경에서 돌봄을 받을 수 있어 어르신의
-                정서적 안정에 도움이 되며, 돌봄 가족도 정당한 급여를 받을 수
-                있습니다.
-              </p>
+          {/* 설명 텍스트 */}
+          <div className="mb-10">
+            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+              OVERVIEW
+            </p>
+            <h2
+              className="text-[#1A2E4A] text-2xl font-bold mb-5"
+            >
+              가족요양이란?
+            </h2>
+            <p className="text-[#1A2E4A] text-[15px] leading-[1.9] mb-4">
+              요양보호사 자격을 취득한 가족이 직접 어르신을 돌보고,
+              국민건강보험공단으로부터 장기요양급여를 수령하는 제도입니다.
+            </p>
+            <p className="text-[#1A2E4A] text-[15px] leading-[1.9]">
+              가족과 함께 지내며 익숙한 환경에서 돌봄을 받을 수 있어 어르신의
+              정서적 안정에 도움이 되며, 돌봄 가족도 정당한 급여를 받을 수
+              있습니다.
+            </p>
+          </div>
 
-              <div className="mt-8 p-5 bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl">
-                <p className="text-[#1A2E4A] font-bold text-sm mb-3">
-                  대상 가족 범위
-                </p>
-                <ul className="space-y-1.5">
-                  {eligibility.map((item, i) => (
-                    <li
-                      key={i}
-                      className="flex items-center gap-2 text-[#1A2E4A] text-sm"
-                    >
-                      <CheckCircle
-                        size={13}
-                        className="text-[#1A56A0] flex-shrink-0"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          {/* 이용 조건 + 대상 가족 범위 — 동일 선상 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-6">
+              <h3 className="text-[#1A2E4A] font-bold mb-4">이용 조건</h3>
+              <ul className="space-y-2.5">
+                {conditions.map((c, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-2 text-[#1A2E4A] text-sm leading-relaxed"
+                  >
+                    <CheckCircle
+                      size={13}
+                      className="text-[#1A56A0] flex-shrink-0 mt-1"
+                    />
+                    {c}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="space-y-5">
-              {/* 이용 조건 */}
-              <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-6">
-                <h3
-                  className="text-[#1A2E4A] font-bold mb-4"
-                >
-                  이용 조건
-                </h3>
-                <ul className="space-y-2.5">
-                  {conditions.map((c, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 text-[#1A2E4A] text-sm leading-relaxed"
-                    >
-                      <CheckCircle
-                        size={13}
-                        className="text-[#1A56A0] flex-shrink-0 mt-1"
-                      />
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-6">
+              <h3 className="text-[#1A2E4A] font-bold mb-4">대상 가족 범위</h3>
+              <ul className="space-y-1.5">
+                {eligibility.map((item, i) => (
+                  <li
+                    key={i}
+                    className="flex items-center gap-2 text-[#1A2E4A] text-sm"
+                  >
+                    <CheckCircle
+                      size={13}
+                      className="text-[#1A56A0] flex-shrink-0"
+                    />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
