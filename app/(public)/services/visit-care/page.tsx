@@ -156,7 +156,7 @@ export default function VisitCarePage() {
           </div>
 
           {/* 하단: 캐러셀 (탭 + 사진 + 서비스 태그) */}
-          <ServicePhotoCarousel />
+          {/* <ServicePhotoCarousel /> */}
         </div>
       </section>
 
