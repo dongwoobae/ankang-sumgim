@@ -3,7 +3,6 @@
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { sendInquiryNotificationEmail } from "@/lib/email";
-import { sendSMS, buildReceiptSMS } from "@/lib/sms";
 import { checkInquiryRateLimit } from "@/lib/rateLimit";
 
 export type InquiryState = {
@@ -101,11 +100,8 @@ export async function sendInquiry(
     };
   }
 
-  // 2. 알림 발송 (병렬, 실패해도 무시)
-  await Promise.allSettled([
-    sendInquiryNotificationEmail({ name, phone, email, serviceType, content }),
-    sendSMS(phone, buildReceiptSMS(name, serviceType)),
-  ]);
+  // 2. 관리자 이메일 알림 (실패해도 무시)
+  await sendInquiryNotificationEmail({ name, phone, email, serviceType, content });
 
   return {
     success: true,

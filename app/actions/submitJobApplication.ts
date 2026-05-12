@@ -1,7 +1,9 @@
 "use server";
 
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { sendJobApplicationNotificationEmail } from "@/lib/email";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 export type JobApplicationState = {
   success: boolean;
@@ -18,6 +20,26 @@ export async function submitJobApplication(
   const honeypot = (formData.get("website") as string) ?? "";
   if (honeypot.length > 0) {
     return { success: true, message: "지원서가 접수되었습니다. 확인 후 연락드리겠습니다." };
+  }
+
+  // Rate Limit
+  const headersList = await headers();
+  const ip =
+    headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    headersList.get("x-real-ip") ||
+    "unknown";
+
+  const rateLimit = await checkRateLimit(ip, "recruit");
+  if (!rateLimit.allowed) {
+    const retryAt = rateLimit.retryAfter.toLocaleTimeString("ko-KR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Asia/Seoul",
+    });
+    return {
+      success: false,
+      message: `잠시 후 다시 시도해 주세요. ${retryAt} 이후 이용 가능합니다.`,
+    };
   }
 
   const name = ((formData.get("name") as string) ?? "").trim();

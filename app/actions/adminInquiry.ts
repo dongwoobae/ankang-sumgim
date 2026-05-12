@@ -57,7 +57,7 @@ export async function createReply(
           })
         : Promise.resolve(),
       // SMS는 항상 발송
-      sendSMS(phone, buildReplySMS(name)),
+      sendSMS(phone, buildReplySMS(name, content)),
     ]);
   }
 

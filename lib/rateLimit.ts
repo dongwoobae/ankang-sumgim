@@ -7,36 +7,36 @@ export type RateLimitResult =
   | { allowed: true }
   | { allowed: false; retryAfter: Date };
 
-export async function checkInquiryRateLimit(
+export async function checkRateLimit(
   ip: string,
+  action: string,
 ): Promise<RateLimitResult> {
+  const key = `${ip}:${action}`;
   const now = new Date();
 
   const { data } = await adminSupabase
     .from("inquiry_rate_limits")
     .select("attempts, window_start, blocked_until")
-    .eq("ip", ip)
+    .eq("ip", key)
     .single();
 
   if (!data) {
     await adminSupabase
       .from("inquiry_rate_limits")
-      .insert({ ip, attempts: 1, window_start: now.toISOString() });
+      .insert({ ip: key, attempts: 1, window_start: now.toISOString() });
     return { allowed: true };
   }
 
-  // 현재 차단 중
   if (data.blocked_until && new Date(data.blocked_until) > now) {
     return { allowed: false, retryAfter: new Date(data.blocked_until) };
   }
 
-  // 1시간 창(window) 만료 → 초기화
   const windowStart = new Date(data.window_start);
   if (now.getTime() - windowStart.getTime() >= WINDOW_MS) {
     await adminSupabase
       .from("inquiry_rate_limits")
       .update({ attempts: 1, window_start: now.toISOString(), blocked_until: null })
-      .eq("ip", ip);
+      .eq("ip", key);
     return { allowed: true };
   }
 
@@ -47,14 +47,19 @@ export async function checkInquiryRateLimit(
     await adminSupabase
       .from("inquiry_rate_limits")
       .update({ attempts: newAttempts, blocked_until: blockedUntil.toISOString() })
-      .eq("ip", ip);
+      .eq("ip", key);
     return { allowed: false, retryAfter: blockedUntil };
   }
 
   await adminSupabase
     .from("inquiry_rate_limits")
     .update({ attempts: newAttempts })
-    .eq("ip", ip);
+    .eq("ip", key);
 
   return { allowed: true };
+}
+
+/** 하위 호환 래퍼 */
+export function checkInquiryRateLimit(ip: string): Promise<RateLimitResult> {
+  return checkRateLimit(ip, "inquiry");
 }
