@@ -12,10 +12,11 @@ interface Props {
   chips: Chip[];
   defaultChip?: string;
   searchPlaceholder?: string;
+  onChipChange?: (value: string) => void;
   onSearch?: (query: string) => void;
 }
 
-export default function Toolbar({ chips, defaultChip, searchPlaceholder = "검색", onSearch }: Props) {
+export default function Toolbar({ chips, defaultChip, searchPlaceholder = "검색", onChipChange, onSearch }: Props) {
   const [active, setActive] = useState(defaultChip ?? chips[0]?.value ?? "");
 
   return (
@@ -30,7 +31,7 @@ export default function Toolbar({ chips, defaultChip, searchPlaceholder = "검�
             <button
               key={c.value}
               type="button"
-              onClick={() => setActive(c.value)}
+              onClick={() => { setActive(c.value); onChipChange?.(c.value); }}
               className={`inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-4 py-2 text-[13px] font-medium transition-all duration-[250ms] ${
                 isActive
                   ? "border-ink-2 bg-ink-2 text-white"
