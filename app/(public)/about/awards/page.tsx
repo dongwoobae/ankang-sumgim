@@ -1,8 +1,10 @@
 import { adminSupabase } from "@/lib/supabase/admin";
-import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Award } from "lucide-react";
 import { type Metadata } from "next";
+import PageHero from "@/components/board/PageHero";
+import SiblingNav from "@/components/common/SiblingNav";
+import CtaBanner from "@/components/common/CtaBanner";
 
 export const metadata: Metadata = {
   title: "수상·기관선정",
@@ -21,78 +23,121 @@ async function getAwards() {
 
 export const revalidate = 60;
 
+const YEAR_FILTERS = ["전체", "2026", "2025", "2024 이전"];
+
 export default async function AwardsPage() {
   const awards = await getAwards();
 
   return (
-    <div>
-      <section
-        style={{
-          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
-        }}
-        className="py-16"
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-            ABOUT US
-          </p>
-          <h1
-            className="text-[#1A2E4A] text-4xl font-bold"
-          >
-            수상·기관선정
-          </h1>
-          <p className="text-[#5A7A99] mt-3">
-            신뢰로 쌓아온 수상 및 기관선정 내역
-          </p>
-        </div>
-      </section>
+    <>
+      <PageHero
+        eyebrow="ABOUT US"
+        title="수상·기관선정"
+        lead="신뢰로 쌓아온 수상 및 기관선정 내역"
+        crumbs={[
+          { label: "홈", href: "/" },
+          { label: "센터소개" },
+          { label: "수상·기관선정" },
+        ]}
+      />
 
-      <section className="bg-[#FFFFFF] py-20">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="mb-12">
-            <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-[860px]">
+          {/* 섹션 헤더 */}
+          <div className="mb-8">
+            <div
+              className="mb-2 text-[12px] font-semibold uppercase tracking-[0.3em]"
+              style={{ color: "var(--pop)" }}
+            >
               AWARDS & RECOGNITION
-            </p>
+            </div>
             <h2
-              className="text-[#1A2E4A] text-2xl font-bold"
+              className="text-[28px] font-extrabold"
+              style={{ color: "var(--ink-2)" }}
             >
               전체 수상 내역
             </h2>
           </div>
 
+          {/* 연도 필터 칩 (마크업 전용) */}
+          <div className="mb-10 flex flex-wrap gap-2">
+            {YEAR_FILTERS.map((y, i) => (
+              <button
+                key={y}
+                type="button"
+                className="rounded-full border px-4 py-1.5 text-sm font-medium transition-colors"
+                style={
+                  i === 0
+                    ? {
+                        background: "var(--pop)",
+                        borderColor: "var(--pop)",
+                        color: "white",
+                      }
+                    : {
+                        background: "white",
+                        borderColor: "var(--line)",
+                        color: "var(--ink-2)",
+                      }
+                }
+              >
+                {y}
+              </button>
+            ))}
+          </div>
+
+          {/* 수상 목록 */}
           {awards.length === 0 ? (
-            <p className="text-center text-[#5A7A99] py-16">
+            <p
+              className="py-16 text-center text-sm"
+              style={{ color: "var(--muted)" }}
+            >
               등록된 수상 내역이 없습니다.
             </p>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-5">
               {awards.map((award) => (
                 <div
                   key={award.id}
-                  className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-2xl p-7 flex gap-6"
+                  className="flex gap-6 rounded-2xl border p-7"
+                  style={{
+                    background: "var(--paper-2)",
+                    borderColor: "var(--line)",
+                  }}
                 >
                   {/* 사진 */}
-                  <div className="w-28 h-28 rounded-xl overflow-hidden border border-[#A8C4E0]/50 flex-shrink-0 bg-[#E8A02022] flex flex-col items-center justify-center">
+                  <div
+                    className="flex h-28 w-28 flex-shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border"
+                    style={{
+                      background: "var(--paper-2)",
+                      borderColor: "var(--line)",
+                    }}
+                  >
                     {award.image_url ? (
                       <Image
                         src={award.image_url}
                         alt={award.title}
                         width={112}
                         height={112}
-                        className="object-cover w-full h-full"
+                        className="h-full w-full object-cover"
                       />
                     ) : (
                       <>
-                        <Award size={24} className="text-[#1A56A0] mb-1" />
-                        <span className="text-[#5A7A99] text-[10px]">
+                        <Award size={24} style={{ color: "var(--pop)" }} className="mb-1" />
+                        <span
+                          className="text-[10px]"
+                          style={{ color: "var(--muted)" }}
+                        >
                           사진 없음
                         </span>
                       </>
                     )}
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[#1A56A0] text-sm font-bold mb-1">
+                  <div className="min-w-0 flex-1">
+                    <p
+                      className="mb-1 text-sm font-bold"
+                      style={{ color: "var(--pop)" }}
+                    >
                       {new Date(award.awarded_at).toLocaleDateString("ko-KR", {
                         year: "numeric",
                         month: "long",
@@ -100,15 +145,22 @@ export default async function AwardsPage() {
                       })}
                     </p>
                     <h3
-                      className="text-[#1A2E4A] font-bold text-lg mb-1"
+                      className="mb-1 text-lg font-bold"
+                      style={{ color: "var(--ink-2)" }}
                     >
                       {award.title}
                     </h3>
-                    <p className="text-[#1A56A0] text-sm font-medium mb-2">
+                    <p
+                      className="mb-2 text-sm font-medium"
+                      style={{ color: "var(--pop)" }}
+                    >
                       수여: {award.org}
                     </p>
                     {award.description && (
-                      <p className="text-[#5A7A99] text-sm leading-relaxed">
+                      <p
+                        className="text-sm leading-relaxed"
+                        style={{ color: "var(--muted)" }}
+                      >
                         {award.description}
                       </p>
                     )}
@@ -119,6 +171,23 @@ export default async function AwardsPage() {
           )}
         </div>
       </section>
-    </div>
+
+      <section className="px-6 py-14">
+        <div className="mx-auto max-w-[860px]">
+          <SiblingNav
+            prev={{ label: "인사말", desc: "센터장 인사말씀", href: "/about/greeting" }}
+            next={{ label: "오시는길", desc: "센터 위치 및 교통편", href: "/about/location" }}
+          />
+        </div>
+      </section>
+
+      <CtaBanner
+        eyebrow="NEED HELP?"
+        title="저희 센터가 궁금하신가요?"
+        desc="전화 또는 온라인으로 언제든 문의해 주세요. 정성껏 답변드립니다."
+        primary={{ text: "상담 신청", href: "/inquiry" }}
+        secondary={{ text: "☎ 054-763-5988", href: "tel:054-763-5988" }}
+      />
+    </>
   );
 }

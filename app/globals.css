@@ -33,6 +33,9 @@
   --shadow-card:   0 18px 40px rgba(14, 26, 46, 0.08);
   --shadow-header: 0 6px 24px rgba(14, 26, 46, 0.06);
 
+  /* WARN */
+  --warn: #e07a3a;
+
   /* EASING */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -50,6 +53,7 @@
   --color-pop-3:   #0e3a78;
   --color-muted:   #5a7a99;
   --color-muted-2: #7a93ae;
+  --color-warn:    #e07a3a;
 }
 
 /* 노인 사용자 폰트 스케일 */

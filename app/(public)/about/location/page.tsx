@@ -1,6 +1,9 @@
 import { MapPin, Phone, Mail, Bus, Car, Clock } from "lucide-react";
 import { type Metadata } from "next";
 import KakaoMap from "@/components/KakaoMap";
+import PageHero from "@/components/board/PageHero";
+import SiblingNav from "@/components/common/SiblingNav";
+import CtaBanner from "@/components/common/CtaBanner";
 
 export const metadata: Metadata = {
   title: "오시는길",
@@ -8,6 +11,58 @@ export const metadata: Metadata = {
     "안강 섬김 노인복지센터 위치 안내. 경상북도 경주시 안강읍 화전중앙길 53.",
   openGraph: { url: "/about/location" },
 };
+
+const contactItems = [
+  {
+    icon: <MapPin size={18} />,
+    label: "주소",
+    content: (
+      <p className="font-medium" style={{ color: "var(--ink-2)" }}>
+        경상북도 경주시 안강읍 화전중앙길 53
+      </p>
+    ),
+  },
+  {
+    icon: <Phone size={18} />,
+    label: "전화",
+    content: (
+      <a
+        href="tel:054-763-5988"
+        className="font-medium transition-colors hover:opacity-70"
+        style={{ color: "var(--ink-2)" }}
+      >
+        054-763-5988
+      </a>
+    ),
+  },
+  {
+    icon: <Mail size={18} />,
+    label: "이메일",
+    content: (
+      <a
+        href="mailto:miyeong0695@daum.net"
+        className="font-medium transition-colors hover:opacity-70"
+        style={{ color: "var(--ink-2)" }}
+      >
+        miyeong0695@daum.net
+      </a>
+    ),
+  },
+  {
+    icon: <Clock size={18} />,
+    label: "운영시간",
+    content: (
+      <>
+        <p className="font-medium" style={{ color: "var(--ink-2)" }}>
+          평일 09:00 – 18:00
+        </p>
+        <p className="font-medium" style={{ color: "var(--ink-2)" }}>
+          토요일 09:00 – 14:00
+        </p>
+      </>
+    ),
+  },
+];
 
 const transportInfo = [
   {
@@ -31,107 +86,106 @@ const transportInfo = [
 
 export default function LocationPage() {
   return (
-    <div>
-      {/* 페이지 배너 */}
-      <section
-        style={{
-          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
-        }}
-        className="py-16"
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-            ABOUT US
-          </p>
-          <h1 className="text-[#1A2E4A] text-4xl font-bold">오시는길</h1>
-          <p className="text-[#5A7A99] mt-3">
-            찾아오시는 방법을 안내해 드립니다
-          </p>
-        </div>
-      </section>
+    <>
+      <PageHero
+        eyebrow="ABOUT US"
+        title="오시는길"
+        lead="찾아오시는 방법을 안내해 드립니다"
+        crumbs={[
+          { label: "홈", href: "/" },
+          { label: "센터소개" },
+          { label: "오시는길" },
+        ]}
+      />
 
-      {/* 지도 */}
-      <section className="bg-[#FFFFFF] py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="rounded-2xl overflow-hidden border border-[#A8C4E0]/50 shadow-sm mb-12">
-            <KakaoMap />
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-[1200px]">
+          {/* 지도 — 16:6 비율 */}
+          <div
+            className="relative mb-12 w-full overflow-hidden rounded-2xl border"
+            style={{ aspectRatio: "16/6", borderColor: "var(--line)" }}
+          >
+            <div className="absolute inset-0">
+              <KakaoMap />
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
             {/* 연락처 정보 */}
             <div>
-              <h2 className="text-[#1A2E4A] text-xl font-bold mb-6">
+              <h2
+                className="mb-6 text-xl font-bold"
+                style={{ color: "var(--ink-2)" }}
+              >
                 연락처 정보
               </h2>
               <ul className="space-y-5">
-                <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
-                    <MapPin size={18} />
-                  </span>
-                  <div>
-                    <p className="text-[#5A7A99] text-xs mb-0.5">주소</p>
-                    <p className="text-[#1A2E4A] font-medium">
-                      경상북도 경주시 안강읍 화전중앙길 53
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
-                    <Phone size={18} />
-                  </span>
-                  <div>
-                    <p className="text-[#5A7A99] text-xs mb-0.5">전화</p>
-                    <a
-                      href="tel:054-763-5988"
-                      className="text-[#1A2E4A] font-medium hover:text-[#1A56A0] transition-colors"
+                {contactItems.map((item, i) => (
+                  <li key={i} className="flex items-start gap-4">
+                    <span
+                      className="mt-0.5 inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-white"
+                      style={{ background: "var(--pop)" }}
                     >
-                      054-763-5988
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
-                    <Mail size={18} />
-                  </span>
-                  <div>
-                    <p className="text-[#5A7A99] text-xs mb-0.5">이메일</p>
-                    <a
-                      href="mailto:miyeong0695@daum.net"
-                      className="text-[#1A2E4A] font-medium hover:text-[#1A56A0] transition-colors"
-                    >
-                      miyeong0695@daum.net
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#E8A020]/40 text-[#1A56A0] flex-shrink-0 mt-0.5">
-                    <Clock size={18} />
-                  </span>
-                  <div>
-                    <p className="text-[#5A7A99] text-xs mb-0.5">운영시간</p>
-                    <p className="text-[#1A2E4A] font-medium">
-                      평일 09:00 – 18:00
-                    </p>
-                    <p className="text-[#1A2E4A] font-medium">
-                      토요일 09:00 – 14:00
-                    </p>
-                  </div>
-                </li>
+                      {item.icon}
+                    </span>
+                    <div>
+                      <p
+                        className="mb-0.5 text-xs"
+                        style={{ color: "var(--muted)" }}
+                      >
+                        {item.label}
+                      </p>
+                      {item.content}
+                    </div>
+                  </li>
+                ))}
               </ul>
+
+              {/* 모바일 바로가기 버튼 */}
+              <div className="mt-7 flex gap-2.5">
+                <a
+                  href="tel:054-763-5988"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-bold text-white transition-opacity hover:opacity-80"
+                  style={{ background: "var(--pop)" }}
+                >
+                  <Phone size={15} />
+                  전화하기
+                </a>
+                <a
+                  href="https://map.kakao.com/link/search/경상북도 경주시 안강읍 화전중앙길 53"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border py-3 text-sm font-bold transition-colors hover:bg-paper-3"
+                  style={{ borderColor: "var(--line)", color: "var(--ink-2)" }}
+                >
+                  <MapPin size={15} />
+                  지도 보기
+                </a>
+              </div>
             </div>
 
             {/* 교통 안내 */}
             <div>
-              <h2 className="text-[#1A2E4A] text-xl font-bold mb-6">
+              <h2
+                className="mb-6 text-xl font-bold"
+                style={{ color: "var(--ink-2)" }}
+              >
                 교통 안내
               </h2>
-              <div className="space-y-5">
+              <div className="space-y-4">
                 {transportInfo.map((t, i) => (
                   <div
                     key={i}
-                    className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-5"
+                    className="rounded-xl border p-5"
+                    style={{
+                      background: "var(--paper-2)",
+                      borderColor: "var(--line)",
+                    }}
                   >
-                    <div className="flex items-center gap-2 text-[#1A56A0] font-bold mb-3">
+                    <div
+                      className="mb-3 flex items-center gap-2 font-bold"
+                      style={{ color: "var(--pop)" }}
+                    >
                       {t.icon}
                       {t.title}
                     </div>
@@ -139,9 +193,13 @@ export default function LocationPage() {
                       {t.items.map((item, j) => (
                         <li
                           key={j}
-                          className="flex items-start gap-2 text-[#1A2E4A] text-sm"
+                          className="flex items-start gap-2 text-sm"
+                          style={{ color: "var(--ink-2)" }}
                         >
-                          <span className="w-1 h-1 rounded-full bg-[#1A56A0] flex-shrink-0 mt-2" />
+                          <span
+                            className="mt-2 h-1 w-1 flex-shrink-0 rounded-full"
+                            style={{ background: "var(--pop)" }}
+                          />
                           {item}
                         </li>
                       ))}
@@ -153,6 +211,22 @@ export default function LocationPage() {
           </div>
         </div>
       </section>
-    </div>
+
+      <section className="px-6 py-14">
+        <div className="mx-auto max-w-[1200px]">
+          <SiblingNav
+            prev={{ label: "수상·기관선정", desc: "신뢰로 쌓아온 내역", href: "/about/awards" }}
+          />
+        </div>
+      </section>
+
+      <CtaBanner
+        eyebrow="NEED HELP?"
+        title="저희 센터가 궁금하신가요?"
+        desc="전화 또는 온라인으로 언제든 문의해 주세요. 정성껏 답변드립니다."
+        primary={{ text: "상담 신청", href: "/inquiry" }}
+        secondary={{ text: "☎ 054-763-5988", href: "tel:054-763-5988" }}
+      />
+    </>
   );
 }
