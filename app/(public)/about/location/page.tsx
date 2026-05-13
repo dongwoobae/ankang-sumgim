@@ -1,5 +1,6 @@
 import { MapPin, Phone, Mail, Bus, Car, Clock } from "lucide-react";
 import { type Metadata } from "next";
+import KakaoMap from "@/components/KakaoMap";
 
 export const metadata: Metadata = {
   title: "오시는길",
@@ -42,11 +43,7 @@ export default function LocationPage() {
           <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
             ABOUT US
           </p>
-          <h1
-            className="text-[#1A2E4A] text-4xl font-bold"
-          >
-            오시는길
-          </h1>
+          <h1 className="text-[#1A2E4A] text-4xl font-bold">오시는길</h1>
           <p className="text-[#5A7A99] mt-3">
             찾아오시는 방법을 안내해 드립니다
           </p>
@@ -57,24 +54,13 @@ export default function LocationPage() {
       <section className="bg-[#FFFFFF] py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="rounded-2xl overflow-hidden border border-[#A8C4E0]/50 shadow-sm mb-12">
-            <iframe
-              src="https://maps.google.com/maps?q=경상북도+경주시+안강읍+화전중앙길+53&output=embed&hl=ko"
-              width="100%"
-              height="420"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="안강 섬김 노인복지센터 지도"
-            />
+            <KakaoMap />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* 연락처 정보 */}
             <div>
-              <h2
-                className="text-[#1A2E4A] text-xl font-bold mb-6"
-              >
+              <h2 className="text-[#1A2E4A] text-xl font-bold mb-6">
                 연락처 정보
               </h2>
               <ul className="space-y-5">
@@ -127,7 +113,7 @@ export default function LocationPage() {
                       평일 09:00 – 18:00
                     </p>
                     <p className="text-[#1A2E4A] font-medium">
-                      주말 09:00 – 14:00
+                      토요일 09:00 – 14:00
                     </p>
                   </div>
                 </li>
@@ -136,9 +122,7 @@ export default function LocationPage() {
 
             {/* 교통 안내 */}
             <div>
-              <h2
-                className="text-[#1A2E4A] text-xl font-bold mb-6"
-              >
+              <h2 className="text-[#1A2E4A] text-xl font-bold mb-6">
                 교통 안내
               </h2>
               <div className="space-y-5">
