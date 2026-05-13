@@ -1,13 +1,10 @@
-// app/(public)/board/notice/[id]/page.tsx
-// 기존 파일 상단 import 아래에 generateMetadata 추가
-
 import type { Metadata } from "next";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Pin, Calendar } from "lucide-react";
+import PageHero from "@/components/board/PageHero";
+import Reveal from "@/components/common/Reveal";
 
-// ── 동적 metadata ─────────────────────────────────────────────
 export async function generateMetadata({
   params,
 }: {
@@ -33,7 +30,6 @@ export async function generateMetadata({
   };
 }
 
-// ── 데이터 조회 ───────────────────────────────────────────────
 async function getNotice(id: string) {
   const { data } = await adminSupabase
     .from("notices")
@@ -41,6 +37,26 @@ async function getNotice(id: string) {
     .eq("id", id)
     .single();
   return data;
+}
+
+async function getPrevNext(id: number) {
+  const [{ data: prevData }, { data: nextData }] = await Promise.all([
+    adminSupabase
+      .from("notices")
+      .select("id, title, created_at")
+      .lt("id", id)
+      .order("id", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+    adminSupabase
+      .from("notices")
+      .select("id, title, created_at")
+      .gt("id", id)
+      .order("id", { ascending: true })
+      .limit(1)
+      .maybeSingle(),
+  ]);
+  return { prev: prevData, next: nextData };
 }
 
 export const revalidate = 60;
@@ -54,69 +70,165 @@ export default async function NoticeDetailPage({
   const notice = await getNotice(id);
   if (!notice) notFound();
 
+  const { prev, next } = await getPrevNext(notice.id);
+
+  const dateStr = new Date(notice.created_at).toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <div>
-      {/* 페이지 배너 */}
-      <section
-        style={{
-          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
-        }}
-        className="py-16"
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-            BOARD
-          </p>
-          <h1
-            className="text-[#1A2E4A] text-4xl font-bold"
+      <PageHero
+        title="공지사항"
+        crumbs={[
+          { label: "홈", href: "/" },
+          { label: "게시판" },
+          { label: "공지사항", href: "/board/notice" },
+          { label: "글 보기" },
+        ]}
+      />
 
-          >
-            공지사항
-          </h1>
-        </div>
-      </section>
+      <section className="px-6 pb-24 pt-0">
+        <div className="mx-auto max-w-[1200px]">
 
-      <section className="bg-[#FFFFFF] py-20">
-        <div className="max-w-4xl mx-auto px-6">
-          {/* 공지 헤더 */}
-          <div className="border-b-2 border-[#1A2E4A] pb-6 mb-8">
-            {notice.is_pinned && (
-              <span className="inline-flex items-center gap-1 text-xs font-bold bg-[#1A56A0] text-[#FFFFFF] px-2.5 py-1 rounded-full mb-3">
-                <Pin size={10} />
-                공지
-              </span>
-            )}
-            <h2
-              className="text-[#1A2E4A] text-2xl font-bold mb-4 leading-snug"
-  
+          {/* 포스트 헤더 */}
+          <Reveal>
+            <div
+              className="mb-10 border-b pb-9"
+              style={{ borderColor: "var(--line)" }}
             >
-              {notice.title}
-            </h2>
-            <div className="flex items-center gap-2 text-[#5A7A99] text-sm">
-              <Calendar size={14} />
-              {new Date(notice.created_at).toLocaleDateString("ko-KR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              <div className="mb-4 flex gap-2">
+                {notice.is_pinned && (
+                  <span
+                    className="rounded-full px-3 py-1 text-[11px] font-semibold text-white"
+                    style={{ background: "var(--pop)" }}
+                  >
+                    📌 고정
+                  </span>
+                )}
+                <span
+                  className="rounded-full px-3 py-1 text-[11px] font-semibold"
+                  style={{
+                    background: "var(--paper-3)",
+                    color: "var(--pop)",
+                  }}
+                >
+                  공지사항
+                </span>
+              </div>
+
+              <h1
+                className="mb-5 font-extrabold leading-[1.2]"
+                style={{
+                  fontSize: "clamp(28px, 3.6vw, 42px)",
+                  letterSpacing: "-0.03em",
+                  color: "var(--ink-2)",
+                }}
+              >
+                {notice.title}
+              </h1>
+
+              <div className="flex flex-wrap gap-6 text-[13px]" style={{ color: "var(--muted)" }}>
+                <span className="inline-flex items-center gap-1.5">📅 {dateStr}</span>
+                <span className="inline-flex items-center gap-1.5">✏️ 관리자</span>
+              </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* 본문 */}
-          <div className="text-[#1A2E4A] text-base leading-[2] whitespace-pre-wrap min-h-[400px]">
-            {notice.content}
-          </div>
-
-          {/* 하단 목록 버튼 */}
-          <div className="mt-12 pt-6 border-t border-[#A8C4E0]/40 flex justify-end">
-            <Link
-              href="/board/notice"
-              className="inline-flex items-center gap-1.5 text-[#5A7A99] text-sm hover:text-[#1A56A0] transition-colors"
+          <Reveal stagger={1}>
+            <div
+              className="prose-board min-h-[400px] max-w-[760px] text-[16px] whitespace-pre-wrap"
+              style={{ color: "var(--ink-2)" }}
             >
-              <ArrowLeft size={14} />
-              목록으로
-            </Link>
-          </div>
+              {notice.content}
+            </div>
+          </Reveal>
+
+          {/* 하단 버튼 */}
+          <Reveal stagger={2}>
+            <div
+              className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t pt-7"
+              style={{ borderColor: "var(--line)" }}
+            >
+              <div className="flex gap-2">
+                <Link href="/board/notice" className="btn-outline">
+                  ← 목록으로
+                </Link>
+              </div>
+              <Link href="/inquiry" className="btn-primary-pill">
+                상담 문의 →
+              </Link>
+            </div>
+          </Reveal>
+
+          {/* 이전/다음 */}
+          {(prev || next) && (
+            <Reveal stagger={3}>
+              <div
+                className="mt-10 overflow-hidden rounded-2xl border"
+                style={{ borderColor: "var(--line)" }}
+              >
+                {next && (
+                  <Link
+                    href={`/board/notice/${next.id}`}
+                    className="group grid items-center gap-5 px-6 py-5 transition-colors hover:bg-paper-2"
+                    style={{
+                      gridTemplateColumns: "80px 1fr auto",
+                      borderBottom: prev ? `1px solid var(--line)` : undefined,
+                    }}
+                  >
+                    <span
+                      className="text-[11px] font-bold uppercase tracking-widest"
+                      style={{ color: "var(--muted)" }}
+                    >
+                      ▲ 이전
+                    </span>
+                    <span
+                      className="text-[15px] font-medium transition-colors group-hover:text-pop"
+                      style={{ color: "var(--ink-2)" }}
+                    >
+                      {next.title}
+                    </span>
+                    <span
+                      className="font-mono text-[12px]"
+                      style={{ color: "var(--muted)" }}
+                    >
+                      {new Date(next.created_at).toLocaleDateString("ko-KR")}
+                    </span>
+                  </Link>
+                )}
+                {prev && (
+                  <Link
+                    href={`/board/notice/${prev.id}`}
+                    className="group grid items-center gap-5 px-6 py-5 transition-colors hover:bg-paper-2"
+                    style={{ gridTemplateColumns: "80px 1fr auto" }}
+                  >
+                    <span
+                      className="text-[11px] font-bold uppercase tracking-widest"
+                      style={{ color: "var(--muted)" }}
+                    >
+                      ▼ 다음
+                    </span>
+                    <span
+                      className="text-[15px] font-medium transition-colors group-hover:text-pop"
+                      style={{ color: "var(--ink-2)" }}
+                    >
+                      {prev.title}
+                    </span>
+                    <span
+                      className="font-mono text-[12px]"
+                      style={{ color: "var(--muted)" }}
+                    >
+                      {new Date(prev.created_at).toLocaleDateString("ko-KR")}
+                    </span>
+                  </Link>
+                )}
+              </div>
+            </Reveal>
+          )}
         </div>
       </section>
     </div>

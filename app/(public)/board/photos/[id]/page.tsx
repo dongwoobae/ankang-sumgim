@@ -1,11 +1,29 @@
-// app/(public)/board/photos/[id]/page.tsx
-// 변경점: photos 쿼리에 original_url, is_face_blurred 추가
-
+import type { Metadata } from "next";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ImageIcon } from "lucide-react";
 import PhotoGallery from "@/components/PhotoGallery";
+import PageHero from "@/components/board/PageHero";
+import Reveal from "@/components/common/Reveal";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const { data } = await adminSupabase
+    .from("photo_categories")
+    .select("name")
+    .eq("id", id)
+    .single();
+  return {
+    title: data?.name ?? "사진 게시판",
+    description: `안강 섬김 노인복지센터 ${data?.name ?? ""} 앨범입니다.`,
+    openGraph: { url: `/board/photos/${id}` },
+  };
+}
 
 async function getAlbum(id: string) {
   const { data } = await adminSupabase
@@ -39,48 +57,59 @@ export default async function PhotoDetailPage({
       created_at: string;
     }[]) ?? [];
 
+  const dateStr = new Date(album.created_at).toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <div>
-      {/* 배너 */}
-      <section
-        style={{
-          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
-        }}
-        className="py-16"
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-            BOARD
-          </p>
-          <h1
-            className="text-[#1A2E4A] text-4xl font-bold"
-          >
-            {album.name}
-          </h1>
-          <p className="text-[#5A7A99] mt-3">사진 {photos.length}장</p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="ALBUM"
+        title={album.name}
+        crumbs={[
+          { label: "홈", href: "/" },
+          { label: "게시판" },
+          { label: "사진 게시판", href: "/board/photos" },
+          { label: album.name },
+        ]}
+        meta={
+          <>
+            <span className="inline-flex items-center gap-1.5">📅 {dateStr}</span>
+            <span className="inline-flex items-center gap-1.5">📷 {photos.length}장</span>
+          </>
+        }
+      />
 
-      {/* 갤러리 */}
-      <section className="bg-[#FFFFFF] py-20">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="px-6 pb-24 pt-10">
+        <div className="mx-auto max-w-[1200px]">
           {photos.length === 0 ? (
-            <p className="text-center text-[#5A7A99] py-16">
-              등록된 사진이 없습니다.
-            </p>
+            <div className="py-16 text-center">
+              <ImageIcon size={40} className="mx-auto mb-3 text-line-2" />
+              <p className="text-[15px]" style={{ color: "var(--muted)" }}>
+                등록된 사진이 없습니다.
+              </p>
+            </div>
           ) : (
             <PhotoGallery photos={photos} albumName={album.name} />
           )}
 
-          <div className="mt-12 pt-6 border-t border-[#A8C4E0]/40 flex justify-end">
-            <Link
-              href="/board/photos"
-              className="inline-flex items-center gap-1.5 text-[#5A7A99] text-sm hover:text-[#1A56A0] transition-colors"
+          <Reveal stagger={1}>
+            <div
+              className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t pt-7"
+              style={{ borderColor: "var(--line)" }}
             >
-              <ArrowLeft size={14} />
-              목록으로
-            </Link>
-          </div>
+              <div className="flex gap-2">
+                <Link href="/board/photos" className="btn-outline">
+                  ← 앨범 목록
+                </Link>
+              </div>
+              <Link href="/inquiry" className="btn-primary-pill">
+                상담 문의 →
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>

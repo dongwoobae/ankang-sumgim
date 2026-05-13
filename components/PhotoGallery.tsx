@@ -1,7 +1,3 @@
-// components/PhotoGallery.tsx
-// 변경점: Photo 타입에 original_url, is_face_blurred 추가
-//         is_face_blurred = false이면 original_url로 표시
-
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -22,7 +18,6 @@ type Props = {
   albumName: string;
 };
 
-/** 공개 표시용 URL: 블러 해제된 경우 원본, 아닌 경우 블러 버전 */
 function displayUrl(photo: Photo): string {
   if (!photo.is_face_blurred && photo.original_url) {
     return photo.original_url;
@@ -68,104 +63,157 @@ export default function PhotoGallery({ photos, albumName }: Props) {
 
   return (
     <>
-      {/* 사진 그리드 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* Masonry grid */}
+      <div className="columns-1 gap-4 sm:columns-2 md:columns-3 lg:columns-4 [&>*]:break-inside-avoid">
         {photos.map((photo, i) => (
           <button
             key={photo.id}
+            type="button"
             onClick={() => setLightboxIndex(i)}
-            className="group rounded-2xl overflow-hidden border border-[#A8C4E0]/50 hover:border-[#1A56A0] hover:shadow-lg transition-all duration-300 text-left w-full"
+            className="group relative mb-4 block w-full cursor-pointer overflow-hidden rounded-xl transition-all duration-[350ms] hover:z-[2] hover:scale-[1.02] hover:shadow-[0_18px_40px_rgba(14,26,46,0.08)]"
           >
-            <div className="w-full aspect-[4/3] relative bg-[#EEF4FB]">
-              <Image
-                src={displayUrl(photo)}
-                alt={photo.caption ?? albumName}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              <div
-                className="absolute bottom-0 left-0 right-0 px-4 py-3
-                      translate-y-full group-hover:translate-y-0
-                      transition-transform duration-300
-                      bg-gradient-to-t from-black/60 to-transparent"
+            <Image
+              src={displayUrl(photo)}
+              alt={photo.caption ?? albumName}
+              width={800}
+              height={600}
+              sizes="(min-width: 1100px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="block h-auto w-full"
+            />
+            {photo.caption && (
+              <span
+                className="absolute inset-x-0 bottom-0 translate-y-2 px-4 pb-3 pt-8 text-[13px] font-medium text-white opacity-0 transition-all duration-[250ms] group-hover:translate-y-0 group-hover:opacity-100"
+                style={{
+                  background:
+                    "linear-gradient(180deg, transparent 0%, rgba(14,26,46,0.7) 100%)",
+                }}
               >
-                {photo.caption && (
-                  <p className="text-white text-sm truncate">{photo.caption}</p>
-                )}
-                <p className="text-white/70 text-xs">
-                  {new Date(photo.created_at).toLocaleDateString("ko-KR")}
-                </p>
-              </div>
-            </div>
+                {photo.caption}
+              </span>
+            )}
           </button>
         ))}
       </div>
 
-      {/* 라이트박스 */}
+      {/* Lightbox */}
       {isOpen && current && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center"
-          style={{ background: "rgba(10,20,40,0.92)" }}
-          onClick={close}
+          className="fixed inset-0 z-[100] flex flex-col"
+          style={{ background: "rgba(8,14,26,0.92)", backdropFilter: "blur(8px)" }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) close();
+          }}
         >
-          <button
-            onClick={close}
-            className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-            aria-label="닫기"
-          >
-            <X size={20} color="#fff" />
-          </button>
-
-          <p className="absolute top-5 left-1/2 -translate-x-1/2 text-white/60 text-sm">
-            {lightboxIndex! + 1} / {photos.length}
-          </p>
-
-          {photos.length > 1 && (
+          {/* Top bar */}
+          <div className="flex items-center justify-between px-6 py-[18px]">
+            <div className="flex items-center gap-[18px]">
+              <b className="text-[16px] font-semibold text-white">{albumName}</b>
+              <span className="font-mono text-[13px]" style={{ color: "rgba(255,255,255,0.6)" }}>
+                {lightboxIndex! + 1} / {photos.length}
+              </span>
+            </div>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prev();
-              }}
-              className="absolute left-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors"
-              aria-label="이전"
+              onClick={close}
+              aria-label="닫기"
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-0 text-white transition-colors"
+              style={{ background: "rgba(255,255,255,0.1)" }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.2)")
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.1)")
+              }
             >
-              <ChevronLeft size={24} color="#fff" />
+              <X size={18} />
             </button>
-          )}
+          </div>
 
-          <div
-            className="relative max-w-[90vw] max-h-[85vh] w-full h-full flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Image
-              key={displayUrl(current)}
-              src={displayUrl(current)}
-              alt={current.caption ?? albumName}
-              fill
-              className="object-contain"
-              sizes="90vw"
-              priority
-            />
-            {current.caption && (
-              <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm bg-black/40 px-4 py-2 rounded-full">
-                {current.caption}
-              </p>
+          {/* Stage */}
+          <div className="relative flex flex-1 items-center justify-center px-2 md:px-20">
+            {photos.length > 1 && (
+              <button
+                onClick={prev}
+                aria-label="이전"
+                className="absolute left-4 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-0 text-white transition-colors"
+                style={{ background: "rgba(255,255,255,0.1)" }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.2)")
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.1)")
+                }
+              >
+                <ChevronLeft size={26} />
+              </button>
+            )}
+
+            <div
+              className="relative flex max-h-full max-w-full items-center justify-center"
+              style={{ width: "min(900px, 85vw)", height: "calc(100vh - 200px)" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                key={displayUrl(current)}
+                src={displayUrl(current)}
+                alt={current.caption ?? albumName}
+                fill
+                className="rounded-lg object-contain"
+                sizes="(min-width: 900px) 900px, 85vw"
+                priority
+              />
+            </div>
+
+            {photos.length > 1 && (
+              <button
+                onClick={next}
+                aria-label="다음"
+                className="absolute right-4 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-0 text-white transition-colors"
+                style={{ background: "rgba(255,255,255,0.1)" }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.2)")
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.1)")
+                }
+              >
+                <ChevronRight size={26} />
+              </button>
             )}
           </div>
 
-          {photos.length > 1 && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                next();
-              }}
-              className="absolute right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors"
-              aria-label="다음"
-            >
-              <ChevronRight size={24} color="#fff" />
-            </button>
-          )}
+          {/* Footer: caption + thumbnail strip */}
+          <div className="px-6 pb-6 pt-[18px]">
+            {current.caption && (
+              <div
+                className="mb-3.5 text-center text-[14px]"
+                style={{ color: "rgba(255,255,255,0.8)" }}
+              >
+                {current.caption}
+              </div>
+            )}
+            <div className="flex justify-center gap-1.5 overflow-x-auto pb-1">
+              {photos.map((p, i) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setLightboxIndex(i)}
+                  className={`h-11 w-[60px] flex-shrink-0 cursor-pointer overflow-hidden rounded border-2 transition-all ${
+                    i === lightboxIndex
+                      ? "border-white opacity-100"
+                      : "border-transparent opacity-50 hover:-translate-y-0.5 hover:opacity-85"
+                  }`}
+                >
+                  <Image
+                    src={displayUrl(p)}
+                    alt=""
+                    width={120}
+                    height={88}
+                    className="h-full w-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </>

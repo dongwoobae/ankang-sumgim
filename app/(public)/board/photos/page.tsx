@@ -1,8 +1,7 @@
 import { adminSupabase } from "@/lib/supabase/admin";
-import { ImageIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import { type Metadata } from "next";
+import PageHero from "@/components/board/PageHero";
+import AlbumGrid from "@/components/board/AlbumGrid";
 
 export const metadata: Metadata = {
   title: "사진 게시판",
@@ -12,8 +11,8 @@ export const metadata: Metadata = {
 
 async function getAlbums() {
   const { data } = await adminSupabase
-    .from("photo_categories") // photo_albums → photo_categories
-    .select("id, name, created_at, photos(id, url)")
+    .from("photo_categories")
+    .select("id, name, created_at, photos(id, url, created_at)")
     .order("created_at", { ascending: false });
   return data ?? [];
 }
@@ -23,86 +22,41 @@ export const revalidate = 60;
 export default async function PhotosPage() {
   const albums = await getAlbums();
 
+  const albumList = albums.map((album) => {
+    const photos =
+      (album.photos as { id: string; url: string; created_at: string }[]) ?? [];
+    const sorted = [...photos].sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
+    return {
+      id: album.id,
+      title: album.name,
+      coverUrl: sorted[0]?.url ?? null,
+      photoCount: photos.length,
+      date: new Date(album.created_at).toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+      }),
+    };
+  });
+
   return (
     <div>
-      <section
-        style={{
-          background: "linear-gradient(135deg, #EEF4FB 0%, #F0E4A8 100%)",
-        }}
-        className="py-16"
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-            BOARD
-          </p>
-          <h1
-            className="text-[#1A2E4A] text-4xl font-bold"
-          >
-            사진 게시판
-          </h1>
-          <p className="text-[#5A7A99] mt-3">
-            안강 섬김의 따뜻한 활동 사진을 모았습니다
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="PHOTO ALBUMS"
+        title="활동 앨범"
+        lead="어르신과 함께한 소중한 시간들을 행사·활동별 앨범으로 모았습니다."
+        crumbs={[
+          { label: "홈", href: "/" },
+          { label: "게시판" },
+          { label: "사진 게시판" },
+        ]}
+      />
 
-      <section className="bg-[#FFFFFF] py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          {albums.length === 0 ? (
-            <div className="text-center py-16">
-              <ImageIcon size={40} className="text-[#A8C4E0] mx-auto mb-3" />
-              <p className="text-[#5A7A99] text-sm">등록된 사진이 없습니다.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {albums.map((album) => {
-                const photos =
-                  (album.photos as { id: string; url: string }[]) ?? [];
-                const thumb = photos[0]?.url ?? null;
-
-                return (
-                  <Link // div → Link
-                    key={album.id}
-                    href={`/board/photos/${album.id}`}
-                    className="group bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-2xl overflow-hidden hover:border-[#1A56A0] hover:shadow-lg transition-all duration-300"
-                  >
-                    <div className="w-full aspect-[4/3] relative bg-[#E8A02022] border-b border-[#A8C4E0]/30">
-                      {thumb ? (
-                        <Image
-                          src={thumb}
-                          alt={album.name}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <ImageIcon
-                            size={32}
-                            className="text-[#1A56A0] mb-2"
-                          />
-                          <span className="text-[#5A7A99] text-xs">
-                            사진 없음
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-4">
-                      <h3
-                        className="text-[#1A2E4A] font-bold text-sm mb-1 leading-snug group-hover:text-[#1A56A0] transition-colors line-clamp-2"
-                      >
-                        {album.name} {/* title → name */}
-                      </h3>
-                      <p className="text-[#5A7A99] text-xs">
-                        사진 {photos.length}장{" "}
-                        {/* {new Date(album.created_at).toLocaleDateString("ko-KR")} */}
-                      </p>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+      <section className="px-6 pb-24 pt-12">
+        <div className="mx-auto max-w-[1200px]">
+          <AlbumGrid albums={albumList} />
         </div>
       </section>
     </div>

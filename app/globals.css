@@ -73,3 +73,46 @@ body {
 
 h1 { font-weight: 800; letter-spacing: -0.035em; }
 h2, h3 { font-weight: 700; letter-spacing: -0.025em; }
+
+/* ── Board 공통 버튼 ── */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  transition: all 0.2s var(--ease);
+}
+.btn-outline:hover { border-color: var(--pop); color: var(--pop); }
+
+.btn-primary-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: var(--pop);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  border: 0;
+  text-decoration: none;
+  transition: background 0.2s var(--ease);
+}
+.btn-primary-pill:hover { background: var(--ink-2); }
+
+/* ── Board 본문 prose ── */
+.prose-board { line-height: 1.85; color: var(--ink-2); }
+.prose-board p { margin: 0 0 20px; }
+.prose-board h2 { font-size: 22px; margin: 36px 0 14px; font-weight: 700; letter-spacing: -0.025em; }
+.prose-board strong { font-weight: 700; }
+.prose-board ul, .prose-board ol { padding-left: 1.5em; margin: 0 0 20px; }
+.prose-board li { margin-bottom: 6px; }
