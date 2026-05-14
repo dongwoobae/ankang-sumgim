@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
-import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import PageHero from "@/components/board/PageHero";
 import Reveal from "@/components/common/Reveal";
 
-const getNotice = cache(async (id: string) => {
-  const { data } = await adminSupabase
-    .from("notices")
-    .select("id, title, content, is_pinned, created_at")
-    .eq("id", id)
-    .single();
-  return data;
-});
+const getNotice = unstable_cache(
+  async (id: string) => {
+    const { data } = await adminSupabase
+      .from("notices")
+      .select("id, title, content, is_pinned, created_at")
+      .eq("id", id)
+      .single();
+    return data;
+  },
+  ["notice-detail"],
+  { revalidate: 60 }
+);
 
 async function getPrevNext(id: number) {
   const [{ data: prevData }, { data: nextData }] = await Promise.all([
