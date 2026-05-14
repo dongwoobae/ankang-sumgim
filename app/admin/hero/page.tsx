@@ -40,7 +40,8 @@ export default function HeroPhotoPage() {
     setError("");
     const supabase = createClient();
 
-    const fileName = `hero_${Date.now()}_${file.name}`;
+    const ext = file.name.split(".").pop() ?? "jpg";
+    const fileName = `hero_${Date.now()}.${ext}`;
     const { error: uploadError } = await supabase.storage
       .from("hero")
       .upload(fileName, file, { upsert: false });
