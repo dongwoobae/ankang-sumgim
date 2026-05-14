@@ -9,7 +9,7 @@ const FROM = `상담문의신청 <${process.env.RESEND_FROM_EMAIL ?? "onboarding
  * 실패해도 throw하지 않고 false 반환 (메인 플로우 영향 없음)
  */
 async function sendEmail(options: {
-  to: string;
+  to: string | string[];
   subject: string;
   html: string;
 }): Promise<boolean> {
@@ -232,6 +232,119 @@ export async function sendJobApplicationNotificationEmail(params: {
             <td style="background-color:#EEF4FB;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #A8C4E0;">
               <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">안강 섬김 노인복지센터</p>
               <p style="margin:0;font-size:12px;color:#5A7A99;">📞 054-763-5988</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`,
+  });
+}
+
+/** 문의자에게 접수 확인 이메일 */
+export async function sendInquiryConfirmationEmail(params: {
+  name: string;
+  phone: string;
+  serviceType: string;
+  content: string;
+  to: string;
+}) {
+  const { name, phone, serviceType, content, to } = params;
+
+  return sendEmail({
+    to,
+    subject: `[안강섬김노인복지센터] ${name}님의 상담 문의가 접수되었습니다`,
+    html: `
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body style="margin:0;padding:0;background-color:#f0ebe0;font-family:'Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0ebe0;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;">
+
+          <!-- 헤더 -->
+          <tr>
+            <td style="background-color:#1A56A0;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
+              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">ANGANG SUMGIM</p>
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">안강 섬김 노인복지센터</h1>
+            </td>
+          </tr>
+
+          <!-- 본문 -->
+          <tr>
+            <td style="background-color:#FFFFFF;padding:36px 40px;">
+
+              <p style="margin:0 0 6px 0;font-size:12px;font-weight:600;color:#1A56A0;letter-spacing:2px;">INQUIRY RECEIVED</p>
+              <h2 style="margin:0 0 16px 0;font-size:20px;font-weight:700;color:#1A2E4A;">문의가 접수되었습니다</h2>
+              <p style="margin:0 0 28px 0;font-size:14px;color:#5A7A99;line-height:1.8;">
+                안녕하세요, <strong style="color:#1A2E4A;">${name}</strong>님.<br/>
+                소중한 문의 감사드립니다. 내용을 확인 후 <strong style="color:#1A2E4A;">영업일 기준 1–2일 내</strong>로 연락드리겠습니다.
+              </p>
+
+              <div style="border-top:1px solid #A8C4E0;margin-bottom:28px;"></div>
+
+              <!-- 접수 내용 요약 -->
+              <p style="margin:0 0 14px 0;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">접수하신 내용</p>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:11px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
+                    <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;">성함</span>
+                    <span style="font-size:14px;font-weight:600;color:#1A2E4A;">${name}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:11px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
+                    <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;">연락처</span>
+                    <span style="font-size:14px;color:#1A2E4A;">${phone}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:11px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
+                    <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;">문의 유형</span>
+                    <span style="display:inline-block;font-size:12px;font-weight:600;color:#1A56A0;background-color:#EEF4FB;border:1px solid #A8C4E0;border-radius:20px;padding:3px 12px;">${serviceType}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:11px 0;vertical-align:top;">
+                    <span style="display:block;font-size:12px;font-weight:600;color:#5A7A99;margin-bottom:10px;">문의 내용</span>
+                    <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:14px 16px;font-size:13px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${content}</div>
+                  </td>
+                </tr>
+              </table>
+
+              <div style="border-top:1px solid #A8C4E0;margin:28px 0 24px;"></div>
+
+              <!-- 연락처 안내 -->
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background-color:#EEF4FB;border:1px solid #A8C4E0;border-radius:10px;padding:18px 22px;text-align:center;">
+                    <p style="margin:0 0 6px 0;font-size:13px;color:#5A7A99;line-height:1.7;">빠른 답변이 필요하신 경우 아래 번호로 연락 주세요.</p>
+                    <p style="margin:0 0 4px 0;font-size:18px;font-weight:700;color:#1A56A0;">📞 054-763-5988</p>
+                    <p style="margin:0;font-size:12px;color:#5A7A99;">운영시간 평일 09:00 – 18:00</p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:24px 0 0 0;font-size:12px;color:#5A7A99;text-align:right;">
+                접수일시: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
+              </p>
+            </td>
+          </tr>
+
+          <!-- 푸터 -->
+          <tr>
+            <td style="background-color:#EEF4FB;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #A8C4E0;">
+              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">안강 섬김 노인복지센터</p>
+              <p style="margin:0;font-size:12px;color:#5A7A99;">경상북도 경주시 안강읍</p>
             </td>
           </tr>
 

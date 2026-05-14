@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
-import { sendInquiryNotificationEmail } from "@/lib/email";
+import { sendInquiryNotificationEmail, sendInquiryConfirmationEmail } from "@/lib/email";
 import { checkInquiryRateLimit } from "@/lib/rateLimit";
 
 export type InquiryState = {
@@ -100,8 +100,14 @@ export async function sendInquiry(
     };
   }
 
-  // 2. 관리자 이메일 알림 (실패해도 무시)
-  await sendInquiryNotificationEmail({ name, phone, email, serviceType, content });
+  // 2. 이메일 알림 (실패해도 무시)
+  const emailTasks = [
+    sendInquiryNotificationEmail({ name, phone, email, serviceType, content }),
+  ];
+  if (email) {
+    emailTasks.push(sendInquiryConfirmationEmail({ name, phone, serviceType, content, to: email }));
+  }
+  await Promise.allSettled(emailTasks);
 
   return {
     success: true,
