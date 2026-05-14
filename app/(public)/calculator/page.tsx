@@ -1,4 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { adminSupabase } from "@/lib/supabase/admin";
 import { type Metadata } from "next";
 import CalculatorClient from "./CalculatorClient";
 import PageHero from "@/components/board/PageHero";
@@ -10,19 +11,28 @@ export const metadata: Metadata = {
   description: "방문요양 이용 시 예상 월 본인부담금을 등급별로 미리 확인해 보세요.",
 };
 
-export default async function CalculatorPage() {
-  const supabase = await createClient();
+export const revalidate = 86400;
 
-  const [{ data: rates }, { data: limits }] = await Promise.all([
-    supabase
-      .from("ltc_service_rates")
-      .select("id, duration_minutes, price")
-      .eq("service_type", "visit_care")
-      .order("duration_minutes"),
-    supabase
-      .from("ltc_grade_limits")
-      .select("id, grade, monthly_limit"),
-  ]);
+const getCalculatorData = unstable_cache(
+  async () => {
+    const [{ data: rates }, { data: limits }] = await Promise.all([
+      adminSupabase
+        .from("ltc_service_rates")
+        .select("id, duration_minutes, price")
+        .eq("service_type", "visit_care")
+        .order("duration_minutes"),
+      adminSupabase
+        .from("ltc_grade_limits")
+        .select("id, grade, monthly_limit"),
+    ]);
+    return { rates: rates ?? [], limits: limits ?? [] };
+  },
+  ["calculator-data"],
+  { revalidate: 86400, tags: ["calculator-data"] },
+);
+
+export default async function CalculatorPage() {
+  const { rates, limits } = await getCalculatorData();
 
   return (
     <>
@@ -36,7 +46,7 @@ export default async function CalculatorPage() {
         ]}
       />
 
-      <CalculatorClient rates={rates ?? []} limits={limits ?? []} />
+      <CalculatorClient rates={rates} limits={limits} />
 
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[860px]">

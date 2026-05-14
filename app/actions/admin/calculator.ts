@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { adminSupabase } from "@/lib/supabase/admin";
 
 export async function saveServiceRates(formData: FormData) {
@@ -21,7 +21,7 @@ export async function saveServiceRates(formData: FormData) {
   }
 
   revalidatePath("/admin/calculator");
-  revalidatePath("/calculator");
+  revalidateTag("calculator-data", {});
 }
 
 export async function saveGradeLimits(formData: FormData) {
@@ -42,5 +42,5 @@ export async function saveGradeLimits(formData: FormData) {
   }
 
   revalidatePath("/admin/calculator");
-  revalidatePath("/calculator");
+  revalidateTag("calculator-data", {});
 }
