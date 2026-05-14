@@ -175,8 +175,7 @@ export default async function AwardsPage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[860px]">
           <SiblingNav
-            prev={{ label: "인사말", desc: "센터장 인사말씀", href: "/about/greeting" }}
-            next={{ label: "오시는길", desc: "센터 위치 및 교통편", href: "/about/location" }}
+            prev={{ label: "오시는길", desc: "찾아오시는 방법", href: "/about/location" }}
           />
         </div>
       </section>

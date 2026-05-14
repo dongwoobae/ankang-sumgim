@@ -160,9 +160,9 @@ export default function GreetingPage() {
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
             next={{
-              label: "수상·기관선정",
-              desc: "신뢰로 쌓아온 내역",
-              href: "/about/awards",
+              label: "오시는길",
+              desc: "찾아오시는 방법",
+              href: "/about/location",
             }}
           />
         </div>

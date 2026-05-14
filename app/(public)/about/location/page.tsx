@@ -215,7 +215,8 @@ export default function LocationPage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
-            prev={{ label: "수상·기관선정", desc: "신뢰로 쌓아온 내역", href: "/about/awards" }}
+            prev={{ label: "인사말", desc: "센터장 인사말씀", href: "/about/greeting" }}
+            next={{ label: "수상·기관선정", desc: "신뢰로 쌓아온 내역", href: "/about/awards" }}
           />
         </div>
       </section>

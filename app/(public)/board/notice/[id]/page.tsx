@@ -1,43 +1,19 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import PageHero from "@/components/board/PageHero";
 import Reveal from "@/components/common/Reveal";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}): Promise<Metadata> {
-  const { id } = await params;
-  const { data } = await adminSupabase
-    .from("notices")
-    .select("title, content")
-    .eq("id", id)
-    .single();
-
-  if (!data) return { title: "공지사항" };
-
-  return {
-    title: data.title,
-    description: data.content.slice(0, 120).replace(/\n/g, " "),
-    openGraph: {
-      title: data.title,
-      description: data.content.slice(0, 120).replace(/\n/g, " "),
-      url: `/board/notice/${id}`,
-    },
-  };
-}
-
-async function getNotice(id: string) {
+const getNotice = cache(async (id: string) => {
   const { data } = await adminSupabase
     .from("notices")
     .select("id, title, content, is_pinned, created_at")
     .eq("id", id)
     .single();
   return data;
-}
+});
 
 async function getPrevNext(id: number) {
   const [{ data: prevData }, { data: nextData }] = await Promise.all([
@@ -59,6 +35,27 @@ async function getPrevNext(id: number) {
   return { prev: prevData, next: nextData };
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const data = await getNotice(id);
+
+  if (!data) return { title: "공지사항" };
+
+  return {
+    title: data.title,
+    description: data.content.slice(0, 120).replace(/\n/g, " "),
+    openGraph: {
+      title: data.title,
+      description: data.content.slice(0, 120).replace(/\n/g, " "),
+      url: `/board/notice/${id}`,
+    },
+  };
+}
+
 export const revalidate = 60;
 
 export default async function NoticeDetailPage({
@@ -67,10 +64,11 @@ export default async function NoticeDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const notice = await getNotice(id);
+  const [notice, { prev, next }] = await Promise.all([
+    getNotice(id),
+    getPrevNext(parseInt(id, 10)),
+  ]);
   if (!notice) notFound();
-
-  const { prev, next } = await getPrevNext(notice.id);
 
   const dateStr = new Date(notice.created_at).toLocaleDateString("ko-KR", {
     year: "numeric",

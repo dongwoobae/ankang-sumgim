@@ -62,6 +62,7 @@ export default function ServicePhotoCarousel() {
   const [photoIndex, setPhotoIndex] = useState(0); // 0~8
   const [visible, setVisible] = useState(true); // opacity 제어
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isFading = useRef(false);
 
   const activeGroup = groupIndexFromPhoto(photoIndex);
   const photoInGroup = photoIndex % 3;
@@ -70,11 +71,13 @@ export default function ServicePhotoCarousel() {
   function startTimer() {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      fadeToNext();
+      if (!isFading.current) fadeToNext();
     }, INTERVAL_MS);
   }
 
   function fadeToNext(targetIndex?: number) {
+    if (isFading.current) return;
+    isFading.current = true;
     setVisible(false);
     setTimeout(() => {
       setPhotoIndex((prev) => {
@@ -82,6 +85,7 @@ export default function ServicePhotoCarousel() {
         return (prev + 1) % TOTAL;
       });
       setVisible(true);
+      isFading.current = false;
     }, 400); // fade out 400ms 후 사진 교체 + fade in
   }
 

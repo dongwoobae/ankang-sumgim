@@ -138,11 +138,8 @@ export default function NoticeList({ notices }: { notices: Notice[] }) {
                 <li key={notice.id}>
                   <Link
                     href={`/board/notice/${notice.id}`}
-                    className="group -mx-6 grid cursor-pointer items-center gap-7 border-b px-6 py-7 transition-all duration-[250ms] first:border-t hover:bg-paper-2 hover:px-8"
-                    style={{
-                      gridTemplateColumns: "72px 1fr auto",
-                      borderColor: "var(--line)",
-                    }}
+                    className="group -mx-6 grid cursor-pointer items-center gap-3 sm:gap-7 border-b px-6 py-7 transition-all duration-[250ms] first:border-t hover:bg-paper-2 hover:px-8 grid-cols-[52px_1fr_auto] sm:grid-cols-[72px_1fr_auto]"
+                    style={{ borderColor: "var(--line)" }}
                   >
                     {/* 날짜 블록 */}
                     <div

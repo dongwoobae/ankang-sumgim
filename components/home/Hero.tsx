@@ -65,10 +65,7 @@ export default function Hero({ photos }: Props) {
       />
 
       {/* 닷 인디케이터 */}
-      <div
-        className="absolute left-6 bottom-6 z-10 flex gap-2"
-        aria-hidden="true"
-      >
+      <div className="absolute left-6 bottom-6 z-10 flex gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
@@ -142,10 +139,7 @@ export default function Hero({ photos }: Props) {
         </div>
 
         {/* 하단 스트립 */}
-        <div
-          className="border-t border-white/18 pt-[22px] grid gap-6 items-end"
-          style={{ gridTemplateColumns: "repeat(2, 1fr)" }}
-        >
+        <div className="border-t border-white/18 pt-[22px] grid grid-cols-2 sm:grid-cols-4 gap-6 items-end">
           {STRIP_ITEMS.map((x, i) => (
             <Reveal key={i} variant="up-soft" stagger={4 + i}>
               <div className="text-white/85 text-[13px] md:block">

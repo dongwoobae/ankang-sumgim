@@ -73,6 +73,7 @@ export default function FaqAccordion() {
                 {/* 질문 헤더 */}
                 <button
                   onClick={() => toggle(i)}
+                  aria-expanded={isOpen}
                   className="w-full flex items-center justify-between px-6 py-5 text-left group"
                 >
                   <div className="flex items-start gap-3">
