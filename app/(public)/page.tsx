@@ -62,8 +62,8 @@ async function getHeroPhotos() {
 async function getAwards() {
   const { data } = await adminSupabase
     .from("awards")
-    .select("id, title, org, awarded_at, image_url")
-    .order("awarded_at", { ascending: false })
+    .select("id, title, org, awarded_at, image_url, display_order")
+    .order("display_order", { ascending: true })
     .limit(3);
   return data ?? [];
 }
