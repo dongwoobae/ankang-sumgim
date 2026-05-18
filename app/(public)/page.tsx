@@ -68,7 +68,7 @@ async function getAwards() {
   return data ?? [];
 }
 
-export const revalidate = 60;
+export const revalidate = false;
 
 export default async function HomePage() {
   const [notices, heroPhotos, awardsData] = await Promise.all([

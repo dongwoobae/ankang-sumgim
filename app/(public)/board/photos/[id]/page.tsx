@@ -36,7 +36,7 @@ async function getAlbum(id: string) {
   return data;
 }
 
-export const revalidate = 60;
+export const revalidate = false;
 
 export default async function PhotoDetailPage({
   params,

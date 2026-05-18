@@ -32,6 +32,7 @@ export async function createCategory(
     return { error: "카테고리 생성 중 오류가 발생했습니다." };
 
   revalidatePath("/board/photos");
+  revalidatePath("/board/photos", "layout");
   revalidatePath("/admin/photos");
   redirect(`/admin/photos/${category.id}/upload`);
 }
@@ -60,6 +61,7 @@ export async function deleteCategory(id: string) {
 
   await adminSupabase.from("photo_categories").delete().eq("id", id);
   revalidatePath("/board/photos");
+  revalidatePath("/board/photos", "layout");
   revalidatePath("/admin/photos");
 }
 
@@ -87,6 +89,7 @@ export async function deletePhoto(
 
   await adminSupabase.from("photos").delete().eq("id", id);
   revalidatePath("/board/photos");
+  revalidatePath("/board/photos", "layout");
 }
 
 // ── 사진 메타데이터 저장 ──────────────────────────────────────
@@ -111,6 +114,7 @@ export async function savePhotoMetadata(
   if (error) return { error: "사진 저장 중 오류가 발생했습니다." };
 
   revalidatePath("/board/photos");
+  revalidatePath("/board/photos", "layout");
   return { error: "", id: data.id };
 }
 
@@ -127,6 +131,7 @@ export async function toggleFaceBlur(
   if (error) return { error: "업데이트 중 오류가 발생했습니다." };
 
   revalidatePath("/board/photos");
+  revalidatePath("/board/photos", "layout");
   return { error: "" };
 }
 
@@ -137,4 +142,5 @@ export async function updatePhotoCaption(id: string, caption: string) {
     .update({ caption: caption.trim() || null })
     .eq("id", id);
   revalidatePath("/board/photos");
+  revalidatePath("/board/photos", "layout");
 }

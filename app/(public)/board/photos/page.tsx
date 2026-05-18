@@ -17,7 +17,7 @@ async function getAlbums() {
   return data ?? [];
 }
 
-export const revalidate = 60;
+export const revalidate = false;
 
 export default async function PhotosPage() {
   const albums = await getAlbums();

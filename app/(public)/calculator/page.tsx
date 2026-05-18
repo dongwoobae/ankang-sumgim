@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "방문요양 이용 시 예상 월 본인부담금을 등급별로 미리 확인해 보세요.",
 };
 
-export const revalidate = 86400;
+export const revalidate = false;
 
 const getCalculatorData = unstable_cache(
   async () => {
@@ -28,7 +28,7 @@ const getCalculatorData = unstable_cache(
     return { rates: rates ?? [], limits: limits ?? [] };
   },
   ["calculator-data"],
-  { revalidate: 86400, tags: ["calculator-data"] },
+  { revalidate: false, tags: ["calculator-data"] },
 );
 
 export default async function CalculatorPage() {

@@ -25,6 +25,7 @@ export async function createNotice(
   if (error) return { error: "저장 중 오류가 발생했습니다." };
 
   revalidatePath("/board/notice");
+  revalidatePath("/board/notice", "layout");
   revalidatePath("/admin/notices");
   redirect("/admin/notices");
 }
@@ -50,6 +51,7 @@ export async function updateNotice(
   if (error) return { error: "수정 중 오류가 발생했습니다." };
 
   revalidatePath("/board/notice");
+  revalidatePath("/board/notice", "layout");
   revalidatePath("/admin/notices");
   redirect("/admin/notices");
 }
@@ -57,5 +59,6 @@ export async function updateNotice(
 export async function deleteNotice(id: string) {
   await adminSupabase.from("notices").delete().eq("id", id);
   revalidatePath("/board/notice");
+  revalidatePath("/board/notice", "layout");
   revalidatePath("/admin/notices");
 }

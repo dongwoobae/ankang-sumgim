@@ -18,7 +18,7 @@ async function getNotices() {
   return data ?? [];
 }
 
-export const revalidate = 60;
+export const revalidate = false;
 
 export default async function NoticePage() {
   const notices = await getNotices();

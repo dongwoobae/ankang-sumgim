@@ -16,7 +16,7 @@ const getNotice = unstable_cache(
     return data;
   },
   ["notice-detail"],
-  { revalidate: 60 }
+  { revalidate: false }
 );
 
 async function getPrevNext(id: number) {
@@ -60,7 +60,7 @@ export async function generateMetadata({
   };
 }
 
-export const revalidate = 60;
+export const revalidate = false;
 
 export default async function NoticeDetailPage({
   params,
