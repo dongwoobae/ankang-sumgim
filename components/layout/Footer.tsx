@@ -114,7 +114,7 @@ export default function Footer() {
         </div>
 
         {/* 하단 바 */}
-        <div className="border-t border-[#E8A020]/30 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+        <div className="border-t border-[#E8A020]/30 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 pb-4">
           <p className="text-xs text-[#5A7A99]">
             © 2024 안강 섬김 노인복지센터. All rights reserved.
           </p>
@@ -133,6 +133,17 @@ export default function Footer() {
             </Link>
           </div>
         </div>
+        <p className="text-xs text-center" style={{ color: "#3D5870" }}>
+          Design &amp; Development ·{" "}
+          <a
+            href="https://github.com/dongwoobae/ankang-sumgim"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#5A7A99] transition-colors"
+          >
+            배동우
+          </a>
+        </p>
       </div>
     </footer>
   );
