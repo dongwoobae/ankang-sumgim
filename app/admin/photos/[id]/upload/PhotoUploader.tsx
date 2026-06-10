@@ -337,6 +337,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
                       fill
                       className="object-cover"
                       sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                      unoptimized
                     />
 
                     {/* 블러 상태 배지 */}

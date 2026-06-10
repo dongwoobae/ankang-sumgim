@@ -209,6 +209,7 @@ export default function PhotoGallery({ photos, albumName }: Props) {
                     width={120}
                     height={88}
                     className="h-full w-full object-cover"
+                    unoptimized
                   />
                 </button>
               ))}
