@@ -45,6 +45,7 @@ export default function HeroPhotoCarousel({ photos }: Props) {
             alt={`센터 활동 사진 ${i + 1}`}
             fill
             className="object-cover"
+            sizes="(min-width: 1200px) 1080px, 100vw"
             priority={i === 0}
           />
         </div>

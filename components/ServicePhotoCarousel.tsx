@@ -146,6 +146,7 @@ export default function ServicePhotoCarousel() {
               alt={`${SERVICE_GROUPS[activeGroup].label} 사진 ${photoInGroup + 1}`}
               fill
               className="object-cover"
+              sizes="(min-width: 1200px) 1080px, 100vw"
               priority={photoIndex === 0}
             />
           ) : (
