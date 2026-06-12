@@ -48,7 +48,18 @@ export async function deleteFromR2(key: string): Promise<void> {
 // ── URL → Key 변환 (삭제 시 사용) ────────────────────────────
 export function extractR2Key(url: string): string | null {
   const base = process.env.R2_PUBLIC_URL;
-  if (!base || !url.startsWith(base)) return null;
-  // "https://pub-xxx.r2.dev/bucket/photos/..." → "photos/..."
-  return url.slice(base.length).replace(/^\//, "");
+  if (!base) return null;
+
+  try {
+    const parsedUrl = new URL(url);
+    const parsedBase = new URL(base);
+    // origin 동일성 강제 (타 origin/우회 차단)
+    if (parsedUrl.origin !== parsedBase.origin) return null;
+    // base의 path prefix(버킷 등) 제거해 순수 key만 반환
+    const basePath = parsedBase.pathname.replace(/\/$/, "");
+    if (!parsedUrl.pathname.startsWith(basePath)) return null;
+    return parsedUrl.pathname.slice(basePath.length).replace(/^\//, "");
+  } catch {
+    return null;
+  }
 }

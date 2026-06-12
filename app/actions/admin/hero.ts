@@ -33,11 +33,19 @@ export async function saveHeroPhoto(
 
 export async function deleteHeroPhoto(id: string, url: string) {
   await requireSession();
-  const key = extractR2Key(url);
-  if (key) {
-    await deleteFromR2(key).catch((e) =>
-      console.error("[deleteHeroPhoto] R2 삭제 오류:", e)
-    );
+  const { data: photo } = await adminSupabase
+    .from("hero_photos")
+    .select("url")
+    .eq("id", id)
+    .single();
+
+  if (photo?.url) {
+    const key = extractR2Key(photo.url);
+    if (key) {
+      await deleteFromR2(key).catch((e) =>
+        console.error("[deleteHeroPhoto] R2 삭제 오류:", e)
+      );
+    }
   }
   await adminSupabase.from("hero_photos").delete().eq("id", id);
   revalidatePath("/");

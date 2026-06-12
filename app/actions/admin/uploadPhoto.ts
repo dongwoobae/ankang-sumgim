@@ -8,6 +8,8 @@ import { requireSession } from "@/lib/auth/requireSession";
 import sharp from "sharp";
 import { uploadToR2 } from "@/lib/r2";
 
+const FOLDER_PATTERN = /^(photos|awards|hero)(\/[A-Za-z0-9_-]+)*$/;
+
 export type FaceRegion = {
   x: number;
   y: number;
@@ -30,6 +32,8 @@ export async function uploadPhoto(
   faceRegions?: FaceRegion[],
 ): Promise<UploadResult> {
   await requireSession();
+  if (!FOLDER_PATTERN.test(folder)) return { error: "잘못된 folder" };
+
   const file = formData.get("file") as File | null;
   if (!file) return { error: "파일이 없습니다." };
 

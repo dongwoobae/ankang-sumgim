@@ -17,12 +17,21 @@ export type BlurRegion = {
 
 type Result = { url: string; error?: never } | { url?: never; error: string };
 
+function isValidRegion(region: BlurRegion): boolean {
+  return [region.x, region.y, region.w, region.h].every(
+    (n) => Number.isFinite(n) && n >= 0 && n <= 1,
+  );
+}
+
 export async function applyManualBlur(
   photoId: number,
   regions: BlurRegion[],
 ): Promise<Result> {
   await requireSession();
   if (regions.length === 0) return { error: "블러 영역을 선택해 주세요." };
+  if (regions.length > 50 || !regions.every(isValidRegion)) {
+    return { error: "잘못된 블러 영역입니다." };
+  }
 
   try {
     // 1. 현재 사진 정보 조회
@@ -36,6 +45,10 @@ export async function applyManualBlur(
 
     // 2. 편집 기준: original_url 있으면 원본, 없으면 현재 url
     const baseUrl = photo.original_url ?? photo.url;
+    const publicUrl = process.env.R2_PUBLIC_URL;
+    if (!publicUrl || !baseUrl.startsWith(publicUrl)) {
+      return { error: "잘못된 이미지 경로" };
+    }
 
     // 3. 원본 이미지 다운로드
     const res = await fetch(baseUrl);

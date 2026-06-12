@@ -12,51 +12,19 @@ export async function checkRateLimit(
   action: string,
 ): Promise<RateLimitResult> {
   const key = `${ip}:${action}`;
-  const now = new Date();
+  const { data, error } = await adminSupabase.rpc("check_rate_limit", {
+    p_ip: key,
+    p_max_attempts: MAX_ATTEMPTS,
+    p_window_ms: WINDOW_MS,
+  });
 
-  const { data } = await adminSupabase
-    .from("inquiry_rate_limits")
-    .select("attempts, window_start, blocked_until")
-    .eq("ip", key)
-    .single();
+  // RPC 실패 시 fail-open (정상 사용자 차단 방지)
+  if (error || !data || data.length === 0) return { allowed: true };
 
-  if (!data) {
-    await adminSupabase
-      .from("inquiry_rate_limits")
-      .insert({ ip: key, attempts: 1, window_start: now.toISOString() });
-    return { allowed: true };
-  }
-
-  if (data.blocked_until && new Date(data.blocked_until) > now) {
-    return { allowed: false, retryAfter: new Date(data.blocked_until) };
-  }
-
-  const windowStart = new Date(data.window_start);
-  if (now.getTime() - windowStart.getTime() >= WINDOW_MS) {
-    await adminSupabase
-      .from("inquiry_rate_limits")
-      .update({ attempts: 1, window_start: now.toISOString(), blocked_until: null })
-      .eq("ip", key);
-    return { allowed: true };
-  }
-
-  const newAttempts = data.attempts + 1;
-
-  if (newAttempts > MAX_ATTEMPTS) {
-    const blockedUntil = new Date(now.getTime() + WINDOW_MS);
-    await adminSupabase
-      .from("inquiry_rate_limits")
-      .update({ attempts: newAttempts, blocked_until: blockedUntil.toISOString() })
-      .eq("ip", key);
-    return { allowed: false, retryAfter: blockedUntil };
-  }
-
-  await adminSupabase
-    .from("inquiry_rate_limits")
-    .update({ attempts: newAttempts })
-    .eq("ip", key);
-
-  return { allowed: true };
+  const row = data[0] as { allowed: boolean; retry_after: string | null };
+  return row.allowed
+    ? { allowed: true }
+    : { allowed: false, retryAfter: new Date(row.retry_after!) };
 }
 
 /** 하위 호환 래퍼 */

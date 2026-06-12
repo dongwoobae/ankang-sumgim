@@ -75,15 +75,23 @@ export async function deletePhoto(
   originalUrl?: string | null,
 ) {
   await requireSession();
-  const key = extractR2Key(url);
-  if (key) {
-    await deleteFromR2(key).catch((e) =>
-      console.error("[deletePhoto] R2 블러 삭제 오류:", e),
-    );
+  const { data: photo } = await adminSupabase
+    .from("photos")
+    .select("url, original_url")
+    .eq("id", id)
+    .single();
+
+  if (photo?.url) {
+    const key = extractR2Key(photo.url);
+    if (key) {
+      await deleteFromR2(key).catch((e) =>
+        console.error("[deletePhoto] R2 블러 삭제 오류:", e),
+      );
+    }
   }
 
-  if (originalUrl) {
-    const origKey = extractR2Key(originalUrl);
+  if (photo?.original_url) {
+    const origKey = extractR2Key(photo.original_url);
     if (origKey) {
       await deleteFromR2(origKey).catch((e) =>
         console.error("[deletePhoto] R2 원본 삭제 오류:", e),

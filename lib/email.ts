@@ -1,5 +1,7 @@
 ﻿import { Resend } from "resend";
 
+import { escapeHtml, stripNewlines } from "@/lib/escapeHtml";
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM = `상담문의신청 <${process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev"}>`;
@@ -36,7 +38,7 @@ export async function sendInquiryNotificationEmail(params: {
 
   return sendEmail({
     to: process.env.INQUIRY_EMAIL ?? "miyeong0695@daum.net",
-    subject: `[상담문의] ${serviceType} - ${name}님`,
+    subject: `[상담문의] ${stripNewlines(serviceType)} - ${stripNewlines(name)}님`,
     html: `
 <!DOCTYPE html>
 <html lang="ko">
@@ -77,31 +79,31 @@ export async function sendInquiryNotificationEmail(params: {
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
                     <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">성함</span>
-                    <span style="font-size:15px;font-weight:600;color:#1A2E4A;">${name}</span>
+                    <span style="font-size:15px;font-weight:600;color:#1A2E4A;">${escapeHtml(name)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
                     <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">연락처</span>
-                    <span style="font-size:15px;color:#1A2E4A;">${phone}</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${escapeHtml(phone)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
                     <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">이메일</span>
-                    <span style="font-size:15px;color:#1A2E4A;">${email || "미입력"}</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${email ? escapeHtml(email) : "미입력"}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
                     <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">문의 유형</span>
-                    <span style="display:inline-block;font-size:13px;font-weight:600;color:#1A56A0;background-color:#EEF4FB;border:1px solid #A8C4E0;border-radius:20px;padding:3px 12px;">${serviceType}</span>
+                    <span style="display:inline-block;font-size:13px;font-weight:600;color:#1A56A0;background-color:#EEF4FB;border:1px solid #A8C4E0;border-radius:20px;padding:3px 12px;">${escapeHtml(serviceType)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:12px 0;vertical-align:top;">
                     <span style="display:block;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;margin-bottom:10px;">문의 내용</span>
-                    <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:16px 18px;font-size:14px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${content}</div>
+                    <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:16px 18px;font-size:14px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${escapeHtml(content)}</div>
                   </td>
                 </tr>
               </table>
@@ -151,7 +153,7 @@ export async function sendJobApplicationNotificationEmail(params: {
 
   return sendEmail({
     to: process.env.INQUIRY_EMAIL ?? "miyeong0695@daum.net",
-    subject: `[구인지원] 요양보호사 지원 - ${name}님`,
+    subject: `[구인지원] 요양보호사 지원 - ${stripNewlines(name)}님`,
     html: `
 <!DOCTYPE html>
 <html lang="ko">
@@ -184,25 +186,25 @@ export async function sendJobApplicationNotificationEmail(params: {
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
                     <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">성함</span>
-                    <span style="font-size:15px;font-weight:600;color:#1A2E4A;">${name}</span>
+                    <span style="font-size:15px;font-weight:600;color:#1A2E4A;">${escapeHtml(name)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
                     <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">연락처</span>
-                    <span style="font-size:15px;color:#1A2E4A;">${phone}</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${escapeHtml(phone)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
                     <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">보유 자격증</span>
-                    <span style="font-size:15px;color:#1A2E4A;">${certsText}</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${escapeHtml(certsText)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #EEF4FB;">
                     <span style="display:inline-block;width:100px;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">희망 지역</span>
-                    <span style="font-size:15px;color:#1A2E4A;">${preferredRegion}</span>
+                    <span style="font-size:15px;color:#1A2E4A;">${escapeHtml(preferredRegion)}</span>
                   </td>
                 </tr>
                 <tr>
@@ -215,7 +217,7 @@ export async function sendJobApplicationNotificationEmail(params: {
                 <tr>
                   <td style="padding:12px 0;vertical-align:top;">
                     <span style="display:block;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;margin-bottom:10px;">자기소개</span>
-                    <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:16px 18px;font-size:14px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${introduction}</div>
+                    <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:16px 18px;font-size:14px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${escapeHtml(introduction)}</div>
                   </td>
                 </tr>` : ""}
               </table>
@@ -257,7 +259,7 @@ export async function sendInquiryConfirmationEmail(params: {
 
   return sendEmail({
     to,
-    subject: `[안강섬김노인복지센터] ${name}님의 상담 문의가 접수되었습니다`,
+    subject: `[안강섬김노인복지센터] ${stripNewlines(name)}님의 상담 문의가 접수되었습니다`,
     html: `
 <!DOCTYPE html>
 <html lang="ko">
@@ -286,7 +288,7 @@ export async function sendInquiryConfirmationEmail(params: {
               <p style="margin:0 0 6px 0;font-size:12px;font-weight:600;color:#1A56A0;letter-spacing:2px;">INQUIRY RECEIVED</p>
               <h2 style="margin:0 0 16px 0;font-size:20px;font-weight:700;color:#1A2E4A;">문의가 접수되었습니다</h2>
               <p style="margin:0 0 28px 0;font-size:14px;color:#5A7A99;line-height:1.8;">
-                안녕하세요, <strong style="color:#1A2E4A;">${name}</strong>님.<br/>
+                안녕하세요, <strong style="color:#1A2E4A;">${escapeHtml(name)}</strong>님.<br/>
                 소중한 문의 감사드립니다. 내용을 확인 후 <strong style="color:#1A2E4A;">영업일 기준 1–2일 내</strong>로 연락드리겠습니다.
               </p>
 
@@ -298,25 +300,25 @@ export async function sendInquiryConfirmationEmail(params: {
                 <tr>
                   <td style="padding:11px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
                     <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;">성함</span>
-                    <span style="font-size:14px;font-weight:600;color:#1A2E4A;">${name}</span>
+                    <span style="font-size:14px;font-weight:600;color:#1A2E4A;">${escapeHtml(name)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:11px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
                     <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;">연락처</span>
-                    <span style="font-size:14px;color:#1A2E4A;">${phone}</span>
+                    <span style="font-size:14px;color:#1A2E4A;">${escapeHtml(phone)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:11px 0;border-bottom:1px solid #EEF4FB;vertical-align:top;">
                     <span style="display:inline-block;width:80px;font-size:12px;font-weight:600;color:#5A7A99;">문의 유형</span>
-                    <span style="display:inline-block;font-size:12px;font-weight:600;color:#1A56A0;background-color:#EEF4FB;border:1px solid #A8C4E0;border-radius:20px;padding:3px 12px;">${serviceType}</span>
+                    <span style="display:inline-block;font-size:12px;font-weight:600;color:#1A56A0;background-color:#EEF4FB;border:1px solid #A8C4E0;border-radius:20px;padding:3px 12px;">${escapeHtml(serviceType)}</span>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:11px 0;vertical-align:top;">
                     <span style="display:block;font-size:12px;font-weight:600;color:#5A7A99;margin-bottom:10px;">문의 내용</span>
-                    <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:14px 16px;font-size:13px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${content}</div>
+                    <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:14px 16px;font-size:13px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${escapeHtml(content)}</div>
                   </td>
                 </tr>
               </table>
@@ -369,7 +371,7 @@ export async function sendReplyEmail(params: {
 
   return sendEmail({
     to,
-    subject: `[안강섬김노인복지센터] ${name}님의 문의에 답변이 등록되었습니다`,
+    subject: `[안강섬김노인복지센터] ${stripNewlines(name)}님의 문의에 답변이 등록되었습니다`,
     html: `
 <!DOCTYPE html>
 <html lang="ko">
@@ -399,7 +401,7 @@ export async function sendReplyEmail(params: {
               <p style="margin:0 0 6px 0;font-size:12px;font-weight:600;color:#1A56A0;letter-spacing:2px;">INQUIRY REPLY</p>
               <h2 style="margin:0 0 12px 0;font-size:20px;font-weight:700;color:#1A2E4A;">답변이 등록되었습니다</h2>
               <p style="margin:0 0 28px 0;font-size:14px;color:#5A7A99;line-height:1.7;">
-                안녕하세요, <strong style="color:#1A2E4A;">${name}</strong>님.<br/>
+                안녕하세요, <strong style="color:#1A2E4A;">${escapeHtml(name)}</strong>님.<br/>
                 문의하신 내용에 대한 답변이 등록되었습니다.
               </p>
 
@@ -408,11 +410,11 @@ export async function sendReplyEmail(params: {
 
               <!-- 답변 내용 -->
               <p style="margin:0 0 10px 0;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">답변 내용</p>
-              <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:20px 22px;font-size:14px;color:#1A2E4A;line-height:1.9;white-space:pre-wrap;margin-bottom:28px;">${replyContent}</div>
+              <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:20px 22px;font-size:14px;color:#1A2E4A;line-height:1.9;white-space:pre-wrap;margin-bottom:28px;">${escapeHtml(replyContent)}</div>
 
               <!-- 원본 문의 -->
               <p style="margin:0 0 10px 0;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;">원본 문의</p>
-              <div style="background-color:#f5f0e8;border-radius:8px;padding:16px 18px;font-size:13px;color:#5A7A99;line-height:1.8;white-space:pre-wrap;">${originalContent}</div>
+              <div style="background-color:#f5f0e8;border-radius:8px;padding:16px 18px;font-size:13px;color:#5A7A99;line-height:1.8;white-space:pre-wrap;">${escapeHtml(originalContent)}</div>
 
               <!-- 구분선 -->
               <div style="border-top:1px solid #A8C4E0;margin:28px 0 24px;"></div>

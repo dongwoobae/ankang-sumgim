@@ -34,8 +34,14 @@ export async function saveAward(payload: {
 
 export async function deleteAward(id: number, imageUrl: string | null) {
   await requireSession();
-  if (imageUrl) {
-    const key = extractR2Key(imageUrl);
+  const { data: award } = await adminSupabase
+    .from("awards")
+    .select("image_url")
+    .eq("id", id)
+    .single();
+
+  if (award?.image_url) {
+    const key = extractR2Key(award.image_url);
     if (key) {
       await deleteFromR2(key).catch((e) =>
         console.error("[deleteAward] R2 삭제 오류:", e),

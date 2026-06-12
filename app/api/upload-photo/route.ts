@@ -8,9 +8,22 @@ import { uploadToR2 } from "@/lib/r2";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+const FOLDER_PATTERN = /^(photos|awards|hero)(\/[A-Za-z0-9_-]+)*$/;
+
 export type UploadPhotoResponse =
   | { url: string; originalUrl: string | null }
   | { error: string };
+
+type FaceRegion = { x: number; y: number; width: number; height: number };
+
+function isFaceRegion(value: unknown): value is FaceRegion {
+  if (!value || typeof value !== "object") return false;
+  const region = value as Record<string, unknown>;
+  return ["x", "y", "width", "height"].every((key) => {
+    const n = region[key];
+    return typeof n === "number" && Number.isFinite(n) && n >= 0;
+  });
+}
 
 export async function POST(
   req: NextRequest,
@@ -53,6 +66,10 @@ export async function POST(
     );
   }
 
+  if (!FOLDER_PATTERN.test(folder)) {
+    return NextResponse.json({ error: "잘못된 folder" }, { status: 400 });
+  }
+
   const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/heic"];
   if (!allowedTypes.includes(file.type)) {
     return NextResponse.json(
@@ -68,13 +85,26 @@ export async function POST(
     );
   }
 
-  type FaceRegion = { x: number; y: number; width: number; height: number };
   let faceRegions: FaceRegion[] = [];
   if (faceRegionsRaw) {
     try {
-      faceRegions = JSON.parse(faceRegionsRaw);
+      const parsed = JSON.parse(faceRegionsRaw) as unknown;
+      if (
+        !Array.isArray(parsed) ||
+        parsed.length > 50 ||
+        !parsed.every(isFaceRegion)
+      ) {
+        return NextResponse.json(
+          { error: "잘못된 faceRegions" },
+          { status: 400 },
+        );
+      }
+      faceRegions = parsed;
     } catch {
-      faceRegions = [];
+      return NextResponse.json(
+        { error: "잘못된 faceRegions" },
+        { status: 400 },
+      );
     }
   }
 
