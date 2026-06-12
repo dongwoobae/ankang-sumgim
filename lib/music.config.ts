@@ -1,4 +1,4 @@
 export const TRACKS: { title: string; src: string }[] = [
-  { title: "배경음악 1", src: "/public/music/Alan_Walker_-_Faded_Vocal_Mix_(mp3.pm).mp3" },
-  //{ title: "배경음악 2", src: "/music/track2.mp3" },
+  { title: "Amazing Grace", src: "/music/Amazing-Grace-2011(chosic.com).mp3" },
+  { title: "Faded", src: "/music/Alan_Walker_-_Faded_Vocal_Mix_(mp3.pm).mp3" },  
 ];

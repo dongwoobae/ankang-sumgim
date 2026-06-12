@@ -1,8 +1,10 @@
 "use client";
 
-import { Phone, Music, ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef, useState } from "react";
+import { Phone, Music, Pause, ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { TRACKS } from "@/lib/music.config";
+
+type MusicStatus = "idle" | "playing" | "paused";
 
 function KakaoIcon() {
   return (
@@ -16,30 +18,62 @@ export default function FloatingButton() {
   const [phoneHovered, setPhoneHovered] = useState(false);
   const [kakaoHovered, setKakaoHovered] = useState(false);
   const [musicHovered, setMusicHovered] = useState(false);
-  const [playing, setPlaying] = useState(false);
+  const [status, setStatus] = useState<MusicStatus>("idle");
   const [currentIndex, setCurrentIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // 새 트랙 로드 후 재생 (트랙 전환·자동 다음 곡용)
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.src = TRACKS[0].src;
+
+    let cleanupListeners: (() => void) | undefined;
+
+    audio.play()
+      .then(() => setStatus("playing"))
+      .catch(() => {
+        // 브라우저 자동재생 차단 → 첫 상호작용 시 재시도
+        const handleFirstInteraction = () => {
+          audio.play()
+            .then(() => setStatus("playing"))
+            .catch(() => {});
+        };
+
+        const events = ["click", "keydown", "touchstart", "scroll"] as const;
+        events.forEach((e) =>
+          document.addEventListener(e, handleFirstInteraction, { once: true })
+        );
+
+        cleanupListeners = () => {
+          events.forEach((e) =>
+            document.removeEventListener(e, handleFirstInteraction)
+          );
+        };
+      });
+
+    return () => cleanupListeners?.();
+  }, []);
+
   const loadAndPlay = (index: number) => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.src = TRACKS[index].src;
-    audio.play().catch(() => setPlaying(false));
-    setPlaying(true);
+    audio.play().catch(() => setStatus("paused"));
+    setStatus("playing");
   };
 
   const toggleMusic = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (playing) {
+    if (status === "playing") {
       audio.pause();
-      setPlaying(false);
+      setStatus("paused");
     } else {
-      // src가 없으면 첫 재생, 있으면 정지된 위치에서 재개
-      if (!audio.currentSrc) audio.src = TRACKS[currentIndex].src;
-      audio.play().catch(() => setPlaying(false));
-      setPlaying(true);
+      // idle: useEffect에서 src 설정됨 / paused: 멈춘 위치에서 재개
+      audio.play()
+        .then(() => setStatus("playing"))
+        .catch(() => {});
     }
   };
 
@@ -55,7 +89,6 @@ export default function FloatingButton() {
     loadAndPlay(newIndex);
   };
 
-  // onEnded를 JSX에 직접 달면 매 렌더마다 최신 currentIndex를 참조 → stale closure 없음
   const handleEnded = () => {
     const newIndex = (currentIndex + 1) % TRACKS.length;
     setCurrentIndex(newIndex);
@@ -68,7 +101,7 @@ export default function FloatingButton() {
       <div className="fixed bottom-7 right-7 z-50 flex flex-col gap-3 items-end">
 
         {/* 음악 버튼 */}
-        {playing ? (
+        {status === "playing" ? (
           <div
             className="flex items-center rounded-full transition-all duration-300"
             style={{
@@ -78,28 +111,30 @@ export default function FloatingButton() {
               boxShadow: "0 4px 20px rgba(26,86,160,0.4)",
             }}
           >
-            <button onClick={prevTrack} aria-label="이전 곡" className="text-white">
+            <button onClick={prevTrack} aria-label="이전 곡" className="p-1 cursor-pointer">
               <ChevronLeft size={16} color="#FFFFFF" strokeWidth={2.5} />
             </button>
-            <button onClick={toggleMusic} aria-label="음악 정지">
-              <Music size={17} color="#FFFFFF" strokeWidth={2.2} />
+            <button onClick={toggleMusic} aria-label="음악 정지" className="p-1 cursor-pointer">
+              <Pause size={17} color="#FFFFFF" strokeWidth={2.2} />
             </button>
             <span className="text-white text-sm font-semibold max-w-[80px] truncate">
               {TRACKS[currentIndex].title}
             </span>
-            <button onClick={nextTrack} aria-label="다음 곡">
+            <button onClick={nextTrack} aria-label="다음 곡" className="p-1 cursor-pointer">
               <ChevronRight size={16} color="#FFFFFF" strokeWidth={2.5} />
             </button>
           </div>
         ) : (
           <button
             onClick={toggleMusic}
-            aria-label="음악 재생"
+            aria-label={status === "paused" ? "음악 이어듣기" : "음악 재생"}
             onMouseEnter={() => setMusicHovered(true)}
             onMouseLeave={() => setMusicHovered(false)}
             className="flex items-center gap-2.5 rounded-full transition-all duration-300"
             style={{
-              background: musicHovered ? "#dde6f5" : "#EEF3FA",
+              background: musicHovered
+                ? "#dde6f5"
+                : status === "paused" ? "#dde6f5" : "#EEF3FA",
               padding: musicHovered ? "13px 22px" : "15px",
               boxShadow: "0 4px 16px rgba(26,46,74,0.15)",
             }}
@@ -112,7 +147,7 @@ export default function FloatingButton() {
                 opacity: musicHovered ? 1 : 0,
               }}
             >
-              음악 켜기
+              {status === "paused" ? "이어듣기" : "음악 켜기"}
             </span>
           </button>
         )}
