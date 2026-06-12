@@ -236,8 +236,8 @@ export default function GradeApplyPage() {
         title=""
         steps={[
           { iconKey: "gradeApply", title: "신청서 제출", desc: "공단 지사 방문 또는 복지로 온라인 신청" },
-          { iconKey: "doctorNote", title: "의사소견서 제출", desc: "지정 의료기관 발급 소견서 공단에 제출" },
           { iconKey: "visitCheck", title: "공단 방문조사", desc: "공단 직원이 가정 방문, 52개 항목 심신 조사" },
+          { iconKey: "doctorNote", title: "의사소견서 제출", desc: "지정 의료기관 발급 소견서 공단에 제출" },
           { iconKey: "gradeJudgment", title: "등급판정", desc: "판정위원회 심사 후 1~5등급 또는 인지지원등급 결정" },
           { iconKey: "contract", title: "인정서 수령", desc: "우편·모바일로 장기요양인정서 통보" },
           { iconKey: "serviceStart", title: "서비스 이용", desc: "안강 섬김에 연락하여 서비스 계약 및 시작" },
