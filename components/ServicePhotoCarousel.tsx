@@ -63,6 +63,7 @@ export default function ServicePhotoCarousel() {
   const [visible, setVisible] = useState(true); // opacity 제어
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isFading = useRef(false);
+  const fadeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const activeGroup = groupIndexFromPhoto(photoIndex);
   const photoInGroup = photoIndex % 3;
@@ -79,7 +80,7 @@ export default function ServicePhotoCarousel() {
     if (isFading.current) return;
     isFading.current = true;
     setVisible(false);
-    setTimeout(() => {
+    fadeTimeoutRef.current = setTimeout(() => {
       setPhotoIndex((prev) => {
         if (targetIndex !== undefined) return targetIndex;
         return (prev + 1) % TOTAL;
@@ -93,18 +94,21 @@ export default function ServicePhotoCarousel() {
     startTimer();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleTabClick(groupIdx: number) {
-    if (groupIdx === activeGroup) return;
+    if (groupIdx === activeGroup || isFading.current) return;
+    isFading.current = true;
     if (timerRef.current) clearInterval(timerRef.current);
     const targetIndex = groupIdx * 3;
     setVisible(false);
-    setTimeout(() => {
+    fadeTimeoutRef.current = setTimeout(() => {
       setPhotoIndex(targetIndex);
       setVisible(true);
+      isFading.current = false;
       startTimer();
     }, 400);
   }

@@ -68,6 +68,7 @@ export default async function NoticeDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  if (!/^\d+$/.test(id)) notFound();
   const [notice, { prev, next }] = await Promise.all([
     getNotice(id),
     getPrevNext(parseInt(id, 10)),

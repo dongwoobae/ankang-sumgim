@@ -44,6 +44,7 @@ export default async function PhotoDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  if (!/^\d+$/.test(id)) notFound();
   const album = await getAlbum(id);
   if (!album) notFound();
 
