@@ -1,9 +1,11 @@
 "use server";
 
+import { requireSession } from "@/lib/auth/requireSession";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { adminSupabase } from "@/lib/supabase/admin";
 
 export async function saveServiceRates(formData: FormData) {
+  await requireSession();
   const entries = Array.from(formData.entries());
   const updates = entries
     .filter(([key]) => key.startsWith("rate_"))
@@ -25,6 +27,7 @@ export async function saveServiceRates(formData: FormData) {
 }
 
 export async function saveGradeLimits(formData: FormData) {
+  await requireSession();
   const entries = Array.from(formData.entries());
   const updates = entries
     .filter(([key]) => key.startsWith("limit_"))

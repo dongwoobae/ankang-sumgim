@@ -1,5 +1,6 @@
 "use server";
 
+import { requireSession } from "@/lib/auth/requireSession";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 import { deleteFromR2, extractR2Key } from "@/lib/r2";
@@ -13,6 +14,7 @@ export async function saveAward(payload: {
   image_url: string | null;
   display_order: number;
 }): Promise<{ error: string; id?: number }> {
+  await requireSession();
   const { data, error } = await adminSupabase
     .from("awards")
     .insert(payload)
@@ -31,6 +33,7 @@ export async function saveAward(payload: {
 }
 
 export async function deleteAward(id: number, imageUrl: string | null) {
+  await requireSession();
   if (imageUrl) {
     const key = extractR2Key(imageUrl);
     if (key) {

@@ -4,6 +4,7 @@
 
 "use server";
 
+import { requireSession } from "@/lib/auth/requireSession";
 import sharp from "sharp";
 import { uploadToR2 } from "@/lib/r2";
 
@@ -28,6 +29,7 @@ export async function uploadPhoto(
   folder: string,
   faceRegions?: FaceRegion[],
 ): Promise<UploadResult> {
+  await requireSession();
   const file = formData.get("file") as File | null;
   if (!file) return { error: "파일이 없습니다." };
 

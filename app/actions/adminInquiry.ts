@@ -1,11 +1,13 @@
 "use server";
 
+import { requireSession } from "@/lib/auth/requireSession";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 import { sendReplyEmail } from "@/lib/email";
 import { sendSMS, buildReplySMS } from "@/lib/sms";
 
 export async function markAnswered(id: string, isAnswered: boolean) {
+  await requireSession();
   await adminSupabase
     .from("inquiries")
     .update({ is_answered: isAnswered })
@@ -17,6 +19,7 @@ export async function createReply(
   _prev: { error: string },
   formData: FormData,
 ): Promise<{ error: string }> {
+  await requireSession();
   const inquiryId = formData.get("inquiry_id") as string;
   const content = (formData.get("content") as string).trim();
 
@@ -67,6 +70,7 @@ export async function createReply(
 }
 
 export async function deleteReply(id: string, inquiryId: string) {
+  await requireSession();
   await adminSupabase.from("inquiry_replies").delete().eq("id", id);
   revalidatePath(`/admin/inquiries/${inquiryId}`);
 }

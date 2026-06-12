@@ -2,6 +2,7 @@
 
 "use server";
 
+import { requireSession } from "@/lib/auth/requireSession";
 import sharp from "sharp";
 import { uploadToR2, deleteFromR2, extractR2Key } from "@/lib/r2";
 import { adminSupabase } from "@/lib/supabase/admin";
@@ -20,6 +21,7 @@ export async function applyManualBlur(
   photoId: number,
   regions: BlurRegion[],
 ): Promise<Result> {
+  await requireSession();
   if (regions.length === 0) return { error: "블러 영역을 선택해 주세요." };
 
   try {

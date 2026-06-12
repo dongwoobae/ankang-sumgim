@@ -4,6 +4,7 @@
 
 "use server";
 
+import { requireSession } from "@/lib/auth/requireSession";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { deleteFromR2, extractR2Key } from "@/lib/r2";
 import { revalidatePath } from "next/cache";
@@ -13,6 +14,7 @@ export async function saveHeroPhoto(
   url: string,
   display_order: number
 ): Promise<{ error: string; id?: string }> {
+  await requireSession();
   const { data, error } = await adminSupabase
     .from("hero_photos")
     .insert({ url, display_order })
@@ -30,6 +32,7 @@ export async function saveHeroPhoto(
 }
 
 export async function deleteHeroPhoto(id: string, url: string) {
+  await requireSession();
   const key = extractR2Key(url);
   if (key) {
     await deleteFromR2(key).catch((e) =>

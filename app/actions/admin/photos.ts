@@ -7,6 +7,7 @@
 
 "use server";
 
+import { requireSession } from "@/lib/auth/requireSession";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { deleteFromR2, extractR2Key } from "@/lib/r2";
 import { revalidatePath } from "next/cache";
@@ -19,6 +20,7 @@ export async function createCategory(
   _prev: CategoryFormState,
   formData: FormData,
 ): Promise<CategoryFormState> {
+  await requireSession();
   const name = (formData.get("name") as string).trim();
   if (!name) return { error: "카테고리 이름을 입력해 주세요." };
 
@@ -39,6 +41,7 @@ export async function createCategory(
 
 // ── 카테고리 삭제 (하위 사진 R2 원본+블러 모두 삭제) ──────────
 export async function deleteCategory(id: string) {
+  await requireSession();
   const { data: photos } = await adminSupabase
     .from("photos")
     .select("url, original_url")
@@ -71,6 +74,7 @@ export async function deletePhoto(
   url: string,
   originalUrl?: string | null,
 ) {
+  await requireSession();
   const key = extractR2Key(url);
   if (key) {
     await deleteFromR2(key).catch((e) =>
@@ -99,6 +103,7 @@ export async function savePhotoMetadata(
   originalUrl: string | null,
   caption?: string,
 ): Promise<{ error: string; id?: number }> {
+  await requireSession();
   const { data, error } = await adminSupabase
     .from("photos")
     .insert({
@@ -123,6 +128,7 @@ export async function toggleFaceBlur(
   id: string,
   isFaceBlurred: boolean,
 ): Promise<{ error: string }> {
+  await requireSession();
   const { error } = await adminSupabase
     .from("photos")
     .update({ is_face_blurred: isFaceBlurred })
@@ -137,6 +143,7 @@ export async function toggleFaceBlur(
 
 // ── 캡션 수정 ─────────────────────────────────────────────────
 export async function updatePhotoCaption(id: string, caption: string) {
+  await requireSession();
   await adminSupabase
     .from("photos")
     .update({ caption: caption.trim() || null })

@@ -1,5 +1,6 @@
 "use server";
 
+import { requireSession } from "@/lib/auth/requireSession";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -10,6 +11,7 @@ export async function createNotice(
   _prev: NoticeFormState,
   formData: FormData
 ): Promise<NoticeFormState> {
+  await requireSession();
   const title = (formData.get("title") as string).trim();
   const content = (formData.get("content") as string).trim();
   const is_pinned = formData.get("is_pinned") === "on";
@@ -35,6 +37,7 @@ export async function updateNotice(
   _prev: NoticeFormState,
   formData: FormData
 ): Promise<NoticeFormState> {
+  await requireSession();
   const title = (formData.get("title") as string).trim();
   const content = (formData.get("content") as string).trim();
   const is_pinned = formData.get("is_pinned") === "on";
@@ -57,6 +60,7 @@ export async function updateNotice(
 }
 
 export async function deleteNotice(id: string) {
+  await requireSession();
   await adminSupabase.from("notices").delete().eq("id", id);
   revalidatePath("/board/notice");
   revalidatePath("/board/notice", "layout");
