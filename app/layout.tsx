@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sumgim-welfare.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
@@ -45,8 +45,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "안강 섬김 노인복지센터",
-    description:
-      "어르신 한 분 한 분을 소중히 섬기는 안강 섬김 노인복지센터입니다.",
+    description: "어르신 한 분 한 분을 소중히 섬기는 안강 섬김 노인복지센터입니다.",
     images: ["/og-image.png"],
   },
   verification: {
@@ -57,11 +56,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
       <head>
