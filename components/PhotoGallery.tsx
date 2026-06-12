@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -27,6 +27,8 @@ function displayUrl(photo: Photo): string {
 
 export default function PhotoGallery({ photos, albumName }: Props) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
 
   const isOpen = lightboxIndex !== null;
   const current = isOpen ? photos[lightboxIndex] : null;
@@ -49,10 +51,35 @@ export default function PhotoGallery({ photos, albumName }: Props) {
       if (e.key === "Escape") close();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
+      if (e.key === "Tab") {
+        const f = dialogRef.current?.querySelectorAll<HTMLElement>(
+          'button, [href], [tabindex]:not([tabindex="-1"])',
+        );
+        if (!f || f.length === 0) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, close, prev, next]);
+
+  // 라이트박스 열림 시 포커스 이동, 닫힘 시 복원
+  useEffect(() => {
+    if (!isOpen) return;
+    lastFocusedRef.current = document.activeElement as HTMLElement;
+    dialogRef.current?.focus();
+    return () => {
+      lastFocusedRef.current?.focus?.();
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -98,6 +125,11 @@ export default function PhotoGallery({ photos, albumName }: Props) {
       {/* Lightbox */}
       {isOpen && current && (
         <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${albumName} 사진 확대 보기`}
+          tabIndex={-1}
           className="fixed inset-0 z-[100] flex flex-col"
           style={{ background: "rgba(8,14,26,0.92)", backdropFilter: "blur(8px)" }}
           onClick={(e) => {
@@ -109,7 +141,7 @@ export default function PhotoGallery({ photos, albumName }: Props) {
             <div className="flex items-center gap-[18px]">
               <b className="text-[16px] font-semibold text-white">{albumName}</b>
               <span className="font-mono text-[13px]" style={{ color: "rgba(255,255,255,0.6)" }}>
-                {lightboxIndex! + 1} / {photos.length}
+                {(lightboxIndex ?? 0) + 1} / {photos.length}
               </span>
             </div>
             <button

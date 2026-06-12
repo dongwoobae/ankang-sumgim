@@ -140,7 +140,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -202,6 +202,9 @@ export default function Header() {
           <nav
             className="hidden md:flex items-center h-full"
             onMouseLeave={() => setActiveMenu(null)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setActiveMenu(null);
+            }}
           >
             {navItems.map((item) => {
               const isActive =
@@ -235,7 +238,16 @@ export default function Header() {
                       {underline}
                     </Link>
                   ) : (
-                    <button type="button" className={labelClass}>
+                    <button
+                      type="button"
+                      className={labelClass}
+                      aria-haspopup="true"
+                      aria-expanded={activeMenu === labelKey}
+                      onClick={() =>
+                        setActiveMenu(activeMenu === labelKey ? null : labelKey)
+                      }
+                      onFocus={() => setActiveMenu(labelKey)}
+                    >
                       {item.label}
                       {underline}
                     </button>
