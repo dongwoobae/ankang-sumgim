@@ -41,18 +41,24 @@ export default function FloatingButton() {
     collapseTimerRef.current = setTimeout(() => setMusicTapped(false), 3500);
   };
 
-  // 터치: 펼친 동안 바깥 탭 시 접힘 + 자동 접힘 타이머
+  // 터치: 펼친 동안 바깥 탭/스크롤/터치무브 감지되면 즉시 접힘 (+ 무동작 시 자동 접힘)
   useEffect(() => {
     if (!isTouch || !musicTapped) return;
     scheduleCollapse();
+    const collapse = () => setMusicTapped(false);
     const onOutside = (e: PointerEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-        setMusicTapped(false);
+        collapse();
       }
     };
     document.addEventListener("pointerdown", onOutside);
+    // 스크롤/터치 이동은 바깥 동작으로 간주 → 즉시 접힘
+    window.addEventListener("scroll", collapse, { passive: true });
+    window.addEventListener("touchmove", collapse, { passive: true });
     return () => {
       document.removeEventListener("pointerdown", onOutside);
+      window.removeEventListener("scroll", collapse);
+      window.removeEventListener("touchmove", collapse);
       if (collapseTimerRef.current) clearTimeout(collapseTimerRef.current);
     };
   }, [isTouch, musicTapped]);
@@ -68,16 +74,21 @@ export default function FloatingButton() {
     audio.play()
       .then(() => setStatus("playing"))
       .catch(() => {
-        // 브라우저 자동재생 차단 → 첫 상호작용 시 재시도
+        // 브라우저 자동재생 차단 → 첫 상호작용(터치·클릭·스크롤 등) 시 재생.
+        // 모바일 제스처(pointerdown/touchstart/touchend)까지 폭넓게 커버하고,
+        // 한 번 발동되면 모든 리스너를 함께 제거한다.
+        const events = ["pointerdown", "touchstart", "touchend", "click", "keydown", "scroll"] as const;
         const handleFirstInteraction = () => {
           audio.play()
             .then(() => setStatus("playing"))
             .catch(() => {});
+          events.forEach((e) =>
+            document.removeEventListener(e, handleFirstInteraction)
+          );
         };
 
-        const events = ["click", "keydown", "touchstart", "scroll"] as const;
         events.forEach((e) =>
-          document.addEventListener(e, handleFirstInteraction, { once: true })
+          document.addEventListener(e, handleFirstInteraction, { passive: true })
         );
 
         cleanupListeners = () => {
