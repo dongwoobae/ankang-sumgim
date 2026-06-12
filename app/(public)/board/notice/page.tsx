@@ -15,7 +15,11 @@ async function getNotices() {
     .select("id, title, content, is_pinned, created_at")
     .order("is_pinned", { ascending: false })
     .order("created_at", { ascending: false });
-  return data ?? [];
+  // 목록은 미리보기·검색용 발췌만 필요 — 전체 본문 클라이언트 전송 방지(payload 축소)
+  return (data ?? []).map((n) => ({
+    ...n,
+    content: n.content?.slice(0, 160) ?? "",
+  }));
 }
 
 export const revalidate = false;
