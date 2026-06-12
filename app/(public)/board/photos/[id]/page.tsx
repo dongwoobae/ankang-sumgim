@@ -47,7 +47,7 @@ export default async function PhotoDetailPage({
   const album = await getAlbum(id);
   if (!album) notFound();
 
-  const photos =
+  const photos = (
     (album.photos as {
       id: number;
       url: string;
@@ -55,7 +55,12 @@ export default async function PhotoDetailPage({
       is_face_blurred: boolean;
       caption: string | null;
       created_at: string;
-    }[]) ?? [];
+    }[]) ?? []
+  ).map((p) => ({
+    ...p,
+    // 블러 사진은 원본 URL을 클라이언트로 보내지 않음 (블러 우회 차단)
+    original_url: p.is_face_blurred ? null : p.original_url,
+  }));
 
   const dateStr = new Date(album.created_at).toLocaleDateString("ko-KR", {
     year: "numeric",
