@@ -192,6 +192,7 @@ export default function AdminSidebar() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      prefetch={false}
                       onClick={() => setMobileOpen(false)}
                       title={collapsed ? item.label : undefined}
                       className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors

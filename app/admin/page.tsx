@@ -49,11 +49,8 @@ async function getRecentInquiries() {
 }
 
 export default async function AdminDashboard() {
-  const { noticeCount, categoryCount, unansweredCount } = await getStats();
-  const [recentNotices, recentInquiries] = await Promise.all([
-    getRecentNotices(),
-    getRecentInquiries(),
-  ]);
+  const [{ noticeCount, categoryCount, unansweredCount }, recentNotices, recentInquiries] =
+    await Promise.all([getStats(), getRecentNotices(), getRecentInquiries()]);
 
   const stats = [
     {
