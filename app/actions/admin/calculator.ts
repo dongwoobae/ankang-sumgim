@@ -23,6 +23,7 @@ export async function saveServiceRates(formData: FormData) {
   }
 
   revalidatePath("/admin/calculator");
+  revalidatePath("/calculator");
   revalidateTag("calculator-data", {});
 }
 
@@ -45,5 +46,6 @@ export async function saveGradeLimits(formData: FormData) {
   }
 
   revalidatePath("/admin/calculator");
+  revalidatePath("/calculator");
   revalidateTag("calculator-data", {});
 }

@@ -35,7 +35,9 @@ export async function createCategory(
 
   revalidatePath("/board/photos");
   revalidatePath("/board/photos", "layout");
+  revalidatePath("/board/photos/[id]", "page");
   revalidatePath("/admin/photos");
+  revalidatePath("/sitemap.xml");
   redirect(`/admin/photos/${category.id}/upload`);
 }
 
@@ -65,7 +67,9 @@ export async function deleteCategory(id: string) {
   await adminSupabase.from("photo_categories").delete().eq("id", id);
   revalidatePath("/board/photos");
   revalidatePath("/board/photos", "layout");
+  revalidatePath("/board/photos/[id]", "page");
   revalidatePath("/admin/photos");
+  revalidatePath("/sitemap.xml");
 }
 
 // ── 사진 단건 삭제 (블러+원본 모두 삭제) ─────────────────────
@@ -102,6 +106,7 @@ export async function deletePhoto(
   await adminSupabase.from("photos").delete().eq("id", id);
   revalidatePath("/board/photos");
   revalidatePath("/board/photos", "layout");
+  revalidatePath("/board/photos/[id]", "page");
 }
 
 // ── 사진 메타데이터 저장 ──────────────────────────────────────
@@ -128,6 +133,7 @@ export async function savePhotoMetadata(
 
   revalidatePath("/board/photos");
   revalidatePath("/board/photos", "layout");
+  revalidatePath("/board/photos/[id]", "page");
   return { error: "", id: data.id };
 }
 
@@ -146,6 +152,7 @@ export async function toggleFaceBlur(
 
   revalidatePath("/board/photos");
   revalidatePath("/board/photos", "layout");
+  revalidatePath("/board/photos/[id]", "page");
   return { error: "" };
 }
 
@@ -158,4 +165,5 @@ export async function updatePhotoCaption(id: string, caption: string) {
     .eq("id", id);
   revalidatePath("/board/photos");
   revalidatePath("/board/photos", "layout");
+  revalidatePath("/board/photos/[id]", "page");
 }

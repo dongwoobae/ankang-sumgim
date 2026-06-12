@@ -115,6 +115,7 @@ export async function applyManualBlur(
       .eq("id", photoId);
 
     revalidatePath("/board/photos");
+    revalidatePath("/board/photos/[id]", "page");
     return { url: newUrl };
   } catch (err) {
     console.error("[applyManualBlur] 오류:", err);
