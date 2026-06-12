@@ -45,10 +45,7 @@ export default function Hero({ photos }: Props) {
               backgroundImage: `url(${src})`,
               opacity: i === idx ? 1 : 0,
               transform: i === idx ? "scale(1)" : "scale(1.06)",
-              transition:
-                i === idx
-                  ? "opacity 1.6s ease, transform 8s ease-out"
-                  : "opacity 1.6s ease",
+              transition: "opacity 1.6s ease, transform 8s ease-out",
             }}
           />
         ))}
