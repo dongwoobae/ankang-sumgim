@@ -2,6 +2,8 @@
 // 각 서비스 페이지에서 steps props를 주입해서 사용
 // iconKey는 아래 ICONS 맵에 정의된 키 중 하나를 사용
 
+import { Arrow, StepCard, VerticalArrow } from "./ServiceProcessParts";
+
 type Step = {
   iconKey: keyof typeof ICONS;
   title: string;
@@ -497,52 +499,6 @@ const ICONS = {
   ),
 } as const;
 
-// ─── 화살표 연결선 ──────────────────────────────────────────
-function Arrow() {
-  return (
-    <div className="hidden md:flex items-center justify-center flex-shrink-0 mt-[-12px]">
-      <svg viewBox="0 0 32 20" width="32" height="20" fill="none">
-        <path
-          d="M2 10 H26"
-          stroke="#A8C4E0"
-          strokeWidth="2"
-          strokeDasharray="4 2"
-        />
-        <path
-          d="M22 5 L28 10 L22 15"
-          stroke="#A8C4E0"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
-  );
-}
-
-// ─── 세로 연결선 (모바일) ─────────────────────────────────
-function VerticalArrow() {
-  return (
-    <div className="flex md:hidden items-center justify-center h-8">
-      <svg viewBox="0 0 20 32" width="20" height="32" fill="none">
-        <path
-          d="M10 2 V24"
-          stroke="#A8C4E0"
-          strokeWidth="2"
-          strokeDasharray="4 2"
-        />
-        <path
-          d="M5 20 L10 26 L15 20"
-          stroke="#A8C4E0"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
-  );
-}
-
 // ─── 메인 컴포넌트 ─────────────────────────────────────────
 export default function ServiceProcess({
   steps,
@@ -568,31 +524,12 @@ export default function ServiceProcess({
           {steps.map((step, i) => (
             <div key={i} className="flex flex-col md:flex-row md:items-start">
               {/* 스텝 카드 */}
-              <div className="flex flex-col items-center text-center w-full md:w-36 lg:w-40">
-                {/* 일러스트 */}
-                <div className="relative mb-3">
-                  {ICONS[step.iconKey]}
-                  {/* 번호 배지 */}
-                  <span
-                    className="absolute -top-1 -right-1 w-6 h-6 rounded-full text-[#FFFFFF] text-xs font-bold flex items-center justify-center"
-                    style={{ background: "#1A56A0", fontSize: "11px" }}
-                  >
-                    {i + 1}
-                  </span>
-                </div>
-
-                {/* 제목 */}
-                <p
-                  className="text-[#1A2E4A] font-bold text-sm mb-1.5 leading-tight"
-                >
-                  {step.title}
-                </p>
-
-                {/* 설명 */}
-                <p className="text-[#5A7A99] text-xs leading-relaxed px-1">
-                  {step.desc}
-                </p>
-              </div>
+              <StepCard
+                icon={ICONS[step.iconKey]}
+                index={i}
+                title={step.title}
+                desc={step.desc}
+              />
 
               {/* 화살표 연결 (마지막 스텝 제외) */}
               {i < steps.length - 1 && (

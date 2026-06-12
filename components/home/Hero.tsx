@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Phone } from "lucide-react";
 import Reveal from "@/components/common/Reveal";
+import HeroBackground from "./HeroBackground";
+import HeroStatsStrip from "./HeroStatsStrip";
 
 interface Props {
   photos: string[];
@@ -17,13 +19,6 @@ const FALLBACK_SLIDES = [
   "https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=2000&q=80",
 ];
 
-const STRIP_ITEMS = [
-  { b: `${new Date().getFullYear() - 2015}년`, t: "지역과 함께한 걸음" },
-  { b: "4개 시군", t: "경주·안강·영천·포항" },
-  { b: "목욕차 2대", t: "타 센터 대비 2배 보유" },
-  { b: "월 1회", t: "요양사 정기 역량 강화" },
-];
-
 export default function Hero({ photos }: Props) {
   const slides = photos.length > 0 ? photos : FALLBACK_SLIDES;
   const [idx, setIdx] = useState(0);
@@ -35,48 +30,7 @@ export default function Hero({ photos }: Props) {
 
   return (
     <section className="relative h-screen min-h-[640px] overflow-hidden text-white">
-      {/* 캐러셀 */}
-      <div className="absolute inset-0">
-        {slides.map((src, i) => (
-          <div
-            key={i}
-            className="absolute inset-0 bg-cover bg-center will-change-[opacity,transform]"
-            style={{
-              backgroundImage: `url(${src})`,
-              opacity: i === idx ? 1 : 0,
-              transform: i === idx ? "scale(1)" : "scale(1.06)",
-              transition: "opacity 1.6s ease, transform 8s ease-out",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* 마스크 */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(110deg, rgba(14,26,46,0.78) 0%, rgba(14,26,46,0.5) 45%, rgba(14,26,46,0.18) 100%), linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(14,26,46,0.6) 100%)",
-        }}
-        aria-hidden="true"
-      />
-
-      {/* 닷 인디케이터 */}
-      <div className="absolute left-6 bottom-6 z-10 flex gap-2">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIdx(i)}
-            aria-label={`슬라이드 ${i + 1}`}
-            className="block transition-all duration-300"
-            style={{
-              width: 32,
-              height: i === idx ? 3 : 2,
-              background: i === idx ? "#fff" : "rgba(255,255,255,0.3)",
-            }}
-          />
-        ))}
-      </div>
+      <HeroBackground slides={slides} activeIndex={idx} onSelect={setIdx} />
 
       {/* 콘텐츠 */}
       <div className="relative z-[2] max-w-[1200px] mx-auto px-6 h-full grid grid-rows-[1fr_auto] items-end pt-[12vh] pb-[6vh]">
@@ -136,18 +90,7 @@ export default function Hero({ photos }: Props) {
         </div>
 
         {/* 하단 스트립 */}
-        <div className="border-t border-white/18 pt-[22px] grid grid-cols-2 sm:grid-cols-4 gap-6 items-end">
-          {STRIP_ITEMS.map((x, i) => (
-            <Reveal key={i} variant="up-soft" stagger={4 + i}>
-              <div className="text-white/85 text-[13px] md:block">
-                <b className="block font-bold text-white mb-1 tracking-tight" style={{ fontSize: 22 }}>
-                  {x.b}
-                </b>
-                {x.t}
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <HeroStatsStrip />
       </div>
 
       {/* SCROLL 인디케이터 */}
