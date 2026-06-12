@@ -21,6 +21,7 @@ export default function FloatingButton() {
   const [status, setStatus] = useState<MusicStatus>("idle");
   const [currentIndex, setCurrentIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const failCountRef = useRef(0);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -58,9 +59,29 @@ export default function FloatingButton() {
   const loadAndPlay = (index: number) => {
     const audio = audioRef.current;
     if (!audio) return;
+    setCurrentIndex(index);
     audio.src = TRACKS[index].src;
-    audio.play().catch(() => setStatus("paused"));
-    setStatus("playing");
+    audio.play()
+      .then(() => {
+        failCountRef.current = 0;
+        setStatus("playing");
+      })
+      .catch((err) => {
+        // 사용자 제스처로 호출되므로 자동재생 차단(NotAllowedError)은 거의 없음.
+        // 그 외 실패는 깨진 트랙 → 다음 곡으로 자동 스킵.
+        if (err?.name === "NotAllowedError") {
+          setStatus("paused");
+          return;
+        }
+        failCountRef.current += 1;
+        if (failCountRef.current >= TRACKS.length) {
+          // 모든 트랙이 로드 실패 → 무한루프 방지하고 멈춤
+          failCountRef.current = 0;
+          setStatus("paused");
+          return;
+        }
+        loadAndPlay((index + 1) % TRACKS.length);
+      });
   };
 
   const toggleMusic = () => {
@@ -77,65 +98,77 @@ export default function FloatingButton() {
     }
   };
 
-  const prevTrack = () => {
-    const newIndex = (currentIndex - 1 + TRACKS.length) % TRACKS.length;
-    setCurrentIndex(newIndex);
-    loadAndPlay(newIndex);
-  };
-
-  const nextTrack = () => {
-    const newIndex = (currentIndex + 1) % TRACKS.length;
-    setCurrentIndex(newIndex);
-    loadAndPlay(newIndex);
-  };
-
-  const handleEnded = () => {
-    const newIndex = (currentIndex + 1) % TRACKS.length;
-    setCurrentIndex(newIndex);
-    loadAndPlay(newIndex);
-  };
+  const prevTrack = () => loadAndPlay((currentIndex - 1 + TRACKS.length) % TRACKS.length);
+  const nextTrack = () => loadAndPlay((currentIndex + 1) % TRACKS.length);
+  const handleEnded = () => loadAndPlay((currentIndex + 1) % TRACKS.length);
 
   return (
     <>
       <audio ref={audioRef} onEnded={handleEnded} />
       <div className="fixed bottom-7 right-7 z-50 flex flex-col gap-3 items-end">
 
-        {/* 음악 버튼 */}
+        {/* 음악 버튼 — playing이든 아니든 hover 시에만 확장.
+            hover 핸들러는 status가 바뀌어도 언마운트되지 않는 wrapper에 둔다
+            (안쪽 요소가 remount되면 mouseleave를 놓쳐서 hover 상태가 굳음) */}
+        <div
+          onMouseEnter={() => setMusicHovered(true)}
+          onMouseLeave={() => setMusicHovered(false)}
+        >
         {status === "playing" ? (
           <div
             className="flex items-center rounded-full transition-all duration-300"
             style={{
               background: "#1A56A0",
-              padding: "12px 16px",
-              gap: "8px",
+              padding: "13px 17px",
+              gap: musicHovered ? "8px" : "0px",
               boxShadow: "0 4px 20px rgba(26,86,160,0.4)",
             }}
           >
-            <button onClick={prevTrack} aria-label="이전 곡" className="p-1 cursor-pointer">
-              <ChevronLeft size={16} color="#FFFFFF" strokeWidth={2.5} />
+            <div
+              className="overflow-hidden transition-all duration-300"
+              style={{ maxWidth: musicHovered ? "26px" : "0px", opacity: musicHovered ? 1 : 0 }}
+            >
+              <button onClick={prevTrack} aria-label="이전 곡" className="p-1 cursor-pointer">
+                <ChevronLeft size={16} color="#FFFFFF" strokeWidth={2.5} />
+              </button>
+            </div>
+
+            <button onClick={toggleMusic} aria-label="음악 정지" className="cursor-pointer">
+              {musicHovered
+                ? <Pause size={17} color="#FFFFFF" strokeWidth={2.2} />
+                : <Music size={19} color="#FFFFFF" strokeWidth={2.2} />}
             </button>
-            <button onClick={toggleMusic} aria-label="음악 정지" className="p-1 cursor-pointer">
-              <Pause size={17} color="#FFFFFF" strokeWidth={2.2} />
-            </button>
-            <span className="text-white text-sm font-semibold max-w-[80px] truncate">
-              {TRACKS[currentIndex].title}
+
+            <span
+              className="block overflow-hidden transition-all duration-300"
+              style={{ maxWidth: musicHovered ? "80px" : "0px", opacity: musicHovered ? 1 : 0 }}
+            >
+              <span className="marquee-track inline-flex flex-nowrap whitespace-nowrap text-white text-sm font-semibold">
+                <span className="px-2 whitespace-nowrap">{TRACKS[currentIndex].title}</span>
+                <span className="px-2 whitespace-nowrap" aria-hidden="true">{TRACKS[currentIndex].title}</span>
+              </span>
             </span>
-            <button onClick={nextTrack} aria-label="다음 곡" className="p-1 cursor-pointer">
-              <ChevronRight size={16} color="#FFFFFF" strokeWidth={2.5} />
-            </button>
+
+            <div
+              className="overflow-hidden transition-all duration-300"
+              style={{ maxWidth: musicHovered ? "26px" : "0px", opacity: musicHovered ? 1 : 0 }}
+            >
+              <button onClick={nextTrack} aria-label="다음 곡" className="p-1 cursor-pointer">
+                <ChevronRight size={16} color="#FFFFFF" strokeWidth={2.5} />
+              </button>
+            </div>
           </div>
         ) : (
           <button
             onClick={toggleMusic}
             aria-label={status === "paused" ? "음악 이어듣기" : "음악 재생"}
-            onMouseEnter={() => setMusicHovered(true)}
-            onMouseLeave={() => setMusicHovered(false)}
-            className="flex items-center gap-2.5 rounded-full transition-all duration-300"
+            className="flex items-center rounded-full transition-all duration-300"
             style={{
               background: musicHovered
                 ? "#dde6f5"
                 : status === "paused" ? "#dde6f5" : "#EEF3FA",
-              padding: musicHovered ? "13px 22px" : "15px",
+              padding: musicHovered ? "13px 22px" : "13px 17px",
+              gap: musicHovered ? "10px" : "0px",
               boxShadow: "0 4px 16px rgba(26,46,74,0.15)",
             }}
           >
@@ -151,6 +184,7 @@ export default function FloatingButton() {
             </span>
           </button>
         )}
+        </div>
 
         {/* 카카오톡 채널 버튼 */}
         <a
@@ -160,10 +194,11 @@ export default function FloatingButton() {
           aria-label="카카오톡 상담"
           onMouseEnter={() => setKakaoHovered(true)}
           onMouseLeave={() => setKakaoHovered(false)}
-          className="flex items-center gap-2.5 rounded-full transition-all duration-300"
+          className="flex items-center rounded-full transition-all duration-300"
           style={{
             background: kakaoHovered ? "#E6C200" : "#FEE500",
-            padding: kakaoHovered ? "13px 22px" : "15px",
+            padding: kakaoHovered ? "13px 22px" : "13px 17px",
+            gap: kakaoHovered ? "10px" : "0px",
             boxShadow: "0 4px 16px rgba(254,229,0,0.5)",
           }}
         >
@@ -185,10 +220,11 @@ export default function FloatingButton() {
           aria-label="전화 상담"
           onMouseEnter={() => setPhoneHovered(true)}
           onMouseLeave={() => setPhoneHovered(false)}
-          className="flex items-center gap-2.5 rounded-full transition-all duration-300"
+          className="flex items-center rounded-full transition-all duration-300"
           style={{
             background: phoneHovered ? "#1A2E4A" : "#1A56A0",
-            padding: phoneHovered ? "13px 22px" : "15px",
+            padding: phoneHovered ? "13px 22px" : "13px 17px",
+            gap: phoneHovered ? "10px" : "0px",
             boxShadow: "0 4px 20px rgba(26,86,160,0.4)",
           }}
         >

@@ -113,6 +113,19 @@ h2, h3 { font-weight: 700; letter-spacing: -0.025em; }
 }
 .btn-primary-pill:hover { background: var(--ink-2); }
 
+/* ── 음악 제목 마퀴(흐르는 텍스트) ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 8s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
 /* ── Board 본문 prose ── */
 .prose-board { line-height: 1.85; color: var(--ink-2); }
 .prose-board p { margin: 0 0 20px; }
