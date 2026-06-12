@@ -24,6 +24,7 @@ export async function saveAward(payload: {
     return { error: "저장 중 오류가 발생했습니다." };
   }
 
+  revalidatePath("/");
   revalidatePath("/about/awards");
   revalidatePath("/admin/awards");
   return { error: "", id: data.id };
@@ -39,6 +40,7 @@ export async function deleteAward(id: number, imageUrl: string | null) {
     }
   }
   await adminSupabase.from("awards").delete().eq("id", id);
+  revalidatePath("/");
   revalidatePath("/about/awards");
   revalidatePath("/admin/awards");
 }
