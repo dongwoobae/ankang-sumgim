@@ -18,10 +18,44 @@ export default function FloatingButton() {
   const [phoneHovered, setPhoneHovered] = useState(false);
   const [kakaoHovered, setKakaoHovered] = useState(false);
   const [musicHovered, setMusicHovered] = useState(false);
+  const [musicTapped, setMusicTapped] = useState(false); // 터치: 탭하면 펼침
+  const [isTouch, setIsTouch] = useState(false);
   const [status, setStatus] = useState<MusicStatus>("idle");
   const [currentIndex, setCurrentIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const failCountRef = useRef(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // hover 불가(터치) 기기 감지 → 펼침을 탭으로 제어
+  useEffect(() => {
+    setIsTouch(window.matchMedia("(hover: none)").matches);
+  }, []);
+
+  // 데스크탑은 hover, 터치는 탭 상태로 펼침 결정
+  const musicExpanded = isTouch ? musicTapped : musicHovered;
+
+  // 터치: 일정 시간 뒤 자동 접힘 (상호작용 시 재호출로 연장)
+  const scheduleCollapse = () => {
+    if (collapseTimerRef.current) clearTimeout(collapseTimerRef.current);
+    collapseTimerRef.current = setTimeout(() => setMusicTapped(false), 3500);
+  };
+
+  // 터치: 펼친 동안 바깥 탭 시 접힘 + 자동 접힘 타이머
+  useEffect(() => {
+    if (!isTouch || !musicTapped) return;
+    scheduleCollapse();
+    const onOutside = (e: PointerEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setMusicTapped(false);
+      }
+    };
+    document.addEventListener("pointerdown", onOutside);
+    return () => {
+      document.removeEventListener("pointerdown", onOutside);
+      if (collapseTimerRef.current) clearTimeout(collapseTimerRef.current);
+    };
+  }, [isTouch, musicTapped]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -111,8 +145,13 @@ export default function FloatingButton() {
             hover 핸들러는 status가 바뀌어도 언마운트되지 않는 wrapper에 둔다
             (안쪽 요소가 remount되면 mouseleave를 놓쳐서 hover 상태가 굳음) */}
         <div
-          onMouseEnter={() => setMusicHovered(true)}
-          onMouseLeave={() => setMusicHovered(false)}
+          ref={wrapperRef}
+          onMouseEnter={() => { if (!isTouch) setMusicHovered(true); }}
+          onMouseLeave={() => { if (!isTouch) setMusicHovered(false); }}
+          onClick={() => {
+            // 터치: 재생 중 접힌 상태에서 탭 → 펼침 (정지 아님)
+            if (isTouch && status === "playing" && !musicTapped) setMusicTapped(true);
+          }}
         >
         {status === "playing" ? (
           <div
@@ -120,28 +159,41 @@ export default function FloatingButton() {
             style={{
               background: "#1A56A0",
               padding: "13px 17px",
-              gap: musicHovered ? "8px" : "0px",
+              gap: musicExpanded ? "8px" : "0px",
               boxShadow: "0 4px 20px rgba(26,86,160,0.4)",
             }}
           >
             <div
               className="overflow-hidden transition-all duration-300"
-              style={{ maxWidth: musicHovered ? "26px" : "0px", opacity: musicHovered ? 1 : 0 }}
+              style={{ maxWidth: musicExpanded ? "26px" : "0px", opacity: musicExpanded ? 1 : 0 }}
             >
-              <button onClick={prevTrack} aria-label="이전 곡" className="p-1 cursor-pointer">
+              <button
+                onClick={() => { prevTrack(); if (isTouch) scheduleCollapse(); }}
+                aria-label="이전 곡"
+                className="p-1 cursor-pointer"
+              >
                 <ChevronLeft size={16} color="#FFFFFF" strokeWidth={2.5} />
               </button>
             </div>
 
-            <button onClick={toggleMusic} aria-label="음악 정지" className="cursor-pointer">
-              {musicHovered
+            <button
+              onClick={() => {
+                // 터치: 접힌 상태의 탭은 wrapper가 펼침 처리 → 여기선 정지하지 않음
+                if (isTouch && !musicExpanded) return;
+                toggleMusic();
+                if (isTouch) setMusicTapped(false);
+              }}
+              aria-label="음악 정지"
+              className="cursor-pointer"
+            >
+              {musicExpanded
                 ? <Pause size={17} color="#FFFFFF" strokeWidth={2.2} />
                 : <Music size={19} color="#FFFFFF" strokeWidth={2.2} />}
             </button>
 
             <span
               className="block overflow-hidden transition-all duration-300"
-              style={{ maxWidth: musicHovered ? "80px" : "0px", opacity: musicHovered ? 1 : 0 }}
+              style={{ maxWidth: musicExpanded ? "80px" : "0px", opacity: musicExpanded ? 1 : 0 }}
             >
               <span className="marquee-track inline-flex flex-nowrap whitespace-nowrap text-white text-sm font-semibold">
                 <span className="px-2 whitespace-nowrap">{TRACKS[currentIndex].title}</span>
@@ -151,9 +203,13 @@ export default function FloatingButton() {
 
             <div
               className="overflow-hidden transition-all duration-300"
-              style={{ maxWidth: musicHovered ? "26px" : "0px", opacity: musicHovered ? 1 : 0 }}
+              style={{ maxWidth: musicExpanded ? "26px" : "0px", opacity: musicExpanded ? 1 : 0 }}
             >
-              <button onClick={nextTrack} aria-label="다음 곡" className="p-1 cursor-pointer">
+              <button
+                onClick={() => { nextTrack(); if (isTouch) scheduleCollapse(); }}
+                aria-label="다음 곡"
+                className="p-1 cursor-pointer"
+              >
                 <ChevronRight size={16} color="#FFFFFF" strokeWidth={2.5} />
               </button>
             </div>
@@ -164,11 +220,11 @@ export default function FloatingButton() {
             aria-label={status === "paused" ? "음악 이어듣기" : "음악 재생"}
             className="flex items-center rounded-full transition-all duration-300"
             style={{
-              background: musicHovered
+              background: musicExpanded
                 ? "#dde6f5"
                 : status === "paused" ? "#dde6f5" : "#EEF3FA",
-              padding: musicHovered ? "13px 22px" : "13px 17px",
-              gap: musicHovered ? "10px" : "0px",
+              padding: musicExpanded ? "13px 22px" : "13px 17px",
+              gap: musicExpanded ? "10px" : "0px",
               boxShadow: "0 4px 16px rgba(26,46,74,0.15)",
             }}
           >
@@ -176,8 +232,8 @@ export default function FloatingButton() {
             <span
               className="text-[#1A2E4A] text-sm font-semibold whitespace-nowrap overflow-hidden transition-all duration-300"
               style={{
-                maxWidth: musicHovered ? "70px" : "0px",
-                opacity: musicHovered ? 1 : 0,
+                maxWidth: musicExpanded ? "70px" : "0px",
+                opacity: musicExpanded ? 1 : 0,
               }}
             >
               {status === "paused" ? "이어듣기" : "음악 켜기"}
