@@ -116,7 +116,7 @@ export default function Footer() {
         {/* 하단 바 */}
         <div className="border-t border-[#E8A020]/30 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 pb-4">
           <p className="text-xs text-[#5A7A99]">
-            © 2024 안강 섬김 노인복지센터. All rights reserved.
+            Since 2015 · © 2026 안강 섬김 노인복지센터. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link
