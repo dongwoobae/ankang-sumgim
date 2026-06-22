@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* 로고 전용 폰트 — 상상토끼 정묵바위 */
+@font-face {
+  font-family: "JeongmukBawi";
+  src: url("/fonts/JeongmukBawi.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+.font-jeongmuk {
+  font-family: "JeongmukBawi", "Pretendard", sans-serif;
+  letter-spacing: 0;
+}
+
 :root {
   /* INK */
   --ink:   #0e1a2e;

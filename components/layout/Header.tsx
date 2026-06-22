@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Clock, Shield, Home, Users, ClipboardList, Lightbulb, User, MapPin, Award, Bell, Camera, Calculator, BriefcaseBusiness, type LucideIcon } from "lucide-react";
+import { Menu, X, Shield, Home, Users, ClipboardList, Lightbulb, User, MapPin, Award, Bell, Camera, Calculator, BriefcaseBusiness, type LucideIcon } from "lucide-react";
 
 type NavChild = {
   label: string;
@@ -159,49 +159,25 @@ export default function Header() {
         boxShadow: scrolled ? "0 2px 20px rgba(92,74,30,0.12)" : "none",
       }}
     >
-      {/* 상단 정보 바 */}
-      <div className="bg-[#1A2E4A] text-[#A8C4E0] text-xs">
-        <div className="max-w-6xl mx-auto px-6 h-9 flex items-center justify-between">
-          <span className="tracking-wide font-medium">
-            {/* 안강 섬김 노인복지센터 */}
-          </span>
-          <div className="flex items-center gap-5">
-            <span className="flex items-center gap-1.5">
-              <Clock size={11} />
-              평일 09:00–18:00 &nbsp;·&nbsp; 토 09:00–14:00
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Phone size={11} />
-              054-763-5988
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* 메인 헤더 */}
       <div className="bg-[#FFFFFF] border-b border-[#A8C4E0]/60">
-        <div className="max-w-6xl mx-auto px-6 h-[72px] flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 h-[72px] md:h-[108px] flex items-center justify-between">
           {/* 로고 */}
           <Link
             href="/"
-            className="flex items-center gap-3 group flex-shrink-0"
+            className="flex items-center gap-2 group flex-shrink-0"
           >
             <Image
               src="/logo.png"
               alt="안강 섬김 노인복지센터 로고"
-              width={40}
-              height={40}
+              width={52}
+              height={52}
               priority
               className="rounded-sm"
             />
-            <div className="leading-snug">
-              <p
-                className="text-[#1A2E4A] font-bold text-[17px] tracking-tight"
-              >
-                안강 섬김
-              </p>
-              <p className="text-[#5A7A99] text-[11px] tracking-[0.15em]">
-                노인복지센터
+            <div className="leading-none">
+              <p className="font-jeongmuk text-[#1A2E4A] text-[32px] md:text-[44px] leading-none">
+                섬김
               </p>
             </div>
           </Link>
@@ -219,7 +195,7 @@ export default function Header() {
                 item.href != null && pathname.startsWith(item.href);
               const labelKey = item.label;
 
-              const labelClass = `relative px-5 h-full flex items-center text-[15px] font-medium tracking-tight transition-colors duration-200
+              const labelClass = `relative px-5 h-full flex items-center text-[17px] font-medium tracking-tight transition-colors duration-200
                 ${isActive ? "text-[#1A56A0]" : "text-[#1A2E4A] hover:text-[#1A56A0]"}`;
 
               const underline = (
