@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Clock, Shield, Home, Users, ClipboardList, Lightbulb, User, MapPin, Award, Bell, Camera, Calculator, Briefcase, type LucideIcon } from "lucide-react";
+import { Menu, X, Phone, Clock, Shield, Home, Users, ClipboardList, Lightbulb, User, MapPin, Award, Bell, Camera, Calculator, BriefcaseBusiness, type LucideIcon } from "lucide-react";
 
 type NavChild = {
   label: string;
@@ -48,6 +48,14 @@ const navItems: NavItem[] = [
         icon: Award,
         iconColor: "#F57F17",
         iconBg: "#FFF8E1",
+      },
+      {
+        label: "요양보호사 구인",
+        href: "/recruit",
+        desc: "상시 구인 안내",
+        icon: BriefcaseBusiness,
+        iconColor: "#1A56A0",
+        iconBg: "#E3F0FF",
       },
     ],
   },

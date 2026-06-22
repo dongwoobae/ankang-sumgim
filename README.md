@@ -1,170 +1,306 @@
 # 안강 섬김 노인복지센터 홈페이지
 
-경상북도 경주시 안강읍에 위치한 **안강 섬김 노인복지센터**의 공식 홈페이지입니다.
+> 경상북도 경주시 안강읍에 위치한 안강 섬김 노인복지센터의 공식 홈페이지 및 운영자 관리 시스템
+
+[![Next.js](https://img.shields.io/badge/Next.js-16_App_Router-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Supabase](https://img.shields.io/badge/Supabase-DB%20%2F%20Auth-3ECF8E?logo=supabase)](https://supabase.com/)
+[![Cloudflare R2](https://img.shields.io/badge/Cloudflare_R2-Storage-F38020?logo=cloudflare&logoColor=white)](https://www.cloudflare.com/developer-platform/r2/)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)](https://vercel.com/)
 
 ---
 
-## 기술 스택
+## 📖 프로젝트 소개
 
-| 분류        | 기술                              |
-| ----------- | --------------------------------- |
-| Framework   | Next.js 16 (App Router)           |
-| Language    | TypeScript                        |
-| UI          | React 19                          |
-| Styling     | Tailwind CSS v4                   |
-| Database    | Supabase (PostgreSQL)             |
-| Storage     | Cloudflare R2                     |
-| 이미지 처리 | Sharp (WebP 압축, 얼굴 블러)      |
-| 얼굴 감지   | face-api.js (브라우저, 자동 블러) |
-| 테스트      | Vitest                            |
-| 배포        | Vercel                            |
-| 이메일      | Resend                            |
-| SMS         | Solapi                            |
-| 아이콘      | Lucide React                      |
-| Analytics   | Vercel Analytics, Speed Insights  |
+안강 섬김 노인복지센터의 서비스, 상담, 공지, 사진 기록, 채용 정보를 한곳에서 제공하는 공식 웹사이트입니다.
+
+센터를 처음 찾는 보호자와 어르신이 방문요양 서비스, 노인장기요양보험, 등급 신청 절차, 본인부담금 정보를 쉽게 이해할 수 있도록 공개 페이지를 구성했고, 운영자는 `/admin`에서 공지사항, 사진 게시판, 상담문의, 구인 지원, 메인 사진, 수상 내역, 계산기 기준값을 직접 관리할 수 있습니다.
+
+특히 사진 게시판은 노인복지센터 특성상 개인정보 보호가 중요하므로, 업로드 단계에서 얼굴을 자동 감지해 블러 처리하고 수동 보정까지 할 수 있도록 설계했습니다.
 
 ---
 
-## 주요 기능
+## ✨ 주요 기능
 
-### 공개 페이지
+### 사용자 공개 페이지
 
-- **홈** — Hero 사진 캐러셀, 서비스 소개, 수상 내역, 공지사항 미리보기
-- **센터 소개** — 인사말, 오시는 길(카카오맵), 수상·기관선정
-- **노인장기요양보험** — 제도 안내, 방문요양, 가족요양, 인지활동서비스, 등급신청 안내
-- **본인부담금 계산기** — 등급·이용시간 선택 시 방문요양 예상 월 본인부담금 자동 계산 (수가·한도액 DB 연동)
-- **상담문의** — 온라인 상담 폼 + 자주 묻는 질문(FAQ)
-- **게시판** — 공지사항, 사진 게시판 (앨범 → 사진 상세/라이트박스 구조)
-- **요양보호사 구인** — 온라인 입사 지원 폼
-- **개인정보처리방침**
+- 🏠 **홈** — Hero 사진 캐러셀, 센터 핵심 메시지, 통계/서비스 요약, 공지사항 미리보기
+- 👋 **센터 소개** — 인사말, 센터 철학, 오시는 길, 카카오맵/지도 HTML 연동
+- 🏅 **수상·기관선정** — DB 기반 수상 및 기관 선정 이력 노출
+- 🧾 **노인장기요양보험 안내** — 제도 설명, 방문요양, 가족요양, 인지활동서비스, 등급 신청 흐름 안내
+- 🧮 **본인부담금 계산기** — 등급과 이용 시간을 선택하면 예상 월 본인부담금 자동 계산
+- 💬 **상담문의** — 온라인 문의 접수, FAQ 아코디언, 이메일/SMS 답변 연계
+- 📰 **공지사항** — 고정 공지, 목록, 상세 페이지 제공
+- 🖼️ **사진 게시판** — 앨범 목록, 앨범 상세, 사진 라이트박스
+- 🙋 **요양보호사 구인** — 상시 구인 안내, 전화/카카오톡 상담 유도
+- 🔐 **개인정보처리방침** — 상담 및 개인정보 처리 안내
+- 🎵 **배경 음악 설정** — 정적 음악 파일과 흐르는 제목 UI 지원
 
 ### 관리자 페이지 (`/admin`)
 
-Supabase Auth 기반 로그인 보호 (미들웨어 적용)
+Supabase Auth 세션을 기준으로 보호되며, `middleware.ts`에서 `/admin` 하위 경로 접근을 제어합니다.
 
-- 공지사항 CRUD
-- 사진 게시판 — 카테고리 및 사진 관리 (R2 업로드/삭제, Sharp WebP 자동 변환)
-- **사진 얼굴 블러** — 업로드 시 face-api.js로 얼굴 자동 감지 후 Sharp 블러, 원본/블러 두 버전 R2 저장. 드래그로 영역을 직접 지정하는 수동 블러 편집기 제공
-- 상담문의 목록 조회 및 답변 (이메일·SMS 자동 발송)
-- 요양보호사 지원서 목록 — 상태 관리(검토중/면접예정/채용/불합격) 및 메모
-- 메인 Hero 사진 관리 (순서 변경, 업로드/삭제)
-- 수상·기관선정 관리
-- **본인부담금 계산기 설정** — 방문요양 수가·등급별 월 한도액 관리
-- **오류 로그** — 서버 액션·API 오류를 DB에 기록하고 관리자 화면에서 조회
-- 그룹형 토글 사이드바 (데스크탑 접힘/펼침, 모바일 오버레이)
+- 🔒 **관리자 로그인** — `/admin/login`만 공개 접근 허용, 나머지 관리자 라우트 인증 필요
+- 📊 **대시보드** — 운영 현황 패널과 주요 관리 메뉴 진입점
+- 📝 **공지사항 관리** — 목록, 작성, 수정, 삭제, 고정 공지 관리
+- 🖼️ **사진 게시판 관리** — 카테고리 생성/삭제, 앨범별 사진 업로드
+- 😶‍🌫️ **얼굴 자동 블러** — face-api.js로 브라우저에서 얼굴 좌표 감지 후 Sharp로 서버 블러 처리
+- ✍️ **수동 블러 편집** — 자동 감지가 놓친 영역을 관리자가 직접 드래그 지정
+- 💬 **상담문의 관리** — 문의 목록/상세 조회, 답변 작성, 답변 완료 상태 토글
+- 📩 **답변 발송** — Resend 이메일, Solapi SMS 연동
+- 👥 **기존 지원자 데이터 관리** — 과거 온라인 접수 데이터의 상태값, 메모 관리
+- 🏞️ **메인 Hero 사진 관리** — 홈페이지 첫 화면 사진 업로드/삭제/순서 관리
+- 🏅 **수상·기관선정 관리** — 수상 내역 CRUD
+- 🧮 **계산기 설정 관리** — 장기요양 등급별 월 한도액, 방문요양 시간별 수가 관리
+- 🧯 **오류 로그 조회** — Server Action/API 오류를 DB에 기록하고 관리자 화면에서 확인
+- 📱 **반응형 사이드바** — 데스크탑 접힘/펼침, 모바일 오버레이 메뉴 지원
 
-### 스팸 방지
+### 보안·운영 기능
 
-- **Honeypot** — 숨겨진 필드에 값이 있으면 봇으로 판단
-- **제출 시간 체크** — 폼 로드 후 3초 미만 제출 차단
-- **Rate Limiting** — 동일 IP 1시간 내 5회 초과 차단 (Supabase 기반)
-
-### SEO
-
-- 페이지별 `metadata` / `generateMetadata` 적용
-- `sitemap.xml` — 정적 라우트 + DB 기반 동적 라우트 (공지사항, 사진 카테고리)
-- `robots.txt` — `/admin` 크롤링 차단
-- OG 이미지 (`/public/og-image.png`) — SNS·카카오톡 공유 미리보기
+- 🪤 **Honeypot 스팸 방지** — 숨겨진 필드 값이 있으면 봇 제출로 판단
+- ⏱️ **제출 시간 체크** — 폼 로드 후 3초 미만 제출 차단
+- 🚦 **Rate Limiting** — 동일 IP 기준 1시간 내 문의 제출 횟수 제한
+- 🧼 **HTML 이스케이프** — 문의/답변 본문 인젝션 방어
+- 🗂️ **R2 key 추출 검증** — Cloudflare R2 삭제 시 허용된 URL만 key 추출
+- 🛡️ **Supabase RLS 보안 보강** — 과도한 authenticated 정책 제거, storage listing 차단 마이그레이션 포함
+- 🔎 **SEO 기본 구성** — 동적 sitemap, robots, OG 이미지, 페이지별 metadata
+- 🌐 **도메인 리다이렉트** — `ankang-sumgim.vercel.app` → `sumgim-welfare.com` 영구 리다이렉트
 
 ---
 
-## 프로젝트 구조
+## 🛠️ 기술 스택
+
+| 구분 | 기술 |
+|---|---|
+| Framework | Next.js 16 App Router |
+| Language | TypeScript |
+| UI | React 19 |
+| Styling | Tailwind CSS v4, CSS variables |
+| Auth | Supabase Auth, `@supabase/ssr` |
+| Database | Supabase PostgreSQL |
+| Storage | Cloudflare R2, Supabase Storage 호환 URL |
+| Image Processing | Sharp, Next Image WebP 최적화 |
+| Face Detection | face-api.js Tiny Face Detector |
+| Email | Resend |
+| SMS | Solapi |
+| Icons | Lucide React |
+| Analytics | Vercel Analytics, Speed Insights |
+| Test | Vitest |
+| Deploy | Vercel |
+
+---
+
+## 📁 프로젝트 구조
 
 ```text
-├── app/
-│   ├── (public)/                    # 공개 페이지
-│   │   ├── page.tsx                 # 메인 홈
-│   │   ├── about/
-│   │   │   ├── greeting/page.tsx    # 인사말
-│   │   │   ├── location/page.tsx    # 오시는 길
-│   │   │   └── awards/page.tsx      # 수상·기관선정
-│   │   ├── services/
-│   │   │   ├── insurance/page.tsx   # 노인장기요양보험이란
-│   │   │   ├── visit-care/page.tsx  # 방문요양서비스
-│   │   │   ├── family-care/page.tsx # 가족요양
-│   │   │   ├── cognitive/page.tsx   # 인지활동서비스
-│   │   │   └── grade-apply/page.tsx # 등급신청 안내
-│   │   ├── calculator/
-│   │   │   ├── page.tsx             # 본인부담금 계산기 (서버, 수가·한도액 조회)
-│   │   │   └── CalculatorClient.tsx # 계산기 인터랙션 (클라이언트)
-│   │   ├── board/
-│   │   │   ├── notice/
-│   │   │   │   ├── page.tsx         # 공지사항 목록
-│   │   │   │   └── [id]/page.tsx    # 공지사항 상세
-│   │   │   └── photos/
-│   │   │       ├── page.tsx         # 사진 게시판 (앨범 목록)
-│   │   │       └── [id]/page.tsx    # 앨범 상세 (사진 갤러리)
-│   │   ├── inquiry/page.tsx         # 상담문의 + FAQ
-│   │   ├── recruit/page.tsx         # 요양보호사 구인
-│   │   └── privacy/page.tsx         # 개인정보처리방침
-│   ├── admin/                       # 관리자 페이지 (로그인 필요)
-│   │   ├── login/page.tsx
-│   │   ├── page.tsx                 # 대시보드 홈
-│   │   ├── hero/page.tsx            # 메인 사진 관리
-│   │   ├── notices/                 # 목록 / 새 글(new) / 수정([id]/edit)
-│   │   ├── photos/                  # 카테고리 목록 / 새 카테고리(new) / 사진 업로드([id]/upload)
-│   │   ├── inquiries/               # 목록 / 상세([id], 답변)
-│   │   ├── recruits/page.tsx        # 구인 지원자 관리
-│   │   ├── awards/page.tsx          # 수상·기관선정 관리
-│   │   ├── calculator/page.tsx      # 수가·한도액 관리
-│   │   └── logs/page.tsx            # 오류 로그 조회
-│   ├── api/
-│   │   └── upload-photo/route.ts    # 사진 업로드 API (Sharp + R2)
-│   ├── actions/
-│   │   ├── sendInquiry.ts           # 상담문의 Server Action
-│   │   ├── submitJobApplication.ts  # 구인 지원 Server Action
-│   │   ├── adminInquiry.ts          # 문의 답변 발송
-│   │   └── admin/                   # 관리자 액션 (auth, notices, photos,
-│   │       │                        #   uploadPhoto, applyManualBlur, hero,
-│   │       └── ...                  #   awards, inquiries, recruits, calculator)
-│   ├── sitemap.ts
-│   └── robots.ts
-├── components/
-│   ├── layout/
-│   │   ├── Header.tsx
-│   │   ├── Footer.tsx
-│   │   ├── HeroPhotoCarousel.tsx    # 메인 Hero 사진 캐러셀 (opacity fade)
-│   │   └── FloatingButton.tsx       # 플로팅 상담 버튼
-│   ├── admin/
-│   │   ├── AdminSidebar.tsx         # 그룹형 토글 사이드바
-│   │   ├── AdminSidebarContent.tsx
-│   │   ├── AdminSidebarNavGroups.tsx # 사이드바 메뉴 그룹 정의
-│   │   ├── SidebarNav.tsx
-│   │   └── BlurEditor.tsx           # 사진 수동 블러 영역 편집 모달
-│   ├── home/                        # Hero, HeroBackground, HeroStatsStrip, Stats
-│   ├── board/                       # AlbumCard, AlbumGrid, NoticeCards, NoticeList, PageHero, Toolbar
-│   ├── common/                      # CtaBanner, PageToc, Reveal, SiblingNav
-│   ├── services/ProcessTimeline.tsx
-│   ├── ServicePhotoCarousel.tsx     # 방문요양 탭+캐러셀 (신체/가사/정서)
-│   ├── ServiceProcess.tsx           # 서비스 이용 절차 (SVG 일러스트)
-│   ├── ServiceProcessParts.tsx
-│   ├── FaqAccordion.tsx             # 자주 묻는 질문 아코디언
-│   ├── PhotoGallery.tsx             # 사진 갤러리 + 라이트박스
-│   └── KakaoMap.tsx                 # 오시는 길 카카오맵 (구글맵 폴백)
-├── lib/
-│   ├── supabase/
-│   │   ├── client.ts                # 브라우저 클라이언트
-│   │   ├── server.ts                # SSR 클라이언트
-│   │   └── admin.ts                 # service_role 클라이언트 (DB 조회용)
-│   ├── auth/requireSession.ts       # 관리자 액션 세션 가드
-│   ├── r2.ts                        # Cloudflare R2 업로드/삭제
-│   ├── email.ts                     # Resend 이메일 발송
-│   ├── sms.ts                       # Solapi SMS 발송
-│   ├── rateLimit.ts                 # IP 기반 Rate Limiting
-│   ├── errorLog.ts                  # error_logs 테이블 기록
-│   └── escapeHtml.ts                # HTML 이스케이프 (인젝션 방지)
-└── middleware.ts                    # /admin 인증 미들웨어
+app/
+  (public)/                         # 공개 페이지 그룹
+    page.tsx                        # 메인 홈
+    about/
+      greeting/page.tsx             # 센터 인사말
+      location/page.tsx             # 오시는 길
+      awards/page.tsx               # 수상·기관선정
+    services/
+      insurance/page.tsx            # 노인장기요양보험 안내
+      visit-care/page.tsx           # 방문요양 서비스
+      family-care/page.tsx          # 가족요양 안내
+      cognitive/page.tsx            # 인지활동서비스
+      grade-apply/page.tsx          # 등급 신청 안내
+    calculator/
+      page.tsx                      # 본인부담금 계산기 서버 페이지
+      CalculatorClient.tsx          # 계산기 클라이언트 인터랙션
+    board/
+      notice/page.tsx               # 공지사항 목록
+      notice/[id]/page.tsx          # 공지사항 상세
+      photos/page.tsx               # 사진 앨범 목록
+      photos/[id]/page.tsx          # 앨범 상세/라이트박스
+    inquiry/page.tsx                # 상담문의 + FAQ
+    recruit/page.tsx                # 요양보호사 상시 구인 안내
+    privacy/page.tsx                # 개인정보처리방침
+  admin/                            # 관리자 페이지
+    login/page.tsx                  # 관리자 로그인
+    page.tsx                        # 대시보드
+    notices/                        # 공지사항 목록/작성/수정
+    photos/                         # 사진 카테고리/업로드 관리
+    inquiries/                      # 상담문의 목록/상세/답변
+    recruits/page.tsx               # 기존 구인 지원자 데이터 관리
+    hero/page.tsx                   # 메인 Hero 사진 관리
+    awards/page.tsx                 # 수상·기관선정 관리
+    calculator/page.tsx             # 계산기 수가/한도액 관리
+    logs/page.tsx                   # 오류 로그 조회
+  actions/
+    sendInquiry.ts                  # 공개 상담문의 제출
+    submitJobApplication.ts         # 공개 구인 지원 제출
+    adminInquiry.ts                 # 관리자 문의 답변
+    admin/                          # 관리자 Server Actions
+      auth.ts                       # 로그인/로그아웃
+      notices.ts                    # 공지 CRUD
+      photos.ts                     # 사진 카테고리/사진 관리
+      uploadPhoto.ts                # 사진 업로드 + 자동 블러
+      applyManualBlur.ts            # 수동 블러 적용
+      inquiries.ts                  # 문의 관리
+      recruits.ts                   # 기존 구인 지원자 데이터 관리
+      hero.ts                       # Hero 사진 관리
+      awards.ts                     # 수상 내역 관리
+      calculator.ts                 # 계산기 기준값 관리
+  api/upload-photo/route.ts         # Sharp + R2 사진 업로드 API
+  sitemap.ts                        # 정적/동적 sitemap
+  robots.ts                         # robots.txt
+components/
+  layout/                           # Header, Footer, FloatingButton, HeroPhotoCarousel
+  home/                             # Hero, Stats, HeroBackground 등 홈 컴포넌트
+  board/                            # 공지/사진 게시판 카드, 목록, 툴바
+  admin/                            # AdminSidebar, BlurEditor 등 관리자 UI
+  common/                           # Reveal, CtaBanner, PageToc, SiblingNav
+  services/                         # 서비스 절차 타임라인
+  KakaoMap.tsx                      # 오시는 길 카카오맵
+  PhotoGallery.tsx                  # 사진 갤러리 + 라이트박스
+  FaqAccordion.tsx                  # FAQ 아코디언
+lib/
+  supabase/                         # browser/server/admin Supabase 클라이언트
+  auth/requireSession.ts            # 관리자 세션 가드
+  r2.ts                             # Cloudflare R2 업로드/삭제/key 추출
+  email.ts                          # Resend 이메일 발송
+  sms.ts                            # Solapi SMS 발송
+  rateLimit.ts                      # IP 기반 제출 제한
+  errorLog.ts                       # 오류 로그 DB 기록
+  escapeHtml.ts                     # HTML 이스케이프
+  music.config.ts                   # 배경 음악 설정
+public/
+  models/                           # face-api.js Tiny Face Detector 모델
+  music/                            # 정적 배경 음악 파일
+  logo.png, og-image.jpg, map.html  # 브랜드/공유/지도 정적 자산
+supabase/
+  migrations/                       # 보안 정책 보강 SQL
+__tests__/                          # Vitest 단위 테스트
+middleware.ts                       # /admin 인증 미들웨어
 ```
 
 ---
 
-## 환경변수 설정
+## 🗄️ DB 스키마 (Supabase)
 
-루트에 `.env.local` 파일을 생성하고 아래 값을 입력하세요.
+```sql
+-- 공지사항
+notices
+  id           serial primary key
+  title        text not null
+  content      text not null
+  is_pinned    boolean default false
+  created_at   timestamptz default now()
+
+-- 상담 문의
+inquiries
+  id           serial primary key
+  name         text not null
+  phone        text not null
+  email        text
+  title        text not null
+  content      text not null
+  is_answered  boolean default false
+  created_at   timestamptz default now()
+
+-- 문의 답변
+inquiry_replies
+  id           serial primary key
+  inquiry_id   integer references inquiries(id) on delete cascade
+  content      text not null
+  created_at   timestamptz default now()
+
+-- 사진 카테고리
+photo_categories
+  id           serial primary key
+  name         text not null
+  created_at   timestamptz default now()
+
+-- 사진
+photos
+  id           serial primary key
+  category_id  integer references photo_categories(id) on delete cascade
+  url          text not null       -- 공개용 블러 이미지
+  original_url text                -- 원본 이미지
+  caption      text
+  created_at   timestamptz default now()
+
+-- 메인 Hero 사진
+hero_photos
+  id            uuid primary key default gen_random_uuid()
+  url           text not null
+  display_order integer default 1
+  created_at    timestamptz default now()
+
+-- 수상·기관선정
+awards
+  id            serial primary key
+  title         text not null
+  org           text not null
+  description   text
+  awarded_at    date not null
+  image_url     text
+  display_order integer default 1
+  created_at    timestamptz default now()
+
+-- 기존 온라인 지원 접수 데이터
+job_applications
+  id               serial primary key
+  name             text not null
+  phone            text not null
+  certificates     text[] default '{}'
+  preferred_region text not null
+  work_type        text not null
+  introduction     text
+  status           text default 'pending'
+  memo             text
+  created_at       timestamptz default now()
+
+-- 문의 Rate Limiting
+rate_limit_inquiry
+  ip           text primary key
+  count        integer default 1
+  window_start timestamptz default now()
+
+-- 방문요양 수가
+ltc_service_rates
+  id               serial primary key
+  service_type     text default 'visit_care'
+  duration_minutes integer not null
+  price            integer not null
+  updated_at       timestamptz default now()
+
+-- 장기요양 등급별 월 한도액
+ltc_grade_limits
+  id            serial primary key
+  grade         text not null
+  monthly_limit integer not null
+  updated_at    timestamptz default now()
+
+-- 오류 로그
+error_logs
+  id         serial primary key
+  source     text not null
+  message    text not null
+  created_at timestamptz default now()
+```
+
+### RLS / 보안 정책
+
+| 영역 | 정책 |
+|---|---|
+| 공개 콘텐츠 | 공지, 사진, Hero, 수상 내역은 공개 페이지 조회 목적의 SELECT 허용 |
+| 상담문의 | 공개 INSERT 허용, 목록/상세 관리는 관리자 서버 액션에서 service role로 처리 |
+| 관리자 작업 | 브라우저 직접 DB 쓰기 대신 Server Action + service role 경유 |
+| Storage | 공개 URL 접근은 허용하되 storage object listing 정책은 제거 |
+| 보안 마이그레이션 | `supabase/migrations/20260514000000_security_fixes.sql`에서 과도한 정책 및 함수 권한 정리 |
+
+---
+
+## ⚙️ 환경변수 설정
+
+루트에 `.env.local` 파일을 생성하고 아래 값을 입력합니다.
 
 ```env
 # 사이트 URL
-NEXT_PUBLIC_SITE_URL=https://your-domain.com
+NEXT_PUBLIC_SITE_URL=https://sumgim-welfare.com
 
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxxx.supabase.co
@@ -178,11 +314,11 @@ R2_SECRET_ACCESS_KEY=your_secret_access_key
 R2_BUCKET_NAME=your_bucket_name
 R2_PUBLIC_URL=https://pub-xxxx.r2.dev
 
-# Resend (이메일)
+# Resend
 RESEND_API_KEY=your_resend_api_key
 INQUIRY_EMAIL=your@email.com
 
-# Solapi (SMS)
+# Solapi
 SOLAPI_API_KEY=your_solapi_api_key
 SOLAPI_API_SECRET=your_solapi_api_secret
 SOLAPI_SENDER_PHONE=01012345678
@@ -190,160 +326,7 @@ SOLAPI_SENDER_PHONE=01012345678
 
 ---
 
-## Supabase 설정
-
-### 테이블 생성
-
-```sql
--- 공지사항
-create table notices (
-  id serial primary key,
-  title text not null,
-  content text not null,
-  is_pinned boolean default false,
-  created_at timestamptz default now()
-);
-
--- 상담 문의
-create table inquiries (
-  id serial primary key,
-  name text not null,
-  phone text not null,
-  email text,
-  title text not null,
-  content text not null,
-  is_answered boolean default false,
-  created_at timestamptz default now()
-);
-
--- 문의 답변
-create table inquiry_replies (
-  id serial primary key,
-  inquiry_id integer references inquiries(id) on delete cascade,
-  content text not null,
-  created_at timestamptz default now()
-);
-
--- 사진 카테고리
-create table photo_categories (
-  id serial primary key,
-  name text not null,
-  created_at timestamptz default now()
-);
-
--- 사진
-create table photos (
-  id serial primary key,
-  category_id integer references photo_categories(id) on delete cascade,
-  url text not null,            -- 블러 적용본(공개용)
-  original_url text,            -- 원본(얼굴 미블러), 블러 편집 시 참조
-  caption text,
-  created_at timestamptz default now()
-);
-
--- Hero 사진
-create table hero_photos (
-  id uuid default gen_random_uuid() primary key,
-  url text not null,
-  display_order integer default 1,
-  created_at timestamptz default now()
-);
-
--- 수상·기관선정
-create table awards (
-  id serial primary key,
-  title text not null,
-  org text not null,
-  description text,
-  awarded_at date not null,
-  image_url text,
-  display_order integer default 1,
-  created_at timestamptz default now()
-);
-
--- 요양보호사 구인 지원
-create table job_applications (
-  id serial primary key,
-  name text not null,
-  phone text not null,
-  certificates text[] default '{}',
-  preferred_region text not null,
-  work_type text not null,
-  introduction text,
-  status text default 'pending',
-  memo text,
-  created_at timestamptz default now()
-);
-
--- Rate Limiting
-create table rate_limit_inquiry (
-  ip text not null,
-  count integer default 1,
-  window_start timestamptz default now(),
-  primary key (ip)
-);
-
--- 본인부담금 계산기: 방문요양 수가 (이용시간별 단가)
-create table ltc_service_rates (
-  id serial primary key,
-  service_type text not null default 'visit_care',
-  duration_minutes integer not null,
-  price integer not null,
-  updated_at timestamptz default now()
-);
-
--- 본인부담금 계산기: 등급별 월 한도액
-create table ltc_grade_limits (
-  id serial primary key,
-  grade text not null,
-  monthly_limit integer not null,
-  updated_at timestamptz default now()
-);
-
--- 오류 로그
-create table error_logs (
-  id serial primary key,
-  source text not null,
-  message text not null,
-  created_at timestamptz default now()
-);
-```
-
-### Cron Job (오래된 문의 자동 삭제)
-
-Supabase → Database → Cron Jobs에서 설정:
-
-- **Name**: `delete-old-inquiries`
-- **Schedule**: `0 3 * * *` (매일 새벽 3시)
-- **Command**:
-  ```sql
-  delete from inquiries where created_at < now() - interval '3 years';
-  ```
-
----
-
-## Cloudflare R2 설정
-
-1. Cloudflare 대시보드 → **R2** → 버킷 생성
-2. 버킷 → **Settings → Public Access** 활성화 → `R2_PUBLIC_URL` 확인
-3. **R2 → API Tokens**에서 액세스 키 발급 → `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY` 입력
-4. 이미지는 업로드 시 Sharp로 자동 WebP 변환 (최대 1920px, quality 75)
-
-> 관리자 페이지 사진 업로드 외에 직접 업로드가 필요한 경우(방문요양 서비스 사진 등):  
-> Cloudflare Dashboard → R2 → 버킷 → 파일 업로드 후 Public URL을 복사해 코드에 입력.
-
----
-
-## 사진 얼굴 블러
-
-관리자 사진 업로드 시 face-api.js로 브라우저에서 얼굴을 감지하고, 좌표를 서버로 전달해 Sharp로 블러 처리합니다. 원본(`original/`)과 블러본(`blurred/`)을 R2에 모두 저장하며, 공개 화면에는 블러본을 노출합니다. 자동 감지가 놓친 영역은 관리자 화면의 수동 블러 편집기로 드래그 지정할 수 있습니다.
-
-- 얼굴 감지 모델은 `public/models/`에 포함되어 있습니다 (`tiny_face_detector`). 별도 설치 없이 동작합니다.
-- 모델은 정적 경로(`/models`)로 브라우저에 로드되므로 배포 시 `public/` 디렉터리가 함께 올라가야 합니다.
-
----
-
-## 로컬 실행
+## 🚀 로컬 실행
 
 ```bash
 # 패키지 설치
@@ -351,41 +334,171 @@ npm install
 
 # 개발 서버 실행
 npm run dev
-
-# 테스트 (Vitest)
-npm test
 ```
 
-[http://localhost:3000](http://localhost:3000) 에서 확인
+브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속합니다.
 
----
+```bash
+# ESLint 검사
+npm run lint
 
-## 배포
+# Vitest 테스트
+npm run test
 
-Vercel에 연결된 GitHub 레포지토리에 push하면 자동 배포됩니다.  
-Vercel 환경변수에 `.env.local`의 값들을 동일하게 설정하세요.
-
-### Google Search Console 등록 (SEO)
-
-배포 후 [Google Search Console](https://search.google.com/search-console)에서 사이트를 등록하고 sitemap을 제출하면 구글 색인이 빠르게 진행됩니다.
-
-```
-https://your-domain.com/sitemap.xml
+# 프로덕션 빌드
+npm run build
 ```
 
 ---
 
-## 색상 팔레트
+## 🧪 테스트 범위
 
-| 역할        | 색상      |
-| ----------- | --------- |
-| 메인 포인트 | `#2E6DB4` |
-| 버튼 / 강조 | `#1A56A0` |
-| 주요 텍스트 | `#1A2E4A` |
-| 보조 텍스트 | `#5A7A99` |
-| 배경 / 섹션 | `#EEF4FB` |
-| 테두리      | `#A8C4E0` |
-| 흰 배경     | `#FFFFFF` |
-| 골드 포인트 | `#E8A020` |
-| 성공        | `#2E8B57` |
-| 경고        | `#C0392B` |
+현재 Vitest 단위 테스트는 운영 리스크가 큰 유틸 중심으로 구성되어 있습니다.
+
+| 테스트 | 검증 대상 |
+|---|---|
+| `escapeHtml.test.ts` | 문의/답변 HTML 이스케이프 및 XSS 방어 보조 로직 |
+| `extractR2Key.test.ts` | R2 공개 URL에서 삭제 가능한 key만 안전하게 추출 |
+| `requireSession.test.ts` | 관리자 세션 검증 실패/성공 흐름 |
+
+---
+
+## 📦 Cloudflare R2 / 이미지 처리
+
+사진 업로드 흐름은 다음과 같습니다.
+
+1. 관리자가 사진을 선택합니다.
+2. 브라우저에서 face-api.js Tiny Face Detector 모델로 얼굴 위치를 감지합니다.
+3. 서버/API로 이미지와 얼굴 좌표를 전달합니다.
+4. Sharp가 WebP 변환, 리사이즈, 얼굴 블러를 수행합니다.
+5. 원본과 블러본을 Cloudflare R2에 저장합니다.
+6. 공개 사진 게시판에는 블러 처리된 이미지 URL만 노출합니다.
+7. 자동 감지가 부족하면 관리자 수동 블러 편집기로 추가 영역을 지정합니다.
+
+Next Image 설정은 WebP 포맷, quality 75, 긴 캐시 TTL을 사용합니다.
+
+---
+
+## 🔐 스팸·개인정보 보호
+
+상담문의와 채용 지원처럼 개인정보가 들어오는 입력 경로는 다음 방식을 조합합니다.
+
+- Honeypot 필드로 단순 봇 제출 차단
+- 폼 로드 후 3초 미만 제출 차단
+- Supabase 기반 IP rate limit 적용
+- 관리자 답변/문의 표시 전 HTML escape 처리
+- 오래된 문의 데이터 삭제용 Supabase Cron Job 권장
+- 사진 공개 전 얼굴 블러 처리로 이용자 초상권 보호
+
+### Supabase Cron Job 예시
+
+Supabase Dashboard → Database → Cron Jobs에서 설정합니다.
+
+| 항목 | 값 |
+|---|---|
+| Name | `delete-old-inquiries` |
+| Schedule | `0 3 * * *` |
+| Command | `delete from inquiries where created_at < now() - interval '3 years';` |
+
+---
+
+## 🔎 SEO / 배포
+
+- `app/sitemap.ts`: 정적 라우트와 DB 기반 동적 라우트 생성
+- `app/robots.ts`: `/admin` 크롤링 차단
+- `public/og-image.jpg`: SNS/카카오톡 공유 이미지
+- `next.config.ts`: Vercel 기본 도메인에서 운영 도메인으로 301 리다이렉트
+- Vercel Analytics / Speed Insights 적용
+
+배포는 Vercel에 연결된 GitHub 저장소에 push하면 자동으로 진행됩니다. Vercel 환경변수에는 `.env.local`과 동일한 값을 설정해야 합니다.
+
+배포 후 Google Search Console에 다음 sitemap을 제출합니다.
+
+```text
+https://sumgim-welfare.com/sitemap.xml
+```
+
+---
+
+## 🎨 디자인 시스템
+
+노인 사용자와 보호자를 함께 고려해 큰 기본 폰트, 높은 대비, 넓은 클릭 영역, 부드러운 블루 계열 팔레트를 사용합니다.
+
+| 역할 | 색상 |
+|---|---|
+| 주요 텍스트 | `#0E1A2E` |
+| 보조 텍스트 | `#1A2E4A` |
+| 메인 포인트 | `#1A56A0` |
+| 보조 포인트 | `#2E6DB4` |
+| 깊은 포인트 | `#0E3A78` |
+| 배경 | `#FFFFFF` |
+| 보조 배경 | `#F4F7FC` |
+| 섹션 배경 | `#EEF4FB` |
+| 테두리 | `#D6DFEB` |
+| 강조/경고 | `#E07A3A` |
+
+`app/globals.css`에서 모바일 기본 18px, 데스크탑 기본 20px에 해당하는 폰트 스케일을 적용합니다.
+
+---
+
+## 🔄 개발 현황
+
+### ✅ 완성된 기능
+
+**공개 페이지**
+- 홈, 센터 소개, 오시는 길, 수상·기관선정
+- 노인장기요양보험, 방문요양, 가족요양, 인지활동서비스, 등급 신청 안내
+- 본인부담금 계산기
+- 공지사항 목록/상세
+- 사진 게시판 앨범 목록/상세/라이트박스
+- 상담문의 + FAQ
+- 요양보호사 상시 구인 안내
+- 개인정보처리방침
+- sitemap/robots/OG 이미지
+
+**관리자**
+- Supabase Auth 로그인 및 `/admin` 미들웨어 보호
+- 공지사항 CRUD
+- 사진 카테고리 및 사진 업로드/삭제
+- 얼굴 자동 블러 및 수동 블러 편집
+- 상담문의 목록/상세/답변/상태 관리
+- 기존 요양보호사 지원자 상태/메모 관리
+- Hero 사진 관리
+- 수상·기관선정 관리
+- 본인부담금 계산기 기준값 관리
+- 오류 로그 조회
+
+**운영/보안**
+- Resend 이메일 발송
+- Solapi SMS 발송
+- Cloudflare R2 업로드/삭제
+- 문의 rate limit, honeypot, 제출 시간 체크
+- Supabase 보안 정책 보강 SQL
+- 핵심 유틸 Vitest 테스트
+
+### 🚧 개선 예정
+
+- [ ] 관리자 통계 대시보드 고도화
+- [ ] 상담문의 데이터 보존 정책 UI화
+- [ ] 사진 업로드 진행률 및 실패 재시도 UX 개선
+- [ ] 계산기 기준값 변경 이력 관리
+- [ ] 접근성 점검 결과 문서화
+
+---
+
+## 🙋 프로젝트 정보
+
+| 항목 | 내용 |
+|---|---|
+| 프로젝트명 | 안강 섬김 노인복지센터 홈페이지 |
+| 대상 기관 | 안강 섬김 노인복지센터 |
+| 위치 | 경상북도 경주시 안강읍 |
+| 운영 도메인 | `https://sumgim-welfare.com` |
+| 주요 사용자 | 보호자, 어르신, 센터 운영자, 요양보호사 구직자 |
+| 핵심 목적 | 센터 소개, 상담 접수, 공지/사진 운영, 구인 문의 안내, 장기요양 정보 제공 |
+
+---
+
+## 📄 라이선스
+
+본 프로젝트는 안강 섬김 노인복지센터의 기관 홈페이지 운영을 위해 제작되었습니다.
