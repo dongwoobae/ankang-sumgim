@@ -74,10 +74,10 @@ export default function Hero({ photos }: Props) {
           <Reveal variant="up-soft" stagger={3}>
             <div className="flex gap-3 flex-wrap items-center">
               <Link
-                href="/inquiry"
+                href="/board/photos"
                 className="inline-flex items-center gap-2.5 px-[26px] py-4 rounded-full text-[15px] font-semibold bg-white text-[var(--ink-2)] transition-all hover:bg-[var(--pop)] hover:text-white hover:-translate-y-px"
               >
-                지금 상담 문의 <span>→</span>
+                센터 둘러보기 <span>→</span>
               </Link>
               <a
                 href="tel:054-763-5988"
