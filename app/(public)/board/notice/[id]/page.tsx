@@ -16,7 +16,7 @@ const getNotice = unstable_cache(
     return data;
   },
   ["notice-detail"],
-  { revalidate: false }
+  { revalidate: false, tags: ["notice-detail"] }
 );
 
 async function getPrevNext(id: number) {
