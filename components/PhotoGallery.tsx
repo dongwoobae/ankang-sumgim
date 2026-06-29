@@ -132,9 +132,7 @@ export default function PhotoGallery({ photos, albumName }: Props) {
           tabIndex={-1}
           className="fixed inset-0 z-[100] flex flex-col"
           style={{ background: "rgba(8,14,26,0.92)", backdropFilter: "blur(8px)" }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) close();
-          }}
+          onClick={close}
         >
           {/* Top bar */}
           <div className="flex items-center justify-between px-6 py-[18px]">
@@ -145,7 +143,10 @@ export default function PhotoGallery({ photos, albumName }: Props) {
               </span>
             </div>
             <button
-              onClick={close}
+              onClick={(e) => {
+                e.stopPropagation();
+                close();
+              }}
               aria-label="닫기"
               className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-0 text-white transition-colors"
               style={{ background: "rgba(255,255,255,0.1)" }}
@@ -164,7 +165,10 @@ export default function PhotoGallery({ photos, albumName }: Props) {
           <div className="relative flex flex-1 items-center justify-center px-2 md:px-20">
             {photos.length > 1 && (
               <button
-                onClick={prev}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prev();
+                }}
                 aria-label="이전"
                 className="absolute left-4 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-0 text-white transition-colors"
                 style={{ background: "rgba(255,255,255,0.1)" }}
@@ -197,7 +201,10 @@ export default function PhotoGallery({ photos, albumName }: Props) {
 
             {photos.length > 1 && (
               <button
-                onClick={next}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  next();
+                }}
                 aria-label="다음"
                 className="absolute right-4 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-0 text-white transition-colors"
                 style={{ background: "rgba(255,255,255,0.1)" }}
@@ -223,7 +230,10 @@ export default function PhotoGallery({ photos, albumName }: Props) {
                 {current.caption}
               </div>
             )}
-            <div className="flex justify-center gap-1.5 overflow-x-auto pb-1">
+            <div
+              className="flex justify-center gap-1.5 overflow-x-auto pb-1"
+              onClick={(e) => e.stopPropagation()}
+            >
               {photos.map((p, i) => (
                 <button
                   key={p.id}
