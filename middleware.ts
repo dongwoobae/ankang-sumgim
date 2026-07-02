@@ -30,11 +30,11 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // getUser()는 매 요청 Supabase Auth 서버 왕복이라 관리자 페이지 내비게이션을 지연시킴.
+  // getClaims()는 JWT 서명을 로컬(JWKS 캐시)에서 검증하고, 토큰 만료 시에만 갱신 요청이 나간다.
+  const { data, error } = await supabase.auth.getClaims();
 
-  if (!user) {
+  if (error || !data?.claims) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
