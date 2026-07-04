@@ -6,6 +6,7 @@ import { saveAward, deleteAward, getAwards } from "@/app/actions/admin/awards";
 import { Trash2, ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { uploadPhoto } from "@/app/actions/admin/uploadPhoto";
+import { compressImageFile } from "@/lib/client-image-compress";
 
 interface Award {
   id: number;
@@ -53,7 +54,8 @@ export default function AdminAwardsPage() {
     const file = fileRef.current?.files?.[0];
     if (file) {
       const formData = new FormData();
-      formData.append("file", file);
+      // Vercel 함수 본문 4.5MB 한도 대응 — 큰 원본만 캔버스로 축소해 전송
+      formData.append("file", await compressImageFile(file));
       const result = await uploadPhoto(formData, "awards");
       if (result.error || !result.url) {
         setError(result.error ?? "이미지 업로드 실패");

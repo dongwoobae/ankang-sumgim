@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import BlurEditor from "@/components/admin/BlurEditor";
+import { compressImageFile } from "@/lib/client-image-compress";
 
 type Photo = {
   id: number;
@@ -132,6 +133,9 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
 
     for (let i = 0; i < fileArray.length; i++) {
       setProgress({ current: i + 1, total: fileArray.length });
+      // 압축을 먼저 수행해 업로드 파일과 얼굴 좌표의 기준 이미지를 일치시킨다.
+      // (Vercel 함수 본문 4.5MB 한도 대응 — 큰 원본만 캔버스로 축소됨)
+      fileArray[i] = await compressImageFile(fileArray[i]);
       const regions = await detectFaces(fileArray[i]);
       detectionResults.push(regions);
     }
@@ -204,7 +208,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
   // ─── 진행 라벨 ───────────────────────────────────────────────────────────
   const progressLabel =
     phase === "detect"
-      ? `얼굴 감지 중... (${progress.current}/${progress.total})`
+      ? `압축·얼굴 감지 중... (${progress.current}/${progress.total})`
       : phase === "upload"
         ? `업로드 중... (${progress.current}/${progress.total})`
         : "처리 중...";
@@ -291,8 +295,8 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
               </p>
               <p className="text-[#5A7A99] text-xs">
                 {phase === "detect"
-                  ? "얼굴 감지 중입니다. 잠시 기다려 주세요."
-                  : "이미지를 압축하고 업로드하는 중입니다."}
+                  ? "이미지 압축과 얼굴 감지 중입니다. 잠시 기다려 주세요."
+                  : "이미지를 업로드하는 중입니다."}
               </p>
             </div>
           ) : (
