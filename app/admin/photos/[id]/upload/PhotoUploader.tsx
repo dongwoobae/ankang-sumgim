@@ -217,7 +217,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
   function handleDelete(photo: Photo) {
     if (!confirm("이 사진을 삭제하시겠습니까?")) return;
     startDeleteTransition(async () => {
-      await deletePhoto(String(photo.id), photo.url, photo.original_url);
+      await deletePhoto(String(photo.id));
       setPhotos((prev) => prev.filter((p) => p.id !== photo.id));
     });
   }

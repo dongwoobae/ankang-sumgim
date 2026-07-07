@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { saveAward, deleteAward, getAwards } from "@/app/actions/admin/awards";
 import { Trash2, ImageIcon } from "lucide-react";
 import Image from "next/image";
@@ -103,7 +102,7 @@ export default function AdminAwardsPage() {
 
   async function handleDelete(award: Award) {
     if (!confirm(`"${award.title}" 을 삭제할까요?`)) return;
-    await deleteAward(award.id, award.image_url);
+    await deleteAward(award.id);
     setAwards((prev) => prev.filter((a) => a.id !== award.id));
   }
 

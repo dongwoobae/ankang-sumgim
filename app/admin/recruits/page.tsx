@@ -1,6 +1,6 @@
 import { adminSupabase } from "@/lib/supabase/admin";
 import { updateApplicationStatus, updateApplicationMemo } from "@/app/actions/admin/recruits";
-import { Briefcase, CheckCircle, Clock, PhoneCall, UserCheck, XCircle } from "lucide-react";
+import { Briefcase, PhoneCall } from "lucide-react";
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   pending: { label: "검토 대기", color: "text-[#1A56A0]" },

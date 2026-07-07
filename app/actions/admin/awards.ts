@@ -32,7 +32,7 @@ export async function saveAward(payload: {
   return { error: "", id: data.id };
 }
 
-export async function deleteAward(id: number, imageUrl: string | null) {
+export async function deleteAward(id: number) {
   await requireSession();
   const { data: award } = await adminSupabase
     .from("awards")

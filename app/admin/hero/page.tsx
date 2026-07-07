@@ -75,7 +75,7 @@ export default function HeroPhotoPage() {
 
   async function handleDelete(photo: HeroPhoto) {
     if (!confirm("이 사진을 삭제할까요?")) return;
-    await deleteHeroPhoto(photo.id, photo.url);
+    await deleteHeroPhoto(photo.id);
     setPhotos((prev) => prev.filter((p) => p.id !== photo.id));
   }
 

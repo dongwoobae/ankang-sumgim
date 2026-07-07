@@ -30,7 +30,7 @@ export async function saveHeroPhoto(
   return { error: "", id: data.id };
 }
 
-export async function deleteHeroPhoto(id: string, url: string) {
+export async function deleteHeroPhoto(id: string) {
   await requireSession();
   const { data: photo } = await adminSupabase
     .from("hero_photos")

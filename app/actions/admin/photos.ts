@@ -73,11 +73,7 @@ export async function deleteCategory(id: string) {
 }
 
 // ── 사진 단건 삭제 (블러+원본 모두 삭제) ─────────────────────
-export async function deletePhoto(
-  id: string,
-  url: string,
-  originalUrl?: string | null,
-) {
+export async function deletePhoto(id: string) {
   await requireSession();
   const { data: photo } = await adminSupabase
     .from("photos")
