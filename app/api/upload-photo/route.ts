@@ -5,6 +5,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import { uploadToR2 } from "@/lib/r2";
+import {
+  isFaceRegion,
+  scaleFaceRegions,
+  type FaceRegion,
+} from "@/lib/blur-regions";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
@@ -13,17 +18,6 @@ const FOLDER_PATTERN = /^(photos|awards|hero)(\/[A-Za-z0-9_-]+)*$/;
 export type UploadPhotoResponse =
   | { url: string; originalUrl: string | null }
   | { error: string };
-
-type FaceRegion = { x: number; y: number; width: number; height: number };
-
-function isFaceRegion(value: unknown): value is FaceRegion {
-  if (!value || typeof value !== "object") return false;
-  const region = value as Record<string, unknown>;
-  return ["x", "y", "width", "height"].every((key) => {
-    const n = region[key];
-    return typeof n === "number" && Number.isFinite(n) && n >= 0;
-  });
-}
 
 export async function POST(
   req: NextRequest,
@@ -143,21 +137,15 @@ export async function POST(
 
     // 블러 합성
     const composites = await Promise.all(
-      faceRegions
-        .map((face) => ({
-          fx: Math.max(0, Math.round((face.x / imgW) * resizedW)),
-          fy: Math.max(0, Math.round((face.y / imgH) * resizedH)),
-          fw: Math.min(Math.round((face.width / imgW) * resizedW), resizedW),
-          fh: Math.min(Math.round((face.height / imgH) * resizedH), resizedH),
-        }))
-        .filter(({ fw, fh }) => fw > 4 && fh > 4)
-        .map(async ({ fx, fy, fw, fh }) => {
+      scaleFaceRegions(faceRegions, imgW, imgH, resizedW, resizedH).map(
+        async (region) => {
           const blurredRegion = await sharp(originalCompressed)
-            .extract({ left: fx, top: fy, width: fw, height: fh })
+            .extract(region)
             .blur(28)
             .toBuffer();
-          return { input: blurredRegion, left: fx, top: fy };
-        }),
+          return { input: blurredRegion, left: region.left, top: region.top };
+        },
+      ),
     );
 
     const blurredBuffer =

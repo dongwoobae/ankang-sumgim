@@ -7,15 +7,9 @@
 import { requireSession } from "@/lib/auth/requireSession";
 import sharp from "sharp";
 import { uploadToR2 } from "@/lib/r2";
+import { scaleFaceRegions, type FaceRegion } from "@/lib/blur-regions";
 
 const FOLDER_PATTERN = /^(photos|awards|hero)(\/[A-Za-z0-9_-]+)*$/;
-
-export type FaceRegion = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
 
 type UploadResult =
   | { url: string; originalUrl: string | null; error?: never }
@@ -77,45 +71,31 @@ export async function uploadPhoto(
       .webp({ quality: 75 })
       .toBuffer();
 
-    // 3. 블러 처리: 각 얼굴 영역을 추출 → blur → 원래 위치에 합성
-    // 리사이즈 전 원본 기준 좌표이므로 스케일 계산 필요
-    const scaleX = imgW / Math.min(imgW, 1920);
-    const scaleY = imgH / Math.min(imgH, 1920);
+    // 3. 블러 처리: 얼굴 좌표를 리사이즈본 기준으로 변환해 추출 → blur → 합성
+    const resizedMeta = await sharp(originalCompressed).metadata();
+    const composites = await Promise.all(
+      scaleFaceRegions(
+        faceRegions,
+        imgW,
+        imgH,
+        resizedMeta.width ?? imgW,
+        resizedMeta.height ?? imgH,
+      ).map(async (region) => {
+        const faceBlurred = await sharp(originalCompressed)
+          .extract(region)
+          .blur(28)
+          .toBuffer();
+        return { input: faceBlurred, left: region.left, top: region.top };
+      }),
+    );
 
-    // 리사이즈된 이미지에서 작업
-    const resizedW = Math.round(imgW / Math.max(scaleX, scaleY));
-    const resizedH = Math.round(imgH / Math.max(scaleX, scaleY));
-
-    let blurPipeline = sharp(originalCompressed);
-
-    for (const face of faceRegions) {
-      // 좌표를 리사이즈된 이미지 기준으로 변환
-      const scale = Math.max(imgW / resizedW, imgH / resizedH);
-      const fx = Math.max(0, Math.round(face.x / scale));
-      const fy = Math.max(0, Math.round(face.y / scale));
-      const fw = Math.min(
-        Math.round(face.width / scale),
-        resizedW - fx,
-      );
-      const fh = Math.min(
-        Math.round(face.height / scale),
-        resizedH - fy,
-      );
-
-      if (fw <= 4 || fh <= 4) continue;
-
-      // 얼굴 영역 추출 → 강하게 blur → 합성
-      const faceBlurred = await sharp(originalCompressed)
-        .extract({ left: fx, top: fy, width: fw, height: fh })
-        .blur(28)
-        .toBuffer();
-
-      blurPipeline = blurPipeline.composite([
-        { input: faceBlurred, left: fx, top: fy },
-      ]);
-    }
-
-    const blurredBuffer = await blurPipeline.webp({ quality: 75 }).toBuffer();
+    const blurredBuffer =
+      composites.length > 0
+        ? await sharp(originalCompressed)
+            .composite(composites)
+            .webp({ quality: 75 })
+            .toBuffer()
+        : originalCompressed;
 
     // 4. R2에 두 버전 병렬 업로드
     const blurredKey = `${folder}/blurred/${timestamp}.webp`;

@@ -7,7 +7,7 @@
 "use client";
 
 import { useState, useRef, useTransition, useEffect } from "react";
-import type { FaceRegion } from "@/app/actions/admin/uploadPhoto";
+import type { FaceRegion } from "@/lib/blur-regions";
 import {
   savePhotoMetadata,
   deletePhoto,
