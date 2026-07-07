@@ -1,10 +1,17 @@
 "use client";
 
 import { Phone, Music, Pause, ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { TRACKS } from "@/lib/music.config";
 
 type MusicStatus = "idle" | "playing" | "paused";
+
+// hover 불가(터치) 기기 감지 — matchMedia는 외부 시스템이므로 store 구독으로 읽는다
+function subscribeHoverNone(onChange: () => void) {
+  const mql = window.matchMedia("(hover: none)");
+  mql.addEventListener("change", onChange);
+  return () => mql.removeEventListener("change", onChange);
+}
 
 function KakaoIcon() {
   return (
@@ -19,7 +26,6 @@ export default function FloatingButton() {
   const [kakaoHovered, setKakaoHovered] = useState(false);
   const [musicHovered, setMusicHovered] = useState(false);
   const [musicTapped, setMusicTapped] = useState(false); // 터치: 탭하면 펼침
-  const [isTouch, setIsTouch] = useState(false);
   const [status, setStatus] = useState<MusicStatus>("idle");
   const [currentIndex, setCurrentIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -27,10 +33,12 @@ export default function FloatingButton() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // hover 불가(터치) 기기 감지 → 펼침을 탭으로 제어
-  useEffect(() => {
-    setIsTouch(window.matchMedia("(hover: none)").matches);
-  }, []);
+  // hover 불가(터치) 기기 → 펼침을 탭으로 제어 (SSR에서는 false)
+  const isTouch = useSyncExternalStore(
+    subscribeHoverNone,
+    () => window.matchMedia("(hover: none)").matches,
+    () => false,
+  );
 
   // 데스크탑은 hover, 터치는 탭 상태로 펼침 결정
   const musicExpanded = isTouch ? musicTapped : musicHovered;
