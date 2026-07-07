@@ -10,6 +10,7 @@ import {
   scaleFaceRegions,
   type FaceRegion,
 } from "@/lib/blur-regions";
+import { detectImageType } from "@/lib/image-type";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
@@ -105,6 +106,15 @@ export async function POST(
   // ── Sharp 처리 + R2 업로드 ────────────────────────────────────────────────
   try {
     const buffer = Buffer.from(await file.arrayBuffer());
+
+    // file.type은 클라이언트 선언값이라 위조 가능 → 매직바이트로 실제 포맷 확인
+    if (!detectImageType(buffer)) {
+      return NextResponse.json(
+        { error: "이미지 파일이 아닙니다." },
+        { status: 400 },
+      );
+    }
+
     const timestamp = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
     // 얼굴 없는 경우: 단순 압축 업로드

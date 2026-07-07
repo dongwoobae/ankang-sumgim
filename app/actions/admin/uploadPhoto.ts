@@ -8,6 +8,7 @@ import { requireSession } from "@/lib/auth/requireSession";
 import sharp from "sharp";
 import { uploadToR2 } from "@/lib/r2";
 import { scaleFaceRegions, type FaceRegion } from "@/lib/blur-regions";
+import { detectImageType } from "@/lib/image-type";
 
 const FOLDER_PATTERN = /^(photos|awards|hero)(\/[A-Za-z0-9_-]+)*$/;
 
@@ -42,6 +43,12 @@ export async function uploadPhoto(
 
   try {
     const buffer = Buffer.from(await file.arrayBuffer());
+
+    // file.type은 클라이언트 선언값이라 위조 가능 → 매직바이트로 실제 포맷 확인
+    if (!detectImageType(buffer)) {
+      return { error: "이미지 파일이 아닙니다." };
+    }
+
     const timestamp = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
     // ── 얼굴 없는 경우: 기존 방식대로 단순 업로드 ─────────────
