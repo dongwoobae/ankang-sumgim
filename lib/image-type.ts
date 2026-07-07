@@ -1,7 +1,8 @@
 // lib/image-type.ts
 // 매직바이트로 실제 이미지 포맷을 판별한다.
 // 클라이언트가 선언하는 file.type은 위조 가능하므로 서버에서 버퍼를 직접 확인.
-// 허용 포맷(sharp로 재인코딩 가능한 것)만 반환하고 그 외는 null.
+// 식별 가능한 포맷만 반환하고 그 외는 null. 허용 여부는 호출부 allowlist에서
+// 판단한다 (예: HEIC는 식별되지만 sharp 프리빌드가 디코딩 못 해 거절 대상).
 
 export type DetectedImageType =
   | "image/jpeg"

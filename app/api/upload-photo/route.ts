@@ -65,10 +65,11 @@ export async function POST(
     return NextResponse.json({ error: "잘못된 folder" }, { status: 400 });
   }
 
-  const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/heic"];
+  // HEIC 제외: Vercel의 sharp 프리빌드에 HEVC 디코더가 없어 처리 불가
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
   if (!allowedTypes.includes(file.type)) {
     return NextResponse.json(
-      { error: `지원하지 않는 형식: ${file.type}` },
+      { error: `지원하지 않는 형식: ${file.type} (HEIC는 JPG로 변환 후 업로드)` },
       { status: 400 },
     );
   }
@@ -108,9 +109,10 @@ export async function POST(
     const buffer = Buffer.from(await file.arrayBuffer());
 
     // file.type은 클라이언트 선언값이라 위조 가능 → 매직바이트로 실제 포맷 확인
-    if (!detectImageType(buffer)) {
+    const detected = detectImageType(buffer);
+    if (!detected || !allowedTypes.includes(detected)) {
       return NextResponse.json(
-        { error: "이미지 파일이 아닙니다." },
+        { error: "이미지 파일이 아니거나 지원하지 않는 형식입니다." },
         { status: 400 },
       );
     }
