@@ -1,12 +1,13 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
 import {
   saveHeroPhoto,
   deleteHeroPhoto,
   getHeroPhotos,
 } from "@/app/actions/admin/hero";
+import { uploadPhoto } from "@/app/actions/admin/uploadPhoto";
+import { compressImageFile } from "@/lib/client-image-compress";
 import { Trash2, ImageIcon } from "lucide-react";
 import Image from "next/image";
 
@@ -38,30 +39,23 @@ export default function HeroPhotoPage() {
 
     setUploading(true);
     setError("");
-    const supabase = createClient();
 
-    const ext = file.name.split(".").pop() ?? "jpg";
-    const fileName = `hero_${Date.now()}.${ext}`;
-    const { error: uploadError } = await supabase.storage
-      .from("hero")
-      .upload(fileName, file, { upsert: false });
-
-    if (uploadError) {
-      setError("업로드 실패: " + uploadError.message);
+    const formData = new FormData();
+    // Vercel 함수 본문 4.5MB 한도 대응 — 큰 원본만 캔버스로 축소해 전송
+    formData.append("file", await compressImageFile(file));
+    const uploaded = await uploadPhoto(formData, "hero");
+    if (uploaded.error || !uploaded.url) {
+      setError(uploaded.error ?? "이미지 업로드 실패");
       setUploading(false);
       return;
     }
-
-    const {
-      data: { publicUrl },
-    } = supabase.storage.from("hero").getPublicUrl(fileName);
 
     const nextOrder =
       photos.length > 0
         ? Math.max(...photos.map((p) => p.display_order)) + 1
         : 1;
 
-    const result = await saveHeroPhoto(publicUrl, nextOrder);
+    const result = await saveHeroPhoto(uploaded.url, nextOrder);
     if (result.error) {
       setError(result.error);
       setUploading(false);
@@ -71,7 +65,7 @@ export default function HeroPhotoPage() {
     // handleUpload 성공 후 fetchPhotos() 대신
     const newPhoto: HeroPhoto = {
       id: result.id!,
-      url: publicUrl,
+      url: uploaded.url,
       display_order: nextOrder,
     };
     setPhotos((prev) => [...prev, newPhoto]);

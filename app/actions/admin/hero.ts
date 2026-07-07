@@ -1,6 +1,5 @@
 // app/actions/admin/hero.ts
-// 변경점: supabase.storage → R2 (삭제 부분)
-// 업로드는 hero/page.tsx에서 uploadPhoto 서버 액션으로 호출
+// 업로드·삭제 모두 R2 기준 (업로드는 hero/page.tsx에서 uploadPhoto 서버 액션 호출)
 
 "use server";
 
