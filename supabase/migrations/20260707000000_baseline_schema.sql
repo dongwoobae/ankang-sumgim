@@ -4,12 +4,11 @@
 -- 운영 DB public 스키마의 "이미 적용된 상태"를 pg_catalog 기반으로
 -- 덤프한 것. 운영 DB에는 재실행하지 말 것.
 --
--- 신규 DB 재현 시 실행 순서 주의:
---   1) 이 파일을 먼저 실행
---   2) 그 다음 20260514000000_security_fixes.sql 실행
---   security_fixes가 타임스탬프상 앞서지만, 그 안의
---   REVOKE ... ON FUNCTION rls_auto_enable() 이 이 파일에서 만드는
---   함수의 존재를 전제하므로 CLI 자동 순차 적용은 불가.
+-- 이 파일이 유일한 베이스라인이다. 이전 마이그레이션
+-- (20260514 security_fixes)은 결과가 이 스냅샷에 반영돼 있어
+-- 삭제했다 (rls_auto_enable REVOKE는 아래에 직접 포함).
+-- 신규 DB는 이 파일 하나로 재현하고, 이후 변경만 새 마이그레이션으로
+-- 추가한다.
 --
 -- 포함하지 않는 것:
 --   - storage 버킷/정책 (파일 저장은 현재 Cloudflare R2 사용)
@@ -246,6 +245,11 @@ $function$;
 create event trigger ensure_rls
   on ddl_command_end
   execute function public.rls_auto_enable();
+
+-- SECURITY DEFINER 함수가 PostgREST RPC로 노출되지 않도록 차단
+-- (구 security_fixes 마이그레이션에서 흡수 — 권한 상태는 덤프에 안 잡힘)
+REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM anon;
+REVOKE EXECUTE ON FUNCTION public.rls_auto_enable() FROM authenticated;
 
 -- ── rls & policies ──────────────────────────────────────────
 -- admin 쓰기 작업은 전부 service_role(RLS 우회)로 수행하므로
