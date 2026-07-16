@@ -13,10 +13,7 @@ export type InquiryState = {
 const PHONE_RE = /^(01[016789]|0[2-9]\d?)-\d{3,4}-\d{4}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export async function sendInquiry(
-  _prev: InquiryState,
-  formData: FormData,
-): Promise<InquiryState> {
+export async function sendInquiry(_prev: InquiryState, formData: FormData): Promise<InquiryState> {
   // ── 스팸 방지 ──────────────────────────────────────────────
   // 1. Honeypot: 사람에겐 숨겨진 필드 — 봇만 채움
   const honeypot = (formData.get("website") as string) ?? "";
@@ -95,15 +92,12 @@ export async function sendInquiry(
   if (dbError) {
     return {
       success: false,
-      message:
-        "접수 중 오류가 발생했습니다. 전화로 문의해 주세요. (054-763-5988)",
+      message: "접수 중 오류가 발생했습니다. 전화로 문의해 주세요. (054-763-5988)",
     };
   }
 
   // 2. 이메일 알림 (실패해도 무시)
-  const emailTasks = [
-    sendInquiryNotificationEmail({ name, phone, email, serviceType, content }),
-  ];
+  const emailTasks = [sendInquiryNotificationEmail({ name, phone, email, serviceType, content })];
   if (email) {
     emailTasks.push(sendInquiryConfirmationEmail({ name, phone, serviceType, content, to: email }));
   }

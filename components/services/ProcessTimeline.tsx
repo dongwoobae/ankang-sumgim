@@ -34,24 +34,16 @@ export default function ProcessTimeline({ cols, steps }: Props) {
           <div key={i} className="px-2 text-center">
             <div
               className={`relative z-10 mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full border-2 text-base font-extrabold transition-all ${
-                i === 0
-                  ? "border-pop bg-pop text-white"
-                  : "border-line bg-white text-pop"
+                i === 0 ? "border-pop bg-pop text-white" : "border-line bg-white text-pop"
               }`}
             >
               {s.n}
             </div>
-            <div
-              className="mb-1 text-sm font-bold"
-              style={{ color: "var(--ink-2)" }}
-            >
+            <div className="mb-1 text-sm font-bold" style={{ color: "var(--ink-2)" }}>
               {s.title}
             </div>
             {s.desc && (
-              <div
-                className="text-xs leading-relaxed"
-                style={{ color: "var(--muted)" }}
-              >
+              <div className="text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
                 {s.desc}
               </div>
             )}

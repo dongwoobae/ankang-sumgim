@@ -9,11 +9,7 @@ type SidebarNavProps = {
   onNavigate: () => void;
 };
 
-export default function SidebarNav({
-  collapsed,
-  pathname,
-  onNavigate,
-}: SidebarNavProps) {
+export default function SidebarNav({ collapsed, pathname, onNavigate }: SidebarNavProps) {
   function isActive(href: string, exact: boolean) {
     return exact ? pathname === href : pathname.startsWith(href);
   }

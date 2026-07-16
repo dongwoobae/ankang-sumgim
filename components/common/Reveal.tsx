@@ -31,14 +31,13 @@ export default function Reveal({
           io.unobserve(el);
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
-  const base =
-    "transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]";
+  const base = "transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]";
   const off =
     variant === "up-strong"
       ? "opacity-0 translate-y-12"

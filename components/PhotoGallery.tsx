@@ -34,9 +34,7 @@ export default function PhotoGallery({ photos, albumName }: Props) {
   const current = isOpen ? photos[lightboxIndex] : null;
 
   const prev = useCallback(() => {
-    setLightboxIndex((i) =>
-      i !== null ? (i - 1 + photos.length) % photos.length : null,
-    );
+    setLightboxIndex((i) => (i !== null ? (i - 1 + photos.length) % photos.length : null));
   }, [photos.length]);
 
   const next = useCallback(() => {
@@ -111,8 +109,7 @@ export default function PhotoGallery({ photos, albumName }: Props) {
               <span
                 className="absolute inset-x-0 bottom-0 translate-y-2 px-4 pb-3 pt-8 text-[13px] font-medium text-white opacity-0 transition-all duration-[250ms] group-hover:translate-y-0 group-hover:opacity-100"
                 style={{
-                  background:
-                    "linear-gradient(180deg, transparent 0%, rgba(14,26,46,0.7) 100%)",
+                  background: "linear-gradient(180deg, transparent 0%, rgba(14,26,46,0.7) 100%)",
                 }}
               >
                 {photo.caption}

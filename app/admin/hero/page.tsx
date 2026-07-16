@@ -1,11 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import {
-  saveHeroPhoto,
-  deleteHeroPhoto,
-  getHeroPhotos,
-} from "@/app/actions/admin/hero";
+import { saveHeroPhoto, deleteHeroPhoto, getHeroPhotos } from "@/app/actions/admin/hero";
 import { uploadPhoto } from "@/app/actions/admin/uploadPhoto";
 import { compressImageFile } from "@/lib/client-image-compress";
 import { Trash2, ImageIcon } from "lucide-react";
@@ -50,10 +46,7 @@ export default function HeroPhotoPage() {
       return;
     }
 
-    const nextOrder =
-      photos.length > 0
-        ? Math.max(...photos.map((p) => p.display_order)) + 1
-        : 1;
+    const nextOrder = photos.length > 0 ? Math.max(...photos.map((p) => p.display_order)) + 1 : 1;
 
     const result = await saveHeroPhoto(uploaded.url, nextOrder);
     if (result.error) {
@@ -82,11 +75,7 @@ export default function HeroPhotoPage() {
   return (
     <div className="p-8 max-w-4xl">
       <div className="mb-8">
-        <h1
-          className="text-[#1A2E4A] text-2xl font-bold"
-        >
-          메인 사진 관리
-        </h1>
+        <h1 className="text-[#1A2E4A] text-2xl font-bold">메인 사진 관리</h1>
         <p className="text-[#5A7A99] text-sm mt-1">
           홈페이지 상단에 표시되는 사진을 관리합니다 (최대 5장 권장)
         </p>
@@ -94,11 +83,7 @@ export default function HeroPhotoPage() {
 
       {/* 업로드 */}
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6 mb-8">
-        <h2
-          className="text-[#1A2E4A] font-bold mb-4"
-        >
-          사진 추가
-        </h2>
+        <h2 className="text-[#1A2E4A] font-bold mb-4">사진 추가</h2>
         <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-[#A8C4E0] rounded-xl cursor-pointer hover:border-[#1A56A0] hover:bg-[#EEF4FB] transition-colors">
           <ImageIcon size={28} className="text-[#A8C4E0] mb-2" />
           <span className="text-[#5A7A99] text-sm">
@@ -118,15 +103,9 @@ export default function HeroPhotoPage() {
 
       {/* 사진 목록 */}
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
-        <h2
-          className="text-[#1A2E4A] font-bold mb-4"
-        >
-          등록된 사진 ({photos.length}장)
-        </h2>
+        <h2 className="text-[#1A2E4A] font-bold mb-4">등록된 사진 ({photos.length}장)</h2>
         {photos.length === 0 ? (
-          <p className="text-[#5A7A99] text-sm text-center py-8">
-            등록된 사진이 없습니다.
-          </p>
+          <p className="text-[#5A7A99] text-sm text-center py-8">등록된 사진이 없습니다.</p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {photos.map((photo) => (

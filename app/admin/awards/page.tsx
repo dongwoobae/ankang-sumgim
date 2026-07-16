@@ -64,10 +64,7 @@ export default function AdminAwardsPage() {
       image_url = result.url;
     }
 
-    const nextOrder =
-      awards.length > 0
-        ? Math.max(...awards.map((a) => a.display_order)) + 1
-        : 1;
+    const nextOrder = awards.length > 0 ? Math.max(...awards.map((a) => a.display_order)) + 1 : 1;
 
     const result = await saveAward({
       title: form.title,
@@ -109,23 +106,13 @@ export default function AdminAwardsPage() {
   return (
     <div className="p-8 max-w-4xl">
       <div className="mb-8">
-        <h1
-          className="text-[#1A2E4A] text-2xl font-bold"
-        >
-          수상·기관선정 관리
-        </h1>
-        <p className="text-[#5A7A99] text-sm mt-1">
-          수상 내역을 등록하고 관리합니다
-        </p>
+        <h1 className="text-[#1A2E4A] text-2xl font-bold">수상·기관선정 관리</h1>
+        <p className="text-[#5A7A99] text-sm mt-1">수상 내역을 등록하고 관리합니다</p>
       </div>
 
       {/* 등록 폼 */}
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6 mb-8 space-y-4">
-        <h2
-          className="text-[#1A2E4A] font-bold"
-        >
-          새 수상 내역 등록
-        </h2>
+        <h2 className="text-[#1A2E4A] font-bold">새 수상 내역 등록</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -163,8 +150,7 @@ export default function AdminAwardsPage() {
           </div>
           <div>
             <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
-              수상 사진{" "}
-              <span className="text-[#5A7A99] text-xs font-normal">(선택)</span>
+              수상 사진 <span className="text-[#5A7A99] text-xs font-normal">(선택)</span>
             </label>
             <input
               ref={fileRef}
@@ -177,8 +163,7 @@ export default function AdminAwardsPage() {
 
         <div>
           <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
-            설명{" "}
-            <span className="text-[#5A7A99] text-xs font-normal">(선택)</span>
+            설명 <span className="text-[#5A7A99] text-xs font-normal">(선택)</span>
           </label>
           <textarea
             value={form.description}
@@ -202,15 +187,9 @@ export default function AdminAwardsPage() {
 
       {/* 목록 */}
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
-        <h2
-          className="text-[#1A2E4A] font-bold mb-4"
-        >
-          등록된 수상 내역 ({awards.length}건)
-        </h2>
+        <h2 className="text-[#1A2E4A] font-bold mb-4">등록된 수상 내역 ({awards.length}건)</h2>
         {awards.length === 0 ? (
-          <p className="text-[#5A7A99] text-sm text-center py-8">
-            등록된 수상 내역이 없습니다.
-          </p>
+          <p className="text-[#5A7A99] text-sm text-center py-8">등록된 수상 내역이 없습니다.</p>
         ) : (
           <div className="space-y-3">
             {awards.map((award) => (
@@ -232,12 +211,9 @@ export default function AdminAwardsPage() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[#1A2E4A] font-bold text-sm truncate">
-                    {award.title}
-                  </p>
+                  <p className="text-[#1A2E4A] font-bold text-sm truncate">{award.title}</p>
                   <p className="text-[#5A7A99] text-xs">
-                    {award.org} ·{" "}
-                    {new Date(award.awarded_at).toLocaleDateString("ko-KR")}
+                    {award.org} · {new Date(award.awarded_at).toLocaleDateString("ko-KR")}
                   </p>
                 </div>
                 <button

@@ -34,9 +34,7 @@ export async function sendSMS(to: string, text: string): Promise<boolean> {
 
 /** 답변 완료 SMS (문의자에게 - 답변 내용 포함) */
 export function buildReplySMS(name: string, replyContent: string) {
-  const body = replyContent.length > 200
-    ? replyContent.slice(0, 200) + "..."
-    : replyContent;
+  const body = replyContent.length > 200 ? replyContent.slice(0, 200) + "..." : replyContent;
   return `[안강섬김노인복지센터]
 ${name}님, 상담 문의에 답변이 등록되었습니다.
 

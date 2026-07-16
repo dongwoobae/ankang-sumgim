@@ -5,24 +5,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import { uploadToR2 } from "@/lib/r2";
-import {
-  isFaceRegion,
-  scaleFaceRegions,
-  type FaceRegion,
-} from "@/lib/blur-regions";
+import { isFaceRegion, scaleFaceRegions, type FaceRegion } from "@/lib/blur-regions";
 import { detectImageType } from "@/lib/image-type";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 const FOLDER_PATTERN = /^(photos|awards|hero)(\/[A-Za-z0-9_-]+)*$/;
 
-export type UploadPhotoResponse =
-  | { url: string; originalUrl: string | null }
-  | { error: string };
+export type UploadPhotoResponse = { url: string; originalUrl: string | null } | { error: string };
 
-export async function POST(
-  req: NextRequest,
-): Promise<NextResponse<UploadPhotoResponse>> {
+export async function POST(req: NextRequest): Promise<NextResponse<UploadPhotoResponse>> {
   // ── 인증 확인 ─────────────────────────────────────────────────────────────
   const cookieStore = await cookies();
   const supabase = createServerClient(
@@ -55,10 +47,7 @@ export async function POST(
   const faceRegionsRaw = formData.get("faceRegions") as string | null;
 
   if (!file || !folder) {
-    return NextResponse.json(
-      { error: "file, folder는 필수입니다." },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "file, folder는 필수입니다." }, { status: 400 });
   }
 
   if (!FOLDER_PATTERN.test(folder)) {
@@ -75,32 +64,19 @@ export async function POST(
   }
 
   if (file.size > 30 * 1024 * 1024) {
-    return NextResponse.json(
-      { error: "파일 크기가 30MB를 초과합니다." },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "파일 크기가 30MB를 초과합니다." }, { status: 400 });
   }
 
   let faceRegions: FaceRegion[] = [];
   if (faceRegionsRaw) {
     try {
       const parsed = JSON.parse(faceRegionsRaw) as unknown;
-      if (
-        !Array.isArray(parsed) ||
-        parsed.length > 50 ||
-        !parsed.every(isFaceRegion)
-      ) {
-        return NextResponse.json(
-          { error: "잘못된 faceRegions" },
-          { status: 400 },
-        );
+      if (!Array.isArray(parsed) || parsed.length > 50 || !parsed.every(isFaceRegion)) {
+        return NextResponse.json({ error: "잘못된 faceRegions" }, { status: 400 });
       }
       faceRegions = parsed;
     } catch {
-      return NextResponse.json(
-        { error: "잘못된 faceRegions" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "잘못된 faceRegions" }, { status: 400 });
     }
   }
 
@@ -149,44 +125,25 @@ export async function POST(
 
     // 블러 합성
     const composites = await Promise.all(
-      scaleFaceRegions(faceRegions, imgW, imgH, resizedW, resizedH).map(
-        async (region) => {
-          const blurredRegion = await sharp(originalCompressed)
-            .extract(region)
-            .blur(28)
-            .toBuffer();
-          return { input: blurredRegion, left: region.left, top: region.top };
-        },
-      ),
+      scaleFaceRegions(faceRegions, imgW, imgH, resizedW, resizedH).map(async (region) => {
+        const blurredRegion = await sharp(originalCompressed).extract(region).blur(28).toBuffer();
+        return { input: blurredRegion, left: region.left, top: region.top };
+      }),
     );
 
     const blurredBuffer =
       composites.length > 0
-        ? await sharp(originalCompressed)
-            .composite(composites)
-            .webp({ quality: 75 })
-            .toBuffer()
+        ? await sharp(originalCompressed).composite(composites).webp({ quality: 75 }).toBuffer()
         : originalCompressed;
 
     const [url, originalUrl] = await Promise.all([
-      uploadToR2(
-        `${folder}/blurred/${timestamp}.webp`,
-        blurredBuffer,
-        "image/webp",
-      ),
-      uploadToR2(
-        `${folder}/original/${timestamp}.webp`,
-        originalCompressed,
-        "image/webp",
-      ),
+      uploadToR2(`${folder}/blurred/${timestamp}.webp`, blurredBuffer, "image/webp"),
+      uploadToR2(`${folder}/original/${timestamp}.webp`, originalCompressed, "image/webp"),
     ]);
 
     return NextResponse.json({ url, originalUrl });
   } catch (err) {
     console.error("[api/upload-photo] 오류:", err);
-    return NextResponse.json(
-      { error: "업로드 중 서버 오류가 발생했습니다." },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "업로드 중 서버 오류가 발생했습니다." }, { status: 500 });
   }
 }

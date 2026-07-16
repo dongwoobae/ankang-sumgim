@@ -16,11 +16,7 @@ export default async function AdminLogsPage() {
   return (
     <div className="p-8 max-w-5xl">
       <div className="mb-8">
-        <h1
-          className="text-[#1A2E4A] text-2xl font-bold"
-        >
-          오류 로그
-        </h1>
+        <h1 className="text-[#1A2E4A] text-2xl font-bold">오류 로그</h1>
         <p className="text-[#5A7A99] text-sm mt-1">
           최근 200건 · 서버 액션에서 발생한 오류를 기록합니다.
         </p>
@@ -55,12 +51,8 @@ export default async function AdminLogsPage() {
                   second: "2-digit",
                 })}
               </span>
-              <span className="font-mono text-[#1A56A0] text-xs break-all">
-                {log.source}
-              </span>
-              <span className="text-[#1A2E4A] text-sm break-all">
-                {log.message}
-              </span>
+              <span className="font-mono text-[#1A56A0] text-xs break-all">{log.source}</span>
+              <span className="text-[#1A2E4A] text-sm break-all">{log.message}</span>
             </div>
           ))}
         </div>

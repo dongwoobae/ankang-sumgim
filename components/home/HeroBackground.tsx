@@ -6,11 +6,7 @@ type HeroBackgroundProps = {
   onSelect: (index: number) => void;
 };
 
-export default function HeroBackground({
-  slides,
-  activeIndex,
-  onSelect,
-}: HeroBackgroundProps) {
+export default function HeroBackground({ slides, activeIndex, onSelect }: HeroBackgroundProps) {
   return (
     <>
       {/* 캐러셀 */}

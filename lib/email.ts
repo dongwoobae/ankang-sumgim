@@ -147,8 +147,11 @@ export async function sendJobApplicationNotificationEmail(params: {
 }) {
   const { name, phone, certificates, preferredRegion, workType, introduction } = params;
   const workTypeLabel =
-    workType === "fulltime" ? "정규직 (풀타임)" :
-    workType === "parttime" ? "시간제 (파트타임)" : "모두 가능";
+    workType === "fulltime"
+      ? "정규직 (풀타임)"
+      : workType === "parttime"
+        ? "시간제 (파트타임)"
+        : "모두 가능";
   const certsText = certificates.length > 0 ? certificates.join(", ") : "미입력";
 
   return sendEmail({
@@ -213,13 +216,17 @@ export async function sendJobApplicationNotificationEmail(params: {
                     <span style="font-size:15px;color:#1A2E4A;">${workTypeLabel}</span>
                   </td>
                 </tr>
-                ${introduction ? `
+                ${
+                  introduction
+                    ? `
                 <tr>
                   <td style="padding:12px 0;vertical-align:top;">
                     <span style="display:block;font-size:12px;font-weight:600;color:#5A7A99;letter-spacing:1px;margin-bottom:10px;">자기소개</span>
                     <div style="background-color:#EEF4FB;border-left:3px solid #1A56A0;border-radius:0 8px 8px 0;padding:16px 18px;font-size:14px;color:#1A2E4A;line-height:1.8;white-space:pre-wrap;">${escapeHtml(introduction)}</div>
                   </td>
-                </tr>` : ""}
+                </tr>`
+                    : ""
+                }
               </table>
 
               <div style="border-top:1px solid #A8C4E0;margin:28px 0 24px;"></div>

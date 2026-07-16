@@ -18,17 +18,11 @@ export default async function AdminInquiriesPage() {
     <div className="p-8 max-w-4xl">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1
-            className="text-[#1A2E4A] text-2xl font-bold"
-          >
-            문의 관리
-          </h1>
+          <h1 className="text-[#1A2E4A] text-2xl font-bold">문의 관리</h1>
           <p className="text-[#5A7A99] text-sm mt-1">
             전체 {inquiries.length}건
             {unanswered > 0 && (
-              <span className="ml-2 text-[#1A56A0] font-medium">
-                · 미답변 {unanswered}건
-              </span>
+              <span className="ml-2 text-[#1A56A0] font-medium">· 미답변 {unanswered}건</span>
             )}
           </p>
         </div>
@@ -64,13 +58,10 @@ export default async function AdminInquiriesPage() {
               </span>
 
               <div className="min-w-0">
-                <p className="text-[#1A2E4A] text-sm font-medium truncate">
-                  {inq.title}
-                </p>
+                <p className="text-[#1A2E4A] text-sm font-medium truncate">{inq.title}</p>
                 {/* 모바일에서만 표시 */}
                 <p className="text-[#5A7A99] text-xs md:hidden mt-0.5">
-                  {inq.name} · {inq.phone} ·{" "}
-                  {new Date(inq.created_at).toLocaleDateString("ko-KR")}
+                  {inq.name} · {inq.phone} · {new Date(inq.created_at).toLocaleDateString("ko-KR")}
                 </p>
               </div>
 

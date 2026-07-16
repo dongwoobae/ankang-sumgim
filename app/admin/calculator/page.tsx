@@ -65,8 +65,8 @@ export default async function AdminCalculatorPage() {
                 rate.duration_minutes < 60
                   ? `${rate.duration_minutes}분`
                   : Number.isInteger(hrs)
-                  ? `${hrs}시간`
-                  : `${Math.floor(hrs)}시간 ${rate.duration_minutes % 60}분`;
+                    ? `${hrs}시간`
+                    : `${Math.floor(hrs)}시간 ${rate.duration_minutes % 60}분`;
               return (
                 <div
                   key={rate.id}
@@ -97,7 +97,9 @@ export default async function AdminCalculatorPage() {
 
       {/* 등급별 월 한도액 */}
       <section>
-        <h2 className="text-[#1A2E4A] font-bold text-base mb-4">등급별 월 급여 한도액 (2026년 기준)</h2>
+        <h2 className="text-[#1A2E4A] font-bold text-base mb-4">
+          등급별 월 급여 한도액 (2026년 기준)
+        </h2>
         <form action={saveGradeLimits}>
           <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl overflow-hidden">
             <div className="grid grid-cols-[1fr_1fr_auto] gap-4 px-5 py-3 bg-[#EEF4FB] border-b border-[#A8C4E0]/40 text-[#5A7A99] text-xs font-semibold">

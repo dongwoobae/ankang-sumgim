@@ -63,13 +63,7 @@ describe("scaleFaceRegions", () => {
   });
 
   it("변환 후 4px 이하인 영역은 제외한다", () => {
-    const result = scaleFaceRegions(
-      [{ x: 0, y: 0, width: 8, height: 8 }],
-      3840,
-      2160,
-      1920,
-      1080,
-    );
+    const result = scaleFaceRegions([{ x: 0, y: 0, width: 8, height: 8 }], 3840, 2160, 1920, 1080);
     expect(result).toEqual([]);
   });
 
@@ -85,13 +79,7 @@ describe("scaleFaceRegions", () => {
   });
 
   it("원본 크기가 0 이하면 빈 배열을 반환한다", () => {
-    const result = scaleFaceRegions(
-      [{ x: 10, y: 10, width: 50, height: 50 }],
-      0,
-      0,
-      1920,
-      1080,
-    );
+    const result = scaleFaceRegions([{ x: 10, y: 10, width: 50, height: 50 }], 0, 0, 1920, 1080);
     expect(result).toEqual([]);
   });
 

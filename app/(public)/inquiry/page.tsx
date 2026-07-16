@@ -8,13 +8,7 @@ import { sendInquiry, type InquiryState } from "@/app/actions/sendInquiry";
 import FaqAccordion from "@/components/FaqAccordion";
 import PageHero from "@/components/board/PageHero";
 
-const serviceTypes = [
-  "방문요양서비스",
-  "가족요양",
-  "인지활동서비스",
-  "등급신청 상담",
-  "기타 문의",
-];
+const serviceTypes = ["방문요양서비스", "가족요양", "인지활동서비스", "등급신청 상담", "기타 문의"];
 
 const initialState: InquiryState = { success: false, message: "" };
 
@@ -25,15 +19,13 @@ function formatPhone(value: string): string {
   if (digits.startsWith("02")) {
     // 서울 지역번호: 02-XXX-XXXX or 02-XXXX-XXXX
     if (digits.length <= 5) return digits.replace(/(\d{2})(\d+)/, "$1-$2");
-    if (digits.length <= 9)
-      return digits.replace(/(\d{2})(\d{3})(\d+)/, "$1-$2-$3");
+    if (digits.length <= 9) return digits.replace(/(\d{2})(\d{3})(\d+)/, "$1-$2-$3");
     return digits.replace(/(\d{2})(\d{4})(\d+)/, "$1-$2-$3");
   }
 
   // 010, 011, 054 등 나머지
   if (digits.length <= 6) return digits.replace(/(\d{3})(\d+)/, "$1-$2");
-  if (digits.length <= 10)
-    return digits.replace(/(\d{3})(\d{3})(\d+)/, "$1-$2-$3");
+  if (digits.length <= 10) return digits.replace(/(\d{3})(\d{3})(\d+)/, "$1-$2-$3");
   return digits.replace(/(\d{3})(\d{4})(\d+)/, "$1-$2-$3");
 }
 
@@ -53,7 +45,10 @@ export default function InquiryPage() {
   useEffect(() => {
     if (state.success) {
       formRef.current?.reset();
-      setTimeout(() => { setPhone(""); setContent(""); }, 0);
+      setTimeout(() => {
+        setPhone("");
+        setContent("");
+      }, 0);
       if (timestampRef.current) {
         timestampRef.current.value = String(Date.now());
       }
@@ -66,10 +61,7 @@ export default function InquiryPage() {
         eyebrow="CONTACT"
         title="상담문의"
         lead="어르신과 가족분들의 소중한 문의를 기다립니다"
-        crumbs={[
-          { label: "홈", href: "/" },
-          { label: "상담문의" },
-        ]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "상담문의" }]}
       />
 
       {/* FAQ */}
@@ -146,10 +138,7 @@ export default function InquiryPage() {
 
             {/* 상담 폼 */}
             <div className="md:col-span-2">
-              <h2
-                className="mb-6 text-xl font-bold"
-                style={{ color: "var(--ink-2)" }}
-              >
+              <h2 className="mb-6 text-xl font-bold" style={{ color: "var(--ink-2)" }}>
                 온라인 상담 신청
               </h2>
 
@@ -166,13 +155,7 @@ export default function InquiryPage() {
                   }}
                 >
                   <label htmlFor="website">Website</label>
-                  <input
-                    id="website"
-                    name="website"
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
+                  <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
                 </div>
                 <input ref={timestampRef} name="_t" type="hidden" />
                 {/* ────────────────────────── */}

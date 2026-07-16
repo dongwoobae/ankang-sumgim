@@ -15,11 +15,7 @@ async function getInquiry(id: string) {
   return data;
 }
 
-export default async function InquiryDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function InquiryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const inquiry = await getInquiry(id);
   if (!inquiry) notFound();
@@ -40,12 +36,7 @@ export default async function InquiryDetailPage({
         >
           <ArrowLeft size={20} />
         </Link>
-        <h1
-          className="text-[#1A2E4A] text-2xl font-bold"
-
-        >
-          문의 상세
-        </h1>
+        <h1 className="text-[#1A2E4A] text-2xl font-bold">문의 상세</h1>
       </div>
 
       {/* 문의 내용 */}
@@ -62,18 +53,10 @@ export default async function InquiryDetailPage({
               </span>
             )}
           </div>
-          <AnswerToggle
-            id={String(inquiry.id)}
-            isAnswered={inquiry.is_answered}
-          />
+          <AnswerToggle id={String(inquiry.id)} isAnswered={inquiry.is_answered} />
         </div>
 
-        <h2
-          className="text-[#1A2E4A] text-lg font-bold mb-4"
-
-        >
-          {inquiry.title}
-        </h2>
+        <h2 className="text-[#1A2E4A] text-lg font-bold mb-4">{inquiry.title}</h2>
 
         <div className="grid grid-cols-2 gap-3 mb-5">
           {[
@@ -111,17 +94,12 @@ export default async function InquiryDetailPage({
               className="bg-[#E8A020]/20 border border-[#A8C4E0]/60 rounded-xl p-5"
             >
               <div className="flex items-start justify-between gap-3 mb-3">
-                <span className="text-[#1A56A0] text-xs font-bold">
-                  관리자 답변
-                </span>
+                <span className="text-[#1A56A0] text-xs font-bold">관리자 답변</span>
                 <div className="flex items-center gap-2">
                   <span className="text-[#5A7A99] text-xs">
                     {new Date(reply.created_at).toLocaleString("ko-KR")}
                   </span>
-                  <DeleteReplyButton
-                    id={String(reply.id)}
-                    inquiryId={String(inquiry.id)}
-                  />
+                  <DeleteReplyButton id={String(reply.id)} inquiryId={String(inquiry.id)} />
                 </div>
               </div>
               <p className="text-[#1A2E4A] text-sm leading-[1.8] whitespace-pre-wrap">
@@ -134,12 +112,7 @@ export default async function InquiryDetailPage({
 
       {/* 답변 작성 폼 */}
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">
-        <p
-          className="text-[#1A2E4A] font-bold text-sm mb-4"
-
-        >
-          답변 작성
-        </p>
+        <p className="text-[#1A2E4A] font-bold text-sm mb-4">답변 작성</p>
         <ReplyForm inquiryId={String(inquiry.id)} />
       </div>
     </div>

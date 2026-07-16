@@ -16,19 +16,13 @@ type Photo = {
 async function getCategoryWithPhotos(id: string) {
   const { data } = await adminSupabase
     .from("photo_categories")
-    .select(
-      "id, name, photos(id, url, original_url, is_face_blurred, caption, created_at)",
-    )
+    .select("id, name, photos(id, url, original_url, is_face_blurred, caption, created_at)")
     .eq("id", id)
     .single();
   return data;
 }
 
-export default async function UploadPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function UploadPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const category = await getCategoryWithPhotos(id);
   if (!category) notFound();
@@ -44,15 +38,9 @@ export default async function UploadPage({
         >
           <ArrowLeft size={20} />
         </Link>
-        <h1
-          className="text-[#1A2E4A] text-2xl font-bold"
-        >
-          {category.name}
-        </h1>
+        <h1 className="text-[#1A2E4A] text-2xl font-bold">{category.name}</h1>
       </div>
-      <p className="text-[#5A7A99] text-sm mb-8 pl-9">
-        사진 {photos.length}장 등록됨
-      </p>
+      <p className="text-[#5A7A99] text-sm mb-8 pl-9">사진 {photos.length}장 등록됨</p>
 
       <PhotoUploader categoryId={id} initialPhotos={photos} />
     </div>

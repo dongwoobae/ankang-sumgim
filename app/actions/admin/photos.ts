@@ -30,8 +30,7 @@ export async function createCategory(
     .select("id")
     .single();
 
-  if (error || !category)
-    return { error: "카테고리 생성 중 오류가 발생했습니다." };
+  if (error || !category) return { error: "카테고리 생성 중 오류가 발생했습니다." };
 
   revalidatePath("/board/photos");
   revalidatePath("/board/photos", "layout");
@@ -84,9 +83,7 @@ export async function deletePhoto(id: string) {
   if (photo?.url) {
     const key = extractR2Key(photo.url);
     if (key) {
-      await deleteFromR2(key).catch((e) =>
-        console.error("[deletePhoto] R2 블러 삭제 오류:", e),
-      );
+      await deleteFromR2(key).catch((e) => console.error("[deletePhoto] R2 블러 삭제 오류:", e));
     }
   }
 

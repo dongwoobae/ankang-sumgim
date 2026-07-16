@@ -23,11 +23,11 @@ export async function middleware(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
+            response.cookies.set(name, value, options),
           );
         },
       },
-    }
+    },
   );
 
   // getUser()는 매 요청 Supabase Auth 서버 왕복이라 관리자 페이지 내비게이션을 지연시킴.

@@ -6,8 +6,7 @@ import CtaBanner from "@/components/common/CtaBanner";
 
 export const metadata: Metadata = {
   title: "인사말",
-  description:
-    "안강 섬김 노인복지센터 센터장 인사말. 어르신 한 분 한 분을 소중히 섬기겠습니다.",
+  description: "안강 섬김 노인복지센터 센터장 인사말. 어르신 한 분 한 분을 소중히 섬기겠습니다.",
   openGraph: { url: "/about/greeting" },
 };
 
@@ -36,11 +35,7 @@ export default function GreetingPage() {
         eyebrow="ABOUT US"
         title="인사말"
         lead="센터장 인사말씀"
-        crumbs={[
-          { label: "홈", href: "/" },
-          { label: "센터소개" },
-          { label: "인사말" },
-        ]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "센터소개" }, { label: "인사말" }]}
       />
 
       {/* 본문 — 1컬럼 prose */}
@@ -50,10 +45,7 @@ export default function GreetingPage() {
             className="mb-4 inline-flex items-center gap-2.5 text-[12px] font-semibold uppercase tracking-[0.3em]"
             style={{ color: "var(--pop)" }}
           >
-            <span
-              className="h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--pop)" }}
-            />
+            <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--pop)" }} />
             Center Director
           </div>
           <h2
@@ -71,28 +63,24 @@ export default function GreetingPage() {
             </em>
             .
           </h2>
-          <div
-            className="mx-auto mb-9 h-0.5 w-16 rounded"
-            style={{ background: "var(--pop)" }}
-          />
+          <div className="mx-auto mb-9 h-0.5 w-16 rounded" style={{ background: "var(--pop)" }} />
           <div
             className="space-y-5 text-left text-base leading-[1.95]"
             style={{ color: "var(--ink-2)" }}
           >
             <p>안강 섬김 노인복지센터를 찾아주셔서 진심으로 감사드립니다.</p>
             <p>
-              저희 센터는 경주·안강·영천·포항 지역에서 신체적·경제적·정신적으로
-              어려움을 겪고 계신 어르신들이 존엄하고 행복한 노후를 보내실 수
-              있도록 최선을 다하고 있습니다.
+              저희 센터는 경주·안강·영천·포항 지역에서 신체적·경제적·정신적으로 어려움을 겪고 계신
+              어르신들이 존엄하고 행복한 노후를 보내실 수 있도록 최선을 다하고 있습니다.
             </p>
             <p>
-              요양보호사 한 분 한 분이 어르신의 가정을 직접 방문하여 신체활동
-              지원부터 정서적 교류까지 정성 어린 돌봄을 실천하고 있으며, 매월
-              정기 교육을 통해 서비스의 질을 꾸준히 높여 나가고 있습니다.
+              요양보호사 한 분 한 분이 어르신의 가정을 직접 방문하여 신체활동 지원부터 정서적
+              교류까지 정성 어린 돌봄을 실천하고 있으며, 매월 정기 교육을 통해 서비스의 질을 꾸준히
+              높여 나가고 있습니다.
             </p>
             <p>
-              어르신과 가족 여러분의 신뢰에 보답하기 위해, 앞으로도 더 나은
-              섬김의 자세로 함께하겠습니다. 감사합니다.
+              어르신과 가족 여러분의 신뢰에 보답하기 위해, 앞으로도 더 나은 섬김의 자세로
+              함께하겠습니다. 감사합니다.
             </p>
           </div>
           <div
@@ -114,10 +102,7 @@ export default function GreetingPage() {
             >
               OUR VALUES
             </div>
-            <h2
-              className="text-[32px] font-extrabold"
-              style={{ color: "var(--ink-2)" }}
-            >
+            <h2 className="text-[32px] font-extrabold" style={{ color: "var(--ink-2)" }}>
               섬김의 가치
             </h2>
           </div>
@@ -138,16 +123,10 @@ export default function GreetingPage() {
                 >
                   {v.icon}
                 </div>
-                <h3
-                  className="mb-2.5 text-[15px] font-bold"
-                  style={{ color: "var(--ink-2)" }}
-                >
+                <h3 className="mb-2.5 text-[15px] font-bold" style={{ color: "var(--ink-2)" }}>
                   {v.title}
                 </h3>
-                <p
-                  className="m-0 text-[13px] leading-[1.65]"
-                  style={{ color: "var(--muted)" }}
-                >
+                <p className="m-0 text-[13px] leading-[1.65]" style={{ color: "var(--muted)" }}>
                   {v.desc}
                 </p>
               </div>

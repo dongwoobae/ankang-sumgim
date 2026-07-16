@@ -35,9 +35,7 @@ export default function CtaBanner({
           >
             {title}
           </h2>
-          {desc && (
-            <p className="text-sm leading-relaxed opacity-70">{desc}</p>
-          )}
+          {desc && <p className="text-sm leading-relaxed opacity-70">{desc}</p>}
         </div>
         <div className="flex flex-wrap gap-2.5">
           <Link

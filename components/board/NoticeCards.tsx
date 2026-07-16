@@ -9,8 +9,18 @@ export interface Notice {
 }
 
 const MONTH_ABBR = [
-  "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-  "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
 ];
 
 export function PinnedNoticeCard({ notice }: { notice: Notice }) {
@@ -51,13 +61,8 @@ export function PinnedNoticeCard({ notice }: { notice: Notice }) {
             {notice.content.length > 140 ? "…" : ""}
           </p>
         )}
-        <div
-          className="flex gap-[18px] text-[13px]"
-          style={{ color: "rgba(255,255,255,0.7)" }}
-        >
-          <span>
-            📅 {new Date(notice.created_at).toLocaleDateString("ko-KR")}
-          </span>
+        <div className="flex gap-[18px] text-[13px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+          <span>📅 {new Date(notice.created_at).toLocaleDateString("ko-KR")}</span>
         </div>
         <Link
           href={`/board/notice/${notice.id}`}
@@ -85,10 +90,7 @@ export function NoticeRow({ notice }: { notice: Notice }) {
         style={{ borderColor: "var(--line)" }}
       >
         {/* 날짜 블록 */}
-        <div
-          className="text-center font-bold leading-tight"
-          style={{ color: "var(--pop)" }}
-        >
+        <div className="text-center font-bold leading-tight" style={{ color: "var(--pop)" }}>
           <span className="block text-[13px] tracking-wider">{month}</span>
           <span
             className="my-0.5 block font-extrabold"

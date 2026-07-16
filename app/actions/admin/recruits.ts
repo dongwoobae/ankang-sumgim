@@ -6,10 +6,7 @@ import { adminSupabase } from "@/lib/supabase/admin";
 
 export async function updateApplicationStatus(id: string, status: string) {
   await requireSession();
-  await adminSupabase
-    .from("job_applications")
-    .update({ status })
-    .eq("id", id);
+  await adminSupabase.from("job_applications").update({ status }).eq("id", id);
 
   revalidatePath("/admin/recruits");
 }

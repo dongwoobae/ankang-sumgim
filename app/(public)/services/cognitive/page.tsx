@@ -21,7 +21,12 @@ const programs = [
   {
     title: "일상생활 훈련",
     icon: <Home size={22} />,
-    items: ["요리·청소 등 가사 활동 참여", "개인위생 관리 훈련", "시간·날짜 인지 연습", "외출 동행 활동"],
+    items: [
+      "요리·청소 등 가사 활동 참여",
+      "개인위생 관리 훈련",
+      "시간·날짜 인지 연습",
+      "외출 동행 활동",
+    ],
   },
   {
     title: "신체 활동",
@@ -51,11 +56,7 @@ export default function CognitivePage() {
         eyebrow="SERVICES"
         title="인지활동서비스"
         lead="치매 예방과 인지 기능 유지를 위한 전문 프로그램"
-        crumbs={[
-          { label: "홈", href: "/" },
-          { label: "서비스 안내" },
-          { label: "인지활동서비스" },
-        ]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 안내" }, { label: "인지활동서비스" }]}
       />
 
       <section className="px-6 py-20">
@@ -69,10 +70,7 @@ export default function CognitivePage() {
               >
                 OVERVIEW
               </div>
-              <h2
-                className="mb-5 text-[26px] font-extrabold"
-                style={{ color: "var(--ink-2)" }}
-              >
+              <h2 className="mb-5 text-[26px] font-extrabold" style={{ color: "var(--ink-2)" }}>
                 인지활동서비스란?
               </h2>
               <div
@@ -80,14 +78,12 @@ export default function CognitivePage() {
                 style={{ color: "var(--ink-2)" }}
               >
                 <p>
-                  치매·인지저하가 있는 어르신의 인지 기능 유지 및 악화 방지를 위해
-                  전문 요양보호사가 가정을 방문하여 개인 맞춤형 인지 자극
-                  프로그램을 제공하는 서비스입니다.
+                  치매·인지저하가 있는 어르신의 인지 기능 유지 및 악화 방지를 위해 전문 요양보호사가
+                  가정을 방문하여 개인 맞춤형 인지 자극 프로그램을 제공하는 서비스입니다.
                 </p>
                 <p>
-                  인지활동형 프로그램 교육을 이수한 전문 요양보호사가 어르신의
-                  상태에 맞는 프로그램을 1:1로 진행하여 치매 진행을 늦추고 삶의
-                  질을 높입니다.
+                  인지활동형 프로그램 교육을 이수한 전문 요양보호사가 어르신의 상태에 맞는
+                  프로그램을 1:1로 진행하여 치매 진행을 늦추고 삶의 질을 높입니다.
                 </p>
               </div>
 
@@ -159,10 +155,7 @@ export default function CognitivePage() {
             >
               PROGRAMS
             </div>
-            <h2
-              className="mb-8 text-[26px] font-extrabold"
-              style={{ color: "var(--ink-2)" }}
-            >
+            <h2 className="mb-8 text-[26px] font-extrabold" style={{ color: "var(--ink-2)" }}>
               프로그램 구성
             </h2>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -182,10 +175,7 @@ export default function CognitivePage() {
                   >
                     {prog.icon}
                   </div>
-                  <h3
-                    className="mb-3 text-sm font-bold"
-                    style={{ color: "var(--ink-2)" }}
-                  >
+                  <h3 className="mb-3 text-sm font-bold" style={{ color: "var(--ink-2)" }}>
                     {prog.title}
                   </h3>
                   <ul className="space-y-1.5">
@@ -214,17 +204,37 @@ export default function CognitivePage() {
         title="인지활동서비스 이용 절차"
         steps={[
           { iconKey: "inquiry", title: "상담 문의", desc: "전화·온라인으로 인지활동서비스 상담" },
-          { iconKey: "gradeJudgment", title: "등급·진단 확인", desc: "장기요양 1~5등급 또는 인지지원등급 보유 확인" },
-          { iconKey: "caregiver", title: "전담 요양보호사 배정", desc: "인지활동형 교육 이수 전문 요양보호사 연결" },
-          { iconKey: "plan", title: "맞춤 프로그램 계획", desc: "어르신 상태에 맞는 1:1 인지 자극 계획 수립" },
-          { iconKey: "serviceStart", title: "서비스 시작", desc: "가정 방문 인지활동 프로그램 정기 제공" },
+          {
+            iconKey: "gradeJudgment",
+            title: "등급·진단 확인",
+            desc: "장기요양 1~5등급 또는 인지지원등급 보유 확인",
+          },
+          {
+            iconKey: "caregiver",
+            title: "전담 요양보호사 배정",
+            desc: "인지활동형 교육 이수 전문 요양보호사 연결",
+          },
+          {
+            iconKey: "plan",
+            title: "맞춤 프로그램 계획",
+            desc: "어르신 상태에 맞는 1:1 인지 자극 계획 수립",
+          },
+          {
+            iconKey: "serviceStart",
+            title: "서비스 시작",
+            desc: "가정 방문 인지활동 프로그램 정기 제공",
+          },
         ]}
       />
 
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
-            prev={{ label: "등급신청 안내", desc: "장기요양등급 신청 절차", href: "/services/grade-apply" }}
+            prev={{
+              label: "등급신청 안내",
+              desc: "장기요양등급 신청 절차",
+              href: "/services/grade-apply",
+            }}
             next={{ label: "요양비 계산기", desc: "예상 본인부담금 계산", href: "/calculator" }}
           />
         </div>

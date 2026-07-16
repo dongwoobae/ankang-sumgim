@@ -17,10 +17,7 @@ export default function NoticeList({ notices }: { notices: Notice[] }) {
   const matchesQuery = (n: Notice) =>
     !q || n.title.toLowerCase().includes(q) || n.content.toLowerCase().includes(q);
 
-  const showPinnedCard =
-    firstPinned &&
-    chip !== "general" &&
-    matchesQuery(firstPinned);
+  const showPinnedCard = firstPinned && chip !== "general" && matchesQuery(firstPinned);
 
   const listItems = (() => {
     let base: Notice[];

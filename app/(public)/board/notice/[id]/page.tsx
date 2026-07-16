@@ -16,7 +16,7 @@ const getNotice = unstable_cache(
     return data;
   },
   ["notice-detail"],
-  { revalidate: false, tags: ["notice-detail"] }
+  { revalidate: false, tags: ["notice-detail"] },
 );
 
 async function getPrevNext(id: number) {
@@ -62,11 +62,7 @@ export async function generateMetadata({
 
 export const revalidate = false;
 
-export default async function NoticeDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function NoticeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!/^\d+$/.test(id)) notFound();
   const [notice, { prev, next }] = await Promise.all([
@@ -95,13 +91,9 @@ export default async function NoticeDetailPage({
 
       <section className="px-6 pb-24 pt-0">
         <div className="mx-auto max-w-[1200px]">
-
           {/* 포스트 헤더 */}
           <Reveal>
-            <div
-              className="mb-10 border-b pb-9"
-              style={{ borderColor: "var(--line)" }}
-            >
+            <div className="mb-10 border-b pb-9" style={{ borderColor: "var(--line)" }}>
               <div className="mb-4 flex gap-2">
                 {notice.is_pinned && (
                   <span
@@ -195,10 +187,7 @@ export default async function NoticeDetailPage({
                     >
                       {next.title}
                     </span>
-                    <span
-                      className="font-mono text-[12px]"
-                      style={{ color: "var(--muted)" }}
-                    >
+                    <span className="font-mono text-[12px]" style={{ color: "var(--muted)" }}>
                       {new Date(next.created_at).toLocaleDateString("ko-KR")}
                     </span>
                   </Link>
@@ -221,10 +210,7 @@ export default async function NoticeDetailPage({
                     >
                       {prev.title}
                     </span>
-                    <span
-                      className="font-mono text-[12px]"
-                      style={{ color: "var(--muted)" }}
-                    >
+                    <span className="font-mono text-[12px]" style={{ color: "var(--muted)" }}>
                       {new Date(prev.created_at).toLocaleDateString("ko-KR")}
                     </span>
                   </Link>

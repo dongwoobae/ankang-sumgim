@@ -43,22 +43,10 @@ export function scaleFaceRegions(
 
   return faceRegions
     .map((face) => {
-      const left = Math.min(
-        Math.max(0, Math.round((face.x / imgW) * resizedW)),
-        resizedW,
-      );
-      const top = Math.min(
-        Math.max(0, Math.round((face.y / imgH) * resizedH)),
-        resizedH,
-      );
-      const width = Math.min(
-        Math.round((face.width / imgW) * resizedW),
-        resizedW - left,
-      );
-      const height = Math.min(
-        Math.round((face.height / imgH) * resizedH),
-        resizedH - top,
-      );
+      const left = Math.min(Math.max(0, Math.round((face.x / imgW) * resizedW)), resizedW);
+      const top = Math.min(Math.max(0, Math.round((face.y / imgH) * resizedH)), resizedH);
+      const width = Math.min(Math.round((face.width / imgW) * resizedW), resizedW - left);
+      const height = Math.min(Math.round((face.height / imgH) * resizedH), resizedH - top);
       return { left, top, width, height };
     })
     .filter((region) => region.width > 4 && region.height > 4);

@@ -21,9 +21,7 @@ const getCalculatorData = unstable_cache(
         .select("id, duration_minutes, price")
         .eq("service_type", "visit_care")
         .order("duration_minutes"),
-      adminSupabase
-        .from("ltc_grade_limits")
-        .select("id, grade, monthly_limit"),
+      adminSupabase.from("ltc_grade_limits").select("id, grade, monthly_limit"),
     ]);
     return { rates: rates ?? [], limits: limits ?? [] };
   },
@@ -40,10 +38,7 @@ export default async function CalculatorPage() {
         eyebrow="CALCULATOR"
         title="본인부담금 계산기"
         lead="방문요양 이용 시 예상 월 본인부담금을 미리 확인해 보세요"
-        crumbs={[
-          { label: "홈", href: "/" },
-          { label: "본인부담금 계산기" },
-        ]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "본인부담금 계산기" }]}
       />
 
       <CalculatorClient rates={rates} limits={limits} />
@@ -51,7 +46,11 @@ export default async function CalculatorPage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[860px]">
           <SiblingNav
-            prev={{ label: "인지활동서비스", desc: "치매 어르신 인지활동 프로그램", href: "/services/cognitive" }}
+            prev={{
+              label: "인지활동서비스",
+              desc: "치매 어르신 인지활동 프로그램",
+              href: "/services/cognitive",
+            }}
           />
         </div>
       </section>

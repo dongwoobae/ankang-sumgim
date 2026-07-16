@@ -3,11 +3,7 @@ import Footer from "@/components/layout/Footer";
 import FloatingButton from "@/components/layout/FloatingButton";
 import { Analytics } from "@vercel/analytics/next";
 
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-[#FFFFFF] text-[#1A2E4A]">
       <Header />

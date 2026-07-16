@@ -38,11 +38,7 @@ async function getAlbum(id: string) {
 
 export const revalidate = false;
 
-export default async function PhotoDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function PhotoDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!/^\d+$/.test(id)) notFound();
   const album = await getAlbum(id);

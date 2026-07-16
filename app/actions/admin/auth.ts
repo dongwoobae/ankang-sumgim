@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export async function login(
   _prev: { error: string },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error: string }> {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;

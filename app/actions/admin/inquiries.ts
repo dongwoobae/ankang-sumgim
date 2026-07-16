@@ -6,16 +6,13 @@ import { revalidatePath } from "next/cache";
 
 export async function markAnswered(id: string, isAnswered: boolean) {
   await requireSession();
-  await adminSupabase
-    .from("inquiries")
-    .update({ is_answered: isAnswered })
-    .eq("id", id);
+  await adminSupabase.from("inquiries").update({ is_answered: isAnswered }).eq("id", id);
   revalidatePath("/admin/inquiries");
 }
 
 export async function createReply(
   _prev: { error: string },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error: string }> {
   await requireSession();
   const inquiryId = formData.get("inquiry_id") as string;
@@ -29,10 +26,7 @@ export async function createReply(
 
   if (error) return { error: "저장 중 오류가 발생했습니다." };
 
-  await adminSupabase
-    .from("inquiries")
-    .update({ is_answered: true })
-    .eq("id", inquiryId);
+  await adminSupabase.from("inquiries").update({ is_answered: true }).eq("id", inquiryId);
 
   revalidatePath(`/admin/inquiries/${inquiryId}`);
   revalidatePath("/admin/inquiries");

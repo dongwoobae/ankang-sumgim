@@ -8,10 +8,7 @@ import { sendSMS, buildReplySMS } from "@/lib/sms";
 
 export async function markAnswered(id: string, isAnswered: boolean) {
   await requireSession();
-  await adminSupabase
-    .from("inquiries")
-    .update({ is_answered: isAnswered })
-    .eq("id", id);
+  await adminSupabase.from("inquiries").update({ is_answered: isAnswered }).eq("id", id);
   revalidatePath("/admin/inquiries");
 }
 
@@ -34,10 +31,7 @@ export async function createReply(
 
   // 2. 문의 상태 업데이트 + 문의자 정보 조회 (병렬)
   const [, { data: inquiry }] = await Promise.all([
-    adminSupabase
-      .from("inquiries")
-      .update({ is_answered: true })
-      .eq("id", inquiryId),
+    adminSupabase.from("inquiries").update({ is_answered: true }).eq("id", inquiryId),
     adminSupabase
       .from("inquiries")
       .select("name, phone, email, content")

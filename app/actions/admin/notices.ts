@@ -9,7 +9,7 @@ export type NoticeFormState = { error: string };
 
 export async function createNotice(
   _prev: NoticeFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<NoticeFormState> {
   await requireSession();
   const title = (formData.get("title") as string).trim();
@@ -20,9 +20,7 @@ export async function createNotice(
     return { error: "제목과 내용을 모두 입력해 주세요." };
   }
 
-  const { error } = await adminSupabase
-    .from("notices")
-    .insert({ title, content, is_pinned });
+  const { error } = await adminSupabase.from("notices").insert({ title, content, is_pinned });
 
   if (error) return { error: "저장 중 오류가 발생했습니다." };
 
@@ -39,7 +37,7 @@ export async function createNotice(
 export async function updateNotice(
   id: string,
   _prev: NoticeFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<NoticeFormState> {
   await requireSession();
   const title = (formData.get("title") as string).trim();

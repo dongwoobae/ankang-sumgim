@@ -52,8 +52,7 @@ export default function Hero({ photos }: Props) {
               <span
                 className="px-[0.15em]"
                 style={{
-                  background:
-                    "linear-gradient(transparent 62%, rgba(46,109,180,0.55) 62%)",
+                  background: "linear-gradient(transparent 62%, rgba(46,109,180,0.55) 62%)",
                 }}
               >
                 함께 섬깁니다
@@ -66,8 +65,8 @@ export default function Hero({ photos }: Props) {
               className="leading-[1.7] text-white/86 max-w-[46ch] mb-8"
               style={{ fontSize: "clamp(15px, 1.5vw, 18px)" }}
             >
-              경주·안강·영천·포항 네 개 시군의 가정을 직접 방문해
-              한 분 한 분의 소중한 일상을 정성껏 돌봐드립니다.
+              경주·안강·영천·포항 네 개 시군의 가정을 직접 방문해 한 분 한 분의 소중한 일상을 정성껏
+              돌봐드립니다.
             </p>
           </Reveal>
 

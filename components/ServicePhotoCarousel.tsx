@@ -124,10 +124,7 @@ export default function ServicePhotoCarousel() {
             className="text-sm font-medium pb-1 transition-all duration-200"
             style={{
               color: activeGroup === i ? "#1A56A0" : "#5A7A99",
-              borderBottom:
-                activeGroup === i
-                  ? "2px solid #1A56A0"
-                  : "2px solid transparent",
+              borderBottom: activeGroup === i ? "2px solid #1A56A0" : "2px solid transparent",
             }}
           >
             {group.label}
@@ -160,9 +157,7 @@ export default function ServicePhotoCarousel() {
               <p className="text-[#5A7A99] text-sm font-medium">
                 {SERVICE_GROUPS[activeGroup].label}
               </p>
-              <p className="text-[#A8C4E0] text-xs">
-                사진 {photoInGroup + 1} / 3
-              </p>
+              <p className="text-[#A8C4E0] text-xs">사진 {photoInGroup + 1} / 3</p>
             </div>
           )}
         </div>
@@ -176,8 +171,7 @@ export default function ServicePhotoCarousel() {
               style={{
                 width: i === photoInGroup ? "20px" : "7px",
                 height: "7px",
-                background:
-                  i === photoInGroup ? "#1A56A0" : "rgba(255,255,255,0.55)",
+                background: i === photoInGroup ? "#1A56A0" : "rgba(255,255,255,0.55)",
               }}
             />
           ))}

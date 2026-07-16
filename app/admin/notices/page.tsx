@@ -19,19 +19,14 @@ export default async function AdminNoticesPage() {
     <div className="p-8 max-w-4xl">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1
-            className="text-[#1A2E4A] text-2xl font-bold"
-          >
-            공지사항 관리
-          </h1>
+          <h1 className="text-[#1A2E4A] text-2xl font-bold">공지사항 관리</h1>
           <p className="text-[#5A7A99] text-sm mt-1">총 {notices.length}건</p>
         </div>
         <Link
           href="/admin/notices/new"
           className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-[#1A2E4A] transition-colors"
         >
-          <PlusCircle size={16} />
-          새 공지 작성
+          <PlusCircle size={16} />새 공지 작성
         </Link>
       </div>
 

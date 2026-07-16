@@ -26,15 +26,15 @@ const nextConfig: NextConfig = {
     },
   },
   async redirects() {
-  return [
-    {
-      source: '/:path*',
-      has: [{ type: 'host', value: 'ankang-sumgim.vercel.app' }],
-      destination: 'https://sumgim-welfare.com/:path*',
-      permanent: true,
-    },
-  ]
-}
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "ankang-sumgim.vercel.app" }],
+        destination: "https://sumgim-welfare.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -26,7 +26,10 @@ export default function PageHero({ eyebrow, title, lead, crumbs, meta }: Props) 
       <div className="relative mx-auto max-w-[1200px]">
         {crumbs && crumbs.length > 0 && (
           <Reveal>
-            <nav className="mb-5 flex items-center gap-2 text-[13px]" style={{ color: "var(--muted)" }}>
+            <nav
+              className="mb-5 flex items-center gap-2 text-[13px]"
+              style={{ color: "var(--muted)" }}
+            >
               {crumbs.map((c, i) => (
                 <span key={i} className="contents">
                   {c.href ? (
@@ -49,10 +52,7 @@ export default function PageHero({ eyebrow, title, lead, crumbs, meta }: Props) 
               className="mb-4 inline-flex items-center gap-2.5 text-[12px] font-semibold uppercase tracking-[0.3em]"
               style={{ color: "var(--pop)" }}
             >
-              <span
-                className="h-1.5 w-1.5 rounded-full"
-                style={{ background: "var(--pop)" }}
-              />
+              <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--pop)" }} />
               {eyebrow}
             </div>
           </Reveal>
@@ -73,10 +73,7 @@ export default function PageHero({ eyebrow, title, lead, crumbs, meta }: Props) 
 
         {lead && (
           <Reveal stagger={3}>
-            <p
-              className="max-w-[60ch] text-[17px] leading-[1.7]"
-              style={{ color: "var(--muted)" }}
-            >
+            <p className="max-w-[60ch] text-[17px] leading-[1.7]" style={{ color: "var(--muted)" }}>
               {lead}
             </p>
           </Reveal>

@@ -19,11 +19,7 @@ export default function NewCategoryPage() {
         >
           <ArrowLeft size={20} />
         </Link>
-        <h1
-          className="text-[#1A2E4A] text-2xl font-bold"
-        >
-          새 카테고리 만들기
-        </h1>
+        <h1 className="text-[#1A2E4A] text-2xl font-bold">새 카테고리 만들기</h1>
       </div>
 
       <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl p-6">

@@ -3,14 +3,9 @@ import { adminSupabase } from "@/lib/supabase/admin";
 const MAX_ATTEMPTS = 5;
 const WINDOW_MS = 60 * 60 * 1000; // 1시간
 
-export type RateLimitResult =
-  | { allowed: true }
-  | { allowed: false; retryAfter: Date };
+export type RateLimitResult = { allowed: true } | { allowed: false; retryAfter: Date };
 
-export async function checkRateLimit(
-  ip: string,
-  action: string,
-): Promise<RateLimitResult> {
+export async function checkRateLimit(ip: string, action: string): Promise<RateLimitResult> {
   const key = `${ip}:${action}`;
   const { data, error } = await adminSupabase.rpc("check_rate_limit", {
     p_ip: key,

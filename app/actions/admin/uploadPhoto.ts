@@ -92,20 +92,14 @@ export async function uploadPhoto(
         resizedMeta.width ?? imgW,
         resizedMeta.height ?? imgH,
       ).map(async (region) => {
-        const faceBlurred = await sharp(originalCompressed)
-          .extract(region)
-          .blur(28)
-          .toBuffer();
+        const faceBlurred = await sharp(originalCompressed).extract(region).blur(28).toBuffer();
         return { input: faceBlurred, left: region.left, top: region.top };
       }),
     );
 
     const blurredBuffer =
       composites.length > 0
-        ? await sharp(originalCompressed)
-            .composite(composites)
-            .webp({ quality: 75 })
-            .toBuffer()
+        ? await sharp(originalCompressed).composite(composites).webp({ quality: 75 }).toBuffer()
         : originalCompressed;
 
     // 4. R2에 두 버전 병렬 업로드

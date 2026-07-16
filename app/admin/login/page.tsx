@@ -17,11 +17,7 @@ export default function AdminLoginPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#1A56A0] mb-4">
             <Lock size={22} className="text-[#FFFFFF]" />
           </div>
-          <h1
-            className="text-[#1A2E4A] text-xl font-bold"
-          >
-            안강 섬김 관리자
-          </h1>
+          <h1 className="text-[#1A2E4A] text-xl font-bold">안강 섬김 관리자</h1>
           <p className="text-[#5A7A99] text-sm mt-1">관리자 계정으로 로그인하세요</p>
         </div>
 
@@ -30,9 +26,7 @@ export default function AdminLoginPage() {
           className="bg-[#FFFFFF] rounded-2xl border border-[#A8C4E0]/50 p-8 space-y-5 shadow-sm"
         >
           <div>
-            <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
-              이메일
-            </label>
+            <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">이메일</label>
             <input
               name="email"
               type="email"
@@ -44,9 +38,7 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">
-              비밀번호
-            </label>
+            <label className="block text-[#1A2E4A] text-sm font-medium mb-1.5">비밀번호</label>
             <input
               name="password"
               type="password"

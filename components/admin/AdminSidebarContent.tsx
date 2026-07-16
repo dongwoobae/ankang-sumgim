@@ -1,13 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-  LogOut,
-  X,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, LogOut, X } from "lucide-react";
 import { logout } from "@/app/actions/admin/auth";
 import SidebarNav from "./SidebarNav";
 
@@ -30,9 +24,7 @@ export default function AdminSidebarContent({
       <div className="px-4 py-5 border-b border-[#1A2E4A] flex items-center justify-between">
         {!collapsed && (
           <div>
-            <p className="text-[#E8A020] font-bold text-sm">
-              안강 섬김
-            </p>
+            <p className="text-[#E8A020] font-bold text-sm">안강 섬김</p>
             <p className="text-[#5A7A99] text-[11px]">관리자 페이지</p>
           </div>
         )}
@@ -53,11 +45,7 @@ export default function AdminSidebarContent({
       </div>
 
       {/* 네비게이션 */}
-      <SidebarNav
-        collapsed={collapsed}
-        pathname={pathname}
-        onNavigate={onCloseMobile}
-      />
+      <SidebarNav collapsed={collapsed} pathname={pathname} onNavigate={onCloseMobile} />
 
       {/* 하단 버튼 */}
       <div className="px-3 py-4 border-t border-[#1A2E4A] space-y-1">

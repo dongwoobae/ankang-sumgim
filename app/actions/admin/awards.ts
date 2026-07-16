@@ -15,11 +15,7 @@ export async function saveAward(payload: {
   display_order: number;
 }): Promise<{ error: string; id?: number }> {
   await requireSession();
-  const { data, error } = await adminSupabase
-    .from("awards")
-    .insert(payload)
-    .select("id")
-    .single();
+  const { data, error } = await adminSupabase.from("awards").insert(payload).select("id").single();
 
   if (error) {
     await logError("admin/awards/save", error);
@@ -43,9 +39,7 @@ export async function deleteAward(id: number) {
   if (award?.image_url) {
     const key = extractR2Key(award.image_url);
     if (key) {
-      await deleteFromR2(key).catch((e) =>
-        console.error("[deleteAward] R2 삭제 오류:", e),
-      );
+      await deleteFromR2(key).catch((e) => console.error("[deleteAward] R2 삭제 오류:", e));
     }
   }
   await adminSupabase.from("awards").delete().eq("id", id);

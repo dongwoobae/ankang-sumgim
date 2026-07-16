@@ -3,9 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const ADDRESS = "경상북도 경주시 안강읍 화전중앙길 53";
-const GOOGLE_SRC = `https://www.google.com/maps?q=${encodeURIComponent(
-  ADDRESS,
-)}&output=embed`;
+const GOOGLE_SRC = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`;
 
 export default function KakaoMap() {
   const [failed, setFailed] = useState(false);

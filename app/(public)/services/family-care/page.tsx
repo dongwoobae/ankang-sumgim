@@ -19,10 +19,7 @@ const eligibility = [
   "직계혈족의 배우자 (며느리, 사위 등)",
 ];
 
-const conditions = [
-  "요양보호사 자격증 취득 필수",
-  "일부 예외적 비동거 가족도 인정 가능",
-];
+const conditions = ["요양보호사 자격증 취득 필수", "일부 예외적 비동거 가족도 인정 가능"];
 
 export default function FamilyCarePage() {
   return (
@@ -31,11 +28,7 @@ export default function FamilyCarePage() {
         eyebrow="SERVICES"
         title="가족요양"
         lead="가족이 직접 돌보며 급여를 받을 수 있습니다"
-        crumbs={[
-          { label: "홈", href: "/" },
-          { label: "서비스 안내" },
-          { label: "가족요양" },
-        ]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 안내" }, { label: "가족요양" }]}
       />
 
       <section className="px-6 py-20">
@@ -48,10 +41,7 @@ export default function FamilyCarePage() {
             >
               OVERVIEW
             </div>
-            <h2
-              className="mb-5 text-[26px] font-extrabold"
-              style={{ color: "var(--ink-2)" }}
-            >
+            <h2 className="mb-5 text-[26px] font-extrabold" style={{ color: "var(--ink-2)" }}>
               가족요양이란?
             </h2>
             <div
@@ -59,13 +49,12 @@ export default function FamilyCarePage() {
               style={{ color: "var(--ink-2)" }}
             >
               <p>
-                요양보호사 자격을 취득한 가족이 직접 어르신을 돌보고,
-                국민건강보험공단으로부터 장기요양급여를 수령하는 제도입니다.
+                요양보호사 자격을 취득한 가족이 직접 어르신을 돌보고, 국민건강보험공단으로부터
+                장기요양급여를 수령하는 제도입니다.
               </p>
               <p>
-                가족과 함께 지내며 익숙한 환경에서 돌봄을 받을 수 있어 어르신의
-                정서적 안정에 도움이 되며, 돌봄 가족도 정당한 급여를 받을 수
-                있습니다.
+                가족과 함께 지내며 익숙한 환경에서 돌봄을 받을 수 있어 어르신의 정서적 안정에 도움이
+                되며, 돌봄 가족도 정당한 급여를 받을 수 있습니다.
               </p>
             </div>
 
@@ -83,9 +72,9 @@ export default function FamilyCarePage() {
                 style={{ color: "var(--warn)" }}
               />
               <p className="text-sm leading-relaxed" style={{ color: "var(--ink-2)" }}>
-                <strong style={{ color: "var(--warn)" }}>동거 원칙:</strong>{" "}
-                수급자와 동거 중인 가족만 원칙적으로 인정됩니다. 비동거의 경우
-                일부 예외가 인정될 수 있으니 센터에 사전 확인을 부탁드립니다.
+                <strong style={{ color: "var(--warn)" }}>동거 원칙:</strong> 수급자와 동거 중인
+                가족만 원칙적으로 인정됩니다. 비동거의 경우 일부 예외가 인정될 수 있으니 센터에 사전
+                확인을 부탁드립니다.
               </p>
             </div>
 
@@ -98,10 +87,7 @@ export default function FamilyCarePage() {
                   borderColor: "var(--line)",
                 }}
               >
-                <h3
-                  className="mb-4 font-bold"
-                  style={{ color: "var(--ink-2)" }}
-                >
+                <h3 className="mb-4 font-bold" style={{ color: "var(--ink-2)" }}>
                   이용 조건
                 </h3>
                 <ul className="space-y-2.5">
@@ -129,10 +115,7 @@ export default function FamilyCarePage() {
                   borderColor: "var(--line)",
                 }}
               >
-                <h3
-                  className="mb-4 font-bold"
-                  style={{ color: "var(--ink-2)" }}
-                >
+                <h3 className="mb-4 font-bold" style={{ color: "var(--ink-2)" }}>
                   대상 가족 범위
                 </h3>
                 <ul className="space-y-1.5">
@@ -160,19 +143,47 @@ export default function FamilyCarePage() {
       <ServiceProcess
         title="가족요양 신청 절차"
         steps={[
-          { iconKey: "inquiry", title: "상담 문의", desc: "센터에 가족요양 가능 여부 및 자격 조건 상담" },
-          { iconKey: "cert", title: "요양보호사 자격 취득", desc: "지정 교육기관에서 이수 후 국가시험 응시" },
-          { iconKey: "gradeApply", title: "장기요양 등급 신청", desc: "어르신이 건강보험공단에 1~5등급 신청" },
-          { iconKey: "qualification", title: "가족요양 신청", desc: "센터 방문 상담 후 가족요양보호사로 등록" },
-          { iconKey: "serviceStart", title: "서비스 제공 및 급여 수령", desc: "돌봄 제공 후 매월 장기요양급여비 청구" },
+          {
+            iconKey: "inquiry",
+            title: "상담 문의",
+            desc: "센터에 가족요양 가능 여부 및 자격 조건 상담",
+          },
+          {
+            iconKey: "cert",
+            title: "요양보호사 자격 취득",
+            desc: "지정 교육기관에서 이수 후 국가시험 응시",
+          },
+          {
+            iconKey: "gradeApply",
+            title: "장기요양 등급 신청",
+            desc: "어르신이 건강보험공단에 1~5등급 신청",
+          },
+          {
+            iconKey: "qualification",
+            title: "가족요양 신청",
+            desc: "센터 방문 상담 후 가족요양보호사로 등록",
+          },
+          {
+            iconKey: "serviceStart",
+            title: "서비스 제공 및 급여 수령",
+            desc: "돌봄 제공 후 매월 장기요양급여비 청구",
+          },
         ]}
       />
 
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
-            prev={{ label: "방문요양서비스", desc: "가정 방문 요양 서비스", href: "/services/visit-care" }}
-            next={{ label: "등급신청 안내", desc: "장기요양등급 신청 절차", href: "/services/grade-apply" }}
+            prev={{
+              label: "방문요양서비스",
+              desc: "가정 방문 요양 서비스",
+              href: "/services/visit-care",
+            }}
+            next={{
+              label: "등급신청 안내",
+              desc: "장기요양등급 신청 절차",
+              href: "/services/grade-apply",
+            }}
           />
         </div>
       </section>

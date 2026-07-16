@@ -19,19 +19,14 @@ export default async function AdminPhotosPage() {
     <div className="p-8 max-w-4xl">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1
-            className="text-[#1A2E4A] text-2xl font-bold"
-          >
-            사진 게시판 관리
-          </h1>
+          <h1 className="text-[#1A2E4A] text-2xl font-bold">사진 게시판 관리</h1>
           <p className="text-[#5A7A99] text-sm mt-1">총 {categories.length}개 카테고리</p>
         </div>
         <Link
           href="/admin/photos/new"
           className="flex items-center gap-2 bg-[#1A56A0] text-[#FFFFFF] px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-[#1A2E4A] transition-colors"
         >
-          <PlusCircle size={16} />
-          새 카테고리 만들기
+          <PlusCircle size={16} />새 카테고리 만들기
         </Link>
       </div>
 
@@ -58,11 +53,7 @@ export default async function AdminPhotosPage() {
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex items-center gap-2 min-w-0">
                     <Images size={16} className="text-[#1A56A0] flex-shrink-0" />
-                    <p
-                      className="text-[#1A2E4A] font-bold text-sm truncate"
-                    >
-                      {cat.name}
-                    </p>
+                    <p className="text-[#1A2E4A] font-bold text-sm truncate">{cat.name}</p>
                   </div>
                   <span className="text-[#5A7A99] text-xs flex-shrink-0">
                     {new Date(cat.created_at).toLocaleDateString("ko-KR")}

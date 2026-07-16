@@ -19,13 +19,7 @@ type Props = {
 const ICONS = {
   // 📞 상담문의 — 전화기 + 말풍선
   inquiry: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 말풍선 배경 */}
       <rect x="30" y="18" width="30" height="22" rx="5" fill="#A8C4E0" />
@@ -54,13 +48,7 @@ const ICONS = {
 
   // 📋 등급·신청서 제출 — 서류 + 펜
   gradeApply: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 서류 */}
       <rect
@@ -121,13 +109,7 @@ const ICONS = {
 
   // 🚪 방문조사 — 집 + 사람
   visitCheck: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 집 */}
       <polygon points="40,16 62,34 18,34" fill="#1A56A0" />
@@ -146,13 +128,7 @@ const ICONS = {
 
   // ✅ 등급판정 — 클립보드 + 체크
   gradeJudgment: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 클립보드 */}
       <rect
@@ -168,14 +144,7 @@ const ICONS = {
       <rect x="33" y="18" width="14" height="9" rx="3" fill="#1A56A0" />
       <rect x="36" y="17" width="8" height="5" rx="2" fill="#2E6DB4" />
       {/* 등급 배지 */}
-      <circle
-        cx="40"
-        cy="44"
-        r="13"
-        fill="#EEF4FB"
-        stroke="#1A56A0"
-        strokeWidth="2"
-      />
+      <circle cx="40" cy="44" r="13" fill="#EEF4FB" stroke="#1A56A0" strokeWidth="2" />
       {/* 큰 체크 */}
       <path
         d="M33 44 L38 49 L48 38"
@@ -190,13 +159,7 @@ const ICONS = {
 
   // 🤝 계약체결 — 악수
   contract: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 왼손 */}
       <rect x="14" y="36" width="26" height="10" rx="5" fill="#1A56A0" />
@@ -223,13 +186,7 @@ const ICONS = {
 
   // 🏠 서비스 시작 — 집 + 하트
   serviceStart: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 집 */}
       <polygon points="40,14 65,34 15,34" fill="#1A56A0" />
@@ -250,13 +207,7 @@ const ICONS = {
 
   // 🎓 자격취득 — 졸업장/배지
   cert: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 배지 */}
       <circle cx="40" cy="36" r="18" fill="#1A56A0" />
@@ -275,13 +226,7 @@ const ICONS = {
 
   // 🛡️ 자격확인 — 방패 + 체크
   qualification: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 방패 */}
       <path
@@ -306,35 +251,19 @@ const ICONS = {
 
   // 👩‍⚕️ 요양보호사 배정 — 사람 + 하트
   caregiver: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 사람 몸 */}
       <circle cx="40" cy="24" r="10" fill="#1A56A0" />
       {/* 머리 */}
-      <path
-        d="M24 58 C24 48 30 44 40 44 C50 44 56 48 56 58 L56 62 L24 62 Z"
-        fill="#1A56A0"
-      />
+      <path d="M24 58 C24 48 30 44 40 44 C50 44 56 48 56 58 L56 62 L24 62 Z" fill="#1A56A0" />
       {/* 간호사 모자 */}
       <rect x="32" y="16" width="16" height="6" rx="2" fill="#FFFFFF" />
       <rect x="37.5" y="14" width="5" height="10" rx="1" fill="#FFFFFF" />
       <rect x="38.5" y="14" width="3" height="10" rx="0.5" fill="#C47A6E" />
       <rect x="34" y="18" width="12" height="2" rx="1" fill="#C47A6E" />
       {/* 하트 뱃지 */}
-      <circle
-        cx="54"
-        cy="44"
-        r="8"
-        fill="#FFFFFF"
-        stroke="#A8C4E0"
-        strokeWidth="1.5"
-      />
+      <circle cx="54" cy="44" r="8" fill="#FFFFFF" stroke="#A8C4E0" strokeWidth="1.5" />
       <path
         d="M54 48 C54 48 49.5 44 49.5 41.5 C49.5 39.5 51 38 53 39 C53.5 39.3 54 40 54 40 C54 40 54.5 39.3 55 39 C57 38 58.5 39.5 58.5 41.5 C58.5 44 54 48 54 48Z"
         fill="#C47A6E"
@@ -344,13 +273,7 @@ const ICONS = {
 
   // 📝 맞춤 계획 — 노트 + 연필
   plan: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 노트 */}
       <rect
@@ -365,30 +288,9 @@ const ICONS = {
       />
       <rect x="18" y="18" width="8" height="44" rx="4" fill="#A8C4E0" />
       {/* 나선 링 */}
-      <circle
-        cx="22"
-        cy="28"
-        r="3"
-        fill="#FFFFFF"
-        stroke="#1A56A0"
-        strokeWidth="1.5"
-      />
-      <circle
-        cx="22"
-        cy="40"
-        r="3"
-        fill="#FFFFFF"
-        stroke="#1A56A0"
-        strokeWidth="1.5"
-      />
-      <circle
-        cx="22"
-        cy="52"
-        r="3"
-        fill="#FFFFFF"
-        stroke="#1A56A0"
-        strokeWidth="1.5"
-      />
+      <circle cx="22" cy="28" r="3" fill="#FFFFFF" stroke="#1A56A0" strokeWidth="1.5" />
+      <circle cx="22" cy="40" r="3" fill="#FFFFFF" stroke="#1A56A0" strokeWidth="1.5" />
+      <circle cx="22" cy="52" r="3" fill="#FFFFFF" stroke="#1A56A0" strokeWidth="1.5" />
       {/* 체크 항목들 */}
       <rect x="30" y="26" width="16" height="2.5" rx="1.2" fill="#A8C4E0" />
       <circle cx="29" cy="27.2" r="2" fill="#1A56A0" />
@@ -409,14 +311,7 @@ const ICONS = {
         fill="none"
       />
       <rect x="30" y="42" width="12" height="2.5" rx="1.2" fill="#A8C4E0" />
-      <circle
-        cx="29"
-        cy="43.2"
-        r="2"
-        fill="#EEF4FB"
-        stroke="#A8C4E0"
-        strokeWidth="1"
-      />
+      <circle cx="29" cy="43.2" r="2" fill="#EEF4FB" stroke="#A8C4E0" strokeWidth="1" />
       {/* 연필 */}
       <rect
         x="52"
@@ -427,11 +322,7 @@ const ICONS = {
         transform="rotate(-35 52 42)"
         fill="#E8D48B"
       />
-      <polygon
-        points="52,56 56,52 60,60"
-        transform="rotate(-35 52 56)"
-        fill="#C4A84F"
-      />
+      <polygon points="52,56 56,52 60,60" transform="rotate(-35 52 56)" fill="#C4A84F" />
       <rect
         x="51"
         y="41"
@@ -446,13 +337,7 @@ const ICONS = {
 
   // 🩺 의사소견서 — 청진기 + 서류
   doctorNote: (
-    <svg
-      viewBox="0 0 80 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      width="56"
-      height="56"
-    >
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
       <circle cx="40" cy="40" r="40" fill="#EEF4FB" />
       {/* 서류 */}
       <rect
@@ -481,18 +366,8 @@ const ICONS = {
       />
       <circle cx="54" cy="47" r="5" fill="#1A56A0" />
       <circle cx="54" cy="47" r="3" fill="#2E6DB4" />
-      <path
-        d="M48 18 L48 26"
-        stroke="#1A56A0"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <path
-        d="M54 18 L54 26"
-        stroke="#1A56A0"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
+      <path d="M48 18 L48 26" stroke="#1A56A0" strokeWidth="3" strokeLinecap="round" />
+      <path d="M54 18 L54 26" stroke="#1A56A0" strokeWidth="3" strokeLinecap="round" />
       <circle cx="48" cy="18" r="3" fill="#1A56A0" />
       <circle cx="54" cy="18" r="3" fill="#1A56A0" />
     </svg>
@@ -500,23 +375,14 @@ const ICONS = {
 } as const;
 
 // ─── 메인 컴포넌트 ─────────────────────────────────────────
-export default function ServiceProcess({
-  steps,
-  title = "서비스 이용 절차",
-}: Props) {
+export default function ServiceProcess({ steps, title = "서비스 이용 절차" }: Props) {
   return (
     <section className="bg-[#EEF4FB] py-20">
       <div className="max-w-6xl mx-auto px-6">
         {/* 헤더 */}
         <div className="mb-12 text-center">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-            PROCESS
-          </p>
-          <h2
-            className="text-[#1A2E4A] text-2xl font-bold"
-          >
-            {title}
-          </h2>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">PROCESS</p>
+          <h2 className="text-[#1A2E4A] text-2xl font-bold">{title}</h2>
         </div>
 
         {/* 스텝 — 데스크탑: 가로, 모바일: 세로 */}
@@ -524,12 +390,7 @@ export default function ServiceProcess({
           {steps.map((step, i) => (
             <div key={i} className="flex flex-col md:flex-row md:items-start">
               {/* 스텝 카드 */}
-              <StepCard
-                icon={ICONS[step.iconKey]}
-                index={i}
-                title={step.title}
-                desc={step.desc}
-              />
+              <StepCard icon={ICONS[step.iconKey]} index={i} title={step.title} desc={step.desc} />
 
               {/* 화살표 연결 (마지막 스텝 제외) */}
               {i < steps.length - 1 && (

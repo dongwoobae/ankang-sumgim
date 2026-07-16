@@ -14,17 +14,7 @@ import {
   updatePhotoCaption,
   toggleFaceBlur,
 } from "@/app/actions/admin/photos";
-import {
-  Upload,
-  X,
-  Loader2,
-  Check,
-  Pencil,
-  Eye,
-  EyeOff,
-  ScanFace,
-  PenLine,
-} from "lucide-react";
+import { Upload, X, Loader2, Check, Pencil, Eye, EyeOff, ScanFace, PenLine } from "lucide-react";
 import Image from "next/image";
 import BlurEditor from "@/components/admin/BlurEditor";
 import { compressImageFile } from "@/lib/client-image-compress";
@@ -120,9 +110,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
     setError("");
     setUploading(true);
 
-    const fileArray = Array.from(files).filter((f) =>
-      f.type.startsWith("image/"),
-    );
+    const fileArray = Array.from(files).filter((f) => f.type.startsWith("image/"));
 
     // ── Phase 1: 순차 얼굴 감지 ──────────────────────────────────────────
     // TF.js WebGL/WASM 백엔드는 단일 스레드 공유 → 반드시 순차 실행
@@ -160,7 +148,11 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
             method: "POST",
             body: formData,
           });
-          const data = await res.json() as { url?: string; originalUrl?: string | null; error?: string };
+          const data = (await res.json()) as {
+            url?: string;
+            originalUrl?: string | null;
+            error?: string;
+          };
 
           uploadedCount += 1;
           setProgress((prev) => ({ ...prev, current: uploadedCount }));
@@ -224,9 +216,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
 
   async function handleToggleBlur(photo: Photo) {
     const next = !photo.is_face_blurred;
-    setPhotos((prev) =>
-      prev.map((p) => (p.id === photo.id ? { ...p, is_face_blurred: next } : p)),
-    );
+    setPhotos((prev) => prev.map((p) => (p.id === photo.id ? { ...p, is_face_blurred: next } : p)));
     const { error } = await toggleFaceBlur(String(photo.id), next);
     if (error) {
       setPhotos((prev) =>
@@ -238,9 +228,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
 
   function handleBlurApplied(photoId: number, newUrl: string) {
     setPhotos((prev) =>
-      prev.map((p) =>
-        p.id === photoId ? { ...p, url: newUrl, is_face_blurred: true } : p,
-      ),
+      prev.map((p) => (p.id === photoId ? { ...p, url: newUrl, is_face_blurred: true } : p)),
     );
   }
 
@@ -252,9 +240,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
   async function saveCaption(photoId: number) {
     await updatePhotoCaption(String(photoId), editCaption);
     setPhotos((prev) =>
-      prev.map((p) =>
-        p.id === photoId ? { ...p, caption: editCaption.trim() || null } : p,
-      ),
+      prev.map((p) => (p.id === photoId ? { ...p, caption: editCaption.trim() || null } : p)),
     );
     setEditingId(null);
   }
@@ -290,9 +276,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
           {uploading ? (
             <div className="flex flex-col items-center gap-3">
               <Loader2 size={36} className="text-[#1A56A0] animate-spin" />
-              <p className="text-[#1A2E4A] text-sm font-medium">
-                {progressLabel}
-              </p>
+              <p className="text-[#1A2E4A] text-sm font-medium">{progressLabel}</p>
               <p className="text-[#5A7A99] text-xs">
                 {phase === "detect"
                   ? "이미지 압축과 얼굴 감지 중입니다. 잠시 기다려 주세요."
@@ -323,20 +307,14 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
         {/* 사진 그리드 */}
         {photos.length > 0 && (
           <div>
-            <p className="text-[#5A7A99] text-xs mb-3">
-              등록된 사진 ({photos.length}장)
-            </p>
+            <p className="text-[#5A7A99] text-xs mb-3">등록된 사진 ({photos.length}장)</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {photos.map((photo) => (
                 <div key={photo.id} className="group flex flex-col gap-1.5">
                   {/* 이미지 */}
                   <div className="relative rounded-xl overflow-hidden aspect-square bg-[#EEF4FB]">
                     <Image
-                      src={
-                        photo.is_face_blurred
-                          ? photo.url
-                          : (photo.original_url ?? photo.url)
-                      }
+                      src={photo.is_face_blurred ? photo.url : (photo.original_url ?? photo.url)}
                       alt={photo.caption ?? ""}
                       fill
                       className="object-cover"
@@ -423,9 +401,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
                         className="flex items-center gap-1 text-[#5A7A99] text-xs hover:text-[#1A56A0] transition-colors text-left truncate"
                       >
                         <Pencil size={10} className="flex-shrink-0" />
-                        <span className="truncate">
-                          {photo.caption ?? "캡션 추가"}
-                        </span>
+                        <span className="truncate">{photo.caption ?? "캡션 추가"}</span>
                       </button>
                     )}
                   </div>

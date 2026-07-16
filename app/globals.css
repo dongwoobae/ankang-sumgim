@@ -14,35 +14,35 @@
 
 :root {
   /* INK */
-  --ink:   #0e1a2e;
+  --ink: #0e1a2e;
   --ink-2: #1a2e4a;
 
   /* PAPER */
-  --paper:   #ffffff;
+  --paper: #ffffff;
   --paper-2: #f4f7fc;
   --paper-3: #eef4fb;
 
   /* LINE */
-  --line:   #d6dfeb;
+  --line: #d6dfeb;
   --line-2: #a8c4e0;
 
   /* POP (브랜드 블루) */
-  --pop:   #1a56a0;
+  --pop: #1a56a0;
   --pop-2: #2e6db4;
   --pop-3: #0e3a78;
 
   /* MUTED */
-  --muted:   #5a7a99;
+  --muted: #5a7a99;
   --muted-2: #7a93ae;
 
   /* RADIUS */
-  --r-sm:   8px;
-  --r-md:   12px;
-  --r-lg:   16px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
   --r-pill: 999px;
 
   /* SHADOW */
-  --shadow-card:   0 18px 40px rgba(14, 26, 46, 0.08);
+  --shadow-card: 0 18px 40px rgba(14, 26, 46, 0.08);
   --shadow-header: 0 6px 24px rgba(14, 26, 46, 0.06);
 
   /* WARN */
@@ -53,42 +53,62 @@
 }
 
 @theme inline {
-  --color-ink:     #0e1a2e;
-  --color-ink-2:   #1a2e4a;
-  --color-paper:   #ffffff;
+  --color-ink: #0e1a2e;
+  --color-ink-2: #1a2e4a;
+  --color-paper: #ffffff;
   --color-paper-2: #f4f7fc;
   --color-paper-3: #eef4fb;
-  --color-line:    #d6dfeb;
-  --color-line-2:  #a8c4e0;
-  --color-pop:     #1a56a0;
-  --color-pop-2:   #2e6db4;
-  --color-pop-3:   #0e3a78;
-  --color-muted:   #5a7a99;
+  --color-line: #d6dfeb;
+  --color-line-2: #a8c4e0;
+  --color-pop: #1a56a0;
+  --color-pop-2: #2e6db4;
+  --color-pop-3: #0e3a78;
+  --color-muted: #5a7a99;
   --color-muted-2: #7a93ae;
-  --color-warn:    #e07a3a;
+  --color-warn: #e07a3a;
 }
 
 /* 노인 사용자 폰트 스케일 */
-:root { font-size: 112.5%; }          /* 모바일: 18px */
+:root {
+  font-size: 112.5%;
+} /* 모바일: 18px */
 @media (min-width: 768px) {
-  :root { font-size: 125%; }          /* 데스크탑: 20px */
+  :root {
+    font-size: 125%;
+  } /* 데스크탑: 20px */
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   letter-spacing: -0.012em;
   line-height: 1.7;
 }
 
-h1 { font-weight: 800; letter-spacing: -0.035em; }
-h2, h3 { font-weight: 700; letter-spacing: -0.025em; }
+h1 {
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
 
 /* ── Board 공통 버튼 ── */
 .btn-outline {
@@ -106,7 +126,10 @@ h2, h3 { font-weight: 700; letter-spacing: -0.025em; }
   text-decoration: none;
   transition: all 0.2s var(--ease);
 }
-.btn-outline:hover { border-color: var(--pop); color: var(--pop); }
+.btn-outline:hover {
+  border-color: var(--pop);
+  color: var(--pop);
+}
 
 .btn-primary-pill {
   display: inline-flex;
@@ -123,25 +146,51 @@ h2, h3 { font-weight: 700; letter-spacing: -0.025em; }
   text-decoration: none;
   transition: background 0.2s var(--ease);
 }
-.btn-primary-pill:hover { background: var(--ink-2); }
+.btn-primary-pill:hover {
+  background: var(--ink-2);
+}
 
 /* ── 음악 제목 마퀴(흐르는 텍스트) ── */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 .marquee-track {
   animation: marquee 8s linear infinite;
   will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
+  .marquee-track {
+    animation: none;
+  }
 }
 
 /* ── Board 본문 prose ── */
-.prose-board { line-height: 1.85; color: var(--ink-2); }
-.prose-board p { margin: 0 0 20px; }
-.prose-board h2 { font-size: 22px; margin: 36px 0 14px; font-weight: 700; letter-spacing: -0.025em; }
-.prose-board strong { font-weight: 700; }
-.prose-board ul, .prose-board ol { padding-left: 1.5em; margin: 0 0 20px; }
-.prose-board li { margin-bottom: 6px; }
+.prose-board {
+  line-height: 1.85;
+  color: var(--ink-2);
+}
+.prose-board p {
+  margin: 0 0 20px;
+}
+.prose-board h2 {
+  font-size: 22px;
+  margin: 36px 0 14px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+.prose-board strong {
+  font-weight: 700;
+}
+.prose-board ul,
+.prose-board ol {
+  padding-left: 1.5em;
+  margin: 0 0 20px;
+}
+.prose-board li {
+  margin-bottom: 6px;
+}

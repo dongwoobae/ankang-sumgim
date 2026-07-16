@@ -112,9 +112,7 @@ export default async function HomePage() {
                 className="text-[var(--pop)] text-[14px] font-semibold inline-flex items-center gap-1 group"
               >
                 전체 서비스 보기{" "}
-                <span className="transition-transform group-hover:translate-x-1.5">
-                  →
-                </span>
+                <span className="transition-transform group-hover:translate-x-1.5">→</span>
               </Link>
             </Reveal>
           </div>
@@ -169,9 +167,7 @@ export default async function HomePage() {
           </Reveal>
 
           {awardsData.length === 0 ? (
-            <p className="text-center text-[var(--muted)] py-8">
-              등록된 수상 내역이 없습니다.
-            </p>
+            <p className="text-center text-[var(--muted)] py-8">등록된 수상 내역이 없습니다.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {awardsData.map((award, i) => (
@@ -202,12 +198,8 @@ export default async function HomePage() {
                     <span className="inline-block text-[14px] font-bold text-[var(--pop)] mb-2 tracking-[0.04em]">
                       {new Date(award.awarded_at).getFullYear()}
                     </span>
-                    <h3 className="text-[17px] text-[var(--ink-2)] mb-1.5">
-                      {award.title}
-                    </h3>
-                    <p className="text-[13px] text-[var(--muted)]">
-                      {award.org}
-                    </p>
+                    <h3 className="text-[17px] text-[var(--ink-2)] mb-1.5">{award.title}</h3>
+                    <p className="text-[13px] text-[var(--muted)]">{award.org}</p>
                   </div>
                 </Reveal>
               ))}
@@ -220,9 +212,7 @@ export default async function HomePage() {
               className="inline-flex items-center gap-1.5 text-[var(--pop)] font-semibold text-[14px] group"
             >
               전체 수상 내역 보기{" "}
-              <span className="transition-transform group-hover:translate-x-1.5">
-                →
-              </span>
+              <span className="transition-transform group-hover:translate-x-1.5">→</span>
             </Link>
           </Reveal>
         </div>
@@ -240,10 +230,7 @@ export default async function HomePage() {
                 </div>
               </Reveal>
               <Reveal variant="up-strong" stagger={1}>
-                <h2
-                  className="m-0 leading-[1.18]"
-                  style={{ fontSize: "clamp(30px, 4vw, 48px)" }}
-                >
+                <h2 className="m-0 leading-[1.18]" style={{ fontSize: "clamp(30px, 4vw, 48px)" }}>
                   공지사항
                 </h2>
               </Reveal>
@@ -253,10 +240,7 @@ export default async function HomePage() {
                 href="/board/notice"
                 className="text-[var(--pop)] text-[14px] font-semibold inline-flex items-center gap-1 group"
               >
-                더보기{" "}
-                <span className="transition-transform group-hover:translate-x-1.5">
-                  →
-                </span>
+                더보기 <span className="transition-transform group-hover:translate-x-1.5">→</span>
               </Link>
             </Reveal>
           </div>

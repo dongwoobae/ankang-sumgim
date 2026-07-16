@@ -1,11 +1,7 @@
 // lib/r2.ts
 // Cloudflare R2 클라이언트 — @aws-sdk/client-s3 사용 (S3 호환)
 
-import {
-  S3Client,
-  PutObjectCommand,
-  DeleteObjectCommand,
-} from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 // ── R2 클라이언트 싱글턴 ──────────────────────────────────────
 export const r2 = new S3Client({
@@ -19,18 +15,14 @@ export const r2 = new S3Client({
 
 // ── 업로드 ────────────────────────────────────────────────────
 // key 예) "photos/categories/42/1700000000000-abc123.webp"
-export async function uploadToR2(
-  key: string,
-  body: Buffer,
-  contentType: string
-): Promise<string> {
+export async function uploadToR2(key: string, body: Buffer, contentType: string): Promise<string> {
   await r2.send(
     new PutObjectCommand({
       Bucket: process.env.R2_BUCKET_NAME!,
       Key: key,
       Body: body,
       ContentType: contentType,
-    })
+    }),
   );
   return `${process.env.R2_PUBLIC_URL}/${key}`;
 }
@@ -41,7 +33,7 @@ export async function deleteFromR2(key: string): Promise<void> {
     new DeleteObjectCommand({
       Bucket: process.env.R2_BUCKET_NAME!,
       Key: key,
-    })
+    }),
   );
 }
 

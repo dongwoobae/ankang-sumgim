@@ -18,16 +18,10 @@ export default function Footer() {
                 className="rounded-sm flex-shrink-0"
               />
               <div className="leading-snug">
-                <p
-                  className="text-[#FFFFFF] font-bold text-base"
-                >
-                  안강 섬김 노인복지센터
-                </p>
+                <p className="text-[#FFFFFF] font-bold text-base">안강 섬김 노인복지센터</p>
               </div>
             </div>
-            <p
-              className="text-[#E8A020] text-sm font-medium leading-relaxed"
-            >
+            <p className="text-[#E8A020] text-sm font-medium leading-relaxed">
               &quot;사랑으로, 정성으로, 내 몸같이 섬김&quot;
             </p>
             <div className="mt-5 flex flex-col gap-2">
@@ -70,9 +64,7 @@ export default function Footer() {
             <table className="text-sm text-[#A8C4E0] w-full">
               <tbody>
                 <tr>
-                  <td className="pr-4 pb-2 text-[#E8A020] font-medium">
-                    월 – 금
-                  </td>
+                  <td className="pr-4 pb-2 text-[#E8A020] font-medium">월 – 금</td>
                   <td className="pb-2">09:00 – 18:00</td>
                 </tr>
                 <tr>
@@ -81,9 +73,7 @@ export default function Footer() {
                 </tr>
               </tbody>
             </table>
-            <p className="text-xs text-[#5A7A99] mt-1">
-              ※ 운영시간은 변경될 수 있습니다.
-            </p>
+            <p className="text-xs text-[#5A7A99] mt-1">※ 운영시간은 변경될 수 있습니다.</p>
           </div>
 
           {/* 사업자 정보 */}
@@ -98,15 +88,11 @@ export default function Footer() {
                 <dd>조미영</dd>
               </div>
               <div>
-                <dt className="text-[#7A9AB8] text-xs mb-0.5">
-                  사업자등록번호
-                </dt>
+                <dt className="text-[#7A9AB8] text-xs mb-0.5">사업자등록번호</dt>
                 <dd>506-80-34219</dd>
               </div>
               <div>
-                <dt className="text-[#7A9AB8] text-xs mb-0.5">
-                  개인정보보호책임자
-                </dt>
+                <dt className="text-[#7A9AB8] text-xs mb-0.5">개인정보보호책임자</dt>
                 <dd>조미영 (miyeong0695@daum.net)</dd>
               </div>
             </dl>

@@ -33,11 +33,7 @@ export default async function NoticePage() {
         eyebrow="NOTICE"
         title="공지사항"
         lead="센터의 새로운 소식과 안내사항을 전해드립니다."
-        crumbs={[
-          { label: "홈", href: "/" },
-          { label: "게시판" },
-          { label: "공지사항" },
-        ]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "게시판" }, { label: "공지사항" }]}
       />
 
       <section className="px-6 pb-24 pt-12">

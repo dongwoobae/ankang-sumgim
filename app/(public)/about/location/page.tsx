@@ -7,8 +7,7 @@ import CtaBanner from "@/components/common/CtaBanner";
 
 export const metadata: Metadata = {
   title: "오시는길",
-  description:
-    "안강 섬김 노인복지센터 위치 안내. 경상북도 경주시 안강읍 화전중앙길 53.",
+  description: "안강 섬김 노인복지센터 위치 안내. 경상북도 경주시 안강읍 화전중앙길 53.",
   openGraph: { url: "/about/location" },
 };
 
@@ -68,10 +67,7 @@ const transportInfo = [
   {
     icon: <Bus size={20} />,
     title: "버스 이용",
-    items: [
-      "안강버스터미널 하차 후 도보 약 10분",
-      "경주·포항·영천 방면 시외버스 이용 가능",
-    ],
+    items: ["안강버스터미널 하차 후 도보 약 10분", "경주·포항·영천 방면 시외버스 이용 가능"],
   },
   {
     icon: <Car size={20} />,
@@ -91,11 +87,7 @@ export default function LocationPage() {
         eyebrow="ABOUT US"
         title="오시는길"
         lead="찾아오시는 방법을 안내해 드립니다"
-        crumbs={[
-          { label: "홈", href: "/" },
-          { label: "센터소개" },
-          { label: "오시는길" },
-        ]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "센터소개" }, { label: "오시는길" }]}
       />
 
       <section className="px-6 py-20">
@@ -113,10 +105,7 @@ export default function LocationPage() {
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
             {/* 연락처 정보 */}
             <div>
-              <h2
-                className="mb-6 text-xl font-bold"
-                style={{ color: "var(--ink-2)" }}
-              >
+              <h2 className="mb-6 text-xl font-bold" style={{ color: "var(--ink-2)" }}>
                 연락처 정보
               </h2>
               <ul className="space-y-5">
@@ -129,10 +118,7 @@ export default function LocationPage() {
                       {item.icon}
                     </span>
                     <div>
-                      <p
-                        className="mb-0.5 text-xs"
-                        style={{ color: "var(--muted)" }}
-                      >
+                      <p className="mb-0.5 text-xs" style={{ color: "var(--muted)" }}>
                         {item.label}
                       </p>
                       {item.content}
@@ -166,10 +152,7 @@ export default function LocationPage() {
 
             {/* 교통 안내 */}
             <div>
-              <h2
-                className="mb-6 text-xl font-bold"
-                style={{ color: "var(--ink-2)" }}
-              >
+              <h2 className="mb-6 text-xl font-bold" style={{ color: "var(--ink-2)" }}>
                 교통 안내
               </h2>
               <div className="space-y-4">

@@ -6,10 +6,7 @@
 
 import { useState, useRef } from "react";
 import { X, Trash2, Check, Loader2 } from "lucide-react";
-import {
-  applyManualBlur,
-  type BlurRegion,
-} from "@/app/actions/admin/applyManualBlur";
+import { applyManualBlur, type BlurRegion } from "@/app/actions/admin/applyManualBlur";
 
 type Props = {
   photo: {
@@ -37,10 +34,8 @@ export default function BlurEditor({ photo, onClose, onApplied }: Props) {
   /** 컨테이너 기준 0~1 상대 좌표 반환 */
   function getRelPos(e: React.MouseEvent | React.TouchEvent) {
     const rect = containerRef.current!.getBoundingClientRect();
-    const clientX =
-      "touches" in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
-    const clientY =
-      "touches" in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
+    const clientX = "touches" in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
     return {
       x: Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)),
       y: Math.max(0, Math.min(1, (clientY - rect.top) / rect.height)),
@@ -93,11 +88,7 @@ export default function BlurEditor({ photo, onClose, onApplied }: Props) {
         {/* 헤더 */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#A8C4E0]/40 flex-shrink-0">
           <div>
-            <p
-              className="text-[#1A2E4A] font-bold text-sm"
-            >
-              블러 영역 편집
-            </p>
+            <p className="text-[#1A2E4A] font-bold text-sm">블러 영역 편집</p>
             <p className="text-[#5A7A99] text-xs mt-0.5">
               드래그하여 블러 처리할 영역을 선택하세요 · 여러 영역 선택 가능
             </p>
@@ -143,9 +134,7 @@ export default function BlurEditor({ photo, onClose, onApplied }: Props) {
                 {/* 영역 삭제 버튼 */}
                 <button
                   onMouseDown={(e) => e.stopPropagation()}
-                  onClick={() =>
-                    setRegions((prev) => prev.filter((_, idx) => idx !== i))
-                  }
+                  onClick={() => setRegions((prev) => prev.filter((_, idx) => idx !== i))}
                   className="absolute -top-3 -right-3 w-6 h-6 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center shadow-md transition-colors"
                 >
                   <X size={11} color="#fff" />
@@ -200,14 +189,8 @@ export default function BlurEditor({ photo, onClose, onApplied }: Props) {
                 disabled={regions.length === 0 || applying}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1A56A0] text-white text-sm font-bold hover:bg-[#1A2E4A] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {applying ? (
-                  <Loader2 size={14} className="animate-spin" />
-                ) : (
-                  <Check size={14} />
-                )}
-                {applying
-                  ? "처리 중..."
-                  : `블러 적용 (${regions.length}개 영역)`}
+                {applying ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                {applying ? "처리 중..." : `블러 적용 (${regions.length}개 영역)`}
               </button>
             </div>
           </div>

@@ -50,8 +50,7 @@ export default function AlbumCard({
           <div
             className="absolute inset-0"
             style={{
-              background:
-                "linear-gradient(180deg, transparent 50%, rgba(14,26,46,0.7) 100%)",
+              background: "linear-gradient(180deg, transparent 50%, rgba(14,26,46,0.7) 100%)",
             }}
           />
           <span
@@ -67,15 +66,11 @@ export default function AlbumCard({
 
         {/* 정보 */}
         <div className="p-6">
-          <h3
-            className="mb-1.5 text-[19px] font-bold tracking-tight text-ink-2 transition-colors group-hover:text-pop"
-          >
+          <h3 className="mb-1.5 text-[19px] font-bold tracking-tight text-ink-2 transition-colors group-hover:text-pop">
             {title}
           </h3>
           {description && (
-            <p className="m-0 line-clamp-2 text-[14px] leading-[1.55] text-muted">
-              {description}
-            </p>
+            <p className="m-0 line-clamp-2 text-[14px] leading-[1.55] text-muted">{description}</p>
           )}
           <span className="mt-3.5 inline-flex items-center gap-1 text-[13px] font-semibold text-pop">
             앨범 열기{" "}

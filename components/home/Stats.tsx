@@ -52,7 +52,7 @@ function StatCard({ item }: { item: StatItem }) {
         rafId = requestAnimationFrame(tick);
         io.disconnect();
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
     io.observe(el);
     return () => {
@@ -62,13 +62,8 @@ function StatCard({ item }: { item: StatItem }) {
   }, [item.value]);
 
   return (
-    <div
-      ref={ref}
-      className="border-l-2 border-white/18 pl-6 py-1.5"
-    >
-      <div className="text-xs tracking-[0.28em] uppercase text-white/60 mb-2">
-        {item.label}
-      </div>
+    <div ref={ref} className="border-l-2 border-white/18 pl-6 py-1.5">
+      <div className="text-xs tracking-[0.28em] uppercase text-white/60 mb-2">{item.label}</div>
       <div
         className="font-bold leading-none tracking-[-0.02em] flex items-baseline gap-1.5"
         style={{ fontSize: "clamp(36px, 4.4vw, 56px)" }}

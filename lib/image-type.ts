@@ -4,11 +4,7 @@
 // 식별 가능한 포맷만 반환하고 그 외는 null. 허용 여부는 호출부 allowlist에서
 // 판단한다 (예: HEIC는 식별되지만 sharp 프리빌드가 디코딩 못 해 거절 대상).
 
-export type DetectedImageType =
-  | "image/jpeg"
-  | "image/png"
-  | "image/webp"
-  | "image/heic";
+export type DetectedImageType = "image/jpeg" | "image/png" | "image/webp" | "image/heic";
 
 // HEIF 컨테이너(ftyp) 중 HEIC 계열로 취급하는 브랜드
 const HEIC_BRANDS = new Set([

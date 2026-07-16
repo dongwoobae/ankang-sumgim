@@ -43,17 +43,10 @@ export default function FaqAccordion() {
       <div className="max-w-6xl mx-auto px-6">
         {/* 헤더 */}
         <div className="mb-10">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-            FAQ
-          </p>
-          <h2
-            className="text-[#1A2E4A] text-3xl font-bold"
-          >
-            자주 묻는 질문
-          </h2>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">FAQ</p>
+          <h2 className="text-[#1A2E4A] text-3xl font-bold">자주 묻는 질문</h2>
           <p className="text-[#5A7A99] text-base mt-2">
-            궁금한 내용이 없으면 아래 온라인 폼이나 카카오톡 채널, 전화로 문의해
-            주세요.
+            궁금한 내용이 없으면 아래 온라인 폼이나 카카오톡 채널, 전화로 문의해 주세요.
           </p>
         </div>
 
@@ -119,9 +112,7 @@ export default function FaqAccordion() {
                         <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#E8A020]/20 flex items-center justify-center text-sm font-bold text-[#E8A020] mt-0.5">
                           A
                         </span>
-                        <p className="text-[#1A2E4A] text-base leading-[1.9]">
-                          {faq.a}
-                        </p>
+                        <p className="text-[#1A2E4A] text-base leading-[1.9]">{faq.a}</p>
                       </div>
                     </div>
                   </div>

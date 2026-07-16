@@ -11,10 +11,6 @@ export const metadata: Metadata = {
   openGraph: { url: "/inquiry" },
 };
 
-export default function InquiryLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function InquiryLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

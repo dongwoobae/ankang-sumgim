@@ -31,11 +31,7 @@ export default async function AwardsPage() {
         eyebrow="ABOUT US"
         title="수상·기관선정"
         lead="신뢰로 쌓아온 수상 및 기관선정 내역"
-        crumbs={[
-          { label: "홈", href: "/" },
-          { label: "센터소개" },
-          { label: "수상·기관선정" },
-        ]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "센터소개" }, { label: "수상·기관선정" }]}
       />
 
       <section className="px-6 py-20">
@@ -48,10 +44,7 @@ export default async function AwardsPage() {
             >
               AWARDS & RECOGNITION
             </div>
-            <h2
-              className="text-[28px] font-extrabold"
-              style={{ color: "var(--ink-2)" }}
-            >
+            <h2 className="text-[28px] font-extrabold" style={{ color: "var(--ink-2)" }}>
               전체 수상 내역
             </h2>
           </div>

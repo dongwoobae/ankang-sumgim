@@ -13,11 +13,7 @@ async function getNotice(id: string) {
   return data;
 }
 
-export default async function EditNoticePage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function EditNoticePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const notice = await getNotice(id);
   if (!notice) notFound();
@@ -31,11 +27,7 @@ export default async function EditNoticePage({
         >
           <ArrowLeft size={20} />
         </Link>
-        <h1
-          className="text-[#1A2E4A] text-2xl font-bold"
-        >
-          공지 수정
-        </h1>
+        <h1 className="text-[#1A2E4A] text-2xl font-bold">공지 수정</h1>
       </div>
 
       <EditNoticeClient notice={notice} />

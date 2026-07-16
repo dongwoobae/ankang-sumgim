@@ -11,7 +11,7 @@ import { logError } from "@/lib/errorLog";
 
 export async function saveHeroPhoto(
   url: string,
-  display_order: number
+  display_order: number,
 ): Promise<{ error: string; id?: string }> {
   await requireSession();
   const { data, error } = await adminSupabase
@@ -41,9 +41,7 @@ export async function deleteHeroPhoto(id: string) {
   if (photo?.url) {
     const key = extractR2Key(photo.url);
     if (key) {
-      await deleteFromR2(key).catch((e) =>
-        console.error("[deleteHeroPhoto] R2 삭제 오류:", e)
-      );
+      await deleteFromR2(key).catch((e) => console.error("[deleteHeroPhoto] R2 삭제 오류:", e));
     }
   }
   await adminSupabase.from("hero_photos").delete().eq("id", id);

@@ -21,11 +21,7 @@ export default function NewNoticePage() {
           <ArrowLeft size={20} />
         </Link>
         <div>
-          <h1
-            className="text-[#1A2E4A] text-2xl font-bold"
-          >
-            새 공지 작성
-          </h1>
+          <h1 className="text-[#1A2E4A] text-2xl font-bold">새 공지 작성</h1>
         </div>
       </div>
 

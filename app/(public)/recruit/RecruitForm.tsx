@@ -1,4 +1,14 @@
-import { Award, Briefcase, CheckCircle2, Clock, HeartHandshake, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
+import {
+  Award,
+  Briefcase,
+  CheckCircle2,
+  Clock,
+  HeartHandshake,
+  MapPin,
+  MessageCircle,
+  Phone,
+  ShieldCheck,
+} from "lucide-react";
 import SiblingNav from "@/components/common/SiblingNav";
 
 const recruitInfo = [
@@ -56,16 +66,13 @@ export default function RecruitForm() {
         className="py-16 md:py-20"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-3">
-            RECRUIT
-          </p>
+          <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-3">RECRUIT</p>
           <h1 className="text-[#1A2E4A] text-4xl md:text-5xl font-bold leading-tight">
             요양보호사 상시 구인
           </h1>
           <p className="text-[#5A7A99] mt-5 max-w-2xl leading-8">
-            안강 섬김 노인복지센터는 어르신의 일상을 따뜻하게 함께할
-            요양보호사 선생님을 기다리고 있습니다. 복잡한 온라인 지원서 대신,
-            전화나 카카오톡으로 편하게 연락 주세요.
+            안강 섬김 노인복지센터는 어르신의 일상을 따뜻하게 함께할 요양보호사 선생님을 기다리고
+            있습니다. 복잡한 온라인 지원서 대신, 전화나 카카오톡으로 편하게 연락 주세요.
           </p>
         </div>
       </section>
@@ -85,9 +92,9 @@ export default function RecruitForm() {
               </h2>
 
               <p className="text-[#5A7A99] leading-8 mb-8">
-                방문요양은 어르신의 가정에서 신체활동, 가사활동, 정서지원을
-                돕는 일입니다. 근무 가능 지역과 시간은 상황에 따라 달라질 수
-                있어, 먼저 연락을 주시면 센터에서 자세히 안내드립니다.
+                방문요양은 어르신의 가정에서 신체활동, 가사활동, 정서지원을 돕는 일입니다. 근무 가능
+                지역과 시간은 상황에 따라 달라질 수 있어, 먼저 연락을 주시면 센터에서 자세히
+                안내드립니다.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
@@ -101,21 +108,15 @@ export default function RecruitForm() {
                       <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#FFFFFF] text-[#1A56A0] shadow-sm">
                         <Icon size={20} />
                       </div>
-                      <p className="text-[#5A7A99] text-xs font-semibold mb-1">
-                        {item.label}
-                      </p>
-                      <p className="text-[#1A2E4A] text-sm font-bold leading-6">
-                        {item.value}
-                      </p>
+                      <p className="text-[#5A7A99] text-xs font-semibold mb-1">{item.label}</p>
+                      <p className="text-[#1A2E4A] text-sm font-bold leading-6">{item.value}</p>
                     </div>
                   );
                 })}
               </div>
 
               <div className="rounded-3xl border border-[#A8C4E0]/60 bg-[#FFFFFF] p-6 md:p-8 shadow-[0_18px_40px_rgba(14,26,46,0.08)]">
-                <h3 className="text-[#1A2E4A] text-xl font-bold mb-5">
-                  이런 분을 기다립니다
-                </h3>
+                <h3 className="text-[#1A2E4A] text-xl font-bold mb-5">이런 분을 기다립니다</h3>
                 <ul className="space-y-3">
                   {preferredPoints.map((point) => (
                     <li key={point} className="flex gap-3 text-[#1A2E4A] text-sm leading-7">
@@ -129,15 +130,13 @@ export default function RecruitForm() {
 
             <aside className="lg:sticky lg:top-32 space-y-5">
               <div className="rounded-3xl bg-[#1A2E4A] p-7 text-white shadow-[0_18px_40px_rgba(14,26,46,0.18)]">
-                <p className="text-[#A8C4E0] text-sm font-semibold mb-2">
-                  문의 전화
-                </p>
+                <p className="text-[#A8C4E0] text-sm font-semibold mb-2">문의 전화</p>
                 <a href="tel:054-763-5988" className="block text-3xl font-bold tracking-tight">
                   054-763-5988
                 </a>
                 <p className="mt-4 text-sm leading-7 text-[#D6DFEB]">
-                  평일 09:00–18:00, 토요일 09:00–14:00 사이에 연락 주시면
-                  담당자가 구인 상담을 도와드립니다.
+                  평일 09:00–18:00, 토요일 09:00–14:00 사이에 연락 주시면 담당자가 구인 상담을
+                  도와드립니다.
                 </p>
                 <div className="mt-6 grid grid-cols-1 gap-3">
                   <a
@@ -180,27 +179,22 @@ export default function RecruitForm() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-10 flex items-end justify-between gap-6">
             <div>
-              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">
-                PROCESS
-              </p>
-              <h2 className="text-[#1A2E4A] text-2xl md:text-3xl font-bold">
-                문의 후 진행 과정
-              </h2>
+              <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">PROCESS</p>
+              <h2 className="text-[#1A2E4A] text-2xl md:text-3xl font-bold">문의 후 진행 과정</h2>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {contactSteps.map((step, index) => (
-              <div key={step.title} className="rounded-3xl bg-[#FFFFFF] p-6 border border-[#D6DFEB]">
+              <div
+                key={step.title}
+                className="rounded-3xl bg-[#FFFFFF] p-6 border border-[#D6DFEB]"
+              >
                 <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#1A56A0] text-white text-sm font-bold">
                   {String(index + 1).padStart(2, "0")}
                 </div>
-                <h3 className="text-[#1A2E4A] text-lg font-bold mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-[#5A7A99] text-sm leading-7">
-                  {step.desc}
-                </p>
+                <h3 className="text-[#1A2E4A] text-lg font-bold mb-3">{step.title}</h3>
+                <p className="text-[#5A7A99] text-sm leading-7">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -214,7 +208,6 @@ export default function RecruitForm() {
           />
         </div>
       </section>
-
     </div>
   );
 }

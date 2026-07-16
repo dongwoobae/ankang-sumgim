@@ -36,9 +36,7 @@ export default async function AdminRecruitsPage() {
           <p className="text-[#5A7A99] text-sm mt-1">
             전체 {applications.length}건
             {pending > 0 && (
-              <span className="ml-2 text-[#1A56A0] font-medium">
-                · 대기 {pending}건
-              </span>
+              <span className="ml-2 text-[#1A56A0] font-medium">· 대기 {pending}건</span>
             )}
           </p>
         </div>
@@ -81,9 +79,7 @@ export default async function AdminRecruitsPage() {
                   <div>
                     <p className="text-[#5A7A99] text-xs mb-0.5">보유 자격증</p>
                     <p className="text-[#1A2E4A]">
-                      {app.certificates?.length > 0
-                        ? app.certificates.join(", ")
-                        : "미입력"}
+                      {app.certificates?.length > 0 ? app.certificates.join(", ") : "미입력"}
                     </p>
                   </div>
                   <div>
@@ -115,9 +111,10 @@ export default async function AdminRecruitsPage() {
                         <button
                           type="submit"
                           className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors
-                            ${app.status === value
-                              ? "bg-[#1A56A0] border-[#1A56A0] text-white"
-                              : "bg-white border-[#A8C4E0]/70 text-[#5A7A99] hover:border-[#1A56A0] hover:text-[#1A56A0]"
+                            ${
+                              app.status === value
+                                ? "bg-[#1A56A0] border-[#1A56A0] text-white"
+                                : "bg-white border-[#A8C4E0]/70 text-[#5A7A99] hover:border-[#1A56A0] hover:text-[#1A56A0]"
                             }`}
                         >
                           {info.label}

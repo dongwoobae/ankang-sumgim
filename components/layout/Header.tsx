@@ -4,7 +4,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Shield, Home, Users, ClipboardList, Lightbulb, User, MapPin, Award, Bell, Camera, Calculator, BriefcaseBusiness, type LucideIcon } from "lucide-react";
+import {
+  Menu,
+  X,
+  Shield,
+  Home,
+  Users,
+  ClipboardList,
+  Lightbulb,
+  User,
+  MapPin,
+  Award,
+  Bell,
+  Camera,
+  Calculator,
+  BriefcaseBusiness,
+  type LucideIcon,
+} from "lucide-react";
 
 type NavChild = {
   label: string;
@@ -163,10 +179,7 @@ export default function Header() {
       <div className="bg-[#FFFFFF] border-b border-[#A8C4E0]/60">
         <div className="max-w-6xl mx-auto px-6 h-[72px] md:h-[108px] flex items-center justify-between">
           {/* 로고 */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 group flex-shrink-0"
-          >
+          <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
             <Image
               src="/logo.png"
               alt="안강 섬김 노인복지센터 로고"
@@ -191,8 +204,7 @@ export default function Header() {
             }}
           >
             {navItems.map((item) => {
-              const isActive =
-                item.href != null && pathname.startsWith(item.href);
+              const isActive = item.href != null && pathname.startsWith(item.href);
               const labelKey = item.label;
 
               const labelClass = `relative px-5 h-full flex items-center text-[17px] font-medium tracking-tight transition-colors duration-200
@@ -202,10 +214,7 @@ export default function Header() {
                 <span
                   className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#1A56A0] transition-transform duration-200 origin-bottom"
                   style={{
-                    transform:
-                      isActive || activeMenu === labelKey
-                        ? "scaleY(1)"
-                        : "scaleY(0)",
+                    transform: isActive || activeMenu === labelKey ? "scaleY(1)" : "scaleY(0)",
                   }}
                 />
               );
@@ -227,9 +236,7 @@ export default function Header() {
                       className={labelClass}
                       aria-haspopup="true"
                       aria-expanded={activeMenu === labelKey}
-                      onClick={() =>
-                        setActiveMenu(activeMenu === labelKey ? null : labelKey)
-                      }
+                      onClick={() => setActiveMenu(activeMenu === labelKey ? null : labelKey)}
                       onFocus={() => setActiveMenu(labelKey)}
                     >
                       {item.label}
@@ -252,58 +259,58 @@ export default function Header() {
         </div>
 
         {/* 드롭다운 메가메뉴 */}
-        {activeMenu &&
-          (navItems.find((i) => i.label === activeMenu)?.children.length ?? 0) >
-            0 && (
-            <div
-              className="hidden md:block absolute left-0 right-0 bg-[#FFFFFF] border-b border-[#A8C4E0]/60"
-              style={{ boxShadow: "0 8px 24px rgba(92,74,30,0.10)" }}
-              onMouseEnter={() => setActiveMenu(activeMenu)}
-              onMouseLeave={() => setActiveMenu(null)}
-            >
-              <div className="max-w-6xl mx-auto px-6 py-5">
-                <div className="flex gap-3">
-                  {navItems
-                    .find((i) => i.label === activeMenu)
-                    ?.children.map((child) => {
-                      const Icon = child.icon;
-                      const hasIcon = !!Icon;
-                      return (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          onClick={() => setActiveMenu(null)}
-                          className={`flex-1 group rounded-xl border transition-all duration-200
+        {activeMenu && (navItems.find((i) => i.label === activeMenu)?.children.length ?? 0) > 0 && (
+          <div
+            className="hidden md:block absolute left-0 right-0 bg-[#FFFFFF] border-b border-[#A8C4E0]/60"
+            style={{ boxShadow: "0 8px 24px rgba(92,74,30,0.10)" }}
+            onMouseEnter={() => setActiveMenu(activeMenu)}
+            onMouseLeave={() => setActiveMenu(null)}
+          >
+            <div className="max-w-6xl mx-auto px-6 py-5">
+              <div className="flex gap-3">
+                {navItems
+                  .find((i) => i.label === activeMenu)
+                  ?.children.map((child) => {
+                    const Icon = child.icon;
+                    const hasIcon = !!Icon;
+                    return (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        onClick={() => setActiveMenu(null)}
+                        className={`flex-1 group rounded-xl border transition-all duration-200
                           ${hasIcon ? "flex flex-col items-center gap-2 px-3 py-4" : "px-4 py-3"}
                           ${
                             pathname === child.href
                               ? "bg-[#EEF4FB] border-[#1A56A0]"
                               : "bg-transparent border-[#E8EFF8] hover:bg-[#EEF4FB] hover:border-[#A8C4E0]"
                           }`}
-                        >
-                          {Icon && (
-                            <div
-                              className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
-                              style={{ background: child.iconBg }}
-                            >
-                              <Icon size={26} color={child.iconColor} strokeWidth={1.8} />
-                            </div>
-                          )}
-                          <p
-                            className={`font-medium transition-colors text-center
+                      >
+                        {Icon && (
+                          <div
+                            className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
+                            style={{ background: child.iconBg }}
+                          >
+                            <Icon size={26} color={child.iconColor} strokeWidth={1.8} />
+                          </div>
+                        )}
+                        <p
+                          className={`font-medium transition-colors text-center
                             ${hasIcon ? "text-sm mt-0.5" : "text-sm mb-0.5"}
                             ${pathname === child.href ? "text-[#1A56A0]" : "text-[#1A2E4A] group-hover:text-[#1A56A0]"}`}
-                          >
-                            {child.label}
-                          </p>
-                          <p className={`text-xs text-[#5A7A99] ${hasIcon ? "text-center" : ""}`}>{child.desc}</p>
-                        </Link>
-                      );
-                    })}
-                </div>
+                        >
+                          {child.label}
+                        </p>
+                        <p className={`text-xs text-[#5A7A99] ${hasIcon ? "text-center" : ""}`}>
+                          {child.desc}
+                        </p>
+                      </Link>
+                    );
+                  })}
               </div>
             </div>
-          )}
+          </div>
+        )}
       </div>
 
       {/* 모바일 메뉴 */}

@@ -23,10 +23,7 @@ export default function SiblingNav({ prev, next }: Props) {
           className="group block rounded-2xl border bg-white p-5 transition-all hover:border-pop hover:bg-paper-3"
           style={{ borderColor: "var(--line)" }}
         >
-          <div
-            className="mb-1.5 text-[11px] tracking-wider"
-            style={{ color: "var(--muted)" }}
-          >
+          <div className="mb-1.5 text-[11px] tracking-wider" style={{ color: "var(--muted)" }}>
             ← 이전
           </div>
           <div
@@ -61,10 +58,7 @@ export default function SiblingNav({ prev, next }: Props) {
           className="group block rounded-2xl border bg-white p-5 text-right transition-all hover:border-pop hover:bg-paper-3"
           style={{ borderColor: "var(--line)" }}
         >
-          <div
-            className="mb-1.5 text-[11px] tracking-wider"
-            style={{ color: "var(--muted)" }}
-          >
+          <div className="mb-1.5 text-[11px] tracking-wider" style={{ color: "var(--muted)" }}>
             다음 →
           </div>
           <div

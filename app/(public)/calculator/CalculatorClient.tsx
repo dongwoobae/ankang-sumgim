@@ -29,13 +29,7 @@ function formatKRW(n: number) {
   return n.toLocaleString("ko-KR") + "원";
 }
 
-export default function CalculatorClient({
-  rates,
-  limits,
-}: {
-  rates: Rate[];
-  limits: Limit[];
-}) {
+export default function CalculatorClient({ rates, limits }: { rates: Rate[]; limits: Limit[] }) {
   const [grade, setGrade] = useState<string | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
   const [visits, setVisits] = useState<string>("");
@@ -43,9 +37,7 @@ export default function CalculatorClient({
   const sortedLimits = [...limits].sort(
     (a, b) => GRADE_ORDER.indexOf(a.grade) - GRADE_ORDER.indexOf(b.grade),
   );
-  const sortedRates = [...rates].sort(
-    (a, b) => a.duration_minutes - b.duration_minutes,
-  );
+  const sortedRates = [...rates].sort((a, b) => a.duration_minutes - b.duration_minutes);
 
   const selectedLimit = limits.find((l) => l.grade === grade);
   const selectedRate = rates.find((r) => r.duration_minutes === duration);
@@ -71,15 +63,10 @@ export default function CalculatorClient({
   return (
     <section className="px-6 py-20">
       <div className="mx-auto max-w-[860px] space-y-10">
-
         {/* Step 1 – 등급 선택 */}
         <div>
-          <p className="mb-2 text-xs font-semibold tracking-widest text-muted">
-            STEP 1
-          </p>
-          <h2 className="mb-5 text-xl font-bold text-ink-2">
-            장기요양 등급을 선택해 주세요
-          </h2>
+          <p className="mb-2 text-xs font-semibold tracking-widest text-muted">STEP 1</p>
+          <h2 className="mb-5 text-xl font-bold text-ink-2">장기요양 등급을 선택해 주세요</h2>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-6">
             {sortedLimits.map((l) => (
               <button
@@ -109,12 +96,8 @@ export default function CalculatorClient({
 
         {/* Step 2 – 1회 이용 시간 */}
         <div>
-          <p className="mb-2 text-xs font-semibold tracking-widest text-muted">
-            STEP 2
-          </p>
-          <h2 className="mb-5 text-xl font-bold text-ink-2">
-            1회 이용 시간을 선택해 주세요
-          </h2>
+          <p className="mb-2 text-xs font-semibold tracking-widest text-muted">STEP 2</p>
+          <h2 className="mb-5 text-xl font-bold text-ink-2">1회 이용 시간을 선택해 주세요</h2>
           <div className="flex flex-wrap gap-2">
             {sortedRates.map((r) => {
               const hrs = r.duration_minutes / 60;
@@ -122,8 +105,8 @@ export default function CalculatorClient({
                 r.duration_minutes < 60
                   ? `${r.duration_minutes}분`
                   : Number.isInteger(hrs)
-                  ? `${hrs}시간`
-                  : `${Math.floor(hrs)}시간 ${r.duration_minutes % 60}분`;
+                    ? `${hrs}시간`
+                    : `${Math.floor(hrs)}시간 ${r.duration_minutes % 60}분`;
               return (
                 <button
                   key={r.duration_minutes}
@@ -144,21 +127,15 @@ export default function CalculatorClient({
           {duration && selectedRate && (
             <p className="mt-3 text-sm text-muted">
               1회 수가:{" "}
-              <span className="font-semibold text-pop">
-                {formatKRW(selectedRate.price)}
-              </span>
+              <span className="font-semibold text-pop">{formatKRW(selectedRate.price)}</span>
             </p>
           )}
         </div>
 
         {/* Step 3 – 월 이용 횟수 */}
         <div>
-          <p className="mb-2 text-xs font-semibold tracking-widest text-muted">
-            STEP 3
-          </p>
-          <h2 className="mb-5 text-xl font-bold text-ink-2">
-            월 이용 횟수를 입력해 주세요
-          </h2>
+          <p className="mb-2 text-xs font-semibold tracking-widest text-muted">STEP 3</p>
+          <h2 className="mb-5 text-xl font-bold text-ink-2">월 이용 횟수를 입력해 주세요</h2>
           <div className="flex max-w-xs items-center gap-3">
             <input
               type="number"
@@ -176,14 +153,9 @@ export default function CalculatorClient({
         {/* 결과 */}
         {result ? (
           <div className="overflow-hidden rounded-2xl border border-pop/30">
-            <div
-              className="flex items-center gap-2 px-6 py-4"
-              style={{ background: "var(--pop)" }}
-            >
+            <div className="flex items-center gap-2 px-6 py-4" style={{ background: "var(--pop)" }}>
               <Calculator size={18} className="text-white" />
-              <h3 className="text-base font-bold text-white">
-                월 예상 본인부담금
-              </h3>
+              <h3 className="text-base font-bold text-white">월 예상 본인부담금</h3>
             </div>
             <div className="space-y-3 bg-paper-2 px-6 py-6">
               <Row
@@ -224,17 +196,14 @@ export default function CalculatorClient({
               <div className="my-2 border-t border-pop/30" />
 
               <div className="flex items-center justify-between">
-                <p className="text-base font-bold text-ink-2">
-                  월 예상 본인부담금 합계
-                </p>
-                <p className="text-2xl font-bold text-pop">
-                  {formatKRW(result.totalOop)}
-                </p>
+                <p className="text-base font-bold text-ink-2">월 예상 본인부담금 합계</p>
+                <p className="text-2xl font-bold text-pop">{formatKRW(result.totalOop)}</p>
               </div>
             </div>
           </div>
         ) : (
-          grade && duration && (
+          grade &&
+          duration && (
             <div className="rounded-xl border border-line bg-paper-2 px-6 py-5 text-center text-sm text-muted">
               월 이용 횟수를 입력하면 계산 결과가 표시됩니다.
             </div>
@@ -246,13 +215,16 @@ export default function CalculatorClient({
           <Info size={16} className="mt-0.5 flex-shrink-0 text-muted" />
           <div className="space-y-1 text-xs leading-relaxed text-muted">
             <p>
-              본 계산기는 <strong className="text-ink-2">방문요양 서비스</strong> 기준이며, 2026년 보건복지부 고시 수가를 반영합니다.
+              본 계산기는 <strong className="text-ink-2">방문요양 서비스</strong> 기준이며, 2026년
+              보건복지부 고시 수가를 반영합니다.
             </p>
             <p>
-              일반 수급자 기준 본인부담률 <strong className="text-ink-2">15%</strong>가 적용됩니다. 차상위계층(9%) · 의료급여 수급자(6%) 등 감경 대상자는 실제 부담금이 다를 수 있습니다.
+              일반 수급자 기준 본인부담률 <strong className="text-ink-2">15%</strong>가 적용됩니다.
+              차상위계층(9%) · 의료급여 수급자(6%) 등 감경 대상자는 실제 부담금이 다를 수 있습니다.
             </p>
             <p>
-              정확한 비용은 담당 복지사와 상담하시거나 전화 <strong className="text-ink-2">054-763-5988</strong>로 문의해 주세요.
+              정확한 비용은 담당 복지사와 상담하시거나 전화{" "}
+              <strong className="text-ink-2">054-763-5988</strong>로 문의해 주세요.
             </p>
           </div>
         </div>

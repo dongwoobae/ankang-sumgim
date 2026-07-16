@@ -17,9 +17,7 @@ export default function AlbumGrid({ albums }: { albums: Album[] }) {
   const [query, setQuery] = useState("");
 
   const filtered = query.trim()
-    ? albums.filter((a) =>
-        a.title.toLowerCase().includes(query.trim().toLowerCase()),
-      )
+    ? albums.filter((a) => a.title.toLowerCase().includes(query.trim().toLowerCase()))
     : albums;
 
   return (

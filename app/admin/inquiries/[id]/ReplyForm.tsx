@@ -26,9 +26,7 @@ export function ReplyForm({ inquiryId }: { inquiryId: string }) {
         placeholder="답변 내용을 입력하세요"
         className="w-full px-4 py-3 rounded-xl border border-[#A8C4E0]/70 bg-[#EEF4FB] text-[#1A2E4A] placeholder-[#5A7A99] text-sm focus:outline-none focus:border-[#1A56A0] transition-colors resize-none leading-relaxed"
       />
-      {state.error && (
-        <p className="text-red-600 text-sm">{state.error}</p>
-      )}
+      {state.error && <p className="text-red-600 text-sm">{state.error}</p>}
       <button
         type="submit"
         disabled={pending}

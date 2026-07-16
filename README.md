@@ -20,6 +20,18 @@
 
 ---
 
+## 🚀 핵심 성과
+
+- **1인 개발 전 과정 수행** — 요구사항 정리부터 정보 구조, UI, 백엔드, 데이터베이스, 인프라, 배포·운영까지 단독으로 설계하고 구현
+- **이용자 초상권 보호 파이프라인** — 브라우저 얼굴 감지, 서버 Sharp 블러, 원본·공개본 분리 저장, 관리자 수동 보정을 결합
+- **서버리스 이미지 업로드 최적화** — 3.5MB 초과 이미지를 브라우저에서 최대 1920px로 압축해 Vercel 요청 본문 제한에 대응
+- **신뢰 경계 검증** — MIME 선언을 신뢰하지 않고 JPEG·PNG·WebP 매직바이트와 얼굴 좌표를 서버에서 재검증하며, 처리 불가능한 HEIC는 변환 방법과 함께 명확히 거절
+- **인증·데이터 보안 강화** — Supabase JWT 로컬 검증, RLS·service role 경계, SECURITY DEFINER 함수 권한 회수, 스팸 방지와 원자적 rate limit 적용
+- **운영 기능 통합** — 공지·사진·상담·답변 발송·수상 이력·구인 지원자·장기요양 계산기·오류 로그를 하나의 관리자 시스템에서 관리
+- **서비스 주소** — [https://sumgim-welfare.com](https://sumgim-welfare.com)
+
+---
+
 ## ✨ 주요 기능
 
 ### 사용자 공개 페이지
@@ -31,7 +43,7 @@
 - 🧮 **본인부담금 계산기** — 등급과 이용 시간을 선택하면 예상 월 본인부담금 자동 계산
 - 💬 **상담문의** — 온라인 문의 접수, FAQ 아코디언, 이메일/SMS 답변 연계
 - 📰 **공지사항** — 고정 공지, 목록, 상세 페이지 제공
-- 🖼️ **사진 게시판** — 앨범 목록, 앨범 상세, 사진 라이트박스
+- 🖼️ **사진 게시판** — 얼굴 비식별화된 앨범 목록·상세, 키보드/배경 클릭을 지원하는 사진 라이트박스
 - 🙋 **요양보호사 구인** — 상시 구인 안내, 전화/카카오톡 상담 유도
 - 🔐 **개인정보처리방침** — 상담 및 개인정보 처리 안내
 - 🎵 **배경 음악 설정** — 정적 음악 파일과 흐르는 제목 UI 지원
@@ -40,11 +52,11 @@
 
 Supabase Auth 세션을 기준으로 보호되며, `middleware.ts`에서 `/admin` 하위 경로 접근을 제어합니다.
 
-- 🔒 **관리자 로그인** — `/admin/login`만 공개 접근 허용, 나머지 관리자 라우트 인증 필요
+- 🔒 **관리자 로그인** — `/admin/login`만 공개 접근 허용, 나머지 관리자 라우트는 Supabase JWT를 로컬 검증해 보호
 - 📊 **대시보드** — 운영 현황 패널과 주요 관리 메뉴 진입점
 - 📝 **공지사항 관리** — 목록, 작성, 수정, 삭제, 고정 공지 관리
 - 🖼️ **사진 게시판 관리** — 카테고리 생성/삭제, 앨범별 사진 업로드
-- 😶‍🌫️ **얼굴 자동 블러** — face-api.js로 브라우저에서 얼굴 좌표 감지 후 Sharp로 서버 블러 처리
+- 😶‍🌫️ **얼굴 자동 블러** — face-api.js 감지 좌표를 리사이즈본에 맞게 변환·클램프한 뒤 Sharp로 여러 얼굴을 병렬 블러 처리
 - ✍️ **수동 블러 편집** — 자동 감지가 놓친 영역을 관리자가 직접 드래그 지정
 - 💬 **상담문의 관리** — 문의 목록/상세 조회, 답변 작성, 답변 완료 상태 토글
 - 📩 **답변 발송** — Resend 이메일, Solapi SMS 연동
@@ -62,7 +74,11 @@ Supabase Auth 세션을 기준으로 보호되며, `middleware.ts`에서 `/admin
 - 🚦 **Rate Limiting** — 동일 IP 기준 1시간 내 문의 제출 횟수 제한
 - 🧼 **HTML 이스케이프** — 문의/답변 본문 인젝션 방어
 - 🗂️ **R2 key 추출 검증** — Cloudflare R2 삭제 시 허용된 URL만 key 추출
-- 🛡️ **Supabase RLS 보안 보강** — 과도한 authenticated 정책 제거, storage listing 차단 마이그레이션 포함
+- 🧪 **업로드 실파일 검증** — JPEG·PNG·WebP 매직바이트 확인, 위조 MIME·SVG 차단, HEIC 변환 안내
+- 🗜️ **클라이언트 이미지 압축** — 대용량 이미지를 업로드 전에 WebP/JPEG로 축소해 서버리스 요청 크기 제한 대응
+- ☁️ **R2 파이프라인 통합** — 사진 원본·블러본, Hero, 수상 이미지를 동일한 Cloudflare R2 업로드/삭제 흐름으로 관리
+- 🛡️ **Supabase RLS 보안 보강** — 공개 읽기·문의 접수만 정책으로 허용하고 관리자 쓰기는 service role로 분리, 자동 RLS 함수의 외부 실행 권한 회수
+- ⚡ **리전·인증 최적화** — Vercel 함수를 Supabase와 같은 서울 리전에 배치하고 middleware 인증 서버 왕복 제거
 - 🔎 **SEO 기본 구성** — 동적 sitemap, robots, OG 이미지, 페이지별 metadata
 - 🌐 **도메인 리다이렉트** — `ankang-sumgim.vercel.app` → `sumgim-welfare.com` 영구 리다이렉트
 
@@ -70,23 +86,25 @@ Supabase Auth 세션을 기준으로 보호되며, `middleware.ts`에서 `/admin
 
 ## 🛠️ 기술 스택
 
-| 구분 | 기술 |
-|---|---|
-| Framework | Next.js 16 App Router |
-| Language | TypeScript |
-| UI | React 19 |
-| Styling | Tailwind CSS v4, CSS variables |
-| Auth | Supabase Auth, `@supabase/ssr` |
-| Database | Supabase PostgreSQL |
-| Storage | Cloudflare R2, Supabase Storage 호환 URL |
-| Image Processing | Sharp, Next Image WebP 최적화 |
-| Face Detection | face-api.js Tiny Face Detector |
-| Email | Resend |
-| SMS | Solapi |
-| Icons | Lucide React |
-| Analytics | Vercel Analytics, Speed Insights |
-| Test | Vitest |
-| Deploy | Vercel |
+| 구분             | 기술                                                 |
+| ---------------- | ---------------------------------------------------- |
+| Framework        | Next.js 16 App Router                                |
+| Language         | TypeScript                                           |
+| UI               | React 19                                             |
+| Styling          | Tailwind CSS v4, CSS variables                       |
+| Auth             | Supabase Auth, `@supabase/ssr`                       |
+| Database         | Supabase PostgreSQL                                  |
+| Storage          | Cloudflare R2 (사진 원본·블러본, Hero, 수상 이미지)  |
+| Image Processing | 브라우저 선압축, Sharp 리사이즈·WebP 변환·얼굴 블러  |
+| Face Detection   | face-api.js Tiny Face Detector                       |
+| Email            | Resend                                               |
+| SMS              | Solapi                                               |
+| Icons            | Lucide React                                         |
+| Analytics        | Vercel Analytics, Speed Insights                     |
+| Test             | Vitest                                               |
+| Code Quality     | ESLint, Prettier, TypeScript                         |
+| CI               | GitHub Actions (lint, format check, typecheck, test) |
+| Deploy           | Vercel                                               |
 
 ---
 
@@ -160,6 +178,9 @@ lib/
   supabase/                         # browser/server/admin Supabase 클라이언트
   auth/requireSession.ts            # 관리자 세션 가드
   r2.ts                             # Cloudflare R2 업로드/삭제/key 추출
+  client-image-compress.ts            # 대용량 이미지 브라우저 선압축
+  image-type.ts                       # 매직바이트 기반 이미지 포맷 판별
+  blur-regions.ts                     # 얼굴 좌표 검증·리사이즈·경계 클램프
   email.ts                          # Resend 이메일 발송
   sms.ts                            # Solapi SMS 발송
   rateLimit.ts                      # IP 기반 제출 제한
@@ -171,9 +192,10 @@ public/
   music/                            # 정적 배경 음악 파일
   logo.png, og-image.jpg, map.html  # 브랜드/공유/지도 정적 자산
 supabase/
-  migrations/                       # 보안 정책 보강 SQL
-__tests__/                          # Vitest 단위 테스트
+  migrations/20260707000000_baseline_schema.sql # 운영 DB·RLS 단일 베이스라인
+__tests__/                          # 인증·R2·이미지 검증·블러 좌표 Vitest
 middleware.ts                       # /admin 인증 미들웨어
+.github/workflows/ci.yml            # lint·Prettier·typecheck·test CI
 ```
 
 ---
@@ -253,11 +275,12 @@ job_applications
   memo             text
   created_at       timestamptz default now()
 
--- 문의 Rate Limiting
-rate_limit_inquiry
-  ip           text primary key
-  count        integer default 1
-  window_start timestamptz default now()
+-- 문의/지원 Rate Limiting
+inquiry_rate_limits
+  ip            text primary key
+  attempts      integer default 1
+  window_start  timestamptz default now()
+  blocked_until timestamptz
 
 -- 방문요양 수가
 ltc_service_rates
@@ -284,13 +307,13 @@ error_logs
 
 ### RLS / 보안 정책
 
-| 영역 | 정책 |
-|---|---|
-| 공개 콘텐츠 | 공지, 사진, Hero, 수상 내역은 공개 페이지 조회 목적의 SELECT 허용 |
-| 상담문의 | 공개 INSERT 허용, 목록/상세 관리는 관리자 서버 액션에서 service role로 처리 |
-| 관리자 작업 | 브라우저 직접 DB 쓰기 대신 Server Action + service role 경유 |
-| Storage | 공개 URL 접근은 허용하되 storage object listing 정책은 제거 |
-| 보안 마이그레이션 | `supabase/migrations/20260514000000_security_fixes.sql`에서 과도한 정책 및 함수 권한 정리 |
+| 영역              | 정책                                                                                                                                     |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 공개 콘텐츠       | 공지, 사진, Hero, 수상 내역은 공개 페이지 조회 목적의 SELECT 허용                                                                        |
+| 상담문의          | 공개 INSERT 허용, 목록/상세 관리는 관리자 서버 액션에서 service role로 처리                                                              |
+| 관리자 작업       | 브라우저 직접 DB 쓰기 대신 Server Action + service role 경유                                                                             |
+| 파일 저장         | 이미지 자산은 Cloudflare R2로 분리하며 Supabase 베이스라인은 Storage 버킷·정책을 관리하지 않음                                           |
+| 보안 마이그레이션 | `supabase/migrations/20260707000000_baseline_schema.sql`에 운영 스키마·RLS와 `rls_auto_enable` 실행 권한 회수를 단일 베이스라인으로 관리 |
 
 ---
 
@@ -342,6 +365,13 @@ npm run dev
 # ESLint 검사
 npm run lint
 
+# Prettier 검사 / 자동 포맷
+npm run format:check
+npm run format
+
+# TypeScript 검사
+npm run typecheck
+
 # Vitest 테스트
 npm run test
 
@@ -353,13 +383,15 @@ npm run build
 
 ## 🧪 테스트 범위
 
-현재 Vitest 단위 테스트는 운영 리스크가 큰 유틸 중심으로 구성되어 있습니다.
+현재 Vitest 단위 테스트는 인증·입력 신뢰 경계·이미지 비식별화처럼 운영 리스크가 큰 유틸 중심으로 구성되어 있습니다.
 
-| 테스트 | 검증 대상 |
-|---|---|
-| `escapeHtml.test.ts` | 문의/답변 HTML 이스케이프 및 XSS 방어 보조 로직 |
-| `extractR2Key.test.ts` | R2 공개 URL에서 삭제 가능한 key만 안전하게 추출 |
-| `requireSession.test.ts` | 관리자 세션 검증 실패/성공 흐름 |
+| 테스트                   | 검증 대상                                                    |
+| ------------------------ | ------------------------------------------------------------ |
+| `escapeHtml.test.ts`     | 문의/답변 HTML 이스케이프 및 XSS 방어 보조 로직              |
+| `extractR2Key.test.ts`   | R2 공개 URL에서 삭제 가능한 key만 안전하게 추출              |
+| `requireSession.test.ts` | 관리자 세션 검증 실패/성공 흐름                              |
+| `image-type.test.ts`     | JPEG·PNG·WebP·HEIC 매직바이트 판별과 위조/미지원 형식 차단   |
+| `blur-regions.test.ts`   | 얼굴 좌표 비례 변환, 경계 클램프, 다중 얼굴·비정상 입력 처리 |
 
 ---
 
@@ -367,13 +399,13 @@ npm run build
 
 사진 업로드 흐름은 다음과 같습니다.
 
-1. 관리자가 사진을 선택합니다.
-2. 브라우저에서 face-api.js Tiny Face Detector 모델로 얼굴 위치를 감지합니다.
-3. 서버/API로 이미지와 얼굴 좌표를 전달합니다.
-4. Sharp가 WebP 변환, 리사이즈, 얼굴 블러를 수행합니다.
-5. 원본과 블러본을 Cloudflare R2에 저장합니다.
-6. 공개 사진 게시판에는 블러 처리된 이미지 URL만 노출합니다.
-7. 자동 감지가 부족하면 관리자 수동 블러 편집기로 추가 영역을 지정합니다.
+1. 관리자가 JPEG·PNG·WebP 사진을 선택합니다. HEIC는 서버 런타임에서 디코딩할 수 없어 JPG 변환 안내와 함께 거절합니다.
+2. 3.5MB를 넘는 이미지는 브라우저에서 최대 1920px의 WebP/JPEG로 먼저 압축합니다.
+3. 브라우저에서 face-api.js Tiny Face Detector 모델로 얼굴 위치를 감지합니다.
+4. 서버는 세션, 폴더 prefix, 파일 크기, 매직바이트, 얼굴 좌표 구조를 다시 검증합니다.
+5. Sharp가 EXIF 회전과 WebP 변환을 적용하고, 얼굴 좌표를 리사이즈본 기준으로 변환·클램프해 블러합니다.
+6. 얼굴이 있으면 원본과 블러본을 Cloudflare R2에 병렬 저장하고, 공개 사진 게시판에는 블러본만 노출합니다.
+7. 자동 감지가 부족하면 관리자가 원본을 기준으로 추가 영역을 지정해 수동 블러본을 다시 생성합니다.
 
 Next Image 설정은 WebP 포맷, quality 75, 긴 캐시 TTL을 사용합니다.
 
@@ -394,11 +426,11 @@ Next Image 설정은 WebP 포맷, quality 75, 긴 캐시 TTL을 사용합니다.
 
 Supabase Dashboard → Database → Cron Jobs에서 설정합니다.
 
-| 항목 | 값 |
-|---|---|
-| Name | `delete-old-inquiries` |
-| Schedule | `0 3 * * *` |
-| Command | `delete from inquiries where created_at < now() - interval '3 years';` |
+| 항목     | 값                                                                     |
+| -------- | ---------------------------------------------------------------------- |
+| Name     | `delete-old-inquiries`                                                 |
+| Schedule | `0 3 * * *`                                                            |
+| Command  | `delete from inquiries where created_at < now() - interval '3 years';` |
 
 ---
 
@@ -424,18 +456,18 @@ https://sumgim-welfare.com/sitemap.xml
 
 노인 사용자와 보호자를 함께 고려해 큰 기본 폰트, 높은 대비, 넓은 클릭 영역, 부드러운 블루 계열 팔레트를 사용합니다.
 
-| 역할 | 색상 |
-|---|---|
+| 역할        | 색상      |
+| ----------- | --------- |
 | 주요 텍스트 | `#0E1A2E` |
 | 보조 텍스트 | `#1A2E4A` |
 | 메인 포인트 | `#1A56A0` |
 | 보조 포인트 | `#2E6DB4` |
 | 깊은 포인트 | `#0E3A78` |
-| 배경 | `#FFFFFF` |
-| 보조 배경 | `#F4F7FC` |
-| 섹션 배경 | `#EEF4FB` |
-| 테두리 | `#D6DFEB` |
-| 강조/경고 | `#E07A3A` |
+| 배경        | `#FFFFFF` |
+| 보조 배경   | `#F4F7FC` |
+| 섹션 배경   | `#EEF4FB` |
+| 테두리      | `#D6DFEB` |
+| 강조/경고   | `#E07A3A` |
 
 `app/globals.css`에서 모바일 기본 18px, 데스크탑 기본 20px에 해당하는 폰트 스케일을 적용합니다.
 
@@ -446,6 +478,7 @@ https://sumgim-welfare.com/sitemap.xml
 ### ✅ 완성된 기능
 
 **공개 페이지**
+
 - 홈, 센터 소개, 오시는 길, 수상·기관선정
 - 노인장기요양보험, 방문요양, 가족요양, 인지활동서비스, 등급 신청 안내
 - 본인부담금 계산기
@@ -457,6 +490,7 @@ https://sumgim-welfare.com/sitemap.xml
 - sitemap/robots/OG 이미지
 
 **관리자**
+
 - Supabase Auth 로그인 및 `/admin` 미들웨어 보호
 - 공지사항 CRUD
 - 사진 카테고리 및 사진 업로드/삭제
@@ -469,12 +503,16 @@ https://sumgim-welfare.com/sitemap.xml
 - 오류 로그 조회
 
 **운영/보안**
+
 - Resend 이메일 발송
 - Solapi SMS 발송
 - Cloudflare R2 업로드/삭제
+- 대용량 이미지 브라우저 선압축, 매직바이트 검증, HEIC 변환 안내
+- 얼굴 좌표 스케일링·경계 클램프·다중 얼굴 블러 회귀 테스트
 - 문의 rate limit, honeypot, 제출 시간 체크
-- Supabase 보안 정책 보강 SQL
+- Supabase 운영 스키마·RLS 단일 베이스라인
 - 핵심 유틸 Vitest 테스트
+- GitHub Actions lint·Prettier·typecheck·Vitest 검증
 
 ### 🚧 개선 예정
 
@@ -488,14 +526,14 @@ https://sumgim-welfare.com/sitemap.xml
 
 ## 🙋 프로젝트 정보
 
-| 항목 | 내용 |
-|---|---|
-| 프로젝트명 | 안강 섬김 노인복지센터 홈페이지 |
-| 대상 기관 | 안강 섬김 노인복지센터 |
-| 위치 | 경상북도 경주시 안강읍 |
-| 운영 도메인 | `https://sumgim-welfare.com` |
-| 주요 사용자 | 보호자, 어르신, 센터 운영자, 요양보호사 구직자 |
-| 핵심 목적 | 센터 소개, 상담 접수, 공지/사진 운영, 구인 문의 안내, 장기요양 정보 제공 |
+| 항목        | 내용                                                                     |
+| ----------- | ------------------------------------------------------------------------ |
+| 프로젝트명  | 안강 섬김 노인복지센터 홈페이지                                          |
+| 대상 기관   | 안강 섬김 노인복지센터                                                   |
+| 위치        | 경상북도 경주시 안강읍                                                   |
+| 운영 도메인 | `https://sumgim-welfare.com`                                             |
+| 주요 사용자 | 보호자, 어르신, 센터 운영자, 요양보호사 구직자                           |
+| 핵심 목적   | 센터 소개, 상담 접수, 공지/사진 운영, 구인 문의 안내, 장기요양 정보 제공 |
 
 ---
 

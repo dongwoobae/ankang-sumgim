@@ -69,10 +69,7 @@ export default function PageToc({ title, items, bottomCta }: Props) {
         ))}
       </nav>
       {bottomCta && (
-        <div
-          className="mt-3.5 rounded-xl p-3.5 text-white"
-          style={{ background: "var(--ink)" }}
-        >
+        <div className="mt-3.5 rounded-xl p-3.5 text-white" style={{ background: "var(--ink)" }}>
           <b className="mb-2 block text-[13px]">{bottomCta.text}</b>
           {bottomCta.phone && (
             <a
