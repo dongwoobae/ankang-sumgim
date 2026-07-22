@@ -50,7 +50,7 @@
 
 ### 관리자 페이지 (`/admin`)
 
-Supabase Auth 세션을 기준으로 보호되며, `middleware.ts`에서 `/admin` 하위 경로 접근을 제어합니다.
+Supabase Auth 세션을 기준으로 보호되며, Next.js 16의 `proxy.ts`에서 `/admin` 하위 경로 접근을 제어합니다.
 
 - 🔒 **관리자 로그인** — `/admin/login`만 공개 접근 허용, 나머지 관리자 라우트는 Supabase JWT를 로컬 검증해 보호
 - 📊 **대시보드** — 운영 현황 패널과 주요 관리 메뉴 진입점
@@ -78,7 +78,7 @@ Supabase Auth 세션을 기준으로 보호되며, `middleware.ts`에서 `/admin
 - 🗜️ **클라이언트 이미지 압축** — 대용량 이미지를 업로드 전에 WebP/JPEG로 축소해 서버리스 요청 크기 제한 대응
 - ☁️ **R2 파이프라인 통합** — 사진 원본·블러본, Hero, 수상 이미지를 동일한 Cloudflare R2 업로드/삭제 흐름으로 관리
 - 🛡️ **Supabase RLS 보안 보강** — 공개 읽기·문의 접수만 정책으로 허용하고 관리자 쓰기는 service role로 분리, 자동 RLS 함수의 외부 실행 권한 회수
-- ⚡ **리전·인증 최적화** — Vercel 함수를 Supabase와 같은 서울 리전에 배치하고 middleware 인증 서버 왕복 제거
+- ⚡ **리전·인증 최적화** — Vercel 함수를 Supabase와 같은 서울 리전에 배치하고 Proxy에서 JWT를 로컬 검증해 인증 서버 왕복 제거
 - 🔎 **SEO 기본 구성** — 동적 sitemap, robots, OG 이미지, 페이지별 metadata
 - 🌐 **도메인 리다이렉트** — `ankang-sumgim.vercel.app` → `sumgim-welfare.com` 영구 리다이렉트
 
@@ -194,7 +194,7 @@ public/
 supabase/
   migrations/20260707000000_baseline_schema.sql # 운영 DB·RLS 단일 베이스라인
 __tests__/                          # 인증·R2·이미지 검증·블러 좌표 Vitest
-middleware.ts                       # /admin 인증 미들웨어
+proxy.ts                            # /admin 접근 제어·JWT 로컬 검증
 .github/workflows/ci.yml            # lint·Prettier·typecheck·test CI
 ```
 
