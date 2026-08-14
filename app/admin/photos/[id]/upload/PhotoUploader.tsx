@@ -1,8 +1,5 @@
 // app/admin/photos/[id]/upload/PhotoUploader.tsx
-// 변경점:
-//   1. detectFaces — tf.engine scope로 텐서 메모리 누수 수정, img 명시적 해제
-//   2. handleFiles — Phase 1(순차 얼굴감지) → Phase 2(병렬 업로드+저장) 파이프라인
-//   3. progress — phase별 라벨 분리 (얼굴 감지 N/M → 업로드 N/M)
+// 사양: docs/specs/photo-blur.md
 
 "use client";
 
@@ -11,6 +8,7 @@ import type { FaceRegion } from "@/lib/blur-regions";
 import {
   savePhotoMetadata,
   deletePhoto,
+  discardUploadedPhoto,
   updatePhotoCaption,
   toggleFaceBlur,
 } from "@/app/actions/admin/photos";
@@ -43,15 +41,21 @@ async function loadFaceApiModels() {
   faceApiModelsLoaded = true;
 }
 
-// ─── 얼굴 감지 (메모리 누수 수정) ────────────────────────────────────────
+// ─── 얼굴 감지 ────────────────────────────────────────────────────────────
 // @tensorflow/tfjs를 직접 import하면 face-api 내부 버전과 충돌 가능.
 // 대신 img/objectUrl 명시적 해제 + setTimeout yield로 GC 유도.
-async function detectFaces(file: File): Promise<FaceRegion[]> {
+//
+// 감지 실패를 빈 배열로 뭉개면 서버가 "얼굴 없는 사진"으로 처리해
+// 무블러 원본이 그대로 게시된다. 실패는 실패로 올려 해당 파일을 건너뛴다.
+type DetectionOutcome = { ok: true; regions: FaceRegion[] } | { ok: false; reason: string };
+
+async function detectFaces(file: File): Promise<DetectionOutcome> {
+  let objectUrl: string | undefined;
   try {
     await loadFaceApiModels();
     const faceapi = await import("face-api.js");
 
-    const objectUrl = URL.createObjectURL(file);
+    objectUrl = URL.createObjectURL(file);
     const img = document.createElement("img");
     img.src = objectUrl;
 
@@ -68,22 +72,25 @@ async function detectFaces(file: File): Promise<FaceRegion[]> {
     const scaleX = img.naturalWidth / (img.width || img.naturalWidth);
     const scaleY = img.naturalHeight / (img.height || img.naturalHeight);
 
-    // img 디코딩 버퍼 + objectUrl 즉시 해제
-    img.src = "";
-    URL.revokeObjectURL(objectUrl);
+    img.src = ""; // 디코딩 버퍼 즉시 해제
 
     // 이벤트 루프에 한 틱 양보 → TF.js GC 실행 유도
     await new Promise<void>((r) => setTimeout(r, 0));
 
-    return detections.map((d) => ({
-      x: Math.round(d.box.x * scaleX),
-      y: Math.round(d.box.y * scaleY),
-      width: Math.round(d.box.width * scaleX),
-      height: Math.round(d.box.height * scaleY),
-    }));
+    return {
+      ok: true,
+      regions: detections.map((d) => ({
+        x: Math.round(d.box.x * scaleX),
+        y: Math.round(d.box.y * scaleY),
+        width: Math.round(d.box.width * scaleX),
+        height: Math.round(d.box.height * scaleY),
+      })),
+    };
   } catch (e) {
     console.error("[detectFaces] 오류:", e);
-    return [];
+    return { ok: false, reason: "얼굴 감지에 실패했습니다" };
+  } finally {
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
   }
 }
 
@@ -112,36 +119,48 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
 
     const fileArray = Array.from(files).filter((f) => f.type.startsWith("image/"));
 
+    // 건너뛴 파일은 조용히 사라지면 안 된다 — 관리자가 게시됐다고 착각한다.
+    const problems: string[] = [];
+
     // ── Phase 1: 순차 얼굴 감지 ──────────────────────────────────────────
     // TF.js WebGL/WASM 백엔드는 단일 스레드 공유 → 반드시 순차 실행
     setPhase("detect");
     setProgress({ current: 0, total: fileArray.length });
 
-    const detectionResults: FaceRegion[][] = [];
+    const detected: { file: File; regions: FaceRegion[] }[] = [];
 
     for (let i = 0; i < fileArray.length; i++) {
       setProgress({ current: i + 1, total: fileArray.length });
-      // 압축을 먼저 수행해 업로드 파일과 얼굴 좌표의 기준 이미지를 일치시킨다.
-      // (Vercel 함수 본문 4.5MB 한도 대응 — 큰 원본만 캔버스로 축소됨)
-      fileArray[i] = await compressImageFile(fileArray[i]);
-      const regions = await detectFaces(fileArray[i]);
-      detectionResults.push(regions);
+      const original = fileArray[i];
+      try {
+        // 압축을 먼저 수행해 업로드 파일과 얼굴 좌표의 기준 이미지를 일치시킨다.
+        // (Vercel 함수 본문 4.5MB 한도 대응 — 큰 원본만 캔버스로 축소됨)
+        const compressed = await compressImageFile(original);
+        const outcome = await detectFaces(compressed);
+        if (!outcome.ok) {
+          problems.push(`${original.name}: ${outcome.reason} — 업로드하지 않았습니다`);
+          continue;
+        }
+        detected.push({ file: compressed, regions: outcome.regions });
+      } catch {
+        problems.push(`${original.name}: 이미지 압축 실패 — 업로드하지 않았습니다`);
+      }
     }
 
     // ── Phase 2: 병렬 업로드 (API Route) + 순차 DB 저장 ─────────────────
     // Server Action은 React 큐로 직렬화됨 → fetch API Route로 진짜 병렬 처리
     // savePhotoMetadata는 경량 INSERT이므로 순차로 처리
     setPhase("upload");
-    setProgress({ current: 0, total: fileArray.length });
+    setProgress({ current: 0, total: detected.length });
 
     let uploadedCount = 0;
 
     const uploadResults = await Promise.all(
-      fileArray.map(async (file, i) => {
+      detected.map(async ({ file, regions }) => {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("folder", `photos/categories/${categoryId}`);
-        formData.append("faceRegions", JSON.stringify(detectionResults[i]));
+        formData.append("faceRegions", JSON.stringify(regions));
 
         try {
           const res = await fetch("/api/upload-photo", {
@@ -158,7 +177,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
           setProgress((prev) => ({ ...prev, current: uploadedCount }));
 
           if (!res.ok || data.error || !data.url) {
-            setError(`${file.name}: ${data.error ?? "업로드 실패"}`);
+            problems.push(`${file.name}: ${data.error ?? "업로드 실패"}`);
             return null;
           }
 
@@ -166,7 +185,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
         } catch {
           uploadedCount += 1;
           setProgress((prev) => ({ ...prev, current: uploadedCount }));
-          setError(`${file.name}: 네트워크 오류`);
+          problems.push(`${file.name}: 네트워크 오류`);
           return null;
         }
       }),
@@ -178,7 +197,11 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       if (!result) continue;
       const meta = await savePhotoMetadata(categoryId, result.url, result.originalUrl);
       if (meta?.error) {
-        setError(meta.error);
+        // 이미 R2에 올라간 블러본·원본이 DB 행 없이 공개 버킷에 남는다.
+        const discarded = await discardUploadedPhoto(result.url, result.originalUrl);
+        problems.push(
+          `${result.file.name}: ${meta.error}${discarded.error ? ` (${discarded.error})` : ""}`,
+        );
         continue;
       }
       uploaded.push({
@@ -191,6 +214,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
       });
     }
     setPhotos((prev) => [...uploaded, ...prev]);
+    if (problems.length > 0) setError(problems.join("\n"));
     setUploading(false);
     setPhase("");
     setProgress({ current: 0, total: 0 });
@@ -208,8 +232,14 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
   // ─── 이벤트 핸들러 ───────────────────────────────────────────────────────
   function handleDelete(photo: Photo) {
     if (!confirm("이 사진을 삭제하시겠습니까?")) return;
+    setError("");
     startDeleteTransition(async () => {
-      await deletePhoto(String(photo.id));
+      const { error } = await deletePhoto(String(photo.id));
+      // R2 삭제가 실패하면 DB 행이 남는다. 목록에서 지우면 사라진 것처럼 보인다.
+      if (error) {
+        setError(error);
+        return;
+      }
       setPhotos((prev) => prev.filter((p) => p.id !== photo.id));
     });
   }
@@ -299,7 +329,7 @@ export function PhotoUploader({ categoryId, initialPhotos }: Props) {
         </div>
 
         {error && (
-          <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+          <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3 whitespace-pre-line">
             {error}
           </p>
         )}

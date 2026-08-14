@@ -1,19 +1,19 @@
 // app/actions/admin/photos.ts
-// 변경점:
-// - savePhotoMetadata: original_url, is_face_blurred 저장
-// - deletePhoto: original_url R2 삭제 추가
-// - deleteCategory: original_url R2 삭제 추가
-// - toggleFaceBlur: 신규 추가
+// 사양: docs/specs/photo-blur.md
 
 "use server";
 
 import { requireSession } from "@/lib/auth/requireSession";
 import { adminSupabase } from "@/lib/supabase/admin";
-import { deleteFromR2, extractR2Key } from "@/lib/r2";
+import { deleteUrlsFromR2 } from "@/lib/r2";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export type CategoryFormState = { error: string };
+
+// R2 삭제가 실패하면 DB 행을 남긴다 — 행을 지우면 키를 잃어 공개 버킷의
+// 무블러 원본을 다시 찾지 못한다. 사양: docs/specs/photo-blur.md
+const R2_CLEANUP_FAILED = "이미지 파일을 지우지 못해 중단했습니다. 잠시 후 다시 시도해 주세요.";
 
 // ── 카테고리 생성 ─────────────────────────────────────────────
 export async function createCategory(
@@ -41,27 +41,15 @@ export async function createCategory(
 }
 
 // ── 카테고리 삭제 (하위 사진 R2 원본+블러 모두 삭제) ──────────
-export async function deleteCategory(id: string) {
+export async function deleteCategory(id: string): Promise<{ error: string }> {
   await requireSession();
   const { data: photos } = await adminSupabase
     .from("photos")
     .select("url, original_url")
     .eq("category_id", id);
 
-  if (photos && photos.length > 0) {
-    await Promise.allSettled(
-      photos.flatMap((p) => {
-        const tasks = [];
-        const key = extractR2Key(p.url);
-        if (key) tasks.push(deleteFromR2(key));
-        if (p.original_url) {
-          const origKey = extractR2Key(p.original_url);
-          if (origKey) tasks.push(deleteFromR2(origKey));
-        }
-        return tasks;
-      }),
-    );
-  }
+  const cleaned = await deleteUrlsFromR2((photos ?? []).flatMap((p) => [p.url, p.original_url]));
+  if (!cleaned) return { error: R2_CLEANUP_FAILED };
 
   await adminSupabase.from("photo_categories").delete().eq("id", id);
   revalidatePath("/board/photos");
@@ -69,10 +57,11 @@ export async function deleteCategory(id: string) {
   revalidatePath("/board/photos/[id]", "page");
   revalidatePath("/admin/photos");
   revalidatePath("/sitemap.xml");
+  return { error: "" };
 }
 
 // ── 사진 단건 삭제 (블러+원본 모두 삭제) ─────────────────────
-export async function deletePhoto(id: string) {
+export async function deletePhoto(id: string): Promise<{ error: string }> {
   await requireSession();
   const { data: photo } = await adminSupabase
     .from("photos")
@@ -80,26 +69,28 @@ export async function deletePhoto(id: string) {
     .eq("id", id)
     .single();
 
-  if (photo?.url) {
-    const key = extractR2Key(photo.url);
-    if (key) {
-      await deleteFromR2(key).catch((e) => console.error("[deletePhoto] R2 블러 삭제 오류:", e));
-    }
-  }
+  if (!photo) return { error: "사진을 찾을 수 없습니다." };
 
-  if (photo?.original_url) {
-    const origKey = extractR2Key(photo.original_url);
-    if (origKey) {
-      await deleteFromR2(origKey).catch((e) =>
-        console.error("[deletePhoto] R2 원본 삭제 오류:", e),
-      );
-    }
-  }
+  const cleaned = await deleteUrlsFromR2([photo.url, photo.original_url]);
+  if (!cleaned) return { error: R2_CLEANUP_FAILED };
 
   await adminSupabase.from("photos").delete().eq("id", id);
   revalidatePath("/board/photos");
   revalidatePath("/board/photos", "layout");
   revalidatePath("/board/photos/[id]", "page");
+  return { error: "" };
+}
+
+// ── 업로드했으나 DB에 남기지 못한 오브젝트 회수 ───────────────
+// R2 업로드 성공과 메타데이터 INSERT 사이에서 실패하면 공개 버킷에
+// 무블러 원본이 행 없이 남는다. 클라이언트가 그 상황에서 호출한다.
+export async function discardUploadedPhoto(
+  url: string,
+  originalUrl: string | null,
+): Promise<{ error: string }> {
+  await requireSession();
+  const cleaned = await deleteUrlsFromR2([url, originalUrl]);
+  return { error: cleaned ? "" : R2_CLEANUP_FAILED };
 }
 
 // ── 사진 메타데이터 저장 ──────────────────────────────────────

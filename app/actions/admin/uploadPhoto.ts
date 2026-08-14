@@ -1,13 +1,13 @@
 // app/actions/admin/uploadPhoto.ts
-// 변경점: faceRegions 파라미터 추가 → 얼굴 영역 Sharp blur 처리
-//         원본(original/)과 블러(blurred/) 두 버전을 R2에 업로드
+// 얼굴이 감지된 경우 원본(original/)과 블러(blurred/) 두 버전을 R2에 업로드한다.
+// 합성 자체는 lib/photo-blur.ts가 담당한다 — app/api/upload-photo/route.ts와 공유.
 
 "use server";
 
 import { requireSession } from "@/lib/auth/requireSession";
-import sharp from "sharp";
-import { uploadToR2 } from "@/lib/r2";
-import { scaleFaceRegions, type FaceRegion } from "@/lib/blur-regions";
+import { uploadAllToR2, uploadToR2 } from "@/lib/r2";
+import { type FaceRegion } from "@/lib/blur-regions";
+import { composePhotoUpload } from "@/lib/photo-blur";
 import { detectImageType } from "@/lib/image-type";
 
 const FOLDER_PATTERN = /^(photos|awards|hero)(\/[A-Za-z0-9_-]+)*$/;
@@ -55,61 +55,21 @@ export async function uploadPhoto(
 
     const timestamp = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-    // ── 얼굴 없는 경우: 기존 방식대로 단순 업로드 ─────────────
-    if (!faceRegions || faceRegions.length === 0) {
-      const compressed = await sharp(buffer)
-        .rotate()
-        .resize(1920, 1920, { fit: "inside", withoutEnlargement: true })
-        .webp({ quality: 75 })
-        .toBuffer();
+    const composed = await composePhotoUpload(buffer, faceRegions ?? []);
+    if (!composed.ok) return { error: composed.error };
 
-      const key = `${folder}/${timestamp}.webp`;
-      const url = await uploadToR2(key, compressed, "image/webp");
+    if (composed.kind === "plain") {
+      const url = await uploadToR2(`${folder}/${timestamp}.webp`, composed.image, "image/webp");
       return { url, originalUrl: null };
     }
 
-    // ── 얼굴 있는 경우: 원본 + 블러 버전 각각 업로드 ──────────
-
-    // 1. EXIF 회전 적용한 버퍼 생성 (브라우저 표시 기준과 동일하게)
-    const rotatedBuffer = await sharp(buffer).rotate().toBuffer();
-    const meta = await sharp(rotatedBuffer).metadata();
-    const imgW = meta.width ?? 1920;
-    const imgH = meta.height ?? 1920;
-
-    // 2. 원본 압축 버전 생성
-    const originalCompressed = await sharp(rotatedBuffer)
-      .resize(1920, 1920, { fit: "inside", withoutEnlargement: true })
-      .webp({ quality: 75 })
-      .toBuffer();
-
-    // 3. 블러 처리: 얼굴 좌표를 리사이즈본 기준으로 변환해 추출 → blur → 합성
-    const resizedMeta = await sharp(originalCompressed).metadata();
-    const composites = await Promise.all(
-      scaleFaceRegions(
-        faceRegions,
-        imgW,
-        imgH,
-        resizedMeta.width ?? imgW,
-        resizedMeta.height ?? imgH,
-      ).map(async (region) => {
-        const faceBlurred = await sharp(originalCompressed).extract(region).blur(28).toBuffer();
-        return { input: faceBlurred, left: region.left, top: region.top };
-      }),
+    const [url, originalUrl] = await uploadAllToR2(
+      [
+        { key: `${folder}/blurred/${timestamp}.webp`, body: composed.blurred },
+        { key: `${folder}/original/${timestamp}.webp`, body: composed.original },
+      ],
+      "image/webp",
     );
-
-    const blurredBuffer =
-      composites.length > 0
-        ? await sharp(originalCompressed).composite(composites).webp({ quality: 75 }).toBuffer()
-        : originalCompressed;
-
-    // 4. R2에 두 버전 병렬 업로드
-    const blurredKey = `${folder}/blurred/${timestamp}.webp`;
-    const originalKey = `${folder}/original/${timestamp}.webp`;
-
-    const [url, originalUrl] = await Promise.all([
-      uploadToR2(blurredKey, blurredBuffer, "image/webp"),
-      uploadToR2(originalKey, originalCompressed, "image/webp"),
-    ]);
 
     return { url, originalUrl };
   } catch (err) {

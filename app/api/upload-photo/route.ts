@@ -3,9 +3,9 @@
 // 인증: Supabase 세션 확인 (middleware는 /admin만 커버하므로 직접 체크)
 
 import { NextRequest, NextResponse } from "next/server";
-import sharp from "sharp";
-import { uploadToR2 } from "@/lib/r2";
-import { isFaceRegion, scaleFaceRegions, type FaceRegion } from "@/lib/blur-regions";
+import { uploadAllToR2, uploadToR2 } from "@/lib/r2";
+import { isFaceRegion, type FaceRegion } from "@/lib/blur-regions";
+import { composePhotoUpload } from "@/lib/photo-blur";
 import { detectImageType } from "@/lib/image-type";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
@@ -95,51 +95,23 @@ export async function POST(req: NextRequest): Promise<NextResponse<UploadPhotoRe
 
     const timestamp = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-    // 얼굴 없는 경우: 단순 압축 업로드
-    if (faceRegions.length === 0) {
-      const compressed = await sharp(buffer)
-        .rotate()
-        .resize(1920, 1920, { fit: "inside", withoutEnlargement: true })
-        .webp({ quality: 75 })
-        .toBuffer();
+    const composed = await composePhotoUpload(buffer, faceRegions);
+    if (!composed.ok) {
+      return NextResponse.json({ error: composed.error }, { status: 422 });
+    }
 
-      const key = `${folder}/${timestamp}.webp`;
-      const url = await uploadToR2(key, compressed, "image/webp");
+    if (composed.kind === "plain") {
+      const url = await uploadToR2(`${folder}/${timestamp}.webp`, composed.image, "image/webp");
       return NextResponse.json({ url, originalUrl: null });
     }
 
-    // 얼굴 있는 경우: 원본 + 블러 버전 각각 업로드
-    const rotatedBuffer = await sharp(buffer).rotate().toBuffer();
-    const meta = await sharp(rotatedBuffer).metadata();
-    const imgW = meta.width ?? 1920;
-    const imgH = meta.height ?? 1920;
-
-    const originalCompressed = await sharp(rotatedBuffer)
-      .resize(1920, 1920, { fit: "inside", withoutEnlargement: true })
-      .webp({ quality: 75 })
-      .toBuffer();
-
-    const resizedMeta = await sharp(originalCompressed).metadata();
-    const resizedW = resizedMeta.width ?? imgW;
-    const resizedH = resizedMeta.height ?? imgH;
-
-    // 블러 합성
-    const composites = await Promise.all(
-      scaleFaceRegions(faceRegions, imgW, imgH, resizedW, resizedH).map(async (region) => {
-        const blurredRegion = await sharp(originalCompressed).extract(region).blur(28).toBuffer();
-        return { input: blurredRegion, left: region.left, top: region.top };
-      }),
+    const [url, originalUrl] = await uploadAllToR2(
+      [
+        { key: `${folder}/blurred/${timestamp}.webp`, body: composed.blurred },
+        { key: `${folder}/original/${timestamp}.webp`, body: composed.original },
+      ],
+      "image/webp",
     );
-
-    const blurredBuffer =
-      composites.length > 0
-        ? await sharp(originalCompressed).composite(composites).webp({ quality: 75 }).toBuffer()
-        : originalCompressed;
-
-    const [url, originalUrl] = await Promise.all([
-      uploadToR2(`${folder}/blurred/${timestamp}.webp`, blurredBuffer, "image/webp"),
-      uploadToR2(`${folder}/original/${timestamp}.webp`, originalCompressed, "image/webp"),
-    ]);
 
     return NextResponse.json({ url, originalUrl });
   } catch (err) {

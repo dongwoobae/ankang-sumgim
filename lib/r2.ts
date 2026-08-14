@@ -27,6 +27,36 @@ export async function uploadToR2(key: string, body: Buffer, contentType: string)
   return `${process.env.R2_PUBLIC_URL}/${key}`;
 }
 
+// ── 여러 개를 전부 올리거나 하나도 안 남기거나 ────────────────
+// 사진 한 장이 블러본과 원본 두 오브젝트로 저장되는데, 한쪽만 성공하면
+// 공개 버킷에 짝 없는 오브젝트가 남는다. 무블러 원본이 남는 쪽이 특히 나쁘다.
+// 부분 성공을 되돌리고 원래 오류를 그대로 올린다.
+export async function uploadAllToR2(
+  items: { key: string; body: Buffer }[],
+  contentType: string,
+): Promise<string[]> {
+  const results = await Promise.allSettled(
+    items.map((item) => uploadToR2(item.key, item.body, contentType)),
+  );
+
+  const failure = results.find((r) => r.status === "rejected");
+  if (!failure) {
+    return results.map((r) => (r as PromiseFulfilledResult<string>).value);
+  }
+
+  await Promise.allSettled(
+    items
+      .filter((_, i) => results[i].status === "fulfilled")
+      .map((item) =>
+        deleteFromR2(item.key).catch((e) =>
+          console.error("[uploadAllToR2] 부분 성공 정리 실패:", item.key, e),
+        ),
+      ),
+  );
+
+  throw (failure as PromiseRejectedResult).reason;
+}
+
 // ── 삭제 ──────────────────────────────────────────────────────
 export async function deleteFromR2(key: string): Promise<void> {
   await r2.send(
@@ -35,6 +65,28 @@ export async function deleteFromR2(key: string): Promise<void> {
       Key: key,
     }),
   );
+}
+
+/**
+ * URL 목록에 해당하는 오브젝트를 지운다. 하나라도 실패하면 false.
+ * 호출부는 false일 때 DB 행을 지우지 말아야 한다 — 행을 지우면 키를 잃어
+ * 공개 버킷의 무블러 원본을 다시는 찾지 못한다.
+ */
+export async function deleteUrlsFromR2(urls: (string | null | undefined)[]): Promise<boolean> {
+  const keys = urls.flatMap((url) => {
+    if (!url) return [];
+    const key = extractR2Key(url);
+    return key ? [key] : [];
+  });
+
+  const results = await Promise.allSettled(keys.map((key) => deleteFromR2(key)));
+  results.forEach((result, i) => {
+    if (result.status === "rejected") {
+      console.error("[deleteUrlsFromR2] 삭제 실패:", keys[i], result.reason);
+    }
+  });
+
+  return results.every((r) => r.status === "fulfilled");
 }
 
 // ── URL → Key 변환 (삭제 시 사용) ────────────────────────────
