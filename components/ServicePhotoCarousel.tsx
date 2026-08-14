@@ -27,7 +27,7 @@ const SERVICE_GROUPS: ServiceGroup[] = [
       "https://pub-b7ac63154d17462da44c76addda6b6be.r2.dev/photos/categories/4/blurred/1778059706052-h7cowg848xg.webp",
       "https://pub-b7ac63154d17462da44c76addda6b6be.r2.dev/photos/categories/4/manual/1778059792549-z5mzwkqmkn.webp",
       "",
-    ], // TODO: Supabase Storage URL로 교체
+    ],
   },
   {
     label: "가사활동 지원",
@@ -36,7 +36,7 @@ const SERVICE_GROUPS: ServiceGroup[] = [
       "https://pub-b7ac63154d17462da44c76addda6b6be.r2.dev/photos/categories/4/manual/1778059779198-0ac5rf1qymne.webp",
       "",
       "",
-    ], // TODO: Supabase Storage URL로 교체
+    ],
   },
   {
     label: "정서 지원",
@@ -45,7 +45,7 @@ const SERVICE_GROUPS: ServiceGroup[] = [
       "https://pub-b7ac63154d17462da44c76addda6b6be.r2.dev/photos/categories/4/1778059735407-rmgwi9k1r3.webp",
       "",
       "",
-    ], // TODO: Supabase Storage URL로 교체
+    ],
   },
 ];
 
