@@ -7,5 +7,7 @@ export default defineConfig({
   },
   test: {
     environment: "node",
+    // e2e/*.spec.ts는 Playwright 몫이다. 기본 include가 .spec.ts까지 잡아간다.
+    include: ["__tests__/**/*.test.ts"],
   },
 });
