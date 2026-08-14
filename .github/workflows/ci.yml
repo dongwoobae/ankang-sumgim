@@ -36,3 +36,69 @@ jobs:
 
       - name: Test
         run: npm test
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    # sharp·face-api.js처럼 네이티브·바이너리 의존이 있어 typecheck 통과와
+    # 빌드 성공이 다른 얘기다. 여기서 걸러야 Vercel 배포 시점에 드러나지 않는다.
+    env:
+      # 모듈 최상위에서 createClient()가 호출되므로 값이 없으면 빌드가 죽는다.
+      # 실제 통신은 하지 않는 자리표시자다.
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+      SUPABASE_SERVICE_ROLE_KEY: placeholder-service-role-key
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('app/**/*.{ts,tsx}', 'lib/**/*.ts', 'components/**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - name: Build
+        run: npm run build
+
+  e2e:
+    name: E2E (Playwright)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Supabase·R2 자격증명은 필요 없다. playwright.config.ts가 대역 서버를 띄우고
+      # 앱을 거기에 물린다(e2e/support/supabase-stub.mjs).
+      - name: End-to-end tests
+        run: npm run test:e2e
+
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7
