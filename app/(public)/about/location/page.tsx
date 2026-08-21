@@ -90,16 +90,13 @@ export default function LocationPage() {
         crumbs={[{ label: "홈", href: "/" }, { label: "센터소개" }, { label: "오시는길" }]}
       />
 
-      <section className="px-6 py-20">
+      <section className="px-6 pt-6 pb-20 md:py-20">
         <div className="mx-auto max-w-[1200px]">
-          {/* 지도 — 16:6 비율 */}
           <div
-            className="relative mb-12 w-full overflow-hidden rounded-2xl border"
-            style={{ aspectRatio: "16/6", borderColor: "var(--line)" }}
+            className="mb-8 aspect-[4/3] w-full overflow-hidden rounded-2xl border sm:aspect-[16/9] lg:aspect-[16/6] md:mb-12"
+            style={{ borderColor: "var(--line)" }}
           >
-            <div className="absolute inset-0">
-              <KakaoMap />
-            </div>
+            <KakaoMap />
           </div>
 
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">

@@ -16,7 +16,7 @@ interface Props {
 export default function PageHero({ eyebrow, title, lead, crumbs, meta }: Props) {
   return (
     <section
-      className="relative overflow-hidden px-6 pt-20 pb-14"
+      className="relative overflow-hidden px-6 pt-12 pb-8 md:pt-20 md:pb-14"
       style={{ background: "linear-gradient(180deg, var(--paper-3) 0%, var(--paper) 100%)" }}
     >
       <div
@@ -27,13 +27,17 @@ export default function PageHero({ eyebrow, title, lead, crumbs, meta }: Props) 
         {crumbs && crumbs.length > 0 && (
           <Reveal>
             <nav
-              className="mb-5 flex items-center gap-2 text-[13px]"
+              className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] md:text-[14px]"
               style={{ color: "var(--muted)" }}
             >
               {crumbs.map((c, i) => (
                 <span key={i} className="contents">
                   {c.href ? (
-                    <a href={c.href} className="transition-colors hover:text-pop">
+                    <a
+                      href={c.href}
+                      // 터치 타겟만 키우고 음수 마진으로 되돌려 시각적 간격은 그대로 둔다
+                      className="-mx-1 -my-2 inline-flex items-center rounded px-1 py-2 transition-colors hover:text-pop"
+                    >
                       {c.label}
                     </a>
                   ) : (

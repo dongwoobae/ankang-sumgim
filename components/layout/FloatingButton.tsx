@@ -15,7 +15,7 @@ function subscribeHoverNone(onChange: () => void) {
 
 function KakaoIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="#3C1E1E">
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="#3C1E1E">
       <path d="M12 3C6.477 3 2 6.82 2 11.4c0 2.94 1.76 5.52 4.42 7.07L5.3 22l4.9-3.23c.57.09 1.18.14 1.8.14 5.523 0 10-3.82 10-8.51C22 6.82 17.523 3 12 3z" />
     </svg>
   );
@@ -165,7 +165,7 @@ export default function FloatingButton() {
   return (
     <>
       <audio ref={audioRef} onEnded={handleEnded} />
-      <div className="fixed bottom-7 right-7 z-50 flex flex-col gap-3 items-end">
+      <div className="fixed bottom-[18px] right-[16px] z-50 flex flex-col gap-[10px] items-end md:bottom-7 md:right-7 md:gap-3">
         {/* 음악 버튼 — playing이든 아니든 hover 시에만 확장.
             hover 핸들러는 status가 바뀌어도 언마운트되지 않는 wrapper에 둔다
             (안쪽 요소가 remount되면 mouseleave를 놓쳐서 hover 상태가 굳음) */}
@@ -184,10 +184,9 @@ export default function FloatingButton() {
         >
           {status === "playing" ? (
             <div
-              className="flex items-center rounded-full transition-all duration-300"
+              className="flex items-center rounded-full p-[11px] transition-all duration-300 md:px-[17px] md:py-[13px]"
               style={{
                 background: "#1A56A0",
-                padding: "13px 17px",
                 gap: musicExpanded ? "8px" : "0px",
                 boxShadow: "0 4px 20px rgba(26,86,160,0.4)",
               }}
@@ -257,10 +256,9 @@ export default function FloatingButton() {
             <button
               onClick={toggleMusic}
               aria-label={status === "paused" ? "음악 이어듣기" : "음악 재생"}
-              className="flex items-center rounded-full transition-all duration-300"
+              className={`flex items-center rounded-full p-[11px] transition-all duration-300 md:py-[13px] ${musicExpanded ? "md:px-[22px]" : "md:px-[17px]"}`}
               style={{
                 background: musicExpanded ? "#dde6f5" : status === "paused" ? "#dde6f5" : "#EEF3FA",
-                padding: musicExpanded ? "13px 22px" : "13px 17px",
                 gap: musicExpanded ? "10px" : "0px",
                 boxShadow: "0 4px 16px rgba(26,46,74,0.15)",
               }}
@@ -287,10 +285,9 @@ export default function FloatingButton() {
           aria-label="카카오톡 상담"
           onMouseEnter={() => setKakaoHovered(true)}
           onMouseLeave={() => setKakaoHovered(false)}
-          className="flex items-center rounded-full transition-all duration-300"
+          className={`flex items-center rounded-full p-[11px] transition-all duration-300 md:py-[13px] ${kakaoHovered ? "md:px-[22px]" : "md:px-[17px]"}`}
           style={{
             background: kakaoHovered ? "#E6C200" : "#FEE500",
-            padding: kakaoHovered ? "13px 22px" : "13px 17px",
             gap: kakaoHovered ? "10px" : "0px",
             boxShadow: "0 4px 16px rgba(254,229,0,0.5)",
           }}
@@ -313,10 +310,9 @@ export default function FloatingButton() {
           aria-label="전화 상담"
           onMouseEnter={() => setPhoneHovered(true)}
           onMouseLeave={() => setPhoneHovered(false)}
-          className="flex items-center rounded-full transition-all duration-300"
+          className={`flex items-center rounded-full p-[11px] transition-all duration-300 md:py-[13px] ${phoneHovered ? "md:px-[22px]" : "md:px-[17px]"}`}
           style={{
             background: phoneHovered ? "#1A2E4A" : "#1A56A0",
-            padding: phoneHovered ? "13px 22px" : "13px 17px",
             gap: phoneHovered ? "10px" : "0px",
             boxShadow: "0 4px 20px rgba(26,86,160,0.4)",
           }}

@@ -28,8 +28,7 @@ export default function KakaoMap() {
   return (
     <iframe
       src={failed ? GOOGLE_SRC : "/map.html"}
-      width="100%"
-      className="aspect-video w-full sm:aspect-auto sm:h-[420px]"
+      className="h-full w-full"
       style={{ border: 0, display: "block" }}
       title="안강 섬김 노인복지센터 위치 지도"
       loading="lazy"
