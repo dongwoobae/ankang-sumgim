@@ -313,39 +313,40 @@ export default function Header() {
         )}
       </div>
 
-      {/* 모바일 메뉴 */}
-      {mobileOpen && (
-        <div className="md:hidden bg-[#FFFFFF] border-t border-[#A8C4E0]/60 overflow-y-auto max-h-[80vh]">
-          {navItems.map((item) => (
-            <div key={item.label} className="border-b border-[#EEF4FB]">
-              {item.href != null ? (
-                <Link
-                  href={item.href}
-                  className="flex items-center px-6 py-4 text-[#1A2E4A] font-medium text-sm"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <span className="flex items-center px-6 py-4 text-[#1A2E4A] font-medium text-sm">
-                  {item.label}
-                </span>
-              )}
-              {item.children.map((child) => (
-                <Link
-                  key={child.href}
-                  href={child.href}
-                  className="flex items-center gap-2 pl-10 pr-6 py-3 text-[#5A7A99] text-sm hover:text-[#1A56A0] hover:bg-[#EEF4FB]"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <span className="w-1 h-1 rounded-full bg-[#A8C4E0] flex-shrink-0" />
-                  {child.label}
-                </Link>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
+      {/* 모바일 메뉴 — 닫혀 있어도 DOM에 남긴다. 데스크탑 메가메뉴는 hover 때만 그려져서,
+          하위 페이지 링크가 서버 HTML에 실리는 곳이 여기뿐이다. 조건부 렌더로 되돌리면 크롤러가 하위 페이지를 못 찾는다. */}
+      <div
+        className={`${mobileOpen ? "" : "hidden"} md:hidden bg-[#FFFFFF] border-t border-[#A8C4E0]/60 overflow-y-auto max-h-[80vh]`}
+      >
+        {navItems.map((item) => (
+          <div key={item.label} className="border-b border-[#EEF4FB]">
+            {item.href != null ? (
+              <Link
+                href={item.href}
+                className="flex items-center px-6 py-4 text-[#1A2E4A] font-medium text-sm"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <span className="flex items-center px-6 py-4 text-[#1A2E4A] font-medium text-sm">
+                {item.label}
+              </span>
+            )}
+            {item.children.map((child) => (
+              <Link
+                key={child.href}
+                href={child.href}
+                className="flex items-center gap-2 pl-10 pr-6 py-3 text-[#5A7A99] text-sm hover:text-[#1A56A0] hover:bg-[#EEF4FB]"
+                onClick={() => setMobileOpen(false)}
+              >
+                <span className="w-1 h-1 rounded-full bg-[#A8C4E0] flex-shrink-0" />
+                {child.label}
+              </Link>
+            ))}
+          </div>
+        ))}
+      </div>
     </header>
   );
 }
