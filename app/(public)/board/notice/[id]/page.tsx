@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { unstable_cache } from "next/cache";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
@@ -49,15 +50,10 @@ export async function generateMetadata({
 
   if (!data) return { title: "공지사항" };
 
-  return {
+  return pageMetadata(`/board/notice/${id}`, {
     title: data.title,
     description: data.content.slice(0, 120).replace(/\n/g, " "),
-    openGraph: {
-      title: data.title,
-      description: data.content.slice(0, 120).replace(/\n/g, " "),
-      url: `/board/notice/${id}`,
-    },
-  };
+  });
 }
 
 export const revalidate = false;

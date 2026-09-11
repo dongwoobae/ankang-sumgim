@@ -1,15 +1,15 @@
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/board/PageHero";
 import PageToc from "@/components/common/PageToc";
 import ProcessTimeline from "@/components/services/ProcessTimeline";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/services/insurance", {
   title: "노인장기요양보험이란",
   description: "노인장기요양보험 제도 안내. 신청 자격, 등급 기준, 급여 종류를 쉽게 설명해드립니다.",
-  openGraph: { url: "/services/insurance" },
-};
+});
 
 const steps = [
   { n: "01", title: "신청", desc: "국민건강보험공단 지사에 장기요양인정 신청서를 제출합니다." },

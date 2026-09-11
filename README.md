@@ -28,7 +28,7 @@
 - **신뢰 경계 검증** — MIME 선언을 신뢰하지 않고 JPEG·PNG·WebP 매직바이트와 얼굴 좌표를 서버에서 재검증하며, 처리 불가능한 HEIC는 변환 방법과 함께 명확히 거절
 - **인증·데이터 보안 강화** — Supabase JWT 로컬 검증, RLS·service role 경계, SECURITY DEFINER 함수 권한 회수, 스팸 방지와 원자적 rate limit 적용
 - **운영 기능 통합** — 공지·사진·상담·답변 발송·수상 이력·구인 지원자·장기요양 계산기·오류 로그를 하나의 관리자 시스템에서 관리
-- **서비스 주소** — [https://sumgim-welfare.com](https://sumgim-welfare.com)
+- **서비스 주소** — [https://www.sumgim-welfare.com](https://www.sumgim-welfare.com)
 
 ---
 
@@ -323,7 +323,7 @@ error_logs
 
 ```env
 # 사이트 URL
-NEXT_PUBLIC_SITE_URL=https://sumgim-welfare.com
+NEXT_PUBLIC_SITE_URL=https://www.sumgim-welfare.com
 
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxxx.supabase.co
@@ -438,16 +438,24 @@ Supabase Dashboard → Database → Cron Jobs에서 설정합니다.
 
 - `app/sitemap.ts`: 정적 라우트와 DB 기반 동적 라우트 생성
 - `app/robots.ts`: `/admin` 크롤링 차단
+- `lib/seo.ts`: 사이트 URL, 공통 OG 필드, 사업장 JSON-LD, 페이지 metadata 헬퍼 `pageMetadata` — 공개 페이지는 이 헬퍼로 canonical과 og:image를 함께 싣는다
 - `public/og-image.jpg`: SNS/카카오톡 공유 이미지
-- `next.config.ts`: Vercel 기본 도메인에서 운영 도메인으로 301 리다이렉트
-- Vercel Analytics / Speed Insights 적용
+- 운영 호스트는 `www.sumgim-welfare.com`이다. 루트 도메인·`ankang-sumgim.vercel.app` → www 리다이렉트는 Vercel 도메인 설정이 먼저 처리하므로, 그곳에서 영구(308)로 둬야 한다. `next.config.ts`의 규칙은 같은 목적지를 가리키는 예비용이다.
+- Vercel Analytics / Speed Insights / Google Analytics 4 적용
+
+GA4에는 페이지뷰 외에 아래 이벤트가 전송된다. GA4 관리 → 이벤트에서 **주요 이벤트**로 표시해야 전환으로 집계된다.
+
+| 이벤트          | 파라미터                  | 발생 지점                                                          |
+| --------------- | ------------------------- | ------------------------------------------------------------------ |
+| `contact_click` | `method`: `phone`·`kakao` | 공개 페이지의 `tel:`·카카오 채널 링크 클릭 (`ContactClickTracker`) |
+| `generate_lead` | `form`: `inquiry`         | 상담문의 폼 전송 성공                                              |
 
 배포는 Vercel에 연결된 GitHub 저장소에 push하면 자동으로 진행됩니다. Vercel 환경변수에는 `.env.local`과 동일한 값을 설정해야 합니다.
 
 배포 후 Google Search Console에 다음 sitemap을 제출합니다.
 
 ```text
-https://sumgim-welfare.com/sitemap.xml
+https://www.sumgim-welfare.com/sitemap.xml
 ```
 
 ---
@@ -531,7 +539,7 @@ https://sumgim-welfare.com/sitemap.xml
 | 프로젝트명  | 안강 섬김 노인복지센터 홈페이지                                          |
 | 대상 기관   | 안강 섬김 노인복지센터                                                   |
 | 위치        | 경상북도 경주시 안강읍                                                   |
-| 운영 도메인 | `https://sumgim-welfare.com`                                             |
+| 운영 도메인 | `https://www.sumgim-welfare.com`                                         |
 | 주요 사용자 | 보호자, 어르신, 센터 운영자, 요양보호사 구직자                           |
 | 핵심 목적   | 센터 소개, 상담 접수, 공지/사진 운영, 구인 문의 안내, 장기요양 정보 제공 |
 

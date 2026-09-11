@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
       {
         source: "/:path*",
         has: [{ type: "host", value: "ankang-sumgim.vercel.app" }],
-        destination: "https://sumgim-welfare.com/:path*",
+        destination: "https://www.sumgim-welfare.com/:path*",
         permanent: true,
       },
     ];

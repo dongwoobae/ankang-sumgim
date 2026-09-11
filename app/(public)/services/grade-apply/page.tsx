@@ -1,17 +1,17 @@
 import { CheckCircle, Users, FileText } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/board/PageHero";
 import PageToc from "@/components/common/PageToc";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/services/grade-apply", {
   title: "등급신청 안내",
   description:
     "장기요양 1~5등급 신청 방법과 절차 안내. 신청서 제출부터 등급 판정까지 안강 섬김이 도와드립니다.",
-  openGraph: { url: "/services/grade-apply" },
-};
+});
 
 const documents = [
   "장기요양인정 신청서 (공단 양식)",

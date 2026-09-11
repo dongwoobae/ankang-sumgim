@@ -1,16 +1,16 @@
 import { CheckCircle } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/services/visit-care", {
   title: "방문요양서비스",
   description:
     "요양보호사가 가정을 직접 방문하여 신체활동·가사활동·정서지원 서비스를 제공합니다. 목욕차 2대 보유.",
-  openGraph: { url: "/services/visit-care" },
-};
+});
 
 const highlights = [
   { title: "목욕차 보유", value: "2대", desc: "지역 최다 보유 — 빠른 배차 가능" },

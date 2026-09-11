@@ -3,16 +3,16 @@ import { Phone, ChevronRight, Award } from "lucide-react";
 import { adminSupabase } from "@/lib/supabase/admin";
 import Image from "next/image";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Hero from "@/components/home/Hero";
 import Stats from "@/components/home/Stats";
 import Reveal from "@/components/common/Reveal";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "안강 섬김 노인복지센터", // template 무시하고 단독 표기
-  },
-  description: "어르신의 일상을 함께 섬기는 방문요양센터",
-};
+export const metadata: Metadata = pageMetadata("/", {
+  title: { absolute: "안강 섬김 노인복지센터 | 경주 안강 방문요양·가족요양" },
+  description:
+    "경주시 안강읍의 방문요양센터입니다. 경주·영천·포항 지역 어르신께 방문요양, 가족요양, 인지활동서비스와 장기요양 등급신청 상담을 제공합니다.",
+});
 
 const services = [
   {

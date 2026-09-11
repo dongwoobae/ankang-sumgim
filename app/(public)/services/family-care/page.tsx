@@ -1,16 +1,16 @@
 import { CheckCircle, AlertTriangle } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/services/family-care", {
   title: "가족요양",
   description:
     "가족이 직접 요양보호사 자격을 취득하여 어르신을 돌보고 급여를 받을 수 있는 가족요양 서비스 안내.",
-  openGraph: { url: "/services/family-care" },
-};
+});
 
 const eligibility = [
   "배우자",

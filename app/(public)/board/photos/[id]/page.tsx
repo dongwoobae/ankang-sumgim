@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -18,11 +19,10 @@ export async function generateMetadata({
     .select("name")
     .eq("id", id)
     .single();
-  return {
+  return pageMetadata(`/board/photos/${id}`, {
     title: data?.name ?? "사진 게시판",
     description: `안강 섬김 노인복지센터 ${data?.name ?? ""} 앨범입니다.`,
-    openGraph: { url: `/board/photos/${id}` },
-  };
+  });
 }
 
 async function getAlbum(id: string) {

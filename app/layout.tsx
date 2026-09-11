@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { OPEN_GRAPH_DEFAULTS, SITE_JSON_LD, SITE_NAME, SITE_URL } from "@/lib/seo";
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sumgim-welfare.com";
 const GOOGLE_ANALYTICS_ID = "G-PYKNSKMXVH";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "안강 섬김 노인복지센터",
-    template: "%s | 안강 섬김 노인복지센터",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "어르신 한 분 한 분을 소중히 섬기는 안강 섬김 노인복지센터입니다. 경주·안강·영천·포항 전역 방문요양서비스 제공.",
@@ -29,27 +29,13 @@ export const metadata: Metadata = {
     "등급신청",
   ],
   openGraph: {
-    type: "website",
-    locale: "ko_KR",
-    siteName: "안강 섬김 노인복지센터",
-    title: "안강 섬김 노인복지센터",
+    ...OPEN_GRAPH_DEFAULTS,
+    title: SITE_NAME,
     description:
       "어르신 한 분 한 분을 소중히 섬기는 안강 섬김 노인복지센터입니다. 경주·안강·영천·포항 전역 방문요양서비스 제공.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "안강 섬김 노인복지센터",
-      },
-    ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "안강 섬김 노인복지센터",
-    description: "어르신 한 분 한 분을 소중히 섬기는 안강 섬김 노인복지센터입니다.",
-    images: ["/og-image.png"],
-  },
+  // title·description·image를 지정하면 모든 하위 페이지가 이 값을 물려받는다. 비워 두면 X는 og 태그를 쓴다.
+  twitter: { card: "summary_large_image" },
   verification: {
     google: "uHLCbH46M0caurPjbFHsTV226bUAHaWTLL1zdj7UOoM",
     other: {
@@ -65,12 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "안강 섬김 노인복지센터",
-              url: process.env.NEXT_PUBLIC_SITE_URL,
-            }),
+            __html: JSON.stringify(SITE_JSON_LD).replace(/</g, "\\u003c"),
           }}
         />
         <link

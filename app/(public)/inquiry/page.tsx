@@ -7,6 +7,7 @@ import { Phone, MapPin, Clock, Send } from "lucide-react";
 import { sendInquiry, type InquiryState } from "@/app/actions/sendInquiry";
 import FaqAccordion from "@/components/FaqAccordion";
 import PageHero from "@/components/board/PageHero";
+import { trackEvent } from "@/lib/analytics";
 
 const serviceTypes = ["방문요양서비스", "가족요양", "인지활동서비스", "등급신청 상담", "기타 문의"];
 
@@ -54,6 +55,11 @@ export default function InquiryPage() {
       }
     }
   }, [state.success]);
+
+  // state.success는 연속 성공 때 true→true라 바뀌지 않는다. 제출마다 새로 오는 state 객체에 건다.
+  useEffect(() => {
+    if (state.success) trackEvent("generate_lead", { form: "inquiry" });
+  }, [state]);
 
   return (
     <>

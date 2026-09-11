@@ -1,15 +1,15 @@
 import { MapPin, Phone, Mail, Bus, Car, Clock } from "lucide-react";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import KakaoMap from "@/components/KakaoMap";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/about/location", {
   title: "오시는길",
   description: "안강 섬김 노인복지센터 위치 안내. 경상북도 경주시 안강읍 화전중앙길 53.",
-  openGraph: { url: "/about/location" },
-};
+});
 
 const contactItems = [
   {

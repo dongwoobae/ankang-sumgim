@@ -1,16 +1,16 @@
 import { Brain, CheckCircle, Puzzle, Home, Activity, MessageCircle } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/services/cognitive", {
   title: "인지활동서비스",
   description:
     "치매 예방과 인지 기능 유지를 위한 전문 프로그램. 어르신 맞춤 인지활동서비스를 제공합니다.",
-  openGraph: { url: "/services/cognitive" },
-};
+});
 
 const programs = [
   {

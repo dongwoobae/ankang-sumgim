@@ -1,13 +1,13 @@
 import { adminSupabase } from "@/lib/supabase/admin";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/board/PageHero";
 import NoticeList from "@/components/board/NoticeList";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/board/notice", {
   title: "공지사항",
   description: "안강 섬김 노인복지센터의 최신 공지사항과 소식을 확인하세요.",
-  openGraph: { url: "/board/notice" },
-};
+});
 
 async function getNotices() {
   const { data } = await adminSupabase

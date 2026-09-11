@@ -2,15 +2,14 @@
 
 import type { MetadataRoute } from "next";
 import { adminSupabase } from "@/lib/supabase/admin";
-
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+import { SITE_URL as BASE } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: BASE,
+      url: `${BASE}/`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 1.0,
@@ -68,6 +67,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
+    },
+    {
+      url: `${BASE}/calculator`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE}/recruit`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
     {
       url: `${BASE}/board/notice`,

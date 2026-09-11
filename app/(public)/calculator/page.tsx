@@ -1,15 +1,16 @@
 import { unstable_cache } from "next/cache";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import CalculatorClient from "./CalculatorClient";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/calculator", {
   title: "본인부담금 계산기",
   description: "방문요양 이용 시 예상 월 본인부담금을 등급별로 미리 확인해 보세요.",
-};
+});
 
 export const revalidate = false;
 

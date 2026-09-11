@@ -1,13 +1,13 @@
 import { adminSupabase } from "@/lib/supabase/admin";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/board/PageHero";
 import AlbumGrid from "@/components/board/AlbumGrid";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/board/photos", {
   title: "사진 게시판",
   description: "안강 섬김 노인복지센터의 활동 사진 모음입니다.",
-  openGraph: { url: "/board/photos" },
-};
+});
 
 async function getAlbums() {
   const { data } = await adminSupabase

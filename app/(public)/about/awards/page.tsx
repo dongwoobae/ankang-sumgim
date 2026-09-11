@@ -1,16 +1,16 @@
 import { adminSupabase } from "@/lib/supabase/admin";
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
 import AwardsList from "./AwardsList";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata("/about/awards", {
   title: "수상·기관선정",
   description:
     "안강 섬김 노인복지센터 수상 및 기관 선정 내역. 공신력 있는 기관이 인정한 서비스 품질.",
-  openGraph: { url: "/about/awards" },
-};
+});
 
 async function getAwards() {
   const { data } = await adminSupabase

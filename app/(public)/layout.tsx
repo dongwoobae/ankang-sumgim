@@ -2,6 +2,7 @@
 import Footer from "@/components/layout/Footer";
 import FloatingButton from "@/components/layout/FloatingButton";
 import { Analytics } from "@vercel/analytics/next";
+import ContactClickTracker from "@/components/analytics/ContactClickTracker";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,6 +12,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Footer />
       <FloatingButton />
       <Analytics />
+      <ContactClickTracker />
     </div>
   );
 }
