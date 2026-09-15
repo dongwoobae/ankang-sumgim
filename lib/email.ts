@@ -55,8 +55,8 @@ export async function sendInquiryNotificationEmail(params: {
           <!-- 헤더 -->
           <tr>
             <td style="background-color:#1A56A0;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
-              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">ANGANG SUMGIM</p>
-              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">안강 섬김 노인복지센터</h1>
+              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">SUMGIM</p>
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">섬김노인복지센터</h1>
             </td>
           </tr>
 
@@ -121,7 +121,7 @@ export async function sendInquiryNotificationEmail(params: {
           <!-- 푸터 -->
           <tr>
             <td style="background-color:#EEF4FB;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #A8C4E0;">
-              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">안강 섬김 노인복지센터</p>
+              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">섬김노인복지센터</p>
               <p style="margin:0;font-size:12px;color:#5A7A99;">📞 054-763-5988</p>
             </td>
           </tr>
@@ -173,8 +173,8 @@ export async function sendJobApplicationNotificationEmail(params: {
           <!-- 헤더 -->
           <tr>
             <td style="background-color:#1A56A0;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
-              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">ANGANG SUMGIM</p>
-              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">안강 섬김 노인복지센터</h1>
+              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">SUMGIM</p>
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">섬김노인복지센터</h1>
             </td>
           </tr>
 
@@ -239,7 +239,7 @@ export async function sendJobApplicationNotificationEmail(params: {
           <!-- 푸터 -->
           <tr>
             <td style="background-color:#EEF4FB;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #A8C4E0;">
-              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">안강 섬김 노인복지센터</p>
+              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">섬김노인복지센터</p>
               <p style="margin:0;font-size:12px;color:#5A7A99;">📞 054-763-5988</p>
             </td>
           </tr>
@@ -266,7 +266,7 @@ export async function sendInquiryConfirmationEmail(params: {
 
   return sendEmail({
     to,
-    subject: `[안강섬김노인복지센터] ${stripNewlines(name)}님의 상담 문의가 접수되었습니다`,
+    subject: `[섬김노인복지센터] ${stripNewlines(name)}님의 상담 문의가 접수되었습니다`,
     html: `
 <!DOCTYPE html>
 <html lang="ko">
@@ -283,8 +283,8 @@ export async function sendInquiryConfirmationEmail(params: {
           <!-- 헤더 -->
           <tr>
             <td style="background-color:#1A56A0;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
-              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">ANGANG SUMGIM</p>
-              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">안강 섬김 노인복지센터</h1>
+              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">SUMGIM</p>
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">섬김노인복지센터</h1>
             </td>
           </tr>
 
@@ -338,7 +338,7 @@ export async function sendInquiryConfirmationEmail(params: {
                   <td style="background-color:#EEF4FB;border:1px solid #A8C4E0;border-radius:10px;padding:18px 22px;text-align:center;">
                     <p style="margin:0 0 6px 0;font-size:13px;color:#5A7A99;line-height:1.7;">빠른 답변이 필요하신 경우 아래 번호로 연락 주세요.</p>
                     <p style="margin:0 0 4px 0;font-size:18px;font-weight:700;color:#1A56A0;">📞 054-763-5988</p>
-                    <p style="margin:0;font-size:12px;color:#5A7A99;">운영시간 평일 09:00 – 18:00</p>
+                    <p style="margin:0;font-size:12px;color:#5A7A99;">운영시간 평일 09:00 – 18:00 · 토 09:00 – 14:00</p>
                   </td>
                 </tr>
               </table>
@@ -352,7 +352,7 @@ export async function sendInquiryConfirmationEmail(params: {
           <!-- 푸터 -->
           <tr>
             <td style="background-color:#EEF4FB;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #A8C4E0;">
-              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">안강 섬김 노인복지센터</p>
+              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">섬김노인복지센터</p>
               <p style="margin:0;font-size:12px;color:#5A7A99;">경상북도 경주시 안강읍</p>
             </td>
           </tr>
@@ -378,7 +378,7 @@ export async function sendReplyEmail(params: {
 
   return sendEmail({
     to,
-    subject: `[안강섬김노인복지센터] ${stripNewlines(name)}님의 문의에 답변이 등록되었습니다`,
+    subject: `[섬김노인복지센터] ${stripNewlines(name)}님의 문의에 답변이 등록되었습니다`,
     html: `
 <!DOCTYPE html>
 <html lang="ko">
@@ -395,8 +395,8 @@ export async function sendReplyEmail(params: {
           <!-- 헤더 -->
           <tr>
             <td style="background-color:#1A56A0;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;">
-              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">ANGANG SUMGIM</p>
-              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">안강 섬김 노인복지센터</h1>
+              <p style="margin:0 0 6px 0;font-size:13px;color:#FFFFFF;letter-spacing:3px;opacity:0.85;">SUMGIM</p>
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:1px;">섬김노인복지센터</h1>
             </td>
           </tr>
 
@@ -442,7 +442,7 @@ export async function sendReplyEmail(params: {
           <!-- 푸터 -->
           <tr>
             <td style="background-color:#EEF4FB;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;border-top:1px solid #A8C4E0;">
-              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">안강 섬김 노인복지센터</p>
+              <p style="margin:0 0 4px 0;font-size:13px;font-weight:600;color:#1A2E4A;">섬김노인복지센터</p>
               <p style="margin:0;font-size:12px;color:#5A7A99;">답변일시: ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}</p>
             </td>
           </tr>

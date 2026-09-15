@@ -182,7 +182,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
             <Image
               src="/logo.png"
-              alt="안강 섬김 노인복지센터 로고"
+              alt="섬김노인복지센터 로고"
               width={52}
               height={52}
               priority

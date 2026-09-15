@@ -19,7 +19,7 @@ vi.mock("@/lib/supabase/admin", () => ({
 
 const { default: sitemap } = await import("@/app/sitemap");
 const { default: robots } = await import("@/app/robots");
-const { pageMetadata, SITE_URL } = await import("@/lib/seo");
+const { pageMetadata, SITE_JSON_LD, SITE_URL } = await import("@/lib/seo");
 
 /** 스킴 뒤에 "//"가 다시 나오면 경로가 깨진 URL이다. */
 function hasDoubleSlash(url: string): boolean {
@@ -58,6 +58,15 @@ describe("robots", () => {
   });
 });
 
+describe("SITE_JSON_LD", () => {
+  it("네이버 플레이스 등록명을 name으로, 예전 표기를 alternateName으로 싣는다", () => {
+    for (const node of SITE_JSON_LD["@graph"]) {
+      expect(node.name).toBe("섬김노인복지센터");
+      expect(node.alternateName).toContain("안강 섬김 노인복지센터");
+    }
+  });
+});
+
 describe("pageMetadata", () => {
   const meta = pageMetadata("/services/visit-care", {
     title: "방문요양서비스",
@@ -73,6 +82,6 @@ describe("pageMetadata", () => {
     expect(meta.openGraph?.images).toEqual([
       expect.objectContaining({ url: "/og-image.jpg", width: 1200, height: 630 }),
     ]);
-    expect(meta.openGraph?.siteName).toBe("안강 섬김 노인복지센터");
+    expect(meta.openGraph?.siteName).toBe("섬김노인복지센터");
   });
 });

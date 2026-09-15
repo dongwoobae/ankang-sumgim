@@ -71,7 +71,7 @@ export default async function AdminDashboard() {
     <div className="p-8 max-w-5xl">
       <div className="mb-8">
         <h1 className="text-[#1A2E4A] text-2xl font-bold">대시보드</h1>
-        <p className="text-[#5A7A99] text-sm mt-1">안강 섬김 노인복지센터 관리 페이지</p>
+        <p className="text-[#5A7A99] text-sm mt-1">섬김노인복지센터 관리 페이지</p>
       </div>
 
       {/* 통계 카드 */}

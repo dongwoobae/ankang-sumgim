@@ -30,7 +30,7 @@ export default function KakaoMap() {
       src={failed ? GOOGLE_SRC : "/map.html"}
       className="h-full w-full"
       style={{ border: 0, display: "block" }}
-      title="안강 섬김 노인복지센터 위치 지도"
+      title="섬김노인복지센터 위치 지도"
       loading="lazy"
     />
   );

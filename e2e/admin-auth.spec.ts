@@ -21,7 +21,7 @@ test.describe("관리자 인증", () => {
       await page.goto(path);
 
       await expect(page).toHaveURL(/\/admin\/login$/);
-      await expect(page.getByRole("heading", { name: "안강 섬김 관리자" })).toBeVisible();
+      await expect(page.getByRole("heading", { name: "섬김 관리자" })).toBeVisible();
     });
   }
 

@@ -6,7 +6,7 @@ import AlbumGrid from "@/components/board/AlbumGrid";
 
 export const metadata: Metadata = pageMetadata("/board/photos", {
   title: "사진 게시판",
-  description: "안강 섬김 노인복지센터의 활동 사진 모음입니다.",
+  description: "섬김노인복지센터의 활동 사진 모음입니다.",
 });
 
 async function getAlbums() {

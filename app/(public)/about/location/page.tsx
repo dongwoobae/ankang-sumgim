@@ -8,7 +8,7 @@ import CtaBanner from "@/components/common/CtaBanner";
 
 export const metadata: Metadata = pageMetadata("/about/location", {
   title: "오시는길",
-  description: "안강 섬김 노인복지센터 위치 안내. 경상북도 경주시 안강읍 화전중앙길 53.",
+  description: "섬김노인복지센터 위치 안내. 경상북도 경주시 안강읍 화전중앙길 53.",
 });
 
 const contactItems = [

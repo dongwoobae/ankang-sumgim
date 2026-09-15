@@ -10,7 +10,7 @@ import CtaBanner from "@/components/common/CtaBanner";
 export const metadata: Metadata = pageMetadata("/services/grade-apply", {
   title: "등급신청 안내",
   description:
-    "장기요양 1~5등급 신청 방법과 절차 안내. 신청서 제출부터 등급 판정까지 안강 섬김이 도와드립니다.",
+    "장기요양 1~5등급 신청 방법과 절차 안내. 신청서 제출부터 등급 판정까지 섬김노인복지센터가 도와드립니다.",
 });
 
 const documents = [
@@ -236,7 +236,7 @@ export default function GradeApplyPage() {
           {
             iconKey: "serviceStart",
             title: "서비스 이용",
-            desc: "안강 섬김에 연락하여 서비스 계약 및 시작",
+            desc: "섬김노인복지센터에 연락하여 서비스 계약 및 시작",
           },
         ]}
       />
@@ -261,7 +261,7 @@ export default function GradeApplyPage() {
       <CtaBanner
         eyebrow="NEED HELP?"
         title="등급 신청이 어려우신가요?"
-        desc="안강 섬김 노인복지센터에서 등급 신청 상담 및 서류 작성을 도와드립니다."
+        desc="섬김노인복지센터에서 등급 신청 상담 및 서류 작성을 도와드립니다."
         primary={{ text: "상담 신청", href: "/inquiry" }}
         secondary={{ text: "☎ 054-763-5988", href: "tel:054-763-5988" }}
         variant="pop"

@@ -7,7 +7,7 @@ import CtaBanner from "@/components/common/CtaBanner";
 
 export const metadata: Metadata = pageMetadata("/about/greeting", {
   title: "인사말",
-  description: "안강 섬김 노인복지센터 센터장 인사말. 어르신 한 분 한 분을 소중히 섬기겠습니다.",
+  description: "섬김노인복지센터 센터장 인사말. 어르신 한 분 한 분을 소중히 섬기겠습니다.",
 });
 
 const values = [
@@ -68,7 +68,7 @@ export default function GreetingPage() {
             className="space-y-5 text-left text-base leading-[1.95]"
             style={{ color: "var(--ink-2)" }}
           >
-            <p>안강 섬김 노인복지센터를 찾아주셔서 진심으로 감사드립니다.</p>
+            <p>섬김노인복지센터를 찾아주셔서 진심으로 감사드립니다.</p>
             <p>
               저희 센터는 경주·안강·영천·포항 지역에서 신체적·경제적·정신적으로 어려움을 겪고 계신
               어르신들이 존엄하고 행복한 노후를 보내실 수 있도록 최선을 다하고 있습니다.
@@ -87,7 +87,7 @@ export default function GreetingPage() {
             className="mt-10 border-t pt-7 text-sm font-bold"
             style={{ borderColor: "var(--line)", color: "var(--ink-2)" }}
           >
-            안강 섬김 노인복지센터장
+            섬김노인복지센터장
           </div>
         </div>
       </section>

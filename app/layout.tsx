@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "어르신 한 분 한 분을 소중히 섬기는 안강 섬김 노인복지센터입니다. 경주·안강·영천·포항 전역 방문요양서비스 제공.",
+    "어르신 한 분 한 분을 소중히 섬기는 경주 안강의 섬김노인복지센터입니다. 경주·안강·영천·포항 전역 방문요양서비스 제공.",
   keywords: [
     "방문요양",
     "노인복지",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     ...OPEN_GRAPH_DEFAULTS,
     title: SITE_NAME,
     description:
-      "어르신 한 분 한 분을 소중히 섬기는 안강 섬김 노인복지센터입니다. 경주·안강·영천·포항 전역 방문요양서비스 제공.",
+      "어르신 한 분 한 분을 소중히 섬기는 경주 안강의 섬김노인복지센터입니다. 경주·안강·영천·포항 전역 방문요양서비스 제공.",
   },
   // title·description·image를 지정하면 모든 하위 페이지가 이 값을 물려받는다. 비워 두면 X는 og 태그를 쓴다.
   twitter: { card: "summary_large_image" },

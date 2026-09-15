@@ -9,7 +9,7 @@ import Stats from "@/components/home/Stats";
 import Reveal from "@/components/common/Reveal";
 
 export const metadata: Metadata = pageMetadata("/", {
-  title: { absolute: "안강 섬김 노인복지센터 | 경주 안강 방문요양·가족요양" },
+  title: { absolute: "섬김노인복지센터 | 경주 안강 노인복지센터·방문요양" },
   description:
     "경주시 안강읍의 방문요양센터입니다. 경주·영천·포항 지역 어르신께 방문요양, 가족요양, 인지활동서비스와 장기요양 등급신청 상담을 제공합니다.",
 });

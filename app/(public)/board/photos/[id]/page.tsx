@@ -21,7 +21,7 @@ export async function generateMetadata({
     .single();
   return pageMetadata(`/board/photos/${id}`, {
     title: data?.name ?? "사진 게시판",
-    description: `안강 섬김 노인복지센터 ${data?.name ?? ""} 앨범입니다.`,
+    description: `섬김노인복지센터 ${data?.name ?? ""} 앨범입니다.`,
   });
 }
 

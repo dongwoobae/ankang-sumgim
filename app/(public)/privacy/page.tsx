@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata("/privacy", {
   title: "개인정보처리방침",
-  description: "안강 섬김 노인복지센터 개인정보처리방침.",
+  description: "섬김노인복지센터 개인정보처리방침.",
 });
 
 export default function PrivacyPage() {
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-[#1A56A0] text-sm font-semibold tracking-widest mb-2">PRIVACY</p>
           <h1 className="text-[#1A2E4A] text-4xl font-bold">개인정보처리방침</h1>
-          <p className="text-[#5A7A99] mt-3">안강 섬김 노인복지센터 개인정보 처리방침</p>
+          <p className="text-[#5A7A99] mt-3">섬김노인복지센터 개인정보 처리방침</p>
         </div>
       </section>
 
@@ -27,8 +27,8 @@ export default function PrivacyPage() {
           <div>
             <h2 className="text-xl font-bold mb-4">제1조 (개인정보의 수집 항목 및 수집 방법)</h2>
             <p className="text-base text-[#1A2E4A] mb-3">
-              안강 섬김 노인복지센터(이하 &quot;센터&quot;)는 상담 문의 서비스 제공을 위해 아래와
-              같이 개인정보를 수집합니다.
+              섬김노인복지센터(이하 &quot;센터&quot;)는 상담 문의 서비스 제공을 위해 아래와 같이
+              개인정보를 수집합니다.
             </p>
             <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-6">
               <p className="font-bold text-base mb-2">수집 항목</p>
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold mb-4">제7조 (개인정보 보호책임자)</h2>
             <div className="bg-[#EEF4FB] border border-[#A8C4E0]/50 rounded-xl p-6 space-y-2 text-base text-[#5A7A99]">
               <p>
-                <strong className="text-[#1A2E4A]">기관명:</strong> 안강 섬김 노인복지센터
+                <strong className="text-[#1A2E4A]">기관명:</strong> 섬김노인복지센터
               </p>
               <p>
                 <strong className="text-[#1A2E4A]">전화:</strong> 054-763-5988

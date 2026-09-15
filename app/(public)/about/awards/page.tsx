@@ -8,8 +8,7 @@ import AwardsList from "./AwardsList";
 
 export const metadata: Metadata = pageMetadata("/about/awards", {
   title: "수상·기관선정",
-  description:
-    "안강 섬김 노인복지센터 수상 및 기관 선정 내역. 공신력 있는 기관이 인정한 서비스 품질.",
+  description: "섬김노인복지센터 수상 및 기관 선정 내역. 공신력 있는 기관이 인정한 서비스 품질.",
 });
 
 async function getAwards() {

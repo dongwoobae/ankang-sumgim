@@ -405,7 +405,7 @@ export default function ServiceProcess({ steps, title = "서비스 이용 절차
 
         {/* 하단 안내 */}
         <p className="text-center text-[#5A7A99] text-sm mt-10">
-          등급 신청부터 서비스 시작까지, 안강 섬김이 함께합니다.{" "}
+          등급 신청부터 서비스 시작까지, 섬김노인복지센터가 함께합니다.{" "}
           {/* <a href="tel:054-763-5988" className="text-[#1A56A0] font-semibold hover:underline">
             054-763-5988
           </a> */}

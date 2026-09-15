@@ -210,7 +210,7 @@ export default function InsurancePage() {
       <CtaBanner
         eyebrow="NEED HELP?"
         title="등급 신청이 처음이신가요?"
-        desc="안강 섬김 노인복지센터에서 등급 신청부터 서비스 이용까지 안내해 드립니다."
+        desc="섬김노인복지센터에서 등급 신청부터 서비스 이용까지 안내해 드립니다."
         primary={{ text: "등급신청 안내 보기", href: "/services/grade-apply" }}
         secondary={{ text: "☎ 054-763-5988", href: "tel:054-763-5988" }}
       />

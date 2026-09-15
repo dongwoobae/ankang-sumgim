@@ -24,7 +24,7 @@ export default function AdminSidebarContent({
       <div className="px-4 py-5 border-b border-[#1A2E4A] flex items-center justify-between">
         {!collapsed && (
           <div>
-            <p className="text-[#E8A020] font-bold text-sm">안강 섬김</p>
+            <p className="text-[#E8A020] font-bold text-sm">섬김</p>
             <p className="text-[#5A7A99] text-[11px]">관리자 페이지</p>
           </div>
         )}

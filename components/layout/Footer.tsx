@@ -12,13 +12,13 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/logo.png"
-                alt="안강 섬김 노인복지센터 로고"
+                alt="섬김노인복지센터 로고"
                 width={40}
                 height={40}
                 className="rounded-sm flex-shrink-0"
               />
               <div className="leading-snug">
-                <p className="text-[#FFFFFF] font-bold text-base">안강 섬김 노인복지센터</p>
+                <p className="text-[#FFFFFF] font-bold text-base">섬김노인복지센터</p>
               </div>
             </div>
             <p className="text-[#E8A020] text-sm font-medium leading-relaxed">
@@ -102,7 +102,7 @@ export default function Footer() {
         {/* 하단 바 */}
         <div className="border-t border-[#E8A020]/30 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 pb-4">
           <p className="text-xs text-[#5A7A99]">
-            Since 2015 · © 2026 안강 섬김 노인복지센터. All rights reserved.
+            Since 2015 · © 2026 섬김노인복지센터. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link
