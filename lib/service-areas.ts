@@ -64,3 +64,7 @@ export function getServiceArea(slug: ServiceAreaSlug): ServiceArea {
 
 // 영천이 빠진 이유는 docs/specs/visit-bath.md
 export const BATH_CAR_AREAS = "경주·포항·안강";
+
+// 센터가 어림해서 적어 달라고 했다 — docs/specs/area-pages.md "센터 회신"
+export const CAREGIVER_COUNT = "60여 명";
+export const CLIENT_COUNT = "150여 분";

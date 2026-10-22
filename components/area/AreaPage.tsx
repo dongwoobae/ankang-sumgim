@@ -4,7 +4,13 @@ import { CheckCircle, ExternalLink, MapPin } from "lucide-react";
 import PageHero from "@/components/board/PageHero";
 import CtaBanner from "@/components/common/CtaBanner";
 import { pageMetadata } from "@/lib/seo";
-import { BATH_CAR_AREAS, NHIS_CHECKED_AT, type ServiceArea } from "@/lib/service-areas";
+import {
+  BATH_CAR_AREAS,
+  CAREGIVER_COUNT,
+  CLIENT_COUNT,
+  NHIS_CHECKED_AT,
+  type ServiceArea,
+} from "@/lib/service-areas";
 
 const services = [
   {
@@ -51,7 +57,7 @@ export default function AreaPage({ area }: { area: ServiceArea }) {
               WHERE WE GO
             </div>
             <h2 className="mb-5 text-[26px] font-extrabold" style={{ color: "var(--ink-2)" }}>
-              {area.city} 가정을 방문하고 있습니다
+              {area.city} 전역을 방문합니다
             </h2>
             <div className="space-y-4 text-[15px] leading-[1.9]" style={{ color: "var(--ink-2)" }}>
               <p>
@@ -59,7 +65,10 @@ export default function AreaPage({ area }: { area: ServiceArea }) {
                 {area.city} 어르신 댁을 직접 찾아가 돌봄을 드리고, 센터 목욕차는 {BATH_CAR_AREAS}을
                 운행합니다.
               </p>
-              <p>댁이 방문 가능한 곳인지는 전화로 문의해 주시면 바로 알려 드립니다.</p>
+              <p>
+                지금 센터 요양보호사 {CAREGIVER_COUNT}이 어르신 {CLIENT_COUNT}을 돌보고 있습니다.{" "}
+                {area.city} 어디든 신청하시면 요양보호사를 구해 연결해 드립니다.
+              </p>
             </div>
           </div>
 

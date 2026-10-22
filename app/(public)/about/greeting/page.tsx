@@ -1,6 +1,7 @@
 import { Heart, Leaf, Users } from "lucide-react";
 import { type Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
+import { CAREGIVER_COUNT, CLIENT_COUNT } from "@/lib/service-areas";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
@@ -74,9 +75,9 @@ export default function GreetingPage() {
               어르신들이 존엄하고 행복한 노후를 보내실 수 있도록 최선을 다하고 있습니다.
             </p>
             <p>
-              요양보호사 한 분 한 분이 어르신의 가정을 직접 방문하여 신체활동 지원부터 정서적
-              교류까지 정성 어린 돌봄을 실천하고 있으며, 매월 정기 교육을 통해 서비스의 질을 꾸준히
-              높여 나가고 있습니다.
+              지금 요양보호사 {CAREGIVER_COUNT}이 어르신 {CLIENT_COUNT}의 가정을 직접 방문하여
+              신체활동 지원부터 정서적 교류까지 정성 어린 돌봄을 실천하고 있으며, 매월 정기 교육을
+              통해 서비스의 질을 꾸준히 높여 나가고 있습니다.
             </p>
             <p>
               어르신과 가족 여러분의 신뢰에 보답하기 위해, 앞으로도 더 나은 섬김의 자세로
