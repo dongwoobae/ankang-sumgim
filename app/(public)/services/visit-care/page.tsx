@@ -3,6 +3,7 @@ import { CheckCircle } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
+import { BATH_CAR_AREAS } from "@/lib/service-areas";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
@@ -14,7 +15,7 @@ export const metadata: Metadata = pageMetadata("/services/visit-care", {
 });
 
 const highlights = [
-  { title: "목욕차 보유", value: "2대", desc: "지역 최다 보유 — 빠른 배차 가능" },
+  { title: "목욕차 보유", value: "2대", desc: `${BATH_CAR_AREAS} 운행` },
   { title: "서비스 지역", value: "4개 시군", desc: "경주·안강·영천·포항 전역" },
   { title: "요양사 교육", value: "월 1회", desc: "정기 역량 강화 교육 실시" },
 ];

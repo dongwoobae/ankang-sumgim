@@ -14,7 +14,7 @@ const STATS: StatItem[] = [
     label: "BATH SERVICE",
     value: 2,
     unit: "대",
-    sub: "타 센터 대비 2배 보유 · 목욕차",
+    sub: "목욕차 보유",
   },
   {
     label: "SERVICE AREA",
