@@ -9,6 +9,7 @@ import {
   X,
   Shield,
   Home,
+  Bath,
   Users,
   ClipboardList,
   Lightbulb,
@@ -93,6 +94,14 @@ const navItems: NavItem[] = [
         icon: Home,
         iconColor: "#2E7D32",
         iconBg: "#E8F5E9",
+      },
+      {
+        label: "방문목욕",
+        href: "/services/visit-bath",
+        desc: "목욕차 방문 목욕",
+        icon: Bath,
+        iconColor: "#00838F",
+        iconBg: "#E0F7FA",
       },
       {
         label: "가족요양",

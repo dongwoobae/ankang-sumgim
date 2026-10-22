@@ -44,6 +44,13 @@ describe("sitemap", () => {
     expect(urls).toContain(`${SITE_URL}/recruit`);
   });
 
+  it("방문목욕과 지역 안내 페이지를 싣는다", async () => {
+    const urls = (await sitemap()).map((e) => e.url);
+    expect(urls).toContain(`${SITE_URL}/services/visit-bath`);
+    expect(urls).toContain(`${SITE_URL}/area/gyeongju`);
+    expect(urls).toContain(`${SITE_URL}/area/pohang`);
+  });
+
   it("DB 상세 페이지도 같은 규칙으로 만든다", async () => {
     const urls = (await sitemap()).map((e) => e.url);
     expect(urls).toContain(`${SITE_URL}/board/notice/8`);

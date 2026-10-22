@@ -175,9 +175,9 @@ export default function FamilyCarePage() {
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
             prev={{
-              label: "방문요양서비스",
-              desc: "가정 방문 요양 서비스",
-              href: "/services/visit-care",
+              label: "방문목욕",
+              desc: "목욕차로 찾아가는 목욕 서비스",
+              href: "/services/visit-bath",
             }}
             next={{
               label: "등급신청 안내",

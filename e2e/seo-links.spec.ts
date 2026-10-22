@@ -8,6 +8,7 @@ const SUB_PAGES = [
   "/recruit",
   "/services/insurance",
   "/services/visit-care",
+  "/services/visit-bath",
   "/services/family-care",
   "/services/grade-apply",
   "/services/cognitive",
@@ -22,6 +23,15 @@ test("홈 서버 HTML에 헤더의 모든 하위 페이지 링크가 실린다",
   expect(res.ok()).toBe(true);
   const html = await res.text();
   const missing = SUB_PAGES.filter((href) => !html.includes(`href="${href}"`));
+  expect(missing).toEqual([]);
+});
+
+// 지역 페이지는 헤더 칸이 없어 푸터 링크가 그 역할을 한다.
+test("홈 서버 HTML에 지역 안내 페이지 링크가 실린다", async ({ request }) => {
+  const html = await (await request.get("/")).text();
+  const missing = ["/area/gyeongju", "/area/pohang"].filter(
+    (href) => !html.includes(`href="${href}"`),
+  );
   expect(missing).toEqual([]);
 });
 

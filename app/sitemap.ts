@@ -3,6 +3,7 @@
 import type { MetadataRoute } from "next";
 import { adminSupabase } from "@/lib/supabase/admin";
 import { SITE_URL as BASE } from "@/lib/seo";
+import { SERVICE_AREAS } from "@/lib/service-areas";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -44,6 +45,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    {
+      url: `${BASE}/services/visit-bath`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...SERVICE_AREAS.map((a) => ({
+      url: `${BASE}/area/${a.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     {
       url: `${BASE}/services/family-care`,
       lastModified: now,

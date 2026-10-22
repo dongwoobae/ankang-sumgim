@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import Image from "next/image";
 import { Phone, MapPin, Clock, Mail, Building2 } from "lucide-react";
+import { SERVICE_AREAS } from "@/lib/service-areas";
 
 export default function Footer() {
   return (
@@ -53,6 +54,17 @@ export default function Footer() {
               <br />
               화전중앙길 53
             </address>
+            <p className="mt-4 text-sm text-[#A8C4E0]">
+              서비스 지역:{" "}
+              {SERVICE_AREAS.map((a, i) => (
+                <span key={a.slug}>
+                  {i > 0 && " · "}
+                  <Link href={`/area/${a.slug}`} className="hover:text-[#FFFFFF] transition-colors">
+                    {a.name}
+                  </Link>
+                </span>
+              ))}
+            </p>
           </div>
 
           {/* 운영시간 */}

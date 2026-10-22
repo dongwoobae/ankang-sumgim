@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
@@ -72,6 +73,17 @@ export default function VisitCarePage() {
                 <p>
                   섬김노인복지센터는 어르신의 상태에 맞게 1회 방문 시 다양한 시간으로 돌봄을
                   제공하며, 경주·안강·영천·포항 전역에서 서비스를 운영하고 있습니다.
+                </p>
+                <p>
+                  목욕차로 찾아가는 목욕은{" "}
+                  <Link
+                    href="/services/visit-bath"
+                    className="font-semibold underline-offset-4 hover:underline"
+                    style={{ color: "var(--pop)" }}
+                  >
+                    방문목욕 안내
+                  </Link>
+                  에서 자세히 보실 수 있습니다.
                 </p>
               </div>
             </div>
@@ -156,9 +168,9 @@ export default function VisitCarePage() {
               href: "/services/insurance",
             }}
             next={{
-              label: "가족요양서비스",
-              desc: "가족이 직접 돌보는 요양서비스",
-              href: "/services/family-care",
+              label: "방문목욕",
+              desc: "목욕차로 찾아가는 목욕 서비스",
+              href: "/services/visit-bath",
             }}
           />
         </div>
