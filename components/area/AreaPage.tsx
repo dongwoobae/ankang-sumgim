@@ -38,7 +38,7 @@ export default function AreaPage({ area }: { area: ServiceArea }) {
         eyebrow="SERVICE AREA"
         title={`${area.name} 방문요양·방문목욕`}
         lead={`${area.city} 어르신 댁을 찾아갑니다`}
-        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 지역" }, { label: area.name }]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "지역 안내" }, { label: area.name }]}
       />
 
       <section className="px-6 py-20">

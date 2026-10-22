@@ -64,7 +64,7 @@ export default function VisitBathPage() {
         eyebrow="SERVICES"
         title="방문목욕"
         lead="목욕차가 댁 앞까지 찾아가 차 안에서 목욕을 도와드립니다"
-        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 안내" }, { label: "방문목욕" }]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "돌봄 서비스" }, { label: "방문목욕" }]}
       />
 
       <section style={{ background: "var(--ink)" }}>

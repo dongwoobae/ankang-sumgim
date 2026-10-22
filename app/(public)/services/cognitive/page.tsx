@@ -56,7 +56,7 @@ export default function CognitivePage() {
         eyebrow="SERVICES"
         title="인지활동서비스"
         lead="치매 예방과 인지 기능 유지를 위한 전문 프로그램"
-        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 안내" }, { label: "인지활동서비스" }]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "돌봄 서비스" }, { label: "인지활동서비스" }]}
       />
 
       <section className="px-6 py-20">
@@ -231,11 +231,15 @@ export default function CognitivePage() {
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
             prev={{
-              label: "등급신청 안내",
-              desc: "장기요양등급 신청 절차",
-              href: "/services/grade-apply",
+              label: "가족요양",
+              desc: "가족이 직접 돌보는 요양서비스",
+              href: "/services/family-care",
             }}
-            next={{ label: "요양비 계산기", desc: "예상 본인부담금 계산", href: "/calculator" }}
+            next={{
+              label: "노인장기요양보험이란",
+              desc: "제도 안내 및 이용 방법",
+              href: "/services/insurance",
+            }}
           />
         </div>
       </section>

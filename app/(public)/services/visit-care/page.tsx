@@ -26,7 +26,7 @@ export default function VisitCarePage() {
         eyebrow="SERVICES"
         title="방문요양서비스"
         lead="가정을 직접 방문하여 정성껏 돌봄을 제공합니다"
-        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 안내" }, { label: "방문요양서비스" }]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "돌봄 서비스" }, { label: "방문요양서비스" }]}
       />
 
       {/* 핵심 수치 */}
@@ -162,11 +162,6 @@ export default function VisitCarePage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
-            prev={{
-              label: "노인장기요양보험이란",
-              desc: "제도 안내 및 이용 방법",
-              href: "/services/insurance",
-            }}
             next={{
               label: "방문목욕",
               desc: "목욕차로 찾아가는 목욕 서비스",
