@@ -46,7 +46,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html
+      lang="ko"
+      // 페이지 이동 때 Next는 scrollTop을 0으로 넣고 곧바로 새 페이지가 보이는지 확인한다.
+      // globals.css의 smooth 스크롤이 그 0을 애니메이션으로 바꾸면 확인 시점에는 아직 아래라,
+      // 본문 첫 요소로 scrollIntoView해 고정 헤더 높이만큼 내려간 곳에 멈춘다.
+      // 이 속성이 이동 중에만 smooth를 끈다 — Next 16부터 기본으로는 끄지 않는다.
+      data-scroll-behavior="smooth"
+    >
       <head>
         <script
           type="application/ld+json"

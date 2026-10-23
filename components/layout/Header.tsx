@@ -9,11 +9,13 @@ import {
   X,
   Shield,
   Home,
+  Bath,
   Users,
   ClipboardList,
   Lightbulb,
   User,
   MapPin,
+  MapPinned,
   Award,
   Bell,
   Camera,
@@ -21,6 +23,7 @@ import {
   BriefcaseBusiness,
   type LucideIcon,
 } from "lucide-react";
+import { SERVICE_AREAS } from "@/lib/service-areas";
 
 type NavChild = {
   label: string;
@@ -76,16 +79,8 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    label: "노인장기요양보험",
+    label: "돌봄 서비스",
     children: [
-      {
-        label: "노인장기요양보험이란",
-        href: "/services/insurance",
-        desc: "제도 안내",
-        icon: Shield,
-        iconColor: "#1A56A0",
-        iconBg: "#E3F0FF",
-      },
       {
         label: "방문요양서비스",
         href: "/services/visit-care",
@@ -93,6 +88,14 @@ const navItems: NavItem[] = [
         icon: Home,
         iconColor: "#2E7D32",
         iconBg: "#E8F5E9",
+      },
+      {
+        label: "방문목욕",
+        href: "/services/visit-bath",
+        desc: "목욕차 방문 목욕",
+        icon: Bath,
+        iconColor: "#00838F",
+        iconBg: "#E0F7FA",
       },
       {
         label: "가족요양",
@@ -103,20 +106,33 @@ const navItems: NavItem[] = [
         iconBg: "#FCE4EC",
       },
       {
-        label: "등급신청",
-        href: "/services/grade-apply",
-        desc: "요양 등급 신청 안내",
-        icon: ClipboardList,
-        iconColor: "#E65100",
-        iconBg: "#FFF3E0",
-      },
-      {
         label: "인지활동서비스",
         href: "/services/cognitive",
         desc: "치매 예방 프로그램",
         icon: Lightbulb,
         iconColor: "#6A1B9A",
         iconBg: "#F3E5F5",
+      },
+    ],
+  },
+  {
+    label: "장기요양보험",
+    children: [
+      {
+        label: "노인장기요양보험이란",
+        href: "/services/insurance",
+        desc: "제도 안내",
+        icon: Shield,
+        iconColor: "#1A56A0",
+        iconBg: "#E3F0FF",
+      },
+      {
+        label: "등급신청",
+        href: "/services/grade-apply",
+        desc: "요양 등급 신청 안내",
+        icon: ClipboardList,
+        iconColor: "#E65100",
+        iconBg: "#FFF3E0",
       },
       {
         label: "본인부담금 계산기",
@@ -127,6 +143,17 @@ const navItems: NavItem[] = [
         iconBg: "#E1F5FE",
       },
     ],
+  },
+  {
+    label: "지역 안내",
+    children: SERVICE_AREAS.map((a) => ({
+      label: a.name,
+      href: `/area/${a.slug}`,
+      desc: `${a.city} 방문요양·방문목욕`,
+      icon: MapPinned,
+      iconColor: "#33691E",
+      iconBg: "#F1F8E9",
+    })),
   },
   {
     label: "상담문의",
@@ -207,7 +234,8 @@ export default function Header() {
               const isActive = item.href != null && pathname.startsWith(item.href);
               const labelKey = item.label;
 
-              const labelClass = `relative px-5 h-full flex items-center text-[17px] font-medium tracking-tight transition-colors duration-200
+              // 여섯 칸이 768px 폭에 들어가도록 lg 아래에서만 글자와 여백을 줄인다.
+              const labelClass = `relative px-2 lg:px-5 h-full flex items-center whitespace-nowrap text-[15px] lg:text-[17px] font-medium tracking-tight transition-colors duration-200
                 ${isActive ? "text-[#1A56A0]" : "text-[#1A2E4A] hover:text-[#1A56A0]"}`;
 
               const underline = (

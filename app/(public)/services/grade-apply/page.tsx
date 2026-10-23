@@ -41,7 +41,7 @@ export default function GradeApplyPage() {
         eyebrow="SERVICES"
         title="등급신청 안내"
         lead="장기요양 등급 신청부터 서비스 이용까지 안내해 드립니다"
-        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 안내" }, { label: "등급신청 안내" }]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "장기요양보험" }, { label: "등급신청 안내" }]}
       />
 
       <section className="py-20">
@@ -245,14 +245,14 @@ export default function GradeApplyPage() {
         <div className="mx-auto max-w-[860px]">
           <SiblingNav
             prev={{
-              label: "가족요양",
-              desc: "가족이 직접 돌보는 요양서비스",
-              href: "/services/family-care",
+              label: "노인장기요양보험이란",
+              desc: "제도 안내 및 이용 방법",
+              href: "/services/insurance",
             }}
             next={{
-              label: "인지활동서비스",
-              desc: "치매 어르신 인지활동 프로그램",
-              href: "/services/cognitive",
+              label: "본인부담금 계산기",
+              desc: "예상 본인부담금 계산",
+              href: "/calculator",
             }}
           />
         </div>

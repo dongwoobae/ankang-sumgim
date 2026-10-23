@@ -28,7 +28,7 @@ export default function FamilyCarePage() {
         eyebrow="SERVICES"
         title="가족요양"
         lead="가족이 직접 돌보며 급여를 받을 수 있습니다"
-        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 안내" }, { label: "가족요양" }]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "돌봄 서비스" }, { label: "가족요양" }]}
       />
 
       <section className="px-6 py-20">
@@ -175,14 +175,14 @@ export default function FamilyCarePage() {
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
             prev={{
-              label: "방문요양서비스",
-              desc: "가정 방문 요양 서비스",
-              href: "/services/visit-care",
+              label: "방문목욕",
+              desc: "목욕차로 찾아가는 목욕 서비스",
+              href: "/services/visit-bath",
             }}
             next={{
-              label: "등급신청 안내",
-              desc: "장기요양등급 신청 절차",
-              href: "/services/grade-apply",
+              label: "인지활동서비스",
+              desc: "치매 어르신 인지활동 프로그램",
+              href: "/services/cognitive",
             }}
           />
         </div>

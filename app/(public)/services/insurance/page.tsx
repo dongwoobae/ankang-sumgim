@@ -71,7 +71,7 @@ export default function InsurancePage() {
         lead="제도 안내 및 이용 방법"
         crumbs={[
           { label: "홈", href: "/" },
-          { label: "서비스 안내" },
+          { label: "장기요양보험" },
           { label: "노인장기요양보험이란" },
         ]}
       />
@@ -198,10 +198,15 @@ export default function InsurancePage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[860px]">
           <SiblingNav
+            prev={{
+              label: "인지활동서비스",
+              desc: "치매 어르신 인지활동 프로그램",
+              href: "/services/cognitive",
+            }}
             next={{
-              label: "방문요양",
-              desc: "재가 방문요양 서비스 안내",
-              href: "/services/visit-care",
+              label: "등급신청 안내",
+              desc: "장기요양등급 신청 절차",
+              href: "/services/grade-apply",
             }}
           />
         </div>

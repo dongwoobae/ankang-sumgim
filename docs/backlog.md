@@ -24,4 +24,18 @@
 
 주의 — 여기 걸린 URL 중 하나(`/photos/categories/4/1778059735407-…`)는 `blurred/`도 `manual/`도 아닌 무블러 경로다. 얼굴이 없는 사진인지 확인이 필요하다.
 
+방문목욕 페이지의 `photos`(`app/(public)/services/visit-bath/page.tsx`)도 같은 방식이다. 이쪽은 사진 게시판을 거치지 않고 R2 `pages/visit-bath/`에 직접 올렸다 — [specs/visit-bath.md](specs/visit-bath.md).
+
 2026-08-14 — 코드의 `TODO` 3건("Supabase Storage URL로 교체")을 여기로 옮겼다. 저장소는 Supabase Storage가 아니라 R2로 옮겨간 뒤라 주석 문구 자체가 틀려 있었다.
+
+## 방문목욕 페이지에 비용 안내가 없다
+
+`/services/visit-bath`는 운영 방식만 싣고 수가·본인부담금은 다루지 않는다. 장기요양 방문목욕 급여는 차량 이용 여부에 따라 수가가 다르다. 공단 고시로 확인한 뒤 페이지에 넣을지, 본인부담금 계산기(`/calculator`)에 방문목욕을 더할지 정한다 — 계산기 기준값 구조부터 본다.
+
+2026-10-22 — 센터 답을 기다리던 `TODO_list/wait/visit-bath-page.md`에서 개발 쪽 조사 항목만 옮겼다.
+
+## 지역 안내 페이지에 센터에서의 이동 시간이 없다
+
+`/area/*`에서 지역마다 다른 내용은 공단 지사뿐이다([specs/area-pages.md](specs/area-pages.md)). 안강에서 경주 시내·포항 시내까지 차로 얼마나 걸리는지는 센터 답 없이 조사할 수 있고, 지역마다 다른 내용이 된다. 시 전역을 다니므로 한 값이 아니라 범위로 적는다.
+
+2026-10-23 — 센터 답을 기다리던 `TODO_list/wait/region-landing-pages.md`에서 개발 쪽 조사 항목만 옮겼다.

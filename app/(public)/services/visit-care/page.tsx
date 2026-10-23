@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
+import { BATH_CAR_AREAS } from "@/lib/service-areas";
 import PageHero from "@/components/board/PageHero";
 import SiblingNav from "@/components/common/SiblingNav";
 import CtaBanner from "@/components/common/CtaBanner";
@@ -13,7 +15,7 @@ export const metadata: Metadata = pageMetadata("/services/visit-care", {
 });
 
 const highlights = [
-  { title: "목욕차 보유", value: "2대", desc: "지역 최다 보유 — 빠른 배차 가능" },
+  { title: "목욕차 보유", value: "2대", desc: `${BATH_CAR_AREAS} 운행` },
   { title: "서비스 지역", value: "4개 시군", desc: "경주·안강·영천·포항 전역" },
   { title: "요양사 교육", value: "월 1회", desc: "정기 역량 강화 교육 실시" },
 ];
@@ -25,7 +27,7 @@ export default function VisitCarePage() {
         eyebrow="SERVICES"
         title="방문요양서비스"
         lead="가정을 직접 방문하여 정성껏 돌봄을 제공합니다"
-        crumbs={[{ label: "홈", href: "/" }, { label: "서비스 안내" }, { label: "방문요양서비스" }]}
+        crumbs={[{ label: "홈", href: "/" }, { label: "돌봄 서비스" }, { label: "방문요양서비스" }]}
       />
 
       {/* 핵심 수치 */}
@@ -72,6 +74,17 @@ export default function VisitCarePage() {
                 <p>
                   섬김노인복지센터는 어르신의 상태에 맞게 1회 방문 시 다양한 시간으로 돌봄을
                   제공하며, 경주·안강·영천·포항 전역에서 서비스를 운영하고 있습니다.
+                </p>
+                <p>
+                  목욕차로 찾아가는 목욕은{" "}
+                  <Link
+                    href="/services/visit-bath"
+                    className="font-semibold underline-offset-4 hover:underline"
+                    style={{ color: "var(--pop)" }}
+                  >
+                    방문목욕 안내
+                  </Link>
+                  에서 자세히 보실 수 있습니다.
                 </p>
               </div>
             </div>
@@ -150,15 +163,10 @@ export default function VisitCarePage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[1200px]">
           <SiblingNav
-            prev={{
-              label: "노인장기요양보험이란",
-              desc: "제도 안내 및 이용 방법",
-              href: "/services/insurance",
-            }}
             next={{
-              label: "가족요양서비스",
-              desc: "가족이 직접 돌보는 요양서비스",
-              href: "/services/family-care",
+              label: "방문목욕",
+              desc: "목욕차로 찾아가는 목욕 서비스",
+              href: "/services/visit-bath",
             }}
           />
         </div>
