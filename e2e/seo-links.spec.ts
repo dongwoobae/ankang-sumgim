@@ -17,6 +17,7 @@ const SUB_PAGES = [
   "/board/notice",
   "/board/photos",
   "/area/gyeongju",
+  "/area/gyeongju#angang",
   "/area/pohang",
 ];
 
