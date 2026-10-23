@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { type Metadata } from "next";
-import { CheckCircle, ExternalLink, MapPin } from "lucide-react";
+import { Bath, Bus, CheckCircle, ExternalLink, MapPin } from "lucide-react";
 import PageHero from "@/components/board/PageHero";
 import CtaBanner from "@/components/common/CtaBanner";
 import { pageMetadata } from "@/lib/seo";
 import {
   BATH_CAR_AREAS,
   CAREGIVER_COUNT,
+  CENTER_TOWN,
   CLIENT_COUNT,
   NHIS_CHECKED_AT,
   type ServiceArea,
@@ -29,6 +30,73 @@ const services = [
     href: "/services/grade-apply",
   },
 ];
+
+// 지역별 요양보호사 수는 싣지 않는다 — docs/specs/area-pages.md "센터 회신"
+const centerTownLinks = [
+  {
+    icon: Bus,
+    text: "안강버스터미널에서 걸어서 10분쯤입니다.",
+    label: "오시는길",
+    href: "/about/location",
+  },
+  {
+    icon: Bath,
+    text: `센터 목욕차가 ${CENTER_TOWN.name} 어르신 댁 앞까지 찾아갑니다.`,
+    label: "방문목욕",
+    href: "/services/visit-bath",
+  },
+];
+
+function CenterTownSection({ area }: { area: ServiceArea }) {
+  return (
+    // 고정 헤더(72px, md 108px)에 제목이 가리지 않도록 그만큼 더 띄워 멈춘다.
+    <section id={CENTER_TOWN.anchor} className="scroll-mt-[96px] px-6 pb-20 md:scroll-mt-[132px]">
+      <div
+        className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 rounded-2xl border p-8 md:grid-cols-2 md:p-12"
+        style={{ background: "var(--paper-2)", borderColor: "var(--line)" }}
+      >
+        <div>
+          <div
+            className="mb-2 text-[12px] font-semibold uppercase tracking-[0.3em]"
+            style={{ color: "var(--pop)" }}
+          >
+            OUR TOWN
+          </div>
+          <h2 className="mb-5 text-[26px] font-extrabold" style={{ color: "var(--ink-2)" }}>
+            센터가 있는 {CENTER_TOWN.town}
+          </h2>
+          <div className="space-y-4 text-[15px] leading-[1.9]" style={{ color: "var(--ink-2)" }}>
+            <p>
+              센터가 {CENTER_TOWN.town}에 있어 이용하시는 어르신도 {CENTER_TOWN.name}에 많습니다.
+            </p>
+            <p>
+              {CENTER_TOWN.town}도 {area.city}라 장기요양 등급 신청 창구가 같습니다. 아래 안내를
+              보세요.
+            </p>
+          </div>
+        </div>
+
+        <ul className="space-y-3">
+          {centerTownLinks.map(({ icon: Icon, text, label, href }) => (
+            <li
+              key={href}
+              className="flex items-start gap-3 rounded-xl border bg-white p-5"
+              style={{ borderColor: "var(--line)" }}
+            >
+              <Icon size={20} className="mt-0.5 flex-shrink-0" style={{ color: "var(--pop)" }} />
+              <div className="text-sm" style={{ color: "var(--ink-2)" }}>
+                <p className="mb-1">{text}</p>
+                <Link href={href} className="font-semibold" style={{ color: "var(--pop)" }}>
+                  {label} 보기 →
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
 
 export function areaMetadata(area: ServiceArea): Metadata {
   return pageMetadata(`/area/${area.slug}`, {
@@ -99,6 +167,8 @@ export default function AreaPage({ area }: { area: ServiceArea }) {
           </div>
         </div>
       </section>
+
+      {area.slug === CENTER_TOWN.areaSlug && <CenterTownSection area={area} />}
 
       <section className="px-6 py-20" style={{ background: "var(--paper-2)" }}>
         <div className="mx-auto max-w-[1200px]">

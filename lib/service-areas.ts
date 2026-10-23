@@ -62,6 +62,16 @@ export function getServiceArea(slug: ServiceAreaSlug): ServiceArea {
   return SERVICE_AREAS.find((a) => a.slug === slug)!;
 }
 
+// 센터가 있는 안강읍은 따로 페이지를 두지 않고 경주 페이지 안 섹션으로 싣는다 — docs/specs/area-pages.md "만들지 않는 지역"
+export const CENTER_TOWN = {
+  name: "안강",
+  town: "안강읍",
+  areaSlug: "gyeongju",
+  anchor: "angang",
+} as const satisfies { name: string; town: string; areaSlug: ServiceAreaSlug; anchor: string };
+
+export const CENTER_TOWN_HREF = `/area/${CENTER_TOWN.areaSlug}#${CENTER_TOWN.anchor}`;
+
 // 영천이 빠진 이유는 docs/specs/visit-bath.md
 export const BATH_CAR_AREAS = "경주·포항·안강";
 
