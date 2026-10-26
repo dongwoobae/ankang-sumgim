@@ -23,7 +23,7 @@ import {
   BriefcaseBusiness,
   type LucideIcon,
 } from "lucide-react";
-import { SERVICE_AREAS } from "@/lib/service-areas";
+import { CENTER_TOWN, CENTER_TOWN_HREF, SERVICE_AREAS } from "@/lib/service-areas";
 
 type NavChild = {
   label: string;
@@ -146,14 +146,26 @@ const navItems: NavItem[] = [
   },
   {
     label: "지역 안내",
-    children: SERVICE_AREAS.map((a) => ({
-      label: a.name,
-      href: `/area/${a.slug}`,
-      desc: `${a.city} 방문요양·방문목욕`,
-      icon: MapPinned,
-      iconColor: "#33691E",
-      iconBg: "#F1F8E9",
-    })),
+    children: SERVICE_AREAS.flatMap((a): NavChild[] => {
+      const areaPage = {
+        label: a.name,
+        href: `/area/${a.slug}`,
+        desc: `${a.city} 방문요양·방문목욕`,
+        icon: MapPinned,
+        iconColor: "#33691E",
+        iconBg: "#F1F8E9",
+      };
+      if (a.slug !== CENTER_TOWN.areaSlug) return [areaPage];
+      return [
+        areaPage,
+        {
+          ...areaPage,
+          label: CENTER_TOWN.name,
+          href: CENTER_TOWN_HREF,
+          desc: `센터가 있는 곳 · ${a.city} ${CENTER_TOWN.town}`,
+        },
+      ];
+    }),
   },
   {
     label: "상담문의",
