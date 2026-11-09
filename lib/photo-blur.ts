@@ -6,7 +6,7 @@
 // 좌표가 전부 걸러져 합성할 영역이 없으면 무블러 압축본으로 대체하지 않고 실패한다 —
 // 대체하면 어르신 얼굴이 그대로 공개 경로에 올라간다.
 
-import sharp from "sharp";
+import sharp, { type Sharp } from "sharp";
 
 import { scaleFaceRegions, type FaceRegion } from "@/lib/blur-regions";
 
@@ -19,7 +19,7 @@ export type PhotoUploadResult =
   | { ok: true; kind: "blurred"; blurred: Buffer; original: Buffer }
   | { ok: false; error: string };
 
-function compress(image: sharp.Sharp): Promise<Buffer> {
+function compress(image: Sharp): Promise<Buffer> {
   return image
     .resize(MAX_DIMENSION, MAX_DIMENSION, { fit: "inside", withoutEnlargement: true })
     .webp({ quality: WEBP_QUALITY })
