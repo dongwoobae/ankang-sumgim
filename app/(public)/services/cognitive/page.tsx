@@ -96,9 +96,8 @@ export default function CognitivePage() {
                 </p>
                 <ul className="space-y-1.5">
                   {[
-                    "장기요양 1~5등급 수급자 (치매 진단자 우선)",
-                    "인지지원등급 수급자",
-                    "경도 인지장애 또는 치매 어르신",
+                    "장기요양 1~5등급 수급자",
+                    "의사소견서에 치매 상병이 있거나 최근 2년 이내 치매 진료를 받은 분",
                   ].map((item, i) => (
                     <li
                       key={i}
@@ -207,7 +206,7 @@ export default function CognitivePage() {
           {
             iconKey: "gradeJudgment",
             title: "등급·진단 확인",
-            desc: "장기요양 1~5등급 또는 인지지원등급 보유 확인",
+            desc: "장기요양 1~5등급과 치매 진단 여부 확인",
           },
           {
             iconKey: "caregiver",
