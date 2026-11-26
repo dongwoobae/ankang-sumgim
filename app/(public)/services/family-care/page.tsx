@@ -17,9 +17,15 @@ const eligibility = [
   "직계혈족 (부모, 자녀, 손자녀 등)",
   "형제·자매",
   "직계혈족의 배우자 (며느리, 사위 등)",
+  "배우자의 직계혈족 (배우자의 부모·자녀)",
+  "배우자의 형제·자매",
 ];
 
-const conditions = ["요양보호사 자격증 취득 필수", "일부 예외적 비동거 가족도 인정 가능"];
+const conditions = [
+  "요양보호사 자격증 취득 필수",
+  "하루 60분, 한 달 20일까지 급여 인정",
+  "65세 이상 배우자가 돌보거나 문제행동이 있는 치매 어르신은 하루 90분, 한 달 20일 넘게 인정",
+];
 
 export default function FamilyCarePage() {
   return (
@@ -53,12 +59,12 @@ export default function FamilyCarePage() {
                 근무에 대한 급여를 받는 제도입니다.
               </p>
               <p>
-                가족과 함께 지내며 익숙한 환경에서 돌봄을 받을 수 있어 어르신의 정서적 안정에 도움이
-                되며, 돌봄 가족도 정당한 급여를 받을 수 있습니다.
+                익숙한 가족에게 돌봄을 받을 수 있어 어르신의 정서적 안정에 도움이 되며, 돌봄 가족도
+                정당한 급여를 받을 수 있습니다.
               </p>
             </div>
 
-            {/* ⚠ 동거 주의 callout */}
+            {/* ⚠ 근무 시간 주의 callout */}
             <div
               className="mb-10 flex items-start gap-3 rounded-xl border p-4"
               style={{
@@ -72,9 +78,9 @@ export default function FamilyCarePage() {
                 style={{ color: "var(--warn)" }}
               />
               <p className="text-sm leading-relaxed" style={{ color: "var(--ink-2)" }}>
-                <strong style={{ color: "var(--warn)" }}>동거 원칙:</strong> 수급자와 동거 중인
-                가족만 원칙적으로 인정됩니다. 비동거의 경우 일부 예외가 인정될 수 있으니 센터에 사전
-                확인을 부탁드립니다.
+                <strong style={{ color: "var(--warn)" }}>근무 시간 확인:</strong> 다른 직장에서 한
+                달 160시간 이상 근무하시면 가족요양 급여가 인정되지 않습니다. 직장에 다니고 계시면
+                센터에 먼저 확인해 주세요.
               </p>
             </div>
 
