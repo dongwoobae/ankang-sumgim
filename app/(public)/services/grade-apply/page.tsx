@@ -16,14 +16,14 @@ export const metadata: Metadata = pageMetadata("/services/grade-apply", {
 const documents = [
   "장기요양인정 신청서 (공단 양식)",
   "신분증 (본인 또는 대리인)",
-  "의사소견서 (해당자)",
-  "대리신청 시 위임장 및 대리인 신분증",
+  "의사소견서 (등급판정 전까지 제출 가능)",
+  "대리신청 시 대리인 신분증",
 ];
 
 const methods = [
   { method: "방문 신청", desc: "국민건강보험공단 지사 직접 방문" },
   { method: "우편 신청", desc: "서류 작성 후 공단 지사 우편 발송" },
-  { method: "온라인 신청", desc: "복지로(bokjiro.go.kr) 또는 공단 홈페이지" },
+  { method: "온라인 신청", desc: "노인장기요양보험 누리집(longtermcare.or.kr)" },
   { method: "팩스 신청", desc: "관할 공단 지사 팩스 전송" },
 ];
 
@@ -77,8 +77,8 @@ export default function GradeApplyPage() {
                 </p>
                 <p>
                   등급을 받으시면 방문요양·가족요양·인지활동서비스 등 다양한 장기요양급여를 본인
-                  부담금(15% 내외)만으로 이용하실 수 있습니다. 저희 센터에서 신청 대행부터 서비스
-                  연결까지 함께 도와드립니다.
+                  부담금(재가급여 15%)만으로 이용하실 수 있습니다. 저희 센터에서 신청 대행부터
+                  서비스 연결까지 함께 도와드립니다.
                 </p>
               </div>
 
@@ -120,13 +120,13 @@ export default function GradeApplyPage() {
                 <div className="grid grid-cols-2 gap-3 self-start">
                   <div className="rounded-2xl p-5 text-center" style={{ background: "var(--pop)" }}>
                     <p className="mb-1 text-xs text-white/70">판정 소요 기간</p>
-                    <p className="text-2xl font-bold text-white">2~4주</p>
-                    <p className="mt-1 text-xs text-white/70">신청 후 통상 기간</p>
+                    <p className="text-2xl font-bold text-white">30일 이내</p>
+                    <p className="mt-1 text-xs text-white/70">신청일부터 (법정 기한)</p>
                   </div>
                   <div className="rounded-2xl p-5 text-center" style={{ background: "var(--ink)" }}>
                     <p className="mb-1 text-xs text-white/70">본인 부담금</p>
                     <p className="text-2xl font-bold text-white">15%</p>
-                    <p className="mt-1 text-xs text-white/70">기초수급자 면제~7.5%</p>
+                    <p className="mt-1 text-xs text-white/70">기초생활수급자 면제, 감경 6·9%</p>
                   </div>
                 </div>
               </div>
@@ -215,7 +215,7 @@ export default function GradeApplyPage() {
           {
             iconKey: "gradeApply",
             title: "신청서 제출",
-            desc: "공단 지사 방문 또는 복지로 온라인 신청",
+            desc: "공단 지사 방문 또는 장기요양 누리집 신청",
           },
           {
             iconKey: "visitCheck",
@@ -225,7 +225,7 @@ export default function GradeApplyPage() {
           {
             iconKey: "doctorNote",
             title: "의사소견서 제출",
-            desc: "지정 의료기관 발급 소견서 공단에 제출",
+            desc: "공단 발급의뢰서로 의료기관·보건소에서 발급",
           },
           {
             iconKey: "gradeJudgment",

@@ -145,7 +145,7 @@ export default function VisitCarePage() {
           {
             iconKey: "gradeJudgment",
             title: "등급판정",
-            desc: "판정위원회 심사 후 1~5등급 결정 (2~4주)",
+            desc: "판정위원회 심사 후 1~5등급 결정 (신청일부터 30일 이내)",
           },
           {
             iconKey: "contract",

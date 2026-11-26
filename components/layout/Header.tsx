@@ -108,7 +108,7 @@ const navItems: NavItem[] = [
       {
         label: "인지활동서비스",
         href: "/services/cognitive",
-        desc: "치매 예방 프로그램",
+        desc: "치매 어르신 인지활동 프로그램",
         icon: Lightbulb,
         iconColor: "#6A1B9A",
         iconBg: "#F3E5F5",

@@ -49,8 +49,8 @@ export default function FamilyCarePage() {
               style={{ color: "var(--ink-2)" }}
             >
               <p>
-                요양보호사 자격을 취득한 가족이 직접 어르신을 돌보고, 국민건강보험공단으로부터
-                장기요양급여를 수령하는 제도입니다.
+                요양보호사 자격을 취득한 가족이 센터 소속 요양보호사로서 직접 어르신을 돌보고, 그
+                근무에 대한 급여를 받는 제도입니다.
               </p>
               <p>
                 가족과 함께 지내며 익숙한 환경에서 돌봄을 받을 수 있어 어르신의 정서적 안정에 도움이
@@ -166,7 +166,7 @@ export default function FamilyCarePage() {
           {
             iconKey: "serviceStart",
             title: "서비스 제공 및 급여 수령",
-            desc: "돌봄 제공 후 매월 장기요양급여비 청구",
+            desc: "센터가 매월 급여비용을 청구하고 근무에 따라 급여 지급",
           },
         ]}
       />
