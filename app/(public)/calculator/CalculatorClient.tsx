@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Calculator, Info } from "lucide-react";
+import { checkVisitCare, estimateCopay, type VisitCareCheck } from "@/lib/calculator";
 
 type Rate = {
   id: string;
@@ -25,6 +27,34 @@ const GRADE_LABELS: Record<string, string> = {
   cognitive_support: "인지지원등급",
 };
 
+const BLOCKED_NOTICE: Record<
+  Extract<VisitCareCheck, { status: "blocked" }>["reason"],
+  { title: string; body: string }
+> = {
+  "cognitive-support": {
+    title: "인지지원등급은 방문요양 비용을 계산하지 않습니다",
+    body: "인지지원등급은 일반 방문요양을 이용할 수 없습니다. 주·야간보호, 복지용구, 장기요양 가족휴가제(연 12일 이내 단기보호 또는 종일 방문요양)를 이용하실 수 있습니다. 이용 가능한 서비스와 비용은 상담으로 안내해 드립니다.",
+  },
+  "grade5-general": {
+    title: "5등급은 이 이용 시간으로 계산할 수 없습니다",
+    body: "5등급은 일반 방문요양 대신 인지활동형 방문요양(1일 1회, 2~3시간)을 이용하실 수 있습니다. 1회 이용 시간을 2시간·2시간 30분·3시간 중에서 선택해 주세요. 주·야간보호를 하루 8시간 이상 이용하시는 경우의 방문요양 등 다른 이용 방법은 상담으로 안내해 드립니다.",
+  },
+  "long-visit-over-limit": {
+    title: "3·4등급은 3시간 30분 이상 이용을 월 4회까지만 계산합니다",
+    body: "3·4등급은 수급자의 특별한 요청이 있을 때 월 4일까지만 3시간 30분 이상 연속으로 이용할 수 있습니다. 월 이용 횟수를 4회 이하로 입력하시거나, 다른 이용 계획은 상담으로 안내받으세요.",
+  },
+};
+
+const CONDITIONAL_NOTE: Record<
+  Extract<VisitCareCheck, { status: "conditional" }>["reason"],
+  string
+> = {
+  "long-visit-request":
+    "3·4등급의 3시간 30분 이상 연속 이용은 수급자의 특별한 요청이 있을 때 월 4일까지 가능합니다.",
+  "grade5-cognitive-activity":
+    "5등급은 인지활동형 방문요양(1일 1회)으로 이용하실 수 있으며, 아래 금액은 그 기준입니다.",
+};
+
 function formatKRW(n: number) {
   return n.toLocaleString("ko-KR") + "원";
 }
@@ -43,22 +73,15 @@ export default function CalculatorClient({ rates, limits }: { rates: Rate[]; lim
   const selectedRate = rates.find((r) => r.duration_minutes === duration);
   const visitsNum = parseInt(visits, 10);
 
-  let result: {
-    totalCost: number;
-    covered: number;
-    excess: number;
-    oop15: number;
-    totalOop: number;
-  } | null = null;
+  const check = grade ? checkVisitCare(grade, duration, visitsNum) : null;
+  const blocked = check?.status === "blocked" ? BLOCKED_NOTICE[check.reason] : null;
+  const note = check?.status === "conditional" ? CONDITIONAL_NOTE[check.reason] : null;
 
-  if (selectedLimit && selectedRate && visitsNum > 0) {
-    const totalCost = selectedRate.price * visitsNum;
-    const covered = Math.min(totalCost, selectedLimit.monthly_limit);
-    const excess = Math.max(0, totalCost - selectedLimit.monthly_limit);
-    const oop15 = Math.round(covered * 0.15);
-    const totalOop = oop15 + excess;
-    result = { totalCost, covered, excess, oop15, totalOop };
-  }
+  const result =
+    !blocked && selectedLimit && selectedRate && visitsNum > 0
+      ? estimateCopay(selectedRate.price, visitsNum, selectedLimit.monthly_limit)
+      : null;
+  const stepsHidden = check?.status === "blocked" && check.reason === "cognitive-support";
 
   return (
     <section className="px-6 py-20">
@@ -94,64 +117,102 @@ export default function CalculatorClient({ rates, limits }: { rates: Rate[]; lim
           )}
         </div>
 
-        {/* Step 2 – 1회 이용 시간 */}
-        <div>
-          <p className="mb-2 text-xs font-semibold tracking-widest text-muted">STEP 2</p>
-          <h2 className="mb-5 text-xl font-bold text-ink-2">1회 이용 시간을 선택해 주세요</h2>
-          <div className="flex flex-wrap gap-2">
-            {sortedRates.map((r) => {
-              const hrs = r.duration_minutes / 60;
-              const label =
-                r.duration_minutes < 60
-                  ? `${r.duration_minutes}분`
-                  : Number.isInteger(hrs)
-                    ? `${hrs}시간`
-                    : `${Math.floor(hrs)}시간 ${r.duration_minutes % 60}분`;
-              return (
-                <button
-                  key={r.duration_minutes}
-                  type="button"
-                  onClick={() => setDuration(r.duration_minutes)}
-                  className={`rounded-xl border px-5 py-2.5 text-sm font-semibold transition-all duration-200
-                    ${
-                      duration === r.duration_minutes
-                        ? "border-pop bg-pop text-white"
-                        : "border-line bg-paper-2 text-ink-2 hover:border-pop"
-                    }`}
-                >
-                  {label}
-                </button>
-              );
-            })}
-          </div>
-          {duration && selectedRate && (
-            <p className="mt-3 text-sm text-muted">
-              1회 수가:{" "}
-              <span className="font-semibold text-pop">{formatKRW(selectedRate.price)}</span>
-            </p>
-          )}
-        </div>
+        {!stepsHidden && (
+          <>
+            {/* Step 2 – 1회 이용 시간 */}
+            <div>
+              <p className="mb-2 text-xs font-semibold tracking-widest text-muted">STEP 2</p>
+              <h2 className="mb-5 text-xl font-bold text-ink-2">1회 이용 시간을 선택해 주세요</h2>
+              <div className="flex flex-wrap gap-2">
+                {sortedRates.map((r) => {
+                  const hrs = r.duration_minutes / 60;
+                  const label =
+                    r.duration_minutes < 60
+                      ? `${r.duration_minutes}분`
+                      : Number.isInteger(hrs)
+                        ? `${hrs}시간`
+                        : `${Math.floor(hrs)}시간 ${r.duration_minutes % 60}분`;
+                  return (
+                    <button
+                      key={r.duration_minutes}
+                      type="button"
+                      onClick={() => setDuration(r.duration_minutes)}
+                      className={`rounded-xl border px-5 py-2.5 text-sm font-semibold transition-all duration-200
+                      ${
+                        duration === r.duration_minutes
+                          ? "border-pop bg-pop text-white"
+                          : "border-line bg-paper-2 text-ink-2 hover:border-pop"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+              {duration && selectedRate && (
+                <p className="mt-3 text-sm text-muted">
+                  1회 수가:{" "}
+                  <span className="font-semibold text-pop">{formatKRW(selectedRate.price)}</span>
+                </p>
+              )}
+            </div>
 
-        {/* Step 3 – 월 이용 횟수 */}
-        <div>
-          <p className="mb-2 text-xs font-semibold tracking-widest text-muted">STEP 3</p>
-          <h2 className="mb-5 text-xl font-bold text-ink-2">월 이용 횟수를 입력해 주세요</h2>
-          <div className="flex max-w-xs items-center gap-3">
-            <input
-              type="number"
-              min={1}
-              max={31}
-              value={visits}
-              onChange={(e) => setVisits(e.target.value)}
-              placeholder="예: 20"
-              className="flex-1 rounded-xl border border-line bg-paper-2 px-4 py-3 text-sm text-ink-2 transition-colors focus:border-pop focus:outline-none"
-            />
-            <span className="text-sm font-medium text-muted">회 / 월</span>
+            {/* Step 3 – 월 이용 횟수 */}
+            <div>
+              <p className="mb-2 text-xs font-semibold tracking-widest text-muted">STEP 3</p>
+              <h2 className="mb-5 text-xl font-bold text-ink-2">월 이용 횟수를 입력해 주세요</h2>
+              <div className="flex max-w-xs items-center gap-3">
+                <input
+                  type="number"
+                  min={1}
+                  max={31}
+                  value={visits}
+                  onChange={(e) => setVisits(e.target.value)}
+                  placeholder="예: 20"
+                  className="flex-1 rounded-xl border border-line bg-paper-2 px-4 py-3 text-sm text-ink-2 transition-colors focus:border-pop focus:outline-none"
+                />
+                <span className="text-sm font-medium text-muted">회 / 월</span>
+              </div>
+            </div>
+          </>
+        )}
+
+        {note && (
+          <div className="flex gap-3 rounded-xl border border-line bg-paper-2 p-5">
+            <Info size={16} className="mt-0.5 shrink-0 text-pop" />
+            <p className="text-sm leading-relaxed text-ink-2">{note}</p>
           </div>
-        </div>
+        )}
 
         {/* 결과 */}
-        {result ? (
+        {blocked ? (
+          <div className="overflow-hidden rounded-2xl border border-warn/40">
+            <div
+              className="flex items-center gap-2 px-6 py-4"
+              style={{ background: "var(--warn)" }}
+            >
+              <Info size={18} className="shrink-0 text-white" />
+              <h3 className="text-base font-bold text-white">{blocked.title}</h3>
+            </div>
+            <div className="space-y-5 bg-paper-2 px-6 py-6">
+              <p className="text-sm leading-relaxed text-ink-2">{blocked.body}</p>
+              <div className="flex flex-wrap gap-2.5">
+                <Link
+                  href="/inquiry"
+                  className="inline-flex items-center rounded-full bg-pop px-5 py-2.5 text-sm font-bold text-white"
+                >
+                  상담 신청 →
+                </Link>
+                <a
+                  href="tel:054-763-5988"
+                  className="inline-flex items-center rounded-full border border-line px-5 py-2.5 text-sm font-bold text-ink-2 hover:border-pop"
+                >
+                  ☎ 054-763-5988
+                </a>
+              </div>
+            </div>
+          </div>
+        ) : result ? (
           <div className="overflow-hidden rounded-2xl border border-pop/30">
             <div className="flex items-center gap-2 px-6 py-4" style={{ background: "var(--pop)" }}>
               <Calculator size={18} className="text-white" />
@@ -220,7 +281,12 @@ export default function CalculatorClient({ rates, limits }: { rates: Rate[]; lim
             </p>
             <p>
               일반 수급자 기준 본인부담률 <strong className="text-ink-2">15%</strong>가 적용됩니다.
-              차상위계층(9%) · 의료급여 수급자(6%) 등 감경 대상자는 실제 부담금이 다를 수 있습니다.
+              국민기초생활수급자는 면제되고, 의료급여 수급권자나 소득·재산 기준 감경 대상자는 6%
+              또는 9%를 부담합니다.
+            </p>
+            <p>
+              일요일·공휴일이 아닌 날 06시~22시 이용 기준입니다. 22시~06시와 일요일은 30%, 공휴일과
+              근로자의 날은 50%가 가산됩니다.
             </p>
             <p>
               정확한 비용은 담당 복지사와 상담하시거나 전화{" "}

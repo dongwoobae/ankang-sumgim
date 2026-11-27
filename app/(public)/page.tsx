@@ -29,7 +29,7 @@ const services = [
   },
   {
     title: "인지활동서비스",
-    desc: "치매 예방과 인지 기능 유지를 위한 전문 프로그램을 제공합니다.",
+    desc: "치매 어르신의 인지 기능 유지와 악화 방지를 위한 전문 프로그램을 제공합니다.",
     href: "/services/cognitive",
     tag: null,
   },

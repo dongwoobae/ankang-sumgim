@@ -1,4 +1,4 @@
-import { Brain, CheckCircle, Puzzle, Home, Activity, MessageCircle } from "lucide-react";
+import { Brain, CheckCircle, Puzzle, Home } from "lucide-react";
 import ServiceProcess from "@/components/ServiceProcess";
 import { type Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
@@ -9,34 +9,29 @@ import CtaBanner from "@/components/common/CtaBanner";
 export const metadata: Metadata = pageMetadata("/services/cognitive", {
   title: "인지활동서비스",
   description:
-    "치매 예방과 인지 기능 유지를 위한 전문 프로그램. 어르신 맞춤 인지활동서비스를 제공합니다.",
+    "치매 어르신의 인지 기능 유지와 악화 방지를 위한 전문 프로그램. 어르신 맞춤 인지활동서비스를 제공합니다.",
 });
 
 const programs = [
   {
-    title: "인지 자극 훈련",
+    title: "인지 자극 활동 (1시간 이상)",
     icon: <Puzzle size={22} />,
-    items: ["기억력 강화 게임", "퍼즐·그림 맞추기", "숫자·글자 인지 활동", "회상 요법"],
-  },
-  {
-    title: "일상생활 훈련",
-    icon: <Home size={22} />,
     items: [
-      "요리·청소 등 가사 활동 참여",
-      "개인위생 관리 훈련",
-      "시간·날짜 인지 연습",
-      "외출 동행 활동",
+      "기억력 게임·회상 활동",
+      "퍼즐·그림 맞추기",
+      "숫자·글자 인지 활동",
+      "노래 부르기·그림 그리기",
     ],
   },
   {
-    title: "신체 활동",
-    icon: <Activity size={22} />,
-    items: ["스트레칭 및 체조", "균형 감각 훈련", "손·발 근력 강화 운동", "산책 동행"],
-  },
-  {
-    title: "정서·사회 활동",
-    icon: <MessageCircle size={22} />,
-    items: ["말벗·대화 프로그램", "노래·음악 치료", "그림 그리기·공예", "가족 연계 소통 지원"],
+    title: "일상생활 함께하기",
+    icon: <Home size={22} />,
+    items: [
+      "요리·청소 등 가사 활동 함께하기",
+      "개인위생 관리 함께하기",
+      "시간·날짜 확인하기",
+      "외출·산책 함께하기",
+    ],
   },
 ];
 
@@ -55,7 +50,7 @@ export default function CognitivePage() {
       <PageHero
         eyebrow="SERVICES"
         title="인지활동서비스"
-        lead="치매 예방과 인지 기능 유지를 위한 전문 프로그램"
+        lead="치매 어르신의 인지 기능 유지와 악화 방지를 위한 전문 프로그램"
         crumbs={[{ label: "홈", href: "/" }, { label: "돌봄 서비스" }, { label: "인지활동서비스" }]}
       />
 
@@ -78,12 +73,12 @@ export default function CognitivePage() {
                 style={{ color: "var(--ink-2)" }}
               >
                 <p>
-                  치매·인지저하가 있는 어르신의 인지 기능 유지 및 악화 방지를 위해 전문 요양보호사가
-                  가정을 방문하여 개인 맞춤형 인지 자극 프로그램을 제공하는 서비스입니다.
+                  치매가 있는 어르신의 인지 기능 유지 및 악화 방지를 위해 전문 요양보호사가 가정을
+                  방문하여 개인 맞춤형 인지 자극 프로그램을 제공하는 서비스입니다.
                 </p>
                 <p>
-                  인지활동형 프로그램 교육을 이수한 전문 요양보호사가 어르신의 상태에 맞는
-                  프로그램을 1:1로 진행하여 치매 진행을 늦추고 삶의 질을 높입니다.
+                  치매전문교육을 이수한 요양보호사가 하루 한 번 2~3시간 방문해, 그중 1시간 이상은
+                  인지 자극 활동을, 나머지 시간은 일상생활 함께하기 훈련을 1:1로 진행합니다.
                 </p>
               </div>
 
@@ -96,9 +91,8 @@ export default function CognitivePage() {
                 </p>
                 <ul className="space-y-1.5">
                   {[
-                    "장기요양 1~5등급 수급자 (치매 진단자 우선)",
-                    "인지지원등급 수급자",
-                    "경도 인지장애 또는 치매 어르신",
+                    "장기요양 1~5등급 수급자",
+                    "의사소견서에 치매 상병이 있거나 최근 2년 이내 치매 진료를 받은 분",
                   ].map((item, i) => (
                     <li
                       key={i}
@@ -158,7 +152,7 @@ export default function CognitivePage() {
             <h2 className="mb-8 text-[26px] font-extrabold" style={{ color: "var(--ink-2)" }}>
               프로그램 구성
             </h2>
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               {programs.map((prog, i) => (
                 <div
                   key={i}
@@ -207,7 +201,7 @@ export default function CognitivePage() {
           {
             iconKey: "gradeJudgment",
             title: "등급·진단 확인",
-            desc: "장기요양 1~5등급 또는 인지지원등급 보유 확인",
+            desc: "장기요양 1~5등급과 치매 진단 여부 확인",
           },
           {
             iconKey: "caregiver",

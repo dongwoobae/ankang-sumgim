@@ -17,7 +17,7 @@ const steps = [
   {
     n: "03",
     title: "의사소견서",
-    desc: "의사에게 소견서를 발급받아 제출합니다. (65세 미만은 필수)",
+    desc: "공단 발급의뢰서로 의사소견서를 발급받아 등급판정 전까지 제출합니다.",
   },
   {
     n: "04",
@@ -115,7 +115,7 @@ export default function InsurancePage() {
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {[
                   { label: "신청 대상", value: "65세 이상 또는\n노인성 질환자" },
-                  { label: "보험료", value: "건강보험료의\n12.81%" },
+                  { label: "보험료", value: "소득의\n0.9448%" },
                   { label: "본인 부담금", value: "재가서비스\n15%" },
                   { label: "시행일", value: "2008년\n7월 1일" },
                 ].map((item, i) => (
