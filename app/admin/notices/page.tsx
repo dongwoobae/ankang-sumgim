@@ -41,9 +41,9 @@ export default async function AdminNoticesPage() {
           </Link>
         </div>
       ) : (
-        <div className="bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-[auto_1fr_auto_auto] gap-x-4 bg-[#FFFFFF] border border-[#A8C4E0]/50 rounded-xl overflow-hidden">
           {/* 테이블 헤더 */}
-          <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 items-center px-5 py-3 bg-[#EEF4FB] border-b border-[#A8C4E0]/40 text-[#5A7A99] text-xs font-semibold">
+          <div className="col-span-full grid grid-cols-subgrid items-center px-5 py-3 bg-[#EEF4FB] border-b border-[#A8C4E0]/40 text-[#5A7A99] text-xs font-semibold">
             <span>고정</span>
             <span>제목</span>
             <span>작성일</span>
@@ -53,7 +53,7 @@ export default async function AdminNoticesPage() {
           {notices.map((notice) => (
             <div
               key={notice.id}
-              className="grid grid-cols-[auto_1fr_auto_auto] gap-4 items-center px-5 py-4 border-b border-[#A8C4E0]/20 last:border-0 hover:bg-[#EEF4FB] transition-colors"
+              className="col-span-full grid grid-cols-subgrid items-center px-5 py-4 border-b border-[#A8C4E0]/20 last:border-0 hover:bg-[#EEF4FB] transition-colors"
             >
               {/* 고정 여부 */}
               <span>
